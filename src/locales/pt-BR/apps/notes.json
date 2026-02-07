@@ -1,0 +1,92 @@
+{
+  "title": "Notas",
+  "description": "Crie e organize suas notas pessoais.",
+  "nav": {
+    "allNotes": "Notas",
+    "archivedNotes": "Arquivo"
+  },
+  "searchPlaceholder": "Pesquisar notas...",
+  "new": "Nova",
+  "editTitle": "Editar Nota",
+  "newTitle": "Nova Nota",
+  "editDescription": "Faça alterações na sua nota abaixo.",
+  "createDescription": "Crie uma nova nota para capturar seus pensamentos.",
+  "fields": {
+    "title": "Título",
+    "titlePlaceholder": "Digite o título da nota",
+    "content": "Conteúdo",
+    "contentPlaceholder": "Escreva sua nota...",
+    "color": "Cor",
+    "colorPlaceholder": "Selecione a cor",
+    "pinned": "Fixado",
+    "tags": "Etiquetas",
+    "tagsPlaceholder": "Adicionar etiquetas...",
+    "tagsDescription": "Adicione até 5 etiquetas para organizar sua nota"
+  },
+  "actions": {
+    "pin": "Fixar",
+    "unpin": "Desafixar",
+    "archive": "Arquivar",
+    "unarchive": "Desarquivar",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "more": "Mais ações",
+    "label": "Ações"
+  },
+  "colors": {
+    "none": "Nenhuma",
+    "blue": "Azul",
+    "green": "Verde",
+    "yellow": "Amarelo",
+    "red": "Vermelho",
+    "purple": "Roxo"
+  },
+  "filters": {
+    "color": "Cor",
+    "allColors": "Todas as cores"
+  },
+  "empty": {
+    "noSearchResults": "Nenhuma nota encontrada correspondente à sua pesquisa.",
+    "noNotes": "Nenhuma nota ainda.",
+    "noArchivedNotes": "Nenhuma nota arquivada ainda.",
+    "createFirst": "Crie sua primeira nota para começar."
+  },
+  "createButton": "Criar Nota",
+  "updateButton": "Atualizar Nota",
+  "creating": "Criando...",
+  "updating": "Atualizando...",
+  "archiving": "Arquivando...",
+  "unarchiving": "Desarquivando...",
+  "deleteTitle": "Excluir nota?",
+  "deleteDescription": "Isso excluirá permanentemente esta nota. Esta ação não pode ser desfeita.",
+  "archivedTitle": "Notas Arquivadas",
+  "archivedDescription": "Visualize e gerencie suas notas arquivadas.",
+  "pinnedNotes": "Notas Fixadas",
+  "otherNotes": "Outras Notas",
+  "success": {
+    "created": "Nota criada",
+    "updated": "Nota atualizada",
+    "deleted": "Nota excluída",
+    "archived": "Nota arquivada",
+    "unarchived": "Nota desarquivada"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar notas",
+    "fetchOneFailed": "Falha ao buscar nota",
+    "createFailed": "Falha ao criar nota",
+    "updateFailed": "Falha ao atualizar nota",
+    "deleteFailed": "Falha ao excluir nota",
+    "togglePinFailed": "Falha ao alternar fixação",
+    "archiveFailed": "Falha ao arquivar nota",
+    "unarchiveFailed": "Falha ao desarquivar nota",
+    "fetchTagsFailed": "Falha ao buscar etiquetas",
+    "pinned": "Nota fixada",
+    "unpinned": "Nota desafixada"
+  },
+  "tags": {
+    "maxReached": "Máximo de 5 etiquetas permitidas",
+    "searchPlaceholder": "Digite para pesquisar etiquetas...",
+    "noResults": "Nenhuma etiqueta encontrada",
+    "createNew": "Criar \"{name}\""
+  }
+}

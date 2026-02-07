@@ -1,0 +1,176 @@
+{
+  "buttons": {
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "close": "Close",
+    "save": "Save",
+    "saving": "Saving...",
+    "saveChanges": "Save Changes",
+    "edit": "Edit",
+    "delete": "Delete",
+    "update": "Update",
+    "add": "Add",
+    "create": "Create",
+    "creating": "Creating...",
+    "change": "Change",
+    "back": "Back",
+    "refresh": "Refresh",
+    "new": "New",
+    "disable": "Disable",
+    "enable": "Enable",
+    "configure": "Configure",
+    "verify": "Verify",
+    "connect": "Connect",
+    "disconnect": "Disconnect",
+    "manage": "Manage",
+    "processing": "Processing...",
+    "copy": "Copy",
+    "download": "Download",
+    "submit": "Submit",
+    "reset": "Reset",
+    "resetToDefaults": "Reset to Defaults",
+    "search": "Search",
+    "searchPlaceholder": "Search...",
+    "filter": "Filter",
+    "filters": "Filters",
+    "sort": "Sort",
+    "sorting": "Sorting",
+    "sortAscending": "Ascending",
+    "sortDescending": "Descending",
+    "clear": "Clear",
+    "done": "Done",
+    "continue": "Continue",
+    "tryAgain": "Try again",
+    "viewAll": "View all",
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "openMenu": "Open menu",
+    "useDetected": "Use detected: {value}",
+    "remove": "Remove"
+  },
+  "errorBoundary": {
+    "title": "Something went wrong",
+    "viewStackTrace": "View stack trace"
+  },
+  "loading": {
+    "default": "Loading...",
+    "saving": "Saving...",
+    "creating": "Creating...",
+    "deleting": "Deleting...",
+    "adding": "Adding...",
+    "verifying": "Verifying...",
+    "profile": "Loading profile...",
+    "preferences": "Loading preferences...",
+    "security": "Loading security settings...",
+    "users": "Loading users...",
+    "sessions": "Loading sessions...",
+    "loginHistory": "Loading login history...",
+    "notes": "Loading notes...",
+    "tasks": "Loading tasks...",
+    "games": "Loading games...",
+    "passkeys": "Loading passkeys...",
+    "authenticator": "Setting up authenticator...",
+    "data": "Loading data..."
+  },
+  "values": {
+    "yes": "Yes",
+    "no": "No",
+    "none": "None"
+  },
+  "status": {
+    "active": "Active",
+    "inactive": "Inactive",
+    "verified": "Verified",
+    "unverified": "Unverified",
+    "connected": "Connected",
+    "configured": "Configured",
+    "locked": "Locked",
+    "expired": "Expired",
+    "pending": "Pending",
+    "you": "You",
+    "current": "Current",
+    "enabled": "Enabled",
+    "disabled": "Disabled",
+    "system": "System"
+  },
+  "fields": {
+    "device": "Device",
+    "ip": "IP Address",
+    "lastActivity": "Last Activity"
+  },
+  "time": {
+    "lastUsed": "Last used",
+    "never": "Never",
+    "created": "Created",
+    "updated": "Updated"
+  },
+  "pagination": {
+    "previous": "Previous",
+    "next": "Next",
+    "page": "Page {current} of {total}",
+    "items": "{count} {count, plural, one {item} other {items}}",
+    "showing": "{start} - {end} of {total}",
+    "itemsPerPage": "Items per page:",
+    "options": "Pagination options"
+  },
+  "empty": {
+    "noResults": "No results found.",
+    "noData": "No data available.",
+    "noItems": "No items to display."
+  },
+  "table": {
+    "name": "Name",
+    "email": "Email",
+    "status": "Status",
+    "role": "Role",
+    "actions": "Actions",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "lastActivity": "Last Activity",
+    "description": "Description",
+    "key": "Key",
+    "category": "Category",
+    "noResults": "No results found."
+  },
+  "dialog": {
+    "areYouSure": "Are you sure?",
+    "cannotUndo": "This action cannot be undone."
+  },
+  "labels": {
+    "important": "Important",
+    "unknown": "Unknown"
+  },
+  "toast": {
+    "success": "Success",
+    "error": "Error",
+    "warning": "Warning",
+    "info": "Info",
+    "copied": "Copied to clipboard",
+    "saved": "Changes saved",
+    "deleted": "Successfully deleted",
+    "updated": "Successfully updated",
+    "created": "Successfully created"
+  },
+  "form": {
+    "required": "Required",
+    "optional": "Optional",
+    "selectOption": "Select an option",
+    "enterValue": "Enter a value",
+    "noChanges": "No changes to save"
+  },
+  "phoneInput": {
+    "placeholder": "Phone number",
+    "searchCountry": "Search country...",
+    "noCountry": "No country found.",
+    "selectCountry": "Select country"
+  },
+  "components": {
+    "userSelect": {
+      "placeholder": "Select user",
+      "search": "Search users...",
+      "noResults": "No users found",
+      "none": "No assignee"
+    }
+  },
+  "items": "items"
+}

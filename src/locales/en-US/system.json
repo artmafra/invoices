@@ -1,0 +1,681 @@
+{
+  "users": {
+    "title": "User Management",
+    "description": "Manage user accounts, roles, and permissions.",
+    "searchPlaceholder": "Search users by name or email...",
+    "filters": {
+      "role": "Role",
+      "status": "Status",
+      "any": "Any"
+    },
+    "invite": "Invite",
+    "add": "Add",
+    "create": "Create User",
+    "createTitle": "Create New User",
+    "createDescription": "Add a new user to the system with their details and role.",
+    "impersonate": "Impersonate",
+    "unlockAccount": "Unlock Account",
+    "noName": "No name",
+    "noRole": "No Role",
+    "editUser": "Edit User",
+    "editDescription": "Update user details. Leave password blank to keep current.",
+    "deleteUser": "Delete User",
+    "deleteTitle": "Permanently Delete User?",
+    "deleteDescription": "Are you sure you want to permanently delete \"{name}\"? This action cannot be undone and all user data will be lost.",
+    "activateUser": "Activate User",
+    "activateTitle": "Activate User?",
+    "activateDescription": "Are you sure you want to activate \"{name}\"? They will be able to log in again.",
+    "deactivateUser": "Deactivate User",
+    "deactivateTitle": "Deactivate User?",
+    "deactivateDescription": "Are you sure you want to deactivate \"{name}\"? They will no longer be able to log in.",
+    "impersonateTitle": "Start Impersonation?",
+    "impersonateDescription": "You are about to view the application as \"{name}\". You will see the app with their permissions and access. Your actions will be logged.",
+    "startImpersonation": "Start Impersonation",
+    "unlockTitle": "Unlock Account?",
+    "unlockDescription": "Are you sure you want to unlock the account for \"{name}\"? This will allow them to attempt logging in again immediately.",
+    "noUsersFiltered": "No users match your filters.",
+    "noUsers": "No users found. Create your first user to get started.",
+    "emailChangeWarning": "Changing email will require re-verification.",
+    "cannotChangeOwnRole": "You cannot change your own role.",
+    "noRolePermission": "You don't have permission to view or change roles.",
+    "noRoleAssignPermission": "You don't have permission to assign roles. The user will be created without a role.",
+    "noRoleInvitePermission": "You don't have permission to assign roles. The user will be invited without a role.",
+    "cannotChangeOwnAppPermissions": "You cannot change your own app permissions.",
+    "appPermissions": "App Permissions",
+    "columns": {
+      "user": "User",
+      "role": "Role",
+      "status": "Status",
+      "lastLogin": "Last Login",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Full Name",
+      "namePlaceholder": "Enter user's name",
+      "email": "Email",
+      "emailPlaceholder": "Enter user's email",
+      "role": "Role",
+      "rolePlaceholder": "Select a role",
+      "password": "Password",
+      "newPassword": "New Password",
+      "passwordPlaceholder": "Enter password",
+      "passwordKeep": "Leave blank to keep current",
+      "active": "Active",
+      "activeDescription": "User can sign in to the system"
+    },
+    "inviteForm": {
+      "title": "Invite User",
+      "description": "Send an invitation email to a new user. They will set their own name and password.",
+      "email": "Email",
+      "emailPlaceholder": "user@example.com",
+      "role": "Role",
+      "rolePlaceholder": "Select a role",
+      "sendInvite": "Send Invitation",
+      "sending": "Sending...",
+      "success": "Invitation sent to {email}"
+    },
+    "pendingInvitations": "Pending Invitations",
+    "invitedBy": "Invited by {name}",
+    "resendInvitation": "Resend Invitation",
+    "cancelInvitation": "Cancel Invitation",
+    "hoverCard": {
+      "role": "Role",
+      "lastLogin": "Last Login",
+      "memberSince": "Member Since",
+      "never": "Never logged in",
+      "inactive": "Inactive",
+      "loading": "Loading..."
+    },
+    "errors": {
+      "noCreatePermission": "You don't have permission to create users",
+      "noInvitePermission": "You don't have permission to invite users",
+      "noCancelPermission": "You don't have permission to cancel invitations",
+      "noResendPermission": "You don't have permission to resend invitations",
+      "noActivatePermission": "You don't have permission to activate/deactivate users",
+      "noDeletePermission": "You don't have permission to delete users",
+      "noEditPermission": "You don't have permission to edit users",
+      "cannotDeactivateSelf": "You cannot deactivate your own account",
+      "cannotDeleteSelf": "You cannot delete your own account",
+      "cannotModifySystem": "System users cannot be modified"
+    }
+  },
+  "roles": {
+    "title": "Role Management",
+    "description": "Define roles and assign permissions to control access.",
+    "searchPlaceholder": "Search roles by name or description...",
+    "add": "Add",
+    "create": "Create Role",
+    "createTitle": "Create New Role",
+    "createDescription": "Add a new role with specific permissions.",
+    "editRole": "Edit Role",
+    "editDescription": "Update role details and permissions.",
+    "deleteRole": "Delete Role",
+    "deleteTitle": "Delete Role?",
+    "deleteDescription": "Are you sure you want to delete the role \"{name}\"? This action cannot be undone.",
+    "noRolesFiltered": "No roles match your search.",
+    "noRoles": "No roles found. Create your first role to get started.",
+    "protected": "Protected",
+    "noDescription": "No description",
+    "permissions": "{count, plural, =0 {No permissions} one {# permission} other {# permissions}}",
+    "users": "{count, plural, =0 {No users} one {# user} other {# users}}",
+    "columns": {
+      "name": "Name",
+      "description": "Description",
+      "users": "Users",
+      "permissions": "Permissions",
+      "actions": "Actions"
+    },
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g., Editor, Forum Moderator",
+      "description": "Description",
+      "descriptionPlaceholder": "Describe what this role can do...",
+      "permissions": "Permissions",
+      "permissionsDescription": "Select the permissions for this role",
+      "noPermissions": "No permissions selected",
+      "allPermissions": "All permissions",
+      "somePermissions": "{count} permissions"
+    },
+    "errors": {
+      "noCreatePermission": "You don't have permission to create roles",
+      "noEditPermission": "You don't have permission to edit roles",
+      "noDeletePermission": "You don't have permission to delete roles",
+      "cannotDeleteProtected": "Cannot delete a protected role",
+      "cannotDeleteOwn": "Cannot delete your own role",
+      "hasUsers": "Cannot delete role with {count} assigned user(s). Reassign users first.",
+      "cannotRemoveOwnPermissions": "Cannot remove your own role editing permissions",
+      "noChanges": "No changes to save"
+    },
+    "tooltips": {
+      "cannotDeleteProtected": "Cannot delete protected role",
+      "cannotDeleteOwn": "Cannot delete your own role",
+      "hasUsers": "Cannot delete role with {count} assigned user(s)"
+    }
+  },
+  "sessions": {
+    "title": "Active Sessions",
+    "description": "Monitor and manage all active user sessions across the system.",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search by user name or email...",
+    "filters": {
+      "device": "Device",
+      "any": "Any"
+    },
+    "desktop": "Desktop",
+    "mobile": "Mobile",
+    "tablet": "Tablet",
+    "unknownUser": "Unknown User",
+    "unknownBrowser": "Unknown",
+    "unknownOS": "Unknown",
+    "unknownLocation": "Unknown location",
+    "sessionCount": "{count} {count, plural, one {session} other {sessions}}",
+    "revokeAll": "Revoke ({count})",
+    "revokeSession": "Revoke",
+    "revokeTitle": "Revoke Session?",
+    "revokeDescription": "This will immediately log out the user from this device. They will need to sign in again to continue.",
+    "revokeAllTitle": "Revoke All Sessions?",
+    "revokeAllDescription": "This will log out {name} from all {count} devices. They will need to sign in again on each device.",
+    "noSessionsFiltered": "No sessions match your filters.",
+    "noSessions": "No active sessions found.",
+    "browserOnOs": "{browser} on {os}",
+    "user": "User",
+    "device": "Device",
+    "ip": "IP",
+    "locationLabel": "Location",
+    "ipAddressLabel": "IP Address",
+    "lastActivityLabel": "Last Activity",
+    "createdAt": "Created",
+    "lastActivity": "Last activity",
+    "columns": {
+      "user": "User",
+      "device": "Device",
+      "location": "Location",
+      "lastActive": "Last Active",
+      "actions": "Actions"
+    },
+    "currentSession": "Current Session",
+    "success": {
+      "revoked": "Session revoked",
+      "revokedAll": "{count} sessions revoked"
+    }
+  },
+  "activity": {
+    "title": "Activity",
+    "description": "View system-wide activity log and verify integrity.",
+    "refresh": "Refresh",
+    "refreshed": "Activity refreshed",
+    "expand": "Expand",
+    "collapse": "Collapse",
+    "expandAll": "Expand all cards",
+    "collapseAll": "Collapse all cards",
+    "verifyButton": "Verify",
+    "verifyTooltip": "Verify log integrity",
+    "showDetails": "Details",
+    "searchPlaceholder": "Search activity...",
+    "filters": {
+      "user": "User",
+      "action": "Action",
+      "resource": "Resource",
+      "startDate": "Start Date",
+      "endDate": "End Date",
+      "any": "Any"
+    },
+    "noActivityFiltered": "No activity matches your filters.",
+    "labels": {
+      "notSet": "not set",
+      "affected": "Affected {type}",
+      "changes": "Changes",
+      "values": "Values",
+      "actor": "Actor",
+      "actingAs": "as",
+      "performer": "Performer",
+      "when": "When",
+      "from": "From",
+      "context": "Context",
+      "identifier": "Identifier",
+      "reason": "Reason",
+      "error": "Error",
+      "metadata": "Metadata",
+      "details": "Details",
+      "summary": "Summary",
+      "session": "Session",
+      "allDetails": "All Details",
+      "unknownSession": "Unknown session",
+      "unknownIP": "Unknown IP",
+      "as": "as",
+      "scope": "Scope",
+      "action": "Action",
+      "entryId": "Entry ID",
+      "methodUsed": "Method used",
+      "emailUsed": "Email used"
+    },
+    "entities": {
+      "user": "user",
+      "role": "role",
+      "session": "session",
+      "setting": "setting",
+      "note": "note",
+      "task": "task",
+      "task_list": "task list",
+      "invitation": "invitation",
+      "integration": "integration",
+      "file": "file",
+      "passkey": "passkey",
+      "unknown": "item"
+    },
+    "scope": {
+      "system": "System",
+      "appModule": "App Module",
+      "systemFeature": "System Feature"
+    },
+    "verify": {
+      "title": "Verify Log Integrity",
+      "description": "Verify that the activity log chain has not been tampered with.",
+      "mode": "Verification Mode",
+      "quick": "Quick Check",
+      "full": "Full Chain Verification",
+      "quickDescription": "Verify the most recent entries only. Faster but partial coverage.",
+      "fullDescription": "Verify the entire chain from the beginning. Complete but slower.",
+      "entriesToCheck": "Entries to Check",
+      "lastEntries": "Last {count} entries",
+      "startVerification": "Start Verification",
+      "verifyingQuick": "Verifying recent entries...",
+      "verifyingFull": "Verifying entire chain...",
+      "success": "Chain Integrity Verified",
+      "checked": "Checked {checked}/{total} entries",
+      "fullChain": "Full chain",
+      "quickCheck": "Quick check",
+      "tampering": "Tampering Detected",
+      "brokenAt": "Chain broken at entry #{number}",
+      "chainBreak": "Hash chain broken",
+      "contentModified": "Content was modified",
+      "invalidSignature": "Invalid signature",
+      "verificationFailed": "Verification Failed",
+      "errorOccurred": "An error occurred during verification"
+    },
+    "columns": {
+      "user": "User",
+      "action": "Action",
+      "target": "Target",
+      "details": "Details",
+      "timestamp": "Time"
+    },
+    "actions": {
+      "users": {
+        "create": "Created user",
+        "update": "Updated user",
+        "delete": "Deleted user",
+        "enable_2fa_email": "Enabled email 2FA",
+        "disable_2fa_email": "Disabled email 2FA",
+        "enable_2fa_totp": "Enabled TOTP 2FA",
+        "disable_2fa_totp": "Disabled TOTP 2FA",
+        "deactivate": "Deactivated user",
+        "reactivate": "Reactivated user",
+        "delete_avatar": "Deleted avatar",
+        "upload_avatar": "Uploaded avatar",
+        "change_password": "Changed password",
+        "add_passkey": "Added passkey",
+        "remove_passkey": "Removed passkey",
+        "unlock": "Unlocked account",
+        "link_google": "Linked Google account",
+        "unlink_google": "Unlinked Google account",
+        "invite": "Invited user",
+        "invite_cancel": "Cancelled invitation",
+        "invite_resend": "Resent invitation",
+        "invite_accepted": "Accepted invitation",
+        "reset_password": "Reset password",
+        "regenerate_backup_codes": "Regenerated backup codes"
+      },
+      "roles": {
+        "create": "Created role",
+        "update": "Updated role",
+        "delete": "Deleted role"
+      },
+      "sessions": {
+        "revoke": "Revoked session",
+        "revoke_all": "Revoked all sessions",
+        "revoke_own": "Revoked own session",
+        "revoke_all_own": "Revoked all own sessions"
+      },
+      "settings": {
+        "update": "Updated setting"
+      },
+      "invitations": {
+        "create": "Sent invitation",
+        "delete": "Cancelled invitation",
+        "resend": "Resent invitation"
+      },
+      "auth": {
+        "login": "Logged in",
+        "login_success": "Successful login",
+        "logout": "Logged out",
+        "login_failed": "Failed login attempt",
+        "password_reset": "Reset password",
+        "email_change": "Changed email"
+      },
+      "authMethods": {
+        "password": "Password",
+        "passkey": "Passkey",
+        "google": "Google"
+      },
+      "impersonate": {
+        "start": "Started impersonation",
+        "end": "Ended impersonation"
+      },
+      "tasks": {
+        "create": "Created task",
+        "update": "Updated task",
+        "delete": "Deleted task",
+        "complete": "Completed task",
+        "reopen": "Reopened task"
+      },
+      "task_lists": {
+        "create": "Created task list",
+        "update": "Updated task list",
+        "delete": "Deleted task list"
+      },
+      "notes": {
+        "create": "Created note",
+        "update": "Updated note",
+        "delete": "Deleted note",
+        "pin": "Pinned note",
+        "unpin": "Unpinned note"
+      },
+      "system": {
+        "send_test_email": "Sent test email",
+        "connect_gmail": "Connected Gmail",
+        "test_storage": "Tested storage"
+      },
+      "email": {
+        "send_test": "Sent test email",
+        "test": "Tested email configuration"
+      },
+      "integration": {
+        "link": "Linked integration",
+        "unlink": "Unlinked integration",
+        "disconnect": "Disconnected integration"
+      },
+      "cloud_storage": {
+        "upload": "Uploaded file",
+        "delete": "Deleted file"
+      },
+      "two_fa": {
+        "enable": "Enabled two-factor authentication",
+        "disable": "Disabled two-factor authentication",
+        "regenerate_backup": "Regenerated backup codes"
+      },
+      "app_permissions": {
+        "update": "Updated app permissions"
+      }
+    },
+    "fields": {
+      "name": "Name",
+      "email": "Email",
+      "password": "Password",
+      "role": "Role",
+      "phoneNumber": "Phone number",
+      "avatar": "Avatar",
+      "status": "Status",
+      "active": "Active",
+      "dueDate": "Due date",
+      "priority": "Priority",
+      "assignee": "Assignee",
+      "list": "List",
+      "value": "Value",
+      "displayName": "Display name",
+      "description": "Description",
+      "permissions": "Permissions",
+      "color": "Color",
+      "content": "Content",
+      "preferencesTheme": "Theme",
+      "preferencesLanguage": "Language",
+      "preferencesTimezone": "Timezone",
+      "preferencesItemsPerPage": "Items per page",
+      "preferencesDateFormat": "Date format",
+      "apps": "App: {name}",
+      "emptyValue": "empty",
+      "authMethod": "Auth method",
+      "ipAddress": "IP address",
+      "browser": "Browser",
+      "os": "OS",
+      "deviceType": "Device type",
+      "city": "City",
+      "country": "Country"
+    },
+    "verbs": {
+      "create": "Created",
+      "update": "Updated",
+      "delete": "Deleted",
+      "enable": "Enabled",
+      "disable": "Disabled",
+      "revoke": "Revoked",
+      "pin": "Pinned",
+      "unpin": "Unpinned",
+      "complete": "Completed",
+      "reopen": "Reopened",
+      "assign": "Assigned",
+      "deactivate": "Deactivated",
+      "reactivate": "Reactivated",
+      "link": "Linked",
+      "unlink": "Unlinked",
+      "upload": "Uploaded",
+      "reset": "Reset",
+      "send": "Sent",
+      "disconnect": "Disconnected",
+      "test": "Tested",
+      "change": "Changed"
+    },
+    "resources": {
+      "users": "user",
+      "roles": "role",
+      "sessions": "session",
+      "tasks": "task",
+      "task_lists": "task list",
+      "notes": "note",
+      "settings": "setting",
+      "invitations": "invitation",
+      "integration": "integration",
+      "cloud_storage": "file"
+    },
+    "noActivity": "No activity to display"
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Configure system-wide settings and preferences.",
+    "searchPlaceholder": "Search settings by name, key, or description...",
+    "noResults": "No settings match your search or filters.",
+    "noSettings": "No settings found.",
+    "manageCategory": "Manage {category} settings",
+    "filters": {
+      "category": "Category",
+      "any": "Any"
+    },
+    "resetToDefault": "Reset to Default",
+    "save": "Save",
+    "saving": "Saving...",
+    "success": "Setting updated",
+    "categories": {
+      "auth": "Authentication",
+      "contact": "Contact Information",
+      "email": "Email Settings",
+      "features": "Features",
+      "general": "General",
+      "inventory": "Inventory",
+      "social": "Social Media",
+      "branding": "Branding & Identity",
+      "ui": "User Interface",
+      "seo": "SEO & Meta Data",
+      "security": "Security"
+    },
+    "form": {
+      "sensitive": "Sensitive",
+      "encrypted": "This value is encrypted",
+      "showValue": "Show value",
+      "hideValue": "Hide value"
+    }
+  },
+  "invitations": {
+    "title": "Invitations",
+    "searchPlaceholder": "Search by email...",
+    "allStatus": "All Status",
+    "pending": "Pending",
+    "expired": "Expired",
+    "accepted": "Accepted",
+    "columns": {
+      "email": "Email",
+      "role": "Role",
+      "invitedBy": "Invited By",
+      "status": "Status",
+      "expiresAt": "Expires",
+      "actions": "Actions"
+    },
+    "resend": "Resend",
+    "cancel": "Cancel",
+    "cancelTitle": "Cancel invitation?",
+    "cancelDescription": "This will cancel the invitation for {email}. They will no longer be able to accept it.",
+    "success": {
+      "resent": "Invitation resent to {email}",
+      "cancelled": "Invitation cancelled"
+    }
+  },
+  "unauthorized": {
+    "title": "Access Denied",
+    "description": "You don't have permission to access this page.",
+    "contactAdmin": "Contact your administrator if you believe you should have access to this resource."
+  },
+  "taskLists": {
+    "title": "Task Lists",
+    "description": "Organize your tasks into lists and collections.",
+    "new": "New",
+    "searchPlaceholder": "Search task lists...",
+    "noListsFiltered": "No task lists found matching your search.",
+    "noLists": "No task lists yet. Create your first list to organize your tasks!",
+    "createList": "Create List",
+    "createTitle": "Create List",
+    "createDescription": "Create a new list to organize your tasks.",
+    "editTitle": "Edit List",
+    "editDescription": "Update the list details below.",
+    "deleteTitle": "Delete List",
+    "deleteDescription": "Are you sure you want to delete this list? Tasks in this list will not be deleted, but they will no longer be associated with any list.",
+    "taskCount": "{count} {count, plural, one {task} other {tasks}}",
+    "form": {
+      "name": "Name",
+      "namePlaceholder": "e.g., Sprint 1, Backlog, Personal",
+      "description": "Description",
+      "descriptionPlaceholder": "Optional description",
+      "color": "Color"
+    },
+    "saveChanges": "Save Changes",
+    "deleting": "Deleting..."
+  },
+  "hooks": {
+    "users": {
+      "created": "User created",
+      "updated": "User updated",
+      "deactivated": "User deactivated",
+      "permanentlyDeleted": "User permanently deleted",
+      "activating": "Activating user...",
+      "deactivating": "Deactivating user...",
+      "activated": "User activated",
+      "unlocking": "Unlocking account...",
+      "unlocked": "Account unlocked",
+      "viewingAs": "Now viewing as {name}",
+      "impersonationEnded": "Impersonation ended",
+      "appPermissionsUpdated": "App permissions updated",
+      "errors": {
+        "fetchFailed": "Failed to fetch users",
+        "createFailed": "Failed to create user",
+        "updateFailed": "Failed to update user",
+        "deactivateFailed": "Failed to deactivate user",
+        "deleteFailed": "Failed to delete user",
+        "activateFailed": "Failed to activate user",
+        "unlockFailed": "Failed to unlock user",
+        "impersonateFailed": "Failed to start impersonation",
+        "endImpersonateFailed": "Failed to end impersonation",
+        "appPermissionsFailed": "Failed to update app permissions",
+        "noPermissionCreate": "You don't have permission to create users",
+        "noPermissionUpdate": "You don't have permission to update this user",
+        "noPermissionDeactivate": "You don't have permission to deactivate users",
+        "noPermissionDelete": "You don't have permission to delete users",
+        "noPermissionUnlock": "You don't have permission to unlock this account",
+        "noPermissionImpersonate": "You don't have permission to impersonate users",
+        "noPermissionAppPermissions": "You don't have permission to update app permissions",
+        "userExists": "A user with this email already exists",
+        "emailInUse": "Email address is already in use",
+        "notFound": "User not found",
+        "cannotImpersonateSelf": "You cannot impersonate yourself",
+        "alreadyImpersonating": "You are already impersonating another user",
+        "cannotImpersonateSystem": "System users cannot be impersonated",
+        "userInactive": "Cannot impersonate inactive user"
+      }
+    },
+    "roles": {
+      "created": "Role created",
+      "updated": "Role updated",
+      "deleted": "Role deleted",
+      "errors": {
+        "fetchFailed": "Failed to fetch roles",
+        "createFailed": "Failed to create role",
+        "updateFailed": "Failed to update role",
+        "deleteFailed": "Failed to delete role",
+        "noPermissionCreate": "You don't have permission to create roles",
+        "noPermissionUpdate": "This role can't be modified",
+        "noPermissionDelete": "This role can't be deleted",
+        "roleExists": "A role with this name already exists",
+        "checkDetails": "Please check the role details"
+      }
+    },
+    "sessions": {
+      "revoked": "Session revoked",
+      "allRevoked": "All sessions revoked",
+      "errors": {
+        "fetchFailed": "Failed to fetch sessions",
+        "revokeFailed": "Failed to revoke session",
+        "revokeAllFailed": "Failed to revoke sessions",
+        "trackFailed": "Failed to track session",
+        "checkFields": "Please check the form fields"
+      }
+    },
+    "invites": {
+      "sent": "Invitation sent",
+      "cancelled": "Invitation cancelled",
+      "resent": "Invitation resent",
+      "errors": {
+        "fetchFailed": "Failed to fetch pending invites",
+        "sendFailed": "Failed to send invitation",
+        "cancelFailed": "Failed to cancel invitation",
+        "resendFailed": "Failed to resend invitation",
+        "noPermissionSend": "You don't have permission to invite users",
+        "noPermissionCancel": "You don't have permission to cancel invites",
+        "noPermissionResend": "You don't have permission to resend invites",
+        "userExists": "A user with this email already exists"
+      }
+    },
+    "settings": {
+      "created": "Setting created",
+      "updated": "Setting updated",
+      "imageUploaded": "Image uploaded and saved",
+      "errors": {
+        "fetchFailed": "Failed to fetch admin settings",
+        "createFailed": "Failed to create setting",
+        "updateFailed": "Failed to update setting",
+        "uploadFailed": "Failed to upload image",
+        "noPermissionCreate": "You don't have permission to create settings",
+        "noPermissionUpdate": "You don't have permission to update settings",
+        "noPermissionUpload": "You don't have permission to upload images",
+        "svgNotAllowed": "SVG images are not allowed",
+        "imageTooLarge": "Image file is too large",
+        "invalidImage": "Invalid or corrupted image file",
+        "notAnImage": "File must be an image",
+        "unsupportedFormat": "Unsupported image format"
+      }
+    },
+    "activity": {
+      "errors": {
+        "fetchFailed": "Failed to fetch activity",
+        "filtersFailed": "Failed to fetch activity filters",
+        "verifyFailed": "Verification failed"
+      }
+    }
+  }
+}

@@ -1,0 +1,84 @@
+{
+  "title": "Jogos",
+  "description": "Rastreie e gerencie sua biblioteca de jogos cooperativos.",
+  "nav": {
+    "allGames": "Jogos"
+  },
+  "searchPlaceholder": "Buscar jogos...",
+  "new": "Novo",
+  "editTitle": "Editar Jogo",
+  "newTitle": "Novo Jogo",
+  "editDescription": "Atualize as informações do jogo abaixo.",
+  "createDescription": "Adicione um novo jogo coop para acompanhar.",
+  "fields": {
+    "name": "Nome",
+    "namePlaceholder": "Digite o nome do jogo",
+    "coverImage": "Imagem de Capa",
+    "dragDrop": "ou arraste e solte",
+    "xboxStoreLink": "Link da Xbox Store",
+    "rating": "Avaliação",
+    "played": "Jogado",
+    "tried": "Testado",
+    "multiplayer": "Multiplayer",
+    "multiplayerFunctional": "Multiplayer Funcional",
+    "dropReason": "Motivo do Abandono",
+    "dropReasonPlaceholder": "Por que você abandonou este jogo?",
+    "dropReasonDisabled": "Ative 'Testado' para adicionar motivo",
+    "notes": "Notas",
+    "notesPlaceholder": "Notas adicionais sobre este jogo..."
+  },
+  "status": {
+    "yes": "Sim",
+    "no": "Não",
+    "played": "Jogado",
+    "notPlayed": "Não Jogado",
+    "tried": "Testado",
+    "functional": "Funcional",
+    "nonFunctional": "Não funcional",
+    "mpFunctional": "MP Funciona",
+    "mpNotFunctional": "MP Quebrado"
+  },
+  "filters": {
+    "playedStatus": "Status",
+    "multiplayer": "Multiplayer",
+    "minRating": "Avaliação Mín",
+    "any": "Qualquer",
+    "played": "Jogados",
+    "notPlayed": "Não Jogados",
+    "dropped": "Abandonados",
+    "mpFunctional": "MP Funciona",
+    "mpNotFunctional": "MP Quebrado",
+    "anyRating": "Qualquer"
+  },
+  "actions": {
+    "edit": "Editar",
+    "delete": "Excluir",
+    "xboxStore": "Xbox",
+    "replaceCover": "Substituir"
+  },
+  "empty": {
+    "noSearchResults": "Nenhum jogo encontrado com os filtros aplicados.",
+    "noGames": "Nenhum jogo ainda.",
+    "createFirst": "Adicione seu primeiro jogo coop para começar."
+  },
+  "createButton": "Adicionar Jogo",
+  "updateButton": "Salvar Alterações",
+  "creating": "Adicionando...",
+  "updating": "Salvando...",
+  "deleteTitle": "Excluir jogo?",
+  "deleteDescription": "Isso excluirá permanentemente este jogo. Esta ação não pode ser desfeita.",
+  "success": {
+    "created": "Jogo adicionado",
+    "updated": "Jogo atualizado",
+    "deleted": "Jogo excluído"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar jogos",
+    "fetchOneFailed": "Falha ao buscar jogo",
+    "createFailed": "Falha ao adicionar jogo",
+    "updateFailed": "Falha ao atualizar jogo",
+    "deleteFailed": "Falha ao excluir jogo",
+    "uploadFailed": "Falha ao enviar imagem de capa",
+    "removeCoverFailed": "Falha ao remover imagem de capa"
+  }
+}

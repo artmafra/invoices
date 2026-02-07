@@ -1,0 +1,660 @@
+{
+  "title": "Profile",
+  "description": "Update your personal information and contact details.",
+  "information": {
+    "title": "Information",
+    "description": "Update your personal information and contact details.",
+    "displayName": "Display Name",
+    "displayNameDescription": "The name displayed to other users.",
+    "displayNamePlaceholder": "Enter your display name",
+    "phoneNumber": "Phone Number",
+    "phoneNumberDescription": "Your phone number for account recovery and notifications.",
+    "phoneNumberPlaceholder": "Enter your phone number",
+    "updateButton": "Update Profile",
+    "updating": "Updating...",
+    "noName": "No name set",
+    "profilePicture": "Profile Picture",
+    "uploadAvatar": "Upload Avatar",
+    "removeAvatar": "Remove Avatar",
+    "success": "Profile updated successfully"
+  },
+  "preferences": {
+    "title": "Preferences",
+    "description": "Customize your experience with theme, language, and display settings.",
+    "devicePreferences": "Device Preferences",
+    "devicePreferencesDescription": "These settings are stored on this device and will persist across logins.",
+    "saved": "Preferences saved",
+    "theme": {
+      "label": "Theme",
+      "description": "Choose how the interface looks.",
+      "placeholder": "Select theme",
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
+    "language": {
+      "label": "Language",
+      "description": "Select your preferred language for the interface.",
+      "placeholder": "Select language"
+    },
+    "timezone": {
+      "label": "Timezone",
+      "description": "Set your timezone for accurate date and time display.",
+      "placeholder": "Select timezone",
+      "search": "Search timezones...",
+      "noResults": "No timezone found"
+    },
+    "itemsPerPage": {
+      "label": "Items per Page",
+      "description": "Number of items shown per page in lists and tables.",
+      "placeholder": "Select page size"
+    },
+    "density": {
+      "label": "Interface Density",
+      "description": "Adjust the spacing and size of UI elements.",
+      "placeholder": "Select density",
+      "compact": "Compact",
+      "comfortable": "Comfortable",
+      "spacious": "Spacious"
+    },
+    "saveButton": "Save Preferences",
+    "saving": "Saving...",
+    "success": "Preferences saved successfully",
+    "errors": {
+      "saveFailed": "Failed to save preferences"
+    }
+  },
+  "security": {
+    "title": "Security",
+    "description": "Manage your account security settings and sign-in methods.",
+    "signInMethods": {
+      "title": "Sign-in methods",
+      "description": "Manage how you sign in to your account."
+    },
+    "email": {
+      "title": "Email",
+      "description": "Your primary email address",
+      "verificationRequired": "Verification required",
+      "changeEmail": "Change Email"
+    },
+    "emails": {
+      "title": "Email Addresses",
+      "description": "Manage your email addresses. You can sign in with any verified email.",
+      "noEmails": "No email addresses found",
+      "badges": {
+        "primary": "Primary"
+      },
+      "primaryDescription": "This is your primary email for notifications and login display",
+      "verifiedDescription": "This email can be used to sign in",
+      "unverifiedDescription": "Verify this email to use it for sign in",
+      "summary": {
+        "additional": "+{count} more",
+        "additionalUnverified": "+{count} more (unverified)"
+      },
+      "actions": {
+        "add": "Add Email",
+        "verify": "Verify",
+        "makePrimary": "Set as Primary",
+        "remove": "Remove",
+        "more": "More options"
+      },
+      "manageDialog": {
+        "title": "Manage Email Addresses",
+        "description": "You can sign in with any verified email. One email is primary and used for notifications."
+      },
+      "addDialog": {
+        "title": "Add Email Address",
+        "description": "Add a secondary email address to your account. You'll need to verify it before you can use it.",
+        "emailLabel": "Email address",
+        "emailPlaceholder": "Enter email address",
+        "emailHint": "A verification code will be sent to this email"
+      },
+      "verifyDialog": {
+        "title": "Verify Email",
+        "description": "Enter the 6-digit verification code sent to {email}.",
+        "codeLabel": "Verification Code",
+        "resend": "Didn't receive the code? Resend"
+      },
+      "removeDialog": {
+        "title": "Remove Email?",
+        "description": "The email {email} will be removed from your account. You won't be able to sign in with it anymore."
+      },
+      "primaryDialog": {
+        "title": "Change Primary Email?",
+        "description": "This will change your primary email to {email}. All notifications will be sent to this address, and your current sessions will be signed out."
+      },
+      "addSuccess": "Email added. Please check your inbox for the verification code.",
+      "verifySuccess": "Email verified successfully",
+      "removeSuccess": "Email removed successfully",
+      "primarySuccess": "Primary email changed successfully",
+      "verificationSent": "Verification code sent to {email}",
+      "errors": {
+        "emptyEmail": "Please enter an email address",
+        "emptyCode": "Please enter the verification code",
+        "addFailed": "Failed to add email",
+        "verifyFailed": "Failed to verify email",
+        "removeFailed": "Failed to remove email",
+        "setPrimaryFailed": "Failed to set primary email",
+        "resendFailed": "Failed to resend verification code"
+      }
+    },
+    "password": {
+      "title": "Password",
+      "description": "Update your password"
+    },
+    "google": {
+      "title": "Google",
+      "connectedDescription": "Sign in with your Google account",
+      "disconnectedDescription": "Connect your Google account for quick sign-in",
+      "connectButton": "Connect",
+      "disconnectButton": "Disconnect",
+      "notAvailable": "Google Sign-In not available",
+      "linkFailed": "Failed to initialize Google linking"
+    },
+    "passkeys": {
+      "title": "Passkeys",
+      "configured": "{count} configured",
+      "connectedDescription": "Sign in with fingerprint, face, or security key",
+      "disconnectedDescription": "Use biometrics or security keys for passwordless sign-in",
+      "addButton": "Add passkey",
+      "manageButton": "Manage"
+    },
+    "twoFactor": {
+      "title": "Two-factor methods",
+      "description": "Secure your account with additional authentication methods.",
+      "emailRequired": "Email verification is required to enable two-factor authentication",
+      "email": {
+        "title": "Email codes",
+        "enabledDescription": "Receive 6-digit codes via email when signing in",
+        "disabledDescription": "Get verification codes sent to your email address"
+      },
+      "totp": {
+        "title": "Authenticator app",
+        "enabledDescription": "Use apps like Google Authenticator or Authy for TOTP codes",
+        "disabledDescription": "Use apps like Google Authenticator or Authy for TOTP codes"
+      },
+      "disableEmail": {
+        "title": "Disable email verification codes?",
+        "description": "This will reduce your account security. You can re-enable it at any time."
+      },
+      "disableTotp": {
+        "title": "Disable authenticator app?",
+        "description": "This will remove the authenticator app from your account. You can set it up again at any time."
+      }
+    },
+    "recoveryCodes": {
+      "title": "Recovery codes",
+      "description": "Use these codes to sign in if you lose access to your 2FA methods",
+      "regenerateButton": "Regenerate",
+      "regenerate": {
+        "title": "Regenerate recovery codes?",
+        "description": "This will invalidate all existing recovery codes. Make sure to save the new codes in a safe place."
+      },
+      "regenerated": "Recovery codes regenerated"
+    },
+    "errors": {
+      "loadFailed": "Failed to load security settings. Please try again."
+    }
+  },
+  "changeEmail": {
+    "title": "Change Email Address",
+    "description": "Enter your new email address to receive a verification code.",
+    "verificationDescription": "We've sent a verification code to {email}. Enter the code below to confirm the change.",
+    "currentEmail": "Current Email",
+    "newEmail": "New Email Address",
+    "newEmailPlaceholder": "Enter new email address",
+    "verificationCode": "Verification Code",
+    "codeSent": "Verification code sent to {email}",
+    "success": "Email address updated",
+    "sendCode": "Send Code",
+    "sending": "Sending...",
+    "verifyAndChange": "Change Email",
+    "verifying": "Verifying...",
+    "resendCode": "Didn't receive the code? Resend",
+    "codeExpires": "Code expires in 10 minutes",
+    "errors": {
+      "emptyEmail": "Please enter a new email address",
+      "sameEmail": "New email must be different from current email",
+      "emptyCode": "Please enter the verification code",
+      "invalidCode": "Verification code must be 6 digits"
+    }
+  },
+  "verifyEmail": {
+    "title": "Verify Email Address",
+    "description": "We've sent a verification code to {email}. Enter the code below to verify your email.",
+    "sendingCode": "Sending verification code to your email address...",
+    "sendingCodeLoading": "Sending verification code...",
+    "verificationCode": "Verification Code",
+    "verifyButton": "Verify Email",
+    "verifying": "Verifying...",
+    "codeExpires": "Code expires in 10 minutes",
+    "resendCode": "Didn't receive the code? Resend",
+    "errors": {
+      "emptyCode": "Please enter the verification code",
+      "invalidCode": "Verification code must be 6 digits"
+    }
+  },
+  "avatarUpload": {
+    "title": "Change Profile Picture",
+    "description": "Upload a new profile picture or remove the current one.",
+    "helpText": "PNG, JPG up to 10MB",
+    "saving": "Saving...",
+    "removing": "Removing...",
+    "success": "Profile picture updated",
+    "replace": "Replace",
+    "new": "New",
+    "clickToUpload": "Select",
+    "dragDrop": "or drag and drop",
+    "uploading": "Uploading..."
+  },
+  "email2FA": {
+    "title": "Enable Email 2FA",
+    "description": "Secure your account with email-based two-factor authentication",
+    "codeSentTo": "Code sent to {email}",
+    "sendCodeTo": "Send a verification code to {email}",
+    "sendCode": "Send Code",
+    "resend": "Resend",
+    "sending": "Sending...",
+    "enterCode": "Enter the 6-digit code from your email:",
+    "verifyButton": "Verify",
+    "verifying": "Verifying...",
+    "errors": {
+      "sendFailed": "Failed to send verification code",
+      "verifyFailed": "Failed to verify code"
+    }
+  },
+  "totp2FA": {
+    "title": "Enable Authenticator",
+    "description": "Secure your account with time-based one-time password (TOTP) two-factor authentication",
+    "loading": "Setting up authenticator...",
+    "scanQrCode": "Scan this QR code with your authenticator app:",
+    "cantScan": "Can't scan the QR code?",
+    "manualEntryLabel": "Enter this key manually:",
+    "enterCode": "Enter the 6-digit code from your app:",
+    "verifying": "Verifying...",
+    "backupCodesTitle": "Save Your Backup Codes",
+    "backupCodesDescription": "Store these codes in a safe place. Each code can only be used once to sign in if you lose access to your authenticator app.",
+    "copyAll": "Copy all",
+    "backupWarning": "You won't be able to see these codes again. If you lose both your authenticator app and these backup codes, you may lose access to your account.",
+    "backupFileTitle": "TOTP Two-Factor Authentication Backup Codes",
+    "backupFileDescription": "These codes can be used to access your account if you lose access to your authenticator app. Each code can only be used once.",
+    "backupFileKeepSafe": "Keep these codes in a safe place!",
+    "backupFileGenerated": "Generated: {date}",
+    "codesCopied": "All backup codes copied to clipboard",
+    "codesDownloaded": "Backup codes downloaded",
+    "success": "TOTP Two-Factor Authentication enabled",
+    "errors": {
+      "setupFailed": "Failed to setup TOTP",
+      "invalidCode": "Invalid verification code"
+    }
+  },
+  "changePassword": {
+    "title": "Change Password",
+    "description": "Update your account password. Make sure to use a strong password.",
+    "currentPassword": "Current Password",
+    "currentPasswordPlaceholder": "Enter your current password",
+    "newPassword": "New Password",
+    "newPasswordPlaceholder": "Enter your new password",
+    "confirmPassword": "Confirm New Password",
+    "confirmPasswordPlaceholder": "Confirm your new password",
+    "updateButton": "Update Password",
+    "updating": "Updating...",
+    "success": "Password updated successfully",
+    "errors": {
+      "mismatch": "New passwords do not match"
+    }
+  },
+  "totp": {
+    "title": "Enable Authenticator",
+    "description": "Secure your account with time-based one-time password (TOTP) two-factor authentication",
+    "step1": "Install an authenticator app",
+    "step1Description": "Download Google Authenticator, Authy, or any TOTP-compatible app",
+    "step2": "Scan this QR code",
+    "step2Description": "Open your authenticator app and scan this QR code",
+    "manualEntry": "Can't scan? Enter this code manually:",
+    "step3": "Enter verification code",
+    "step3Description": "Enter the 6-digit code from your authenticator app",
+    "verificationCode": "Verification Code",
+    "verificationCodePlaceholder": "Enter 6-digit code",
+    "enableButton": "Enable Authenticator",
+    "enabling": "Enabling...",
+    "success": "TOTP Two-Factor Authentication enabled",
+    "backupTitle": "TOTP Two-Factor Authentication Backup Codes",
+    "backupDescription": "These codes can be used to access your account if you lose access to your authenticator app. Each code can only be used once.",
+    "keepSafe": "Keep these codes in a safe place!",
+    "codesCopied": "All backup codes copied to clipboard",
+    "codesDownloaded": "Backup codes downloaded",
+    "copyAll": "Copy All",
+    "downloadCodes": "Download Codes"
+  },
+  "passkeys": {
+    "title": "Manage passkeys",
+    "description": "View and manage your registered passkeys for passwordless sign-in.",
+    "empty": "No passkeys yet",
+    "emptyDescription": "Add a passkey to sign in without a password",
+    "synced": "Synced passkey",
+    "deviceBound": "Device-bound",
+    "passkey": "Passkey",
+    "lastUsed": "Last used",
+    "never": "Never",
+    "rename": "Rename",
+    "delete": "Delete",
+    "deleteTitle": "Delete passkey?",
+    "deleteDescription": "This passkey will be permanently removed. You won't be able to use it to sign in anymore.",
+    "renameTitle": "Rename passkey",
+    "renameDescription": "Enter a new name for this passkey",
+    "nameLabel": "Passkey name",
+    "namePlaceholder": "Enter a name",
+    "addNew": "Add new passkey",
+    "adding": "Adding passkey...",
+    "success": "Passkey added successfully",
+    "renamed": "Passkey renamed",
+    "deleted": "Passkey deleted",
+    "cancelled": "Passkey registration was cancelled",
+    "authCancelled": "Passkey authentication was cancelled",
+    "errors": {
+      "loadFailed": "Failed to load passkeys",
+      "addFailed": "Failed to add passkey",
+      "deleteFailed": "Failed to delete passkey",
+      "renameFailed": "Failed to rename passkey",
+      "verificationFailed": "Passkey verification failed",
+      "authFailed": "Failed to authenticate with passkey"
+    }
+  },
+  "hooks": {
+    "profile": {
+      "updated": "Profile updated",
+      "errors": {
+        "fetchFailed": "Failed to fetch user profile",
+        "updateFailed": "Failed to update profile",
+        "checkFields": "Please check the form fields"
+      }
+    },
+    "password": {
+      "changed": "Password changed",
+      "errors": {
+        "changeFailed": "Failed to change password",
+        "checkFields": "Please check the form fields"
+      }
+    },
+    "email": {
+      "verificationSent": "Verification email sent",
+      "codeSent": "Verification code sent to {email}",
+      "verified": "Email verified",
+      "errors": {
+        "initiateFailed": "Failed to initiate email change",
+        "verifyFailed": "Failed to verify email change",
+        "emailInUse": "Email already in use",
+        "sameEmail": "New email must be different from current email",
+        "invalidCode": "Invalid verification code",
+        "sendFailed": "Failed to send verification email",
+        "cancelFailed": "Failed to cancel email change",
+        "checkFields": "Please check the form fields",
+        "alreadyVerified": "Email is already verified"
+      }
+    },
+    "emails": {
+      "added": "Email added. Check your inbox for the verification code.",
+      "verified": "Email verified successfully",
+      "removed": "Email removed",
+      "primaryChanged": "Primary email changed",
+      "codeSent": "Verification code sent to {email}",
+      "errors": {
+        "fetchFailed": "Failed to fetch emails",
+        "addFailed": "Failed to add email",
+        "verifyFailed": "Failed to verify email",
+        "removeFailed": "Failed to remove email",
+        "setPrimaryFailed": "Failed to change primary email",
+        "resendFailed": "Failed to resend verification code",
+        "alreadyAdded": "You already have this email address",
+        "inUse": "This email is already in use by another account",
+        "cannotRemovePrimary": "Cannot remove your primary email address",
+        "cannotRemoveOnly": "Cannot remove your only email address",
+        "notVerified": "Email must be verified before setting as primary",
+        "invalidCode": "Invalid or expired verification code",
+        "alreadyVerified": "This email is already verified"
+      }
+    },
+    "avatar": {
+      "removed": "Avatar removed",
+      "errors": {
+        "uploadFailed": "Failed to upload avatar",
+        "removeFailed": "Failed to remove avatar",
+        "invalidImage": "Please choose a valid image",
+        "svgNotAllowed": "SVG images are not allowed",
+        "imageTooLarge": "Image file is too large (max 10MB)",
+        "notAnImage": "File must be an image",
+        "unsupportedFormat": "Unsupported image format",
+        "invalidDimensions": "Invalid image dimensions"
+      }
+    },
+    "account": {
+      "deleted": "Account deleted",
+      "errors": {
+        "deleteFailed": "Failed to delete account",
+        "incorrectPassword": "Incorrect password"
+      }
+    },
+    "preferences": {
+      "updated": "Preferences updated",
+      "errors": {
+        "fetchFailed": "Failed to fetch preferences",
+        "updateFailed": "Failed to update preferences",
+        "invalidValues": "Invalid preference values"
+      }
+    },
+    "twoFactor": {
+      "errors": {
+        "fetchFailed": "Failed to fetch 2FA status"
+      },
+      "email": {
+        "codeSent": "Verification code sent to your email",
+        "enabled": "Email Two-Factor Authentication enabled",
+        "disabled": "Email Two-Factor Authentication disabled",
+        "errors": {
+          "sendFailed": "Failed to send verification code",
+          "enableFailed": "Failed to enable Email Two-Factor Authentication",
+          "disableFailed": "Failed to disable Email Two-Factor Authentication",
+          "invalidCode": "Invalid verification code",
+          "alreadyEnabled": "Email Two-Factor Authentication is already enabled",
+          "codeRequired": "Verification code is required"
+        }
+      },
+      "totp": {
+        "enabled": "TOTP Two-Factor Authentication enabled",
+        "disabled": "TOTP Two-Factor Authentication disabled",
+        "errors": {
+          "setupFailed": "Failed to setup TOTP Two-Factor Authentication",
+          "enableFailed": "Failed to enable TOTP Two-Factor Authentication",
+          "disableFailed": "Failed to disable TOTP Two-Factor Authentication",
+          "invalidCode": "Invalid verification code"
+        }
+      },
+      "backupCodes": {
+        "errors": {
+          "regenerateFailed": "Failed to regenerate backup codes",
+          "totpRequired": "TOTP must be enabled to regenerate backup codes"
+        }
+      },
+      "resend": {
+        "success": "Verification code sent",
+        "errors": {
+          "failed": "Failed to resend verification code"
+        }
+      }
+    },
+    "google": {
+      "linked": "Google account linked",
+      "unlinked": "Google account unlinked",
+      "errors": {
+        "fetchFailed": "Failed to fetch Google account status",
+        "userInfoFailed": "Failed to get user information from Google",
+        "linkFailed": "Failed to link Google account",
+        "unlinkFailed": "Failed to unlink Google account",
+        "alreadyLinked": "Google account already linked",
+        "linkedToOther": "This Google account is linked to another user",
+        "idRequired": "Google account ID is required"
+      }
+    },
+    "passkeys": {
+      "registered": "Passkey registered",
+      "renamed": "Passkey renamed",
+      "deleted": "Passkey deleted",
+      "errors": {
+        "fetchFailed": "Failed to fetch passkeys",
+        "optionsFailed": "Failed to get registration options",
+        "registerFailed": "Failed to register passkey",
+        "cancelled": "Passkey registration was cancelled",
+        "verificationFailed": "Passkey verification failed",
+        "challengeExpired": "Challenge expired, please try again",
+        "invalidChallenge": "Invalid challenge, please try again",
+        "notFound": "Passkey not found",
+        "renameFailed": "Failed to rename passkey",
+        "deleteFailed": "Failed to delete passkey",
+        "authOptionsFailed": "Failed to get authentication options",
+        "authFailed": "Authentication failed",
+        "authCancelled": "Passkey authentication was cancelled",
+        "authVerifyFailed": "Failed to authenticate with passkey"
+      }
+    },
+    "sessions": {
+      "revoked": "Session revoked",
+      "allRevoked": "All other sessions revoked",
+      "errors": {
+        "fetchFailed": "Failed to fetch sessions",
+        "revokeFailed": "Failed to revoke session",
+        "revokeAllFailed": "Failed to revoke sessions"
+      }
+    },
+    "loginHistory": {
+      "errors": {
+        "fetchFailed": "Failed to fetch login history"
+      }
+    },
+    "stepUp": {
+      "errors": {
+        "verifyFailed": "Verification failed. Please try again.",
+        "invalidCredentials": "Invalid credentials. Please check and try again.",
+        "tooManyAttempts": "Too many attempts. Please try again later."
+      }
+    }
+  },
+  "sessions": {
+    "title": "Active Sessions",
+    "description": "Manage your active sessions across devices. You can revoke sessions you don't recognize.",
+    "currentSession": "Current Session",
+    "unknownLocation": "Unknown location",
+    "unknownBrowser": "Unknown browser",
+    "unknownOS": "Unknown OS",
+    "browserOnOs": "{browser} on {os}",
+    "locationLabel": "Location",
+    "ipAddressLabel": "IP Address",
+    "lastActivityLabel": "Last Activity",
+    "createdAt": "Created",
+    "lastActivity": "Last activity",
+    "revokeSession": "Revoke",
+    "sessions": "Sessions",
+    "revokeTitle": "Revoke Session?",
+    "revokeDescription": "This will log you out from this device. You'll need to sign in again.",
+    "revokeOtherTitle": "Revoke All Other Sessions?",
+    "revokeOtherDescription": "This will log you out from all other devices. Only your current session will remain active.",
+    "revokeOtherCount": "Revoke {count} {count, plural, one {session} other {sessions}}",
+    "noSessionsFiltered": "No sessions match your filters.",
+    "noOtherSessions": "No other active sessions. You're only signed in on this device.",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search by browser, OS, or location...",
+    "filters": {
+      "deviceType": "Device Type",
+      "any": "Any device"
+    },
+    "deviceTypes": {
+      "desktop": "Desktop",
+      "mobile": "Mobile",
+      "tablet": "Tablet"
+    },
+    "sorting": {
+      "lastActivityAt": "Last Activity",
+      "createdAt": "Created"
+    }
+  },
+  "loginHistory": {
+    "title": "Login History",
+    "description": "View your recent sign-in activity and monitor for suspicious access.",
+    "recentActivity": "Recent Login Activity",
+    "recentActivityDescription": "Your most recent sign-in attempts",
+    "viewAll": "View all",
+    "entries": "{count, plural, one {# entry} other {# entries}}",
+    "successful": "Successful",
+    "failed": "Failed",
+    "noHistory": "No login history found",
+    "unknownLocation": "Unknown location",
+    "unknownBrowser": "Unknown browser",
+    "unknownOS": "Unknown OS",
+    "browserOnOs": "{browser} on {os}",
+    "ipAddressLabel": "IP Address:",
+    "loginMethodLabel": "Login Method:",
+    "failureReasonLabel": "Failure Reason:",
+    "refresh": "Refresh",
+    "searchPlaceholder": "Search by browser, OS, location, or IP...",
+    "filters": {
+      "any": "Any",
+      "successful": "Successful",
+      "failed": "Failed",
+      "status": "Status",
+      "authMethod": "Login Method"
+    },
+    "authMethods": {
+      "any": "Any",
+      "password": "Password",
+      "google": "Google",
+      "passkey": "Passkey"
+    },
+    "sorting": {
+      "createdAt": "Date"
+    },
+    "failureReasons": {
+      "invalid_credentials": "Invalid credentials",
+      "account_deactivated": "Account deactivated",
+      "rate_limited": "Too many attempts",
+      "internal_error": "Internal error",
+      "user_not_found": "User not found",
+      "no_passkeys_registered": "No passkeys registered",
+      "google_not_linked": "Google account not linked",
+      "email_mismatch": "Email mismatch"
+    },
+    "errors": {
+      "loadFailed": "Failed to load login history"
+    }
+  },
+  "stepUpAuth": {
+    "title": "Verify your identity",
+    "description": "For your security, please confirm your identity before making changes to your account.",
+    "selectMethod": "Choose a verification method:",
+    "methods": {
+      "password": {
+        "title": "Use password",
+        "description": "Enter your current password"
+      },
+      "passkey": {
+        "title": "Use passkey",
+        "description": "Use your fingerprint, face, or security key"
+      }
+    },
+    "backToMethods": "Back",
+    "passwordLabel": "Current password",
+    "passwordPlaceholder": "Enter your password",
+    "passkeyPrompt": "Click the button below to verify with your passkey",
+    "passkeyWaiting": "Waiting for passkey verification...",
+    "verifyButton": "Verify",
+    "usePasskeyButton": "Verify",
+    "verifying": "Verifying...",
+    "errors": {
+      "passwordRequired": "Please enter your password",
+      "verificationFailed": "Verification failed. Please try again.",
+      "passkeyCancelled": "Passkey verification was cancelled"
+    }
+  },
+  "errors": {
+    "loadFailed": "Failed to load profile. Please try again."
+  }
+}

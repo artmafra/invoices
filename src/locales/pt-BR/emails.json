@@ -1,0 +1,146 @@
+{
+  "common": {
+    "hiName": "Olá {name},",
+    "hello": "Olá,",
+    "footer": "Este e-mail foi enviado para {email}",
+    "unsubscribe": "Se você não solicitou este e-mail, pode ignorá-lo com segurança.",
+    "support": "Precisa de ajuda? Entre em contato com nossa equipe de suporte.",
+    "securityTip": "Dica de Segurança: Nunca compartilhe sua senha ou códigos de verificação com ninguém.",
+    "helpCenter": "Central de Ajuda"
+  },
+  "welcome": {
+    "subject": "Bem-vindo ao {siteName}!",
+    "preview": "Bem-vindo ao {siteName}, {name}!",
+    "greeting": "Bem-vindo {name},",
+    "body": "Obrigado por criar uma conta no {siteName}. Estamos felizes em tê-lo a bordo!",
+    "button": "Começar",
+    "footer": "Se você não criou esta conta, entre em contato com nossa equipe de suporte."
+  },
+  "passwordReset": {
+    "subject": "Redefina sua senha",
+    "preview": "Redefina sua senha",
+    "body": "Recebemos uma solicitação para redefinir sua senha. Clique no botão abaixo para criar uma nova senha.",
+    "button": "Redefinir Senha",
+    "expiry": "Este link expirará em {minutes} minutos.",
+    "footer": "Se você não solicitou uma redefinição de senha, pode ignorá-lo com segurança."
+  },
+  "invite": {
+    "subject": "Você foi convidado para participar do {siteName}",
+    "preview": "Você foi convidado para participar do {siteName}",
+    "bodyWithInviter": "{inviterName} convidou você para participar do {siteName}",
+    "body": "Você foi convidado para participar do {siteName}",
+    "roleDescription": "como {roleName}",
+    "instructions": "Clique no botão abaixo para aceitar seu convite e configurar sua conta.",
+    "button": "Aceitar Convite",
+    "expiryDays": "Este convite expirará em {count, plural, one {# dia} other {# dias}}.",
+    "footer": "Se você não estava esperando este convite, pode ignorá-lo com segurança."
+  },
+  "twoFactorCode": {
+    "subject": "Seu código de verificação é {code}",
+    "preview": "Seu código de verificação é {code}",
+    "body": "Seu código de verificação é:",
+    "expiry": "Este código expirará em 10 minutos.",
+    "footer": "Se você não solicitou este código, ignore este e-mail."
+  },
+  "newLogin": {
+    "subject": "Novo login na sua conta",
+    "preview": "Novo login na sua conta",
+    "greeting": "Olá {name},",
+    "body": "Notamos um novo login na sua conta. Aqui estão os detalhes:",
+    "time": "Hora",
+    "device": "Dispositivo",
+    "browser": "Navegador",
+    "operatingSystem": "Sistema Operacional",
+    "ipAddress": "Endereço IP",
+    "location": "Localização",
+    "warning": "Foi você? Se você não reconhece este login, recomendamos alterar sua senha imediatamente e revisar suas sessões ativas nas configurações da conta."
+  },
+  "accountLockout": {
+    "subject": "Sua conta foi bloqueada",
+    "preview": "Sua conta foi temporariamente bloqueada devido a várias tentativas de login falhas",
+    "greeting": "Olá {name},",
+    "body": "Sua conta foi temporariamente bloqueada devido a {attempts} tentativas de login falhas. Esta é uma medida de segurança para proteger sua conta de acesso não autorizado.",
+    "lockedAt": "Bloqueado em",
+    "duration": "Duração",
+    "failedAttempts": "Tentativas Falhas",
+    "whatToDo": "O que devo fazer? Aguarde o bloqueio expirar e tente novamente com a senha correta.",
+    "notYou": "Não foi você? Altere sua senha imediatamente e ative a autenticação de dois fatores."
+  },
+  "emailChange": {
+    "subject": "Verifique seu novo endereço de e-mail",
+    "preview": "Verifique seu novo endereço de e-mail: {email}",
+    "body": "Você solicitou a alteração do seu endereço de e-mail para {email}.",
+    "codeLabel": "Seu código de verificação é:",
+    "expiry": "Este código expirará em 10 minutos.",
+    "footer": "Se você não solicitou esta alteração de e-mail, ignore este e-mail e entre em contato com o suporte."
+  },
+  "security": {
+    "labels": {
+      "time": "Horário",
+      "device": "Dispositivo",
+      "ip": "IP",
+      "info": "Info"
+    },
+    "twoFactorEmailEnabled": {
+      "subject": "Autenticação de Dois Fatores por E-mail Ativada",
+      "preview": "2FA por e-mail foi ativado na sua conta",
+      "body": "A autenticação de dois fatores baseada em e-mail foi ativada na sua conta. Agora você receberá um código de verificação por e-mail ao fazer login."
+    },
+    "twoFactorEmailDisabled": {
+      "subject": "Autenticação de Dois Fatores por E-mail Desativada",
+      "preview": "2FA por e-mail foi desativado na sua conta",
+      "body": "A autenticação de dois fatores baseada em e-mail foi desativada na sua conta. Sua conta agora está menos segura."
+    },
+    "totpEnabled": {
+      "subject": "Aplicativo Autenticador Adicionado",
+      "preview": "Um aplicativo autenticador foi adicionado à sua conta",
+      "body": "Um aplicativo autenticador (como Google Authenticator ou Authy) foi adicionado à sua conta para autenticação de dois fatores."
+    },
+    "totpDisabled": {
+      "subject": "Aplicativo Autenticador Removido",
+      "preview": "O aplicativo autenticador foi removido da sua conta",
+      "body": "O aplicativo autenticador foi removido da sua conta. Sua conta pode estar menos segura sem essa proteção adicional."
+    },
+    "passkeyAdded": {
+      "subject": "Nova Chave de Acesso Adicionada",
+      "preview": "Uma nova chave de acesso foi adicionada à sua conta",
+      "body": "Uma nova chave de acesso foi registrada na sua conta. Agora você pode usá-la para entrar sem senha."
+    },
+    "passkeyRemoved": {
+      "subject": "Chave de Acesso Removida",
+      "preview": "Uma chave de acesso foi removida da sua conta",
+      "body": "Uma chave de acesso foi removida da sua conta. Você não poderá mais usá-la para entrar."
+    },
+    "passwordChanged": {
+      "subject": "Senha Alterada",
+      "preview": "Sua senha foi alterada",
+      "body": "A senha da sua conta foi alterada com sucesso. Se você fez essa alteração, nenhuma ação adicional é necessária."
+    },
+    "emailChanged": {
+      "subject": "Endereço de E-mail Alterado",
+      "preview": "Seu endereço de e-mail foi alterado",
+      "body": "Seu endereço de e-mail foi alterado com sucesso."
+    },
+    "primaryEmailChanged": {
+      "subject": "E-mail Principal Alterado",
+      "preview": "Seu endereço de e-mail principal foi alterado",
+      "body": "Seu endereço de e-mail principal foi alterado. Todas as notificações futuras serão enviadas para seu novo e-mail principal."
+    },
+    "googleLinked": {
+      "subject": "Conta Google Vinculada",
+      "preview": "Uma conta Google foi vinculada à sua conta",
+      "body": "Uma conta Google foi vinculada à sua conta. Agora você pode entrar usando o Google."
+    },
+    "googleUnlinked": {
+      "subject": "Conta Google Desvinculada",
+      "preview": "A conta Google foi desvinculada da sua conta",
+      "body": "A conta Google foi desvinculada da sua conta. Você não poderá mais entrar usando o Google."
+    },
+    "accountDeactivated": {
+      "subject": "Conta Desativada",
+      "preview": "Sua conta foi desativada",
+      "body": "Sua conta foi desativada por um administrador. Você não poderá mais entrar. Se você acredita que isso é um erro, entre em contato com o suporte."
+    },
+    "notYouWarning": "Se não foi você, altere sua senha imediatamente e entre em contato com o suporte."
+  }
+}

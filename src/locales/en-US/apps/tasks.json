@@ -1,0 +1,90 @@
+{
+  "title": "Tasks",
+  "description": "Manage your tasks and to-do lists.",
+  "nav": {
+    "allTasks": "Tasks",
+    "lists": "Lists"
+  },
+  "searchPlaceholder": "Search tasks...",
+  "new": "New",
+  "editTitle": "Edit Task",
+  "newTitle": "New Task",
+  "editDescription": "Make changes to your task below.",
+  "createDescription": "Create a new task to track your work.",
+  "fields": {
+    "title": "Title",
+    "titlePlaceholder": "Enter task title",
+    "description": "Description",
+    "descriptionPlaceholder": "Add description...",
+    "status": "Status",
+    "statusPlaceholder": "Select status",
+    "priority": "Priority",
+    "priorityPlaceholder": "Select priority",
+    "dueDate": "Due Date",
+    "dueDatePlaceholder": "Select date",
+    "list": "List",
+    "listPlaceholder": "Select list",
+    "assignee": "Assignee",
+    "assigneePlaceholder": "Select assignee",
+    "assigneeDescription": "Assign this task to a user",
+    "checklist": "Checklist",
+    "checklistDescription": "Add checklist items to track subtasks"
+  },
+  "noList": "No list",
+  "allStatus": "All Status",
+  "allPriority": "All Priority",
+  "status": {
+    "todo": "To Do",
+    "in_progress": "In Progress",
+    "done": "Done"
+  },
+  "priority": {
+    "low": "Low",
+    "medium": "Medium",
+    "high": "High",
+    "urgent": "Urgent"
+  },
+  "dueDate": "Due {date}",
+  "completedOn": "Completed {date}",
+  "overdue": "Overdue",
+  "overdueOnly": "Overdue Only",
+  "checklist": {
+    "completed": "completed",
+    "itemPlaceholder": "Checklist item",
+    "addPlaceholder": "Add checklist item...",
+    "maxReached": "Maximum 20 checklist items reached"
+  },
+  "empty": {
+    "noFilterResults": "No tasks found matching your filters.",
+    "noTasks": "No tasks yet.",
+    "createFirst": "Create your first task to get started!"
+  },
+  "createButton": "Create Task",
+  "updateButton": "Update Task",
+  "creating": "Creating...",
+  "updating": "Updating...",
+  "deleteTitle": "Delete task?",
+  "deleteDescription": "This will permanently delete this task. This action cannot be undone.",
+  "success": {
+    "created": "Task created",
+    "updated": "Task updated",
+    "deleted": "Task deleted"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch tasks",
+    "fetchOneFailed": "Failed to fetch task",
+    "createFailed": "Failed to create task",
+    "updateFailed": "Failed to update task",
+    "deleteFailed": "Failed to delete task",
+    "lists": {
+      "created": "Task list created",
+      "updated": "Task list updated",
+      "deleted": "Task list deleted",
+      "fetchFailed": "Failed to fetch task lists",
+      "fetchOneFailed": "Failed to fetch task list",
+      "createFailed": "Failed to create task list",
+      "updateFailed": "Failed to update task list",
+      "deleteFailed": "Failed to delete task list"
+    }
+  }
+}

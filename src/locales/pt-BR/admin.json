@@ -1,0 +1,179 @@
+{
+  "header": {
+    "defaultTitle": "Painel",
+    "toggleNavigation": "Alternar navegação"
+  },
+  "nav": {
+    "system": "Sistema",
+    "settings": "Configurações",
+    "users": "Usuários",
+    "roles": "Funções",
+    "activity": "Atividade",
+    "sessions": "Sessões",
+    "invitations": "Convites",
+    "profile": "Perfil",
+    "preferences": "Preferências",
+    "security": "Segurança",
+    "logout": "Sair",
+    "loginHistory": "Histórico de Login",
+    "viewingAs": "(visualizando)",
+    "impersonatingAs": "Logado como {name}",
+    "exitImpersonation": "Sair da personificação"
+  },
+  "appSwitcher": {
+    "noApps": "Sem aplicativos",
+    "noAccess": "Sem acesso",
+    "selectApp": "Selecionar aplicativo",
+    "noAppSelected": "Nenhum aplicativo selecionado",
+    "switchApp": "Trocar aplicativo"
+  },
+  "commandPalette": {
+    "placeholder": "Digite um comando ou pesquise...",
+    "noResults": "Nenhum resultado encontrado.",
+    "search": "Pesquisar...",
+    "action": "Ação",
+    "keyboardShortcuts": "Atalhos de Teclado",
+    "groups": {
+      "pages": "Páginas",
+      "system": "Sistema",
+      "tools": "Ferramentas"
+    },
+    "commands": {
+      "dashboard": "Painel",
+      "profile": "Perfil",
+      "profileSecurity": "Perfil > Segurança",
+      "profilePreferences": "Perfil > Preferências",
+      "profileSessions": "Perfil > Sessões",
+      "profileLoginHistory": "Perfil > Histórico de Login",
+      "settings": "Configurações",
+      "users": "Usuários",
+      "usersNew": "Usuários > Novo Usuário",
+      "usersInvite": "Usuários > Convidar Usuário",
+      "roles": "Funções",
+      "rolesNew": "Funções > Nova Função",
+      "activityLog": "Log de Atividades",
+      "sessions": "Sessões",
+      "setup": "Configuração",
+      "themeLight": "Tema: Claro",
+      "themeDark": "Tema: Escuro",
+      "themeSystem": "Tema: Sistema",
+      "languageEnglish": "Idioma: English",
+      "languagePortuguese": "Idioma: Português",
+      "densityCompact": "Densidade: Compacta",
+      "densityComfortable": "Densidade: Confortável",
+      "densitySpacious": "Densidade: Espaçosa",
+      "notes": {
+        "allNotes": "Notas",
+        "archivedNotes": "Arquivo",
+        "new": "Nova Nota"
+      },
+      "tasks": {
+        "allTasks": "Todas",
+        "taskLists": "Listas",
+        "newTask": "Nova Tarefa",
+        "newList": "Nova Lista"
+      },
+      "games": {
+        "allGames": "Todos os Jogos",
+        "new": "Novo Jogo"
+      }
+    },
+    "separator": " > ",
+    "modules": {
+      "notes": "Notas",
+      "tasks": "Tarefas",
+      "games": "Jogos Cooperativos"
+    },
+    "keywords": {
+      "dashboard": ["início", "visão geral", "principal"],
+      "profile": ["conta", "eu", "minha conta", "pessoal"],
+      "profileSecurity": ["2fa", "dois fatores", "senha", "autenticação", "mfa"],
+      "profilePreferences": [
+        "idioma",
+        "fuso horário",
+        "configurações",
+        "preferências",
+        "personalização"
+      ],
+      "profileSessions": ["sessões", "dispositivos", "logins", "ativas", "segurança"],
+      "profileLoginHistory": [
+        "histórico de login",
+        "tentativas",
+        "autenticação",
+        "logins",
+        "segurança"
+      ],
+      "settings": ["preferências", "configuração", "marca", "seo"],
+      "users": ["membros", "contas", "pessoas"],
+      "usersNew": ["criar usuário", "adicionar usuário", "usuários"],
+      "usersInvite": ["convidar usuário", "enviar convite", "convite por email", "usuários"],
+      "roles": ["permissões", "acesso", "grupos"],
+      "rolesNew": ["criar função", "adicionar função", "funções"],
+      "activityLog": ["auditoria", "histórico", "logs", "alterações"],
+      "sessions": ["ativas", "dispositivos", "logins"],
+      "setup": ["inicializar", "configurar", "assistente"],
+      "themeLight": ["claro", "tema", "modo", "aparência", "cor"],
+      "themeDark": ["escuro", "tema", "modo", "aparência", "cor"],
+      "themeSystem": ["sistema", "automático", "tema", "so", "aparência"],
+      "languageEnglish": ["idioma", "inglês", "english", "locale", "en", "eua"],
+      "languagePortuguese": ["idioma", "português", "portuguese", "locale", "pt", "br", "brasil"],
+      "densityCompact": [
+        "densidade",
+        "compacta",
+        "pequena",
+        "apertada",
+        "espaçamento",
+        "interface"
+      ],
+      "densityComfortable": [
+        "densidade",
+        "confortável",
+        "padrão",
+        "normal",
+        "espaçamento",
+        "interface"
+      ],
+      "densitySpacious": ["densidade", "espaçosa", "grande", "ampla", "espaçamento", "interface"],
+      "notes": {
+        "allNotes": ["notas", "anotações", "documentos", "todas"],
+        "archivedNotes": ["notas", "arquivo", "antigas", "arquivadas"],
+        "new": ["notas", "criar nota", "adicionar nota", "escrever"]
+      },
+      "tasks": {
+        "allTasks": ["tarefas", "afazeres", "atribuições", "todas"],
+        "taskLists": ["tarefas", "categorias", "grupos", "listas"],
+        "newTask": ["tarefas", "criar tarefa", "adicionar tarefa", "afazer"],
+        "newList": ["tarefas", "criar lista", "adicionar lista", "categoria"]
+      },
+      "games": {
+        "allGames": ["jogos", "coop", "cooperativo", "xbox", "multiplayer", "todos"],
+        "new": ["jogos", "criar jogo", "adicionar jogo", "rastrear"]
+      }
+    }
+  },
+  "unauthorized": {
+    "title": "Não autorizado",
+    "description": "Você não tem permissão para acessar esta página.",
+    "backToDashboard": "Voltar ao Painel"
+  },
+  "hooks": {
+    "images": {
+      "uploaded": "Imagem enviada",
+      "uploadedCount": "{count} imagens enviadas",
+      "deleted": "Imagem excluída",
+      "errors": {
+        "fetchFailed": "Falha ao buscar imagens",
+        "uploadFailed": "Falha ao enviar imagem",
+        "deleteFailed": "Falha ao excluir imagem",
+        "noPermissionUpload": "Você não tem permissão para enviar imagens",
+        "noPermissionDelete": "Você não tem permissão para excluir imagens",
+        "notFound": "Imagem não encontrada",
+        "svgNotAllowed": "Imagens SVG não são permitidas",
+        "imageTooLarge": "Arquivo de imagem muito grande",
+        "invalidImage": "Arquivo de imagem inválido ou corrompido",
+        "notAnImage": "O arquivo deve ser uma imagem",
+        "unsupportedFormat": "Formato de imagem não suportado"
+      }
+    }
+  }
+}

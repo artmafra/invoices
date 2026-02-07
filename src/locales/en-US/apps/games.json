@@ -1,0 +1,84 @@
+{
+  "title": "Games",
+  "description": "Track and manage your cooperative gaming library.",
+  "nav": {
+    "allGames": "Games"
+  },
+  "searchPlaceholder": "Search games...",
+  "new": "New",
+  "editTitle": "Edit Game",
+  "newTitle": "New Game",
+  "editDescription": "Update game information below.",
+  "createDescription": "Add a new coop game to track.",
+  "fields": {
+    "name": "Name",
+    "namePlaceholder": "Enter game name",
+    "coverImage": "Cover Image",
+    "dragDrop": "or drag and drop",
+    "xboxStoreLink": "Xbox Store Link",
+    "rating": "Rating",
+    "played": "Played",
+    "tried": "Tried",
+    "multiplayer": "Multiplayer",
+    "multiplayerFunctional": "Multiplayer Functional",
+    "dropReason": "Drop Reason",
+    "dropReasonPlaceholder": "Why did you drop this game?",
+    "dropReasonDisabled": "Enable 'Tried' to add a drop reason",
+    "notes": "Notes",
+    "notesPlaceholder": "Additional notes about this game..."
+  },
+  "status": {
+    "yes": "Yes",
+    "no": "No",
+    "played": "Played",
+    "notPlayed": "Not Played",
+    "tried": "Tried",
+    "functional": "Functional",
+    "nonFunctional": "Non-functional",
+    "mpFunctional": "MP Works",
+    "mpNotFunctional": "MP Broken"
+  },
+  "filters": {
+    "playedStatus": "Status",
+    "multiplayer": "Multiplayer",
+    "minRating": "Min Rating",
+    "any": "Any",
+    "played": "Played",
+    "notPlayed": "Not Played",
+    "dropped": "Dropped",
+    "mpFunctional": "MP Works",
+    "mpNotFunctional": "MP Broken",
+    "anyRating": "Any Rating"
+  },
+  "actions": {
+    "edit": "Edit",
+    "delete": "Delete",
+    "xboxStore": "Xbox",
+    "replaceCover": "Replace"
+  },
+  "empty": {
+    "noSearchResults": "No games found matching your filters.",
+    "noGames": "No games yet.",
+    "createFirst": "Add your first coop game to get started."
+  },
+  "createButton": "Add Game",
+  "updateButton": "Save Changes",
+  "creating": "Adding...",
+  "updating": "Saving...",
+  "deleteTitle": "Delete game?",
+  "deleteDescription": "This will permanently delete this game. This action cannot be undone.",
+  "success": {
+    "created": "Game added",
+    "updated": "Game updated",
+    "deleted": "Game deleted"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch games",
+    "fetchOneFailed": "Failed to fetch game",
+    "createFailed": "Failed to add game",
+    "updateFailed": "Failed to update game",
+    "deleteFailed": "Failed to delete game",
+    "uploadFailed": "Failed to upload cover image",
+    "removeCoverFailed": "Failed to remove cover image"
+  }
+}

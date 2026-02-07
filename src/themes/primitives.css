@@ -1,0 +1,51 @@
+/* =============================================================================
+   OKLCH PRIMITIVE VARIABLES
+   Defines the foundational color primitives used for computed tokens.
+   Only applies when the browser supports OKLCH color space.
+   ============================================================================= */
+
+@supports (color: oklch(0% 0 0)) {
+  /* ----- Light Theme (OKLCH Primitives) ----- */
+  :root {
+    /* Lightness primitives: higher = lighter, step is negative (darker layers on top) */
+    --lightness-base: 1;
+    --lightness-step: -0.02;
+
+    /* Foreground lightness: lower = darker text */
+    --fg-lightness-base: 0.2;
+    --fg-lightness-step: 0.1;
+
+    /* Surface tint: subtle cool blue-gray */
+    --surface-chroma: 0.01;
+    --surface-hue: 240;
+
+    /* Primary/brand hue */
+    --primary-hue: 240;
+    --primary-chroma: 0.05;
+
+    /* Status color saturation (consistent across statuses) */
+    --status-chroma: 0.17;
+  }
+
+  /* ----- Dark Theme (OKLCH Primitives) ----- */
+  .dark {
+    /* Lightness primitives: lower = darker, step is positive (lighter layers on top) */
+    --lightness-base: 0.15;
+    --lightness-step: 0.04;
+
+    /* Foreground lightness: higher = lighter text */
+    --fg-lightness-base: 0.9;
+    --fg-lightness-step: -0.1;
+
+    /* Surface tint: subtle cool blue-gray */
+    --surface-chroma: 0.003;
+    --surface-hue: 220;
+
+    /* Primary/brand hue */
+    --primary-hue: 220;
+    --primary-chroma: 0.04;
+
+    /* Status color saturation (slightly higher for dark mode visibility) */
+    --status-chroma: 0.18;
+  }
+}

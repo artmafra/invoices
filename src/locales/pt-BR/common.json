@@ -1,0 +1,176 @@
+{
+  "buttons": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "close": "Fechar",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "saveChanges": "Salvar Alterações",
+    "edit": "Editar",
+    "delete": "Excluir",
+    "update": "Atualizar",
+    "add": "Adicionar",
+    "create": "Criar",
+    "creating": "Criando...",
+    "change": "Alterar",
+    "back": "Voltar",
+    "refresh": "Atualizar",
+    "new": "Novo",
+    "disable": "Desativar",
+    "enable": "Ativar",
+    "configure": "Configurar",
+    "verify": "Verificar",
+    "connect": "Conectar",
+    "disconnect": "Desconectar",
+    "manage": "Gerenciar",
+    "processing": "Processando...",
+    "copy": "Copiar",
+    "download": "Baixar",
+    "submit": "Enviar",
+    "reset": "Redefinir",
+    "resetToDefaults": "Restaurar Padrões",
+    "search": "Pesquisar",
+    "searchPlaceholder": "Pesquisar...",
+    "filter": "Filtrar",
+    "filters": "Filtros",
+    "sort": "Ordenar",
+    "sorting": "Ordenação",
+    "sortAscending": "Crescente",
+    "sortDescending": "Decrescente",
+    "clear": "Limpar",
+    "done": "Concluído",
+    "continue": "Continuar",
+    "tryAgain": "Tentar novamente",
+    "viewAll": "Ver tudo",
+    "showMore": "Mostrar mais",
+    "showLess": "Mostrar menos",
+    "openMenu": "Abrir menu",
+    "useDetected": "Usar detectado: {value}",
+    "remove": "Remover"
+  },
+  "errorBoundary": {
+    "title": "Algo deu errado",
+    "viewStackTrace": "Ver rastreamento de pilha"
+  },
+  "loading": {
+    "default": "Carregando...",
+    "saving": "Salvando...",
+    "creating": "Criando...",
+    "deleting": "Excluindo...",
+    "adding": "Adicionando...",
+    "verifying": "Verificando...",
+    "profile": "Carregando perfil...",
+    "preferences": "Carregando preferências...",
+    "security": "Carregando configurações de segurança...",
+    "users": "Carregando usuários...",
+    "sessions": "Carregando sessões...",
+    "loginHistory": "Carregando histórico de login...",
+    "notes": "Carregando notas...",
+    "tasks": "Carregando tarefas...",
+    "games": "Carregando jogos...",
+    "passkeys": "Carregando chaves de acesso...",
+    "authenticator": "Configurando autenticador...",
+    "data": "Carregando dados..."
+  },
+  "values": {
+    "yes": "Sim",
+    "no": "Não",
+    "none": "Nenhum"
+  },
+  "status": {
+    "active": "Ativo",
+    "inactive": "Inativo",
+    "verified": "Verificado",
+    "unverified": "Não verificado",
+    "connected": "Conectado",
+    "configured": "Configurado",
+    "locked": "Bloqueado",
+    "expired": "Expirado",
+    "pending": "Pendente",
+    "you": "Você",
+    "current": "Atual",
+    "enabled": "Habilitado",
+    "disabled": "Desabilitado",
+    "system": "Sistema"
+  },
+  "fields": {
+    "device": "Dispositivo",
+    "ip": "Endereço IP",
+    "lastActivity": "Última Atividade"
+  },
+  "time": {
+    "lastUsed": "Último uso",
+    "never": "Nunca",
+    "created": "Criado",
+    "updated": "Atualizado"
+  },
+  "pagination": {
+    "previous": "Anterior",
+    "next": "Próximo",
+    "page": "Página {current} de {total}",
+    "items": "{count} {count, plural, one {item} other {itens}}",
+    "showing": "{start} - {end} de {total}",
+    "itemsPerPage": "Itens por página:",
+    "options": "Opções de paginação"
+  },
+  "empty": {
+    "noResults": "Nenhum resultado encontrado.",
+    "noData": "Nenhum dado disponível.",
+    "noItems": "Nenhum item para exibir."
+  },
+  "table": {
+    "name": "Nome",
+    "email": "E-mail",
+    "status": "Status",
+    "role": "Função",
+    "actions": "Ações",
+    "createdAt": "Criado em",
+    "updatedAt": "Atualizado em",
+    "lastActivity": "Última Atividade",
+    "description": "Descrição",
+    "key": "Chave",
+    "category": "Categoria",
+    "noResults": "Nenhum resultado encontrado."
+  },
+  "dialog": {
+    "areYouSure": "Tem certeza?",
+    "cannotUndo": "Esta ação não pode ser desfeita."
+  },
+  "labels": {
+    "important": "Importante",
+    "unknown": "Desconhecido"
+  },
+  "toast": {
+    "success": "Sucesso",
+    "error": "Erro",
+    "warning": "Aviso",
+    "info": "Info",
+    "copied": "Copiado para a área de transferência",
+    "saved": "Alterações salvas",
+    "deleted": "Excluído com sucesso",
+    "updated": "Atualizado com sucesso",
+    "created": "Criado com sucesso"
+  },
+  "form": {
+    "required": "Obrigatório",
+    "optional": "Opcional",
+    "selectOption": "Selecione uma opção",
+    "enterValue": "Digite um valor",
+    "noChanges": "Nenhuma alteração para salvar"
+  },
+  "phoneInput": {
+    "placeholder": "Número de telefone",
+    "searchCountry": "Buscar país...",
+    "noCountry": "Nenhum país encontrado.",
+    "selectCountry": "Selecionar país"
+  },
+  "components": {
+    "userSelect": {
+      "placeholder": "Selecionar usuário",
+      "search": "Buscar usuários...",
+      "noResults": "Nenhum usuário encontrado",
+      "none": "Sem responsável"
+    }
+  },
+  "items": "itens"
+}

@@ -1,0 +1,119 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "npm",
+			"script": "build",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			},
+			"problemMatcher": [],
+			"label": "npm: build",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "format",
+			"problemMatcher": [],
+			"label": "npm: format",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "start",
+			"problemMatcher": [],
+			"label": "npm: start",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"problemMatcher": [],
+			"label": "npm: dev",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "db:studio",
+			"problemMatcher": [],
+			"label": "npm: db:studio",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "check:types",
+			"problemMatcher": [],
+			"label": "npm: check:types",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "check:lint",
+			"problemMatcher": [],
+			"label": "npm: check:lint",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "check:format",
+			"problemMatcher": [],
+			"label": "npm: check:format",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "db:push",
+			"problemMatcher": [],
+			"label": "npm: db:push",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		},
+		{
+			"type": "npm",
+			"script": "db:reset",
+			"problemMatcher": [],
+			"label": "npm: db:reset",
+			"presentation": {
+				"panel": "dedicated",
+				"showReuseMessage": false,
+				"clear": true
+			},
+		}
+	]
+}

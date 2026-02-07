@@ -1,0 +1,410 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "description": "Script manifest for AI agents - describes available scripts, their arguments, and behavior",
+  "scripts": [
+    {
+      "command": "dev",
+      "description": "Start Next.js development server with Turbopack on port 3000",
+      "category": "development",
+      "destructive": false,
+      "interactive": false,
+      "background": true,
+      "args": []
+    },
+    {
+      "command": "build",
+      "description": "Build the application for production",
+      "category": "development",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "start",
+      "description": "Start the production server on port 3000",
+      "category": "development",
+      "destructive": false,
+      "interactive": false,
+      "background": true,
+      "args": []
+    },
+    {
+      "command": "check:format",
+      "description": "Check if files are formatted correctly",
+      "category": "quality",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "check:lint",
+      "description": "Run ESLint on all files",
+      "category": "quality",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "check:types",
+      "description": "Run TypeScript type checking without emitting",
+      "category": "quality",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "format",
+      "description": "Format all files with Prettier",
+      "category": "quality",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:generate",
+      "description": "Generate Drizzle migrations from schema changes",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:migrate",
+      "description": "Run pending database migrations",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:push",
+      "description": "Push schema changes directly to database (development only)",
+      "category": "database",
+      "destructive": true,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:studio",
+      "description": "Open Drizzle Studio to browse database",
+      "category": "database",
+      "destructive": false,
+      "interactive": true,
+      "background": true,
+      "args": []
+    },
+    {
+      "command": "db:init",
+      "description": "Initialize database if fresh (seed roles, permissions, settings). Skips if already seeded.",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:seed",
+      "description": "Seed database with roles, permissions, and settings. Idempotent - skips existing records.",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "db:seed:demo",
+      "description": "Seed database with demo data (users, tasks, notes, sessions). Runs db:seed first. Uses PRNG for repeatability.",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--users",
+          "type": "number",
+          "required": false,
+          "default": "15",
+          "description": "Number of demo users to create"
+        },
+        {
+          "name": "--lists",
+          "type": "number",
+          "required": false,
+          "default": "6",
+          "description": "Number of task lists to create"
+        },
+        {
+          "name": "--tasks",
+          "type": "number",
+          "required": false,
+          "default": "120",
+          "description": "Number of tasks to create"
+        },
+        {
+          "name": "--notes",
+          "type": "number",
+          "required": false,
+          "default": "40",
+          "description": "Number of notes to create"
+        },
+        {
+          "name": "--sessions",
+          "type": "number",
+          "required": false,
+          "default": "60",
+          "description": "Number of user sessions to create"
+        },
+        {
+          "name": "--prefix",
+          "type": "string",
+          "required": false,
+          "default": "demo",
+          "description": "Email prefix for demo users"
+        },
+        {
+          "name": "--domain",
+          "type": "string",
+          "required": false,
+          "default": "example.com",
+          "description": "Email domain for demo users"
+        },
+        {
+          "name": "--password",
+          "type": "string",
+          "required": false,
+          "default": "Nearness.Mumble1.Unburned",
+          "description": "Password for all demo users"
+        },
+        {
+          "name": "--seed",
+          "type": "string",
+          "required": false,
+          "description": "PRNG seed for repeatability (default: random)"
+        },
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "db:check",
+      "description": "Check database connection and show statistics (users, roles, settings counts)",
+      "category": "database",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "db:reset",
+      "description": "DESTRUCTIVE: Drop and recreate database with test data. Creates 3 test users with password 'Nearness.Mumble1.Unburned'.",
+      "category": "database",
+      "destructive": true,
+      "interactive": false,
+      "background": false,
+      "args": []
+    },
+    {
+      "command": "db:reencrypt",
+      "description": "Re-encrypt all sensitive data with current ENCRYPTION_KEY. Use during key rotation.",
+      "category": "database",
+      "destructive": false,
+      "interactive": true,
+      "background": false,
+      "args": [
+        {
+          "name": "--dry-run",
+          "type": "boolean",
+          "required": false,
+          "description": "Preview what would be re-encrypted without making changes"
+        },
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "user:create",
+      "description": "Create a new user. Interactive mode prompts for details. Non-interactive mode uses args.",
+      "category": "user",
+      "destructive": false,
+      "interactive": true,
+      "background": false,
+      "args": [
+        {
+          "name": "--email",
+          "type": "string",
+          "required": true,
+          "description": "User email address"
+        },
+        {
+          "name": "--name",
+          "type": "string",
+          "required": true,
+          "description": "User full name"
+        },
+        {
+          "name": "--password",
+          "type": "string",
+          "required": true,
+          "description": "User password (minimum 8 characters)"
+        },
+        {
+          "name": "--role",
+          "type": "string",
+          "required": false,
+          "default": "user",
+          "description": "User role: admin, user, or system"
+        },
+        {
+          "name": "--system",
+          "type": "boolean",
+          "required": false,
+          "description": "Shortcut for --role=system"
+        },
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "email:dev",
+      "description": "Start React Email preview server on port 3002",
+      "category": "email",
+      "destructive": false,
+      "interactive": false,
+      "background": true,
+      "args": []
+    },
+    {
+      "command": "test:email",
+      "description": "Test Gmail integration by sending a test email",
+      "category": "email",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--to",
+          "type": "string",
+          "required": true,
+          "description": "Recipient email address"
+        },
+        {
+          "name": "--subject",
+          "type": "string",
+          "required": false,
+          "default": "Test Email",
+          "description": "Email subject"
+        },
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "test:storage",
+      "description": "Test Google Cloud Storage connection by uploading and deleting a test file",
+      "category": "storage",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--json",
+          "type": "boolean",
+          "required": false,
+          "description": "Output result as JSON for machine parsing"
+        }
+      ]
+    },
+    {
+      "command": "test:rate-limit",
+      "description": "Test rate limiting on auth endpoints (requires dev server running)",
+      "category": "testing",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": [
+        {
+          "name": "--endpoint",
+          "type": "string",
+          "required": false,
+          "default": "all",
+          "description": "Endpoint to test: auth, forgot, reset, 2fa, invite, or all"
+        },
+        {
+          "name": "--requests",
+          "type": "number",
+          "required": false,
+          "default": "10",
+          "description": "Number of requests to send per endpoint"
+        },
+        {
+          "name": "--url",
+          "type": "string",
+          "required": false,
+          "default": "http://localhost:3000",
+          "description": "Base URL of the server to test"
+        },
+        {
+          "name": "--verbose",
+          "type": "boolean",
+          "required": false,
+          "description": "Show detailed output for each request"
+        }
+      ]
+    },
+    {
+      "command": "help",
+      "description": "Show help message listing all available scripts (alias: scripts:list)",
+      "category": "help",
+      "destructive": false,
+      "interactive": false,
+      "background": false,
+      "args": []
+    }
+  ],
+  "aiGuidelines": {
+    "jsonOutput": "Use --json flag for machine-readable output when automating tasks",
+    "dbCheck": "Run 'npm run db:check --json' to verify database state before operations",
+    "userCreate": "Use 'npm run user:create --email=... --name=... --password=...' for non-interactive user creation",
+    "destructiveWarning": "Scripts marked 'destructive: true' will modify or delete data - confirm intent before running",
+    "backgroundProcesses": "Scripts marked 'background: true' run continuously - start them in background terminals",
+    "spacingMigration": "Run 'npm run spacing:scan' before 'npm run spacing:migrate' to preview changes. Always format and lint after migration."
+  }
+}

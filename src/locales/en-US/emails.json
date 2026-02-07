@@ -1,0 +1,146 @@
+{
+  "common": {
+    "hiName": "Hi {name},",
+    "hello": "Hello,",
+    "footer": "This email was sent to {email}",
+    "unsubscribe": "If you didn't request this email, you can safely ignore it.",
+    "support": "Need help? Contact our support team.",
+    "securityTip": "Security Tip: Never share your password or verification codes with anyone.",
+    "helpCenter": "Help center"
+  },
+  "welcome": {
+    "subject": "Welcome to {siteName}!",
+    "preview": "Welcome to {siteName}, {name}!",
+    "greeting": "Welcome {name},",
+    "body": "Thank you for creating an account with {siteName}. We're excited to have you on board!",
+    "button": "Get Started",
+    "footer": "If you didn't create this account, please contact our support team."
+  },
+  "passwordReset": {
+    "subject": "Reset your password",
+    "preview": "Reset your password",
+    "body": "We received a request to reset your password. Click the button below to create a new password.",
+    "button": "Reset Password",
+    "expiry": "This link will expire in {minutes} minutes.",
+    "footer": "If you didn't request a password reset, you can safely ignore this email."
+  },
+  "invite": {
+    "subject": "You've been invited to join {siteName}",
+    "preview": "You've been invited to join {siteName}",
+    "bodyWithInviter": "{inviterName} has invited you to join {siteName}",
+    "body": "You've been invited to join {siteName}",
+    "roleDescription": "as a {roleName}",
+    "instructions": "Click the button below to accept your invitation and set up your account.",
+    "button": "Accept Invitation",
+    "expiryDays": "This invitation will expire in {count, plural, one {# day} other {# days}}.",
+    "footer": "If you weren't expecting this invitation, you can safely ignore this email."
+  },
+  "twoFactorCode": {
+    "subject": "Your verification code is {code}",
+    "preview": "Your verification code is {code}",
+    "body": "Your verification code is:",
+    "expiry": "This code will expire in 10 minutes.",
+    "footer": "If you didn't request this code, please ignore this email."
+  },
+  "newLogin": {
+    "subject": "New login to your account",
+    "preview": "New login to your account",
+    "greeting": "Hi {name},",
+    "body": "We noticed a new login to your account. Here are the details:",
+    "time": "Time",
+    "device": "Device",
+    "browser": "Browser",
+    "operatingSystem": "Operating System",
+    "ipAddress": "IP Address",
+    "location": "Location",
+    "warning": "Was this you? If you don't recognize this login, we recommend changing your password immediately and reviewing your active sessions in your account settings."
+  },
+  "accountLockout": {
+    "subject": "Your account has been locked",
+    "preview": "Your account has been temporarily locked due to multiple failed login attempts",
+    "greeting": "Hello {name},",
+    "body": "Your account has been temporarily locked due to {attempts} failed login attempts. This is a security measure to protect your account from unauthorized access.",
+    "lockedAt": "Locked At",
+    "duration": "Duration",
+    "failedAttempts": "Failed Attempts",
+    "whatToDo": "What should I do? Wait for the lockout to expire, then try again with the correct password.",
+    "notYou": "Wasn't this you? Change your password immediately and enable two-factor authentication."
+  },
+  "emailChange": {
+    "subject": "Verify your new email address",
+    "preview": "Verify your new email address: {email}",
+    "body": "You requested to change your email address to {email}.",
+    "codeLabel": "Your verification code is:",
+    "expiry": "This code will expire in 10 minutes.",
+    "footer": "If you didn't request this email change, please ignore this email and contact support."
+  },
+  "security": {
+    "labels": {
+      "time": "Time",
+      "device": "Device",
+      "ip": "IP",
+      "info": "Info"
+    },
+    "twoFactorEmailEnabled": {
+      "subject": "Email Two-Factor Authentication Enabled",
+      "preview": "Email 2FA has been enabled on your account",
+      "body": "Email-based two-factor authentication has been enabled on your account. You will now receive a verification code via email when signing in."
+    },
+    "twoFactorEmailDisabled": {
+      "subject": "Email Two-Factor Authentication Disabled",
+      "preview": "Email 2FA has been disabled on your account",
+      "body": "Email-based two-factor authentication has been disabled on your account. Your account is now less secure."
+    },
+    "totpEnabled": {
+      "subject": "Authenticator App Added",
+      "preview": "Authenticator app has been added to your account",
+      "body": "An authenticator app (such as Google Authenticator or Authy) has been added to your account for two-factor authentication."
+    },
+    "totpDisabled": {
+      "subject": "Authenticator App Removed",
+      "preview": "Authenticator app has been removed from your account",
+      "body": "The authenticator app has been removed from your account. Your account may be less secure without this additional protection."
+    },
+    "passkeyAdded": {
+      "subject": "New Passkey Added",
+      "preview": "A new passkey has been added to your account",
+      "body": "A new passkey has been registered to your account. You can now use it to sign in without a password."
+    },
+    "passkeyRemoved": {
+      "subject": "Passkey Removed",
+      "preview": "A passkey has been removed from your account",
+      "body": "A passkey has been removed from your account. You will no longer be able to use it to sign in."
+    },
+    "passwordChanged": {
+      "subject": "Password Changed",
+      "preview": "Your password has been changed",
+      "body": "Your account password has been successfully changed. If you made this change, no further action is needed."
+    },
+    "emailChanged": {
+      "subject": "Email Address Changed",
+      "preview": "Your email address has been changed",
+      "body": "Your email address has been successfully changed."
+    },
+    "primaryEmailChanged": {
+      "subject": "Primary Email Changed",
+      "preview": "Your primary email address has been changed",
+      "body": "Your primary email address has been changed. All future notifications will be sent to your new primary email address."
+    },
+    "googleLinked": {
+      "subject": "Google Account Linked",
+      "preview": "A Google account has been linked to your account",
+      "body": "A Google account has been linked to your account. You can now sign in using Google."
+    },
+    "googleUnlinked": {
+      "subject": "Google Account Unlinked",
+      "preview": "Google account has been unlinked from your account",
+      "body": "The Google account has been unlinked from your account. You will no longer be able to sign in using Google."
+    },
+    "accountDeactivated": {
+      "subject": "Account Deactivated",
+      "preview": "Your account has been deactivated",
+      "body": "Your account has been deactivated by an administrator. You will no longer be able to sign in. If you believe this is an error, please contact support."
+    },
+    "notYouWarning": "If this wasn't you, please change your password immediately and contact support."
+  }
+}

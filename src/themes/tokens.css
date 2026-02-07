@@ -1,0 +1,220 @@
+/* =============================================================================
+   OKLCH COMPUTED SEMANTIC TOKENS
+   Uses primitive variables to compute semantic color tokens with calc expressions.
+   Only applies when the browser supports OKLCH color space.
+   ============================================================================= */
+
+@supports (color: oklch(0% 0 0)) {
+  /* ----- Light Theme (OKLCH Computed Tokens) ----- */
+  :root {
+    /* Base surfaces */
+    --background: oklch(var(--lightness-base) var(--surface-chroma) var(--surface-hue));
+    --foreground: oklch(var(--fg-lightness-base) var(--surface-chroma) var(--surface-hue));
+
+    /* Elevated surfaces */
+    --card: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 0.3) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --card-foreground: oklch(
+      calc(var(--fg-lightness-base) - var(--fg-lightness-step)) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --card-section: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 1.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --card-section-foreground: oklch(
+      calc(var(--fg-lightness-base) - var(--fg-lightness-step)) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --section: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 3) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --section-foreground: oklch(
+      calc(var(--fg-lightness-base) - var(--fg-lightness-step)) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --popover: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 2) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --popover-foreground: oklch(
+      calc(var(--fg-lightness-base) - var(--fg-lightness-step)) var(--surface-chroma)
+        var(--surface-hue)
+    );
+
+    /* Semantic colors */
+    --primary: oklch(0.55 var(--primary-chroma) var(--primary-hue));
+    --primary-foreground: oklch(0.985 0 0);
+    --secondary: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 1.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --secondary-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --muted: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 4) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --muted-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 3) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --accent: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 2.5) 0.01 var(--primary-hue)
+    );
+    --accent-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 1) var(--surface-chroma)
+        var(--surface-hue)
+    );
+
+    /* Status colors */
+    --destructive: oklch(0.55 var(--status-chroma) 25);
+    --destructive-foreground: oklch(0.985 0 0);
+    --success: oklch(0.55 var(--status-chroma) 150);
+    --success-foreground: oklch(0.985 0 0);
+    --warning: oklch(0.75 var(--status-chroma) 75);
+    --warning-foreground: oklch(0.205 0 0);
+
+    /* Priority colors */
+    --priority-low: oklch(0.85 0.02 240);
+    --priority-low-foreground: oklch(0.35 0.02 240);
+    --priority-medium: oklch(0.55 var(--primary-chroma) var(--primary-hue));
+    --priority-medium-foreground: oklch(0.985 0 0);
+    --priority-high: var(--warning);
+    --priority-high-foreground: var(--warning-foreground);
+    --priority-urgent: var(--destructive);
+    --priority-urgent-foreground: var(--destructive-foreground);
+
+    /* Borders & inputs */
+    --border: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 6) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --input: oklch(var(--lightness-base) var(--surface-chroma) var(--surface-hue));
+    --ring: oklch(0.75 0.03 var(--primary-hue));
+
+    /* Sidebar */
+    --sidebar: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 0.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * -5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-primary: oklch(0.205 var(--surface-chroma) var(--surface-hue));
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 4) 0.02 var(--primary-hue)
+    );
+    --sidebar-accent-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 1) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-border: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 7) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-ring: oklch(0.75 0.03 var(--primary-hue));
+  }
+
+  /* ----- Dark Theme (OKLCH Computed Tokens) ----- */
+  .dark {
+    /* Base surfaces */
+    --background: oklch(var(--lightness-base) var(--surface-chroma) var(--surface-hue));
+    --foreground: oklch(var(--fg-lightness-base) var(--surface-chroma) var(--surface-hue));
+
+    /* Elevated surfaces */
+    --card: oklch(
+      calc(var(--lightness-base) + var(--lightness-step)) var(--surface-chroma) var(--surface-hue)
+    );
+    --card-foreground: oklch(var(--fg-lightness-base) var(--surface-chroma) var(--surface-hue));
+    --card-section: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 1.6) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --card-section-foreground: oklch(
+      var(--fg-lightness-base) var(--surface-chroma) var(--surface-hue)
+    );
+    --section: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 1) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --section-foreground: oklch(var(--fg-lightness-base) var(--surface-chroma) var(--surface-hue));
+    --popover: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 2.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --popover-foreground: oklch(0.985 0 0);
+
+    /* Semantic colors */
+    --primary: oklch(0.45 var(--primary-chroma) var(--primary-hue));
+    --primary-foreground: oklch(0.98 0 0);
+    --secondary: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 2.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --secondary-foreground: oklch(0.985 0 0);
+    --muted: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 2.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --muted-foreground: oklch(
+      calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 2.5) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --accent: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 7) 0.01 var(--primary-hue)
+    );
+    --accent-foreground: oklch(0.985 0 0);
+
+    /* Status colors */
+    --destructive: oklch(0.5 var(--status-chroma) 25);
+    --destructive-foreground: oklch(0.985 0 0);
+    --success: oklch(0.6 var(--status-chroma) 150);
+    --success-foreground: oklch(0.985 0 0);
+    --warning: oklch(0.8 var(--status-chroma) 80);
+    --warning-foreground: oklch(0.985 0 0);
+
+    /* Priority colors */
+    --priority-low: oklch(0.5 0.03 240);
+    --priority-low-foreground: oklch(0.85 0.02 240);
+    --priority-medium: oklch(0.55 0.06 var(--primary-hue));
+    --priority-medium-foreground: oklch(0.985 0 0);
+    --priority-high: var(--warning);
+    --priority-high-foreground: var(--warning-foreground);
+    --priority-urgent: var(--destructive);
+    --priority-urgent-foreground: var(--destructive-foreground);
+
+    /* Borders & inputs */
+    --border: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 3) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --input: oklch(var(--lightness-base) var(--surface-chroma) var(--surface-hue));
+    --ring: oklch(0.35 0.03 var(--primary-hue));
+
+    /* Sidebar */
+    --sidebar: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 1) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-foreground: oklch(var(--fg-lightness-base) 0 0);
+    --sidebar-primary: oklch(0.45 var(--primary-chroma) var(--primary-hue));
+    --sidebar-primary-foreground: oklch(0.985 0 0);
+    --sidebar-accent: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 3.5) 0.02 var(--primary-hue)
+    );
+    --sidebar-accent-foreground: oklch(var(--fg-lightness-base) 0 0);
+    --sidebar-border: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 4) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --sidebar-ring: oklch(0.4 0.03 var(--primary-hue));
+  }
+}

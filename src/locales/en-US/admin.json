@@ -1,0 +1,153 @@
+{
+  "header": {
+    "defaultTitle": "Dashboard",
+    "toggleNavigation": "Toggle navigation"
+  },
+  "nav": {
+    "system": "System",
+    "settings": "Settings",
+    "users": "Users",
+    "roles": "Roles",
+    "activity": "Activity",
+    "sessions": "Sessions",
+    "invitations": "Invitations",
+    "profile": "Profile",
+    "preferences": "Preferences",
+    "security": "Security",
+    "logout": "Log out",
+    "loginHistory": "Login History",
+    "viewingAs": "(viewing)",
+    "impersonatingAs": "Logged in as {name}",
+    "exitImpersonation": "Exit Impersonation"
+  },
+  "appSwitcher": {
+    "noApps": "No Apps",
+    "noAccess": "No access",
+    "selectApp": "Select App",
+    "noAppSelected": "No app selected",
+    "switchApp": "Switch App"
+  },
+  "commandPalette": {
+    "placeholder": "Type a command or search...",
+    "noResults": "No results found.",
+    "search": "Search...",
+    "action": "Action",
+    "keyboardShortcuts": "Keyboard Shortcuts",
+    "groups": {
+      "pages": "Pages",
+      "system": "System",
+      "tools": "Tools"
+    },
+    "commands": {
+      "dashboard": "Dashboard",
+      "profile": "Profile",
+      "profileSecurity": "Profile > Security",
+      "profilePreferences": "Profile > Preferences",
+      "profileSessions": "Profile > Sessions",
+      "profileLoginHistory": "Profile > Login History",
+      "settings": "Settings",
+      "users": "Users",
+      "usersNew": "Users > New User",
+      "usersInvite": "Users > Invite User",
+      "roles": "Roles",
+      "rolesNew": "Roles > New Role",
+      "activityLog": "Activity Log",
+      "sessions": "Sessions",
+      "setup": "Setup",
+      "themeLight": "Theme: Light",
+      "themeDark": "Theme: Dark",
+      "themeSystem": "Theme: System",
+      "languageEnglish": "Language: English",
+      "languagePortuguese": "Language: Português",
+      "densityCompact": "Density: Compact",
+      "densityComfortable": "Density: Comfortable",
+      "densitySpacious": "Density: Spacious",
+      "notes": {
+        "allNotes": "Notes",
+        "archivedNotes": "Archive",
+        "new": "New"
+      },
+      "tasks": {
+        "allTasks": "All",
+        "taskLists": "Lists",
+        "newTask": "New Task",
+        "newList": "New List"
+      },
+      "games": {
+        "allGames": "All",
+        "new": "New Game"
+      }
+    },
+    "separator": " > ",
+    "modules": {
+      "notes": "Notes",
+      "tasks": "Tasks",
+      "games": "Games"
+    },
+    "keywords": {
+      "dashboard": ["home", "overview", "main"],
+      "profile": ["account", "me", "my account", "personal"],
+      "profileSecurity": ["2fa", "two-factor", "password", "authentication", "mfa"],
+      "profilePreferences": ["language", "timezone", "settings", "preferences", "customization"],
+      "profileSessions": ["sessions", "devices", "logins", "active", "security"],
+      "profileLoginHistory": ["login history", "attempts", "authentication", "logins", "security"],
+      "settings": ["preferences", "configuration", "branding", "seo"],
+      "users": ["members", "accounts", "people"],
+      "usersNew": ["create user", "add user", "users"],
+      "usersInvite": ["invite user", "send invite", "email invite", "users"],
+      "roles": ["permissions", "access", "groups"],
+      "rolesNew": ["create role", "add role", "roles"],
+      "activityLog": ["audit", "history", "logs", "changes"],
+      "sessions": ["active", "devices", "logins"],
+      "setup": ["initialize", "configure", "wizard"],
+      "themeLight": ["light", "theme", "mode", "appearance", "color"],
+      "themeDark": ["dark", "theme", "mode", "appearance", "color"],
+      "themeSystem": ["system", "auto", "theme", "os", "appearance"],
+      "languageEnglish": ["language", "english", "locale", "en", "us"],
+      "languagePortuguese": ["language", "portuguese", "português", "locale", "pt", "br", "brazil"],
+      "densityCompact": ["density", "compact", "small", "tight", "spacing", "ui"],
+      "densityComfortable": ["density", "comfortable", "default", "normal", "spacing", "ui"],
+      "densitySpacious": ["density", "spacious", "large", "roomy", "spacing", "ui"],
+      "notes": {
+        "allNotes": ["notes", "memos", "documents", "all"],
+        "archivedNotes": ["notes", "archive", "old notes", "archived"],
+        "new": ["notes", "create note", "add note", "write"]
+      },
+      "tasks": {
+        "allTasks": ["tasks", "todos", "assignments", "all"],
+        "taskLists": ["tasks", "categories", "groups", "lists"],
+        "newTask": ["tasks", "create task", "add task", "todo"],
+        "newList": ["tasks", "create list", "add list", "category"]
+      },
+      "games": {
+        "allGames": ["games", "coop", "xbox", "multiplayer", "all"],
+        "new": ["games", "create game", "add game", "track"]
+      }
+    }
+  },
+  "unauthorized": {
+    "title": "Unauthorized",
+    "description": "You don't have permission to access this page.",
+    "backToDashboard": "Back to Dashboard"
+  },
+  "hooks": {
+    "images": {
+      "uploaded": "Image uploaded",
+      "uploadedCount": "{count} images uploaded",
+      "deleted": "Image deleted",
+      "errors": {
+        "fetchFailed": "Failed to fetch images",
+        "uploadFailed": "Failed to upload image",
+        "deleteFailed": "Failed to delete image",
+        "noPermissionUpload": "You don't have permission to upload images",
+        "noPermissionDelete": "You don't have permission to delete images",
+        "notFound": "Image not found",
+        "svgNotAllowed": "SVG images are not allowed",
+        "imageTooLarge": "Image file is too large",
+        "invalidImage": "Invalid or corrupted image file",
+        "notAnImage": "File must be an image",
+        "unsupportedFormat": "Unsupported image format"
+      }
+    }
+  }
+}

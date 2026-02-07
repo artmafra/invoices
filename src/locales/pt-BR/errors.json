@@ -1,0 +1,115 @@
+{
+  "validation": {
+    "required": "{field} é obrigatório",
+    "invalidEmail": "Endereço de e-mail inválido",
+    "pleaseEnterValidEmail": "Por favor, insira um endereço de e-mail válido",
+    "passwordRequired": "Senha é obrigatória",
+    "passwordMinLength": "A senha deve ter pelo menos {min} caracteres",
+    "passwordMaxLength": "A senha deve ter no máximo {max} caracteres",
+    "passwordRequirements": "A senha não atende aos requisitos",
+    "passwordRequireUppercase": "A senha deve conter pelo menos uma letra maiúscula",
+    "passwordRequireLowercase": "A senha deve conter pelo menos uma letra minúscula",
+    "passwordRequireNumber": "A senha deve conter pelo menos um número",
+    "passwordRequireSpecial": "A senha deve conter pelo menos um caractere especial",
+    "passwordsDoNotMatch": "As senhas não coincidem",
+    "codeLength": "O código deve ter {length} dígitos",
+    "resetTokenRequired": "Token de redefinição é obrigatório",
+    "userIdRequired": "ID de usuário é obrigatório",
+    "tokenRequired": "Token é obrigatório",
+    "nameRequired": "Nome é obrigatório",
+    "titleRequired": "Título é obrigatório",
+    "contentRequired": "Conteúdo é obrigatório",
+    "roleNameMinLength": "O nome da função deve ter pelo menos {min} caracteres",
+    "roleNameMaxLength": "O nome da função deve ter menos de {max} caracteres",
+    "descriptionMaxLength": "A descrição deve ter menos de {max} caracteres",
+    "invalidRoleId": "ID de função inválido",
+    "currentPasswordRequired": "Senha atual é obrigatória",
+    "nameTooLong": "O nome é muito longo",
+    "secretRequired": "Segredo é obrigatório",
+    "backupCodesRequired": "Deve ter {count} códigos de backup"
+  },
+  "api": {
+    "unauthorized": "Você não está autorizado a realizar esta ação",
+    "forbidden": "Acesso negado",
+    "notFound": "Recurso não encontrado",
+    "serverError": "Ocorreu um erro inesperado",
+    "networkError": "Erro de rede. Verifique sua conexão.",
+    "rateLimited": "Muitas solicitações. Tente novamente mais tarde.",
+    "sessionExpired": "Sua sessão expirou. Faça login novamente.",
+    "conflict": "Esta operação entra em conflito com dados existentes",
+    "validationFailed": "Os dados fornecidos são inválidos"
+  },
+  "auth": {
+    "invalidCredentials": "E-mail ou senha inválidos",
+    "accountLocked": "Sua conta foi bloqueada devido a muitas tentativas de login falhas",
+    "accountDeactivated": "Sua conta foi desativada",
+    "emailNotVerified": "Por favor, verifique seu endereço de e-mail",
+    "invalidToken": "Token inválido ou expirado",
+    "tokenExpired": "Este link expirou",
+    "invalidResetToken": "Link de redefinição inválido ou expirado",
+    "invalidInviteToken": "Link de convite inválido ou expirado",
+    "invalidVerificationCode": "Código de verificação inválido ou expirado",
+    "invalid2faCode": "Código de verificação inválido"
+  },
+  "user": {
+    "emailInUse": "Este endereço de e-mail já está em uso",
+    "userExists": "Um usuário com este e-mail já existe",
+    "userInactive": "Esta conta de usuário está inativa",
+    "emailAlreadyVerified": "E-mail já verificado",
+    "sameEmail": "O novo e-mail deve ser diferente do e-mail atual"
+  },
+  "role": {
+    "roleExists": "Uma função com este nome já existe",
+    "roleNameExists": "Este nome de função já está em uso"
+  },
+  "google": {
+    "linkedToOther": "Esta conta do Google já está vinculada a outro usuário",
+    "alreadyLinked": "Uma conta do Google já está vinculada à sua conta",
+    "idRequired": "ID da conta do Google é obrigatório"
+  },
+  "twoFactor": {
+    "email2faAlreadyEnabled": "Códigos de verificação por e-mail já estão configurados",
+    "codeRequired": "Código de verificação é obrigatório"
+  },
+  "passkey": {
+    "notFound": "Chave de acesso não encontrada",
+    "challengeExpired": "Desafio expirado ou não encontrado",
+    "challengeUserMismatch": "O desafio não pertence a este usuário",
+    "invalidChallengeType": "Tipo de desafio inválido",
+    "verificationFailed": "Falha na verificação da chave de acesso",
+    "authFailed": "Falha na autenticação da chave de acesso"
+  },
+  "image": {
+    "noImageProvided": "Nenhum arquivo de imagem fornecido",
+    "notAnImage": "O arquivo deve ser uma imagem",
+    "svgNotAllowed": "Imagens SVG não são permitidas",
+    "tooLarge": "A imagem deve ter menos de 10MB",
+    "unsupportedFormat": "Formato de imagem não suportado",
+    "invalid": "Arquivo de imagem inválido ou corrompido",
+    "invalidDimensions": "Dimensões de imagem inválidas"
+  },
+  "impersonation": {
+    "cannotImpersonateSelf": "Não é possível personificar a si mesmo",
+    "alreadyImpersonating": "Não é possível iniciar nova personificação enquanto já está personificando",
+    "cannotImpersonateSystem": "Não é possível personificar usuários do sistema"
+  },
+  "permissions": {
+    "checkingPermissions": "Verificando permissões...",
+    "forbidden": "403 Proibido",
+    "noPermissionToView": "Você não tem permissão para visualizar esta página.",
+    "contactAdmin": "Entre em contato com o administrador se você acredita que deveria ter acesso a esta página."
+  },
+  "generic": {
+    "somethingWentWrong": "Algo deu errado",
+    "tryAgain": "Por favor, tente novamente",
+    "contactSupport": "Se o problema persistir, entre em contato com o suporte"
+  },
+  "passwordStrength": {
+    "label": "Força da senha",
+    "veryWeak": "Muito Fraca",
+    "weak": "Fraca",
+    "fair": "Razoável",
+    "strong": "Forte",
+    "veryStrong": "Muito Forte"
+  }
+}

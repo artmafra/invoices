@@ -1,0 +1,680 @@
+{
+  "users": {
+    "title": "Gerenciamento de Usuários",
+    "description": "Gerencie contas de usuários, funções e permissões.",
+    "searchPlaceholder": "Pesquisar usuários por nome ou e-mail...",
+    "filters": {
+      "role": "Função",
+      "status": "Status",
+      "any": "Qualquer"
+    },
+    "invite": "Convidar",
+    "add": "Adicionar",
+    "create": "Criar Usuário",
+    "createTitle": "Criar Novo Usuário",
+    "createDescription": "Adicionar um novo usuário ao sistema com seus detalhes e função.",
+    "impersonate": "Personificar",
+    "unlockAccount": "Desbloquear Conta",
+    "noName": "Sem nome",
+    "noRole": "Sem Função",
+    "editUser": "Editar Usuário",
+    "editDescription": "Atualizar detalhes do usuário. Deixe a senha em branco para manter a atual.",
+    "deleteUser": "Excluir Usuário",
+    "deleteTitle": "Excluir Usuário Permanentemente?",
+    "deleteDescription": "Tem certeza de que deseja excluir permanentemente \"{name}\"? Esta ação não pode ser desfeita e todos os dados do usuário serão perdidos.",
+    "activateUser": "Ativar Usuário",
+    "activateTitle": "Ativar Usuário?",
+    "activateDescription": "Tem certeza de que deseja ativar \"{name}\"? Eles poderão fazer login novamente.",
+    "deactivateUser": "Desativar Usuário",
+    "deactivateTitle": "Desativar Usuário?",
+    "deactivateDescription": "Tem certeza de que deseja desativar \"{name}\"? Eles não poderão mais fazer login.",
+    "impersonateTitle": "Iniciar Personificação?",
+    "impersonateDescription": "Você está prestes a visualizar o aplicativo como \"{name}\". Você verá o aplicativo com as permissões e acesso deles. Suas ações serão registradas.",
+    "startImpersonation": "Iniciar Personificação",
+    "unlockTitle": "Desbloquear Conta?",
+    "unlockDescription": "Tem certeza de que deseja desbloquear a conta de \"{name}\"? Isso permitirá que eles tentem fazer login novamente imediatamente.",
+    "noUsersFiltered": "Nenhum usuário corresponde aos seus filtros.",
+    "noUsers": "Nenhum usuário encontrado. Crie seu primeiro usuário para começar.",
+    "emailChangeWarning": "Alterar o e-mail exigirá nova verificação.",
+    "cannotChangeOwnRole": "Você não pode alterar sua própria função.",
+    "noRolePermission": "Você não tem permissão para visualizar ou alterar funções.",
+    "noRoleAssignPermission": "Você não tem permissão para atribuir funções. O usuário será criado sem uma função.",
+    "noRoleInvitePermission": "Você não tem permissão para atribuir funções. O usuário será convidado sem uma função.",
+    "cannotChangeOwnAppPermissions": "Você não pode alterar suas próprias permissões de aplicativo.",
+    "appPermissions": "Permissões de Aplicativo",
+    "columns": {
+      "user": "Usuário",
+      "role": "Função",
+      "status": "Status",
+      "lastLogin": "Último Login",
+      "actions": "Ações"
+    },
+    "form": {
+      "name": "Nome Completo",
+      "namePlaceholder": "Digite o nome do usuário",
+      "email": "E-mail",
+      "emailPlaceholder": "Digite o e-mail do usuário",
+      "role": "Função",
+      "rolePlaceholder": "Selecione uma função",
+      "password": "Senha",
+      "newPassword": "Nova Senha",
+      "passwordPlaceholder": "Digite a senha",
+      "passwordKeep": "Deixe em branco para manter a atual",
+      "active": "Ativo",
+      "activeDescription": "O usuário pode entrar no sistema"
+    },
+    "inviteForm": {
+      "title": "Convidar Usuário",
+      "description": "Envie um e-mail de convite para um novo usuário. Eles definirão seu próprio nome e senha.",
+      "email": "E-mail",
+      "emailPlaceholder": "usuario@exemplo.com",
+      "role": "Função",
+      "rolePlaceholder": "Selecione uma função",
+      "sendInvite": "Enviar Convite",
+      "sending": "Enviando...",
+      "success": "Convite enviado para {email}"
+    },
+    "pendingInvitations": "Convites Pendentes",
+    "invitedBy": "Convidado por {name}",
+    "resendInvitation": "Reenviar Convite",
+    "cancelInvitation": "Cancelar Convite",
+    "hoverCard": {
+      "role": "Função",
+      "lastLogin": "Último Login",
+      "memberSince": "Membro Desde",
+      "never": "Nunca fez login",
+      "inactive": "Inativo"
+    },
+    "errors": {
+      "noCreatePermission": "Você não tem permissão para criar usuários",
+      "noInvitePermission": "Você não tem permissão para convidar usuários",
+      "noCancelPermission": "Você não tem permissão para cancelar convites",
+      "noResendPermission": "Você não tem permissão para reenviar convites",
+      "noActivatePermission": "Você não tem permissão para ativar/desativar usuários",
+      "noDeletePermission": "Você não tem permissão para excluir usuários",
+      "noEditPermission": "Você não tem permissão para editar usuários",
+      "cannotDeactivateSelf": "Você não pode desativar sua própria conta",
+      "cannotDeleteSelf": "Você não pode excluir sua própria conta",
+      "cannotModifySystem": "Usuários do sistema não podem ser modificados"
+    }
+  },
+  "roles": {
+    "title": "Gerenciamento de Funções",
+    "description": "Defina funções e atribua permissões para controlar o acesso.",
+    "searchPlaceholder": "Pesquisar funções por nome ou descrição...",
+    "add": "Adicionar",
+    "create": "Criar Função",
+    "createTitle": "Criar Nova Função",
+    "createDescription": "Adicionar uma nova função com permissões específicas.",
+    "editRole": "Editar Função",
+    "editDescription": "Atualizar detalhes e permissões da função.",
+    "deleteRole": "Excluir Função",
+    "deleteTitle": "Excluir Função?",
+    "deleteDescription": "Tem certeza de que deseja excluir a função \"{name}\"? Esta ação não pode ser desfeita.",
+    "noRolesFiltered": "Nenhuma função corresponde à sua pesquisa.",
+    "noRoles": "Nenhuma função encontrada. Crie sua primeira função para começar.",
+    "protected": "Protegido",
+    "noDescription": "Sem descrição",
+    "permissions": "{count, plural, =0 {Nenhuma permissão} one {# permissão} other {# permissões}}",
+    "users": "{count, plural, =0 {Nenhum usuário} one {# usuário} other {# usuários}}",
+    "columns": {
+      "name": "Nome",
+      "description": "Descrição",
+      "users": "Usuários",
+      "permissions": "Permissões",
+      "actions": "Ações"
+    },
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "ex: Editor, Moderador do Fórum",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Descreva o que esta função pode fazer...",
+      "permissions": "Permissões",
+      "permissionsDescription": "Selecione as permissões para esta função",
+      "noPermissions": "Nenhuma permissão selecionada",
+      "allPermissions": "Todas as permissões",
+      "somePermissions": "{count} permissões"
+    },
+    "errors": {
+      "noCreatePermission": "Você não tem permissão para criar funções",
+      "noEditPermission": "Você não tem permissão para editar funções",
+      "noDeletePermission": "Você não tem permissão para excluir funções",
+      "cannotDeleteProtected": "Não é possível excluir uma função protegida",
+      "cannotDeleteOwn": "Não é possível excluir sua própria função",
+      "hasUsers": "Não é possível excluir função com {count} usuário(s) atribuído(s). Reatribua os usuários primeiro.",
+      "cannotRemoveOwnPermissions": "Não é possível remover suas próprias permissões de edição de função",
+      "noChanges": "Nenhuma alteração para salvar"
+    },
+    "tooltips": {
+      "cannotDeleteProtected": "Não é possível excluir função protegida",
+      "cannotDeleteOwn": "Não é possível excluir sua própria função",
+      "hasUsers": "Não é possível excluir função com {count} usuário(s) atribuído(s)"
+    }
+  },
+  "sessions": {
+    "title": "Sessões Ativas",
+    "description": "Monitore e gerencie todas as sessões de usuários ativas no sistema.",
+    "refresh": "Atualizar",
+    "searchPlaceholder": "Pesquisar por nome de usuário ou e-mail...",
+    "filters": {
+      "device": "Dispositivo",
+      "any": "Qualquer"
+    },
+    "desktop": "Desktop",
+    "mobile": "Móvel",
+    "tablet": "Tablet",
+    "unknownUser": "Usuário Desconhecido",
+    "unknownBrowser": "Desconhecido",
+    "unknownOS": "Desconhecido",
+    "unknownLocation": "Localização desconhecida",
+    "sessionCount": "{count} {count, plural, one {sessão} other {sessões}}",
+    "revokeAll": "Revogar ({count})",
+    "revokeSession": "Revogar",
+    "revokeTitle": "Revogar Sessão?",
+    "revokeDescription": "Isso desconectará imediatamente o usuário deste dispositivo. Eles precisarão fazer login novamente para continuar.",
+    "revokeAllTitle": "Revogar Todas as Sessões?",
+    "revokeAllDescription": "Isso desconectará {name} de todos os {count} dispositivos. Eles precisarão fazer login novamente em cada dispositivo.",
+    "noSessionsFiltered": "Nenhuma sessão corresponde aos seus filtros.",
+    "noSessions": "Nenhuma sessão ativa encontrada.",
+    "browserOnOs": "{browser} no {os}",
+    "user": "Usuário",
+    "device": "Dispositivo",
+    "ip": "IP",
+    "locationLabel": "Localização",
+    "ipAddressLabel": "Endereço IP",
+    "lastActivityLabel": "Última Atividade",
+    "createdAt": "Criado",
+    "lastActivity": "Última atividade",
+    "columns": {
+      "user": "Usuário",
+      "device": "Dispositivo",
+      "location": "Localização",
+      "lastActive": "Última Atividade",
+      "actions": "Ações"
+    },
+    "currentSession": "Sessão Atual",
+    "success": {
+      "revoked": "Sessão revogada",
+      "revokedAll": "{count} sessões revogadas"
+    }
+  },
+  "activity": {
+    "title": "Atividade",
+    "description": "Visualize o registro de atividades do sistema e verifique a integridade.",
+    "refresh": "Atualizar",
+    "refreshed": "Atividade atualizada",
+    "expand": "Expandir",
+    "collapse": "Recolher",
+    "expandAll": "Expandir todos os cartões",
+    "collapseAll": "Recolher todos os cartões",
+    "verifyButton": "Verificar",
+    "verifyTooltip": "Verificar integridade do log",
+    "showDetails": "Detalhes",
+    "searchPlaceholder": "Pesquisar atividade...",
+    "filters": {
+      "user": "Usuário",
+      "action": "Ação",
+      "resource": "Recurso",
+      "startDate": "Data Início",
+      "endDate": "Data Fim",
+      "any": "Qualquer"
+    },
+    "noActivityFiltered": "Nenhuma atividade corresponde aos seus filtros.",
+    "labels": {
+      "notSet": "não definido",
+      "affected": "{type} afetado",
+      "changes": "Alterações",
+      "values": "Valores",
+      "actor": "Ator",
+      "actingAs": "Agindo como",
+      "performer": "Executor",
+      "when": "Quando",
+      "from": "De",
+      "context": "Contexto",
+      "identifier": "Identificador",
+      "reason": "Motivo",
+      "error": "Erro",
+      "metadata": "Metadados",
+      "details": "Detalhes",
+      "summary": "Resumo",
+      "session": "Sessão",
+      "allDetails": "Todos os Detalhes",
+      "unknownSession": "Sessão desconhecida",
+      "unknownIP": "IP desconhecido",
+      "as": "como",
+      "scope": "Escopo",
+      "action": "Ação",
+      "entryId": "ID do Registro",
+      "methodUsed": "Método utilizado",
+      "emailUsed": "E-mail utilizado"
+    },
+    "entities": {
+      "user": "Usuário",
+      "role": "Cargo",
+      "session": "Sessão",
+      "setting": "Configuração",
+      "note": "Nota",
+      "task": "Tarefa",
+      "task_list": "Lista de tarefas",
+      "invitation": "Convite",
+      "integration": "Integração",
+      "file": "Arquivo",
+      "passkey": "Passkey",
+      "unknown": "Item"
+    },
+    "scope": {
+      "system": "Sistema",
+      "appModule": "Módulo de App",
+      "systemFeature": "Recurso do Sistema"
+    },
+    "verify": {
+      "title": "Verificar Integridade do Log",
+      "description": "Verifique se a cadeia de log de atividades não foi adulterada.",
+      "mode": "Modo de Verificação",
+      "quick": "Verificação Rápida",
+      "full": "Verificação Completa da Cadeia",
+      "quickDescription": "Verifique apenas as entradas mais recentes. Mais rápido, mas cobertura parcial.",
+      "fullDescription": "Verifique toda a cadeia desde o início. Completo, mas mais lento.",
+      "entriesToCheck": "Entradas para Verificar",
+      "lastEntries": "Últimas {count} entradas",
+      "startVerification": "Iniciar Verificação",
+      "verifyingQuick": "Verificando entradas recentes...",
+      "verifyingFull": "Verificando toda a cadeia...",
+      "success": "Integridade da Cadeia Verificada",
+      "checked": "Verificado {checked}/{total} entradas",
+      "fullChain": "Cadeia completa",
+      "quickCheck": "Verificação rápida",
+      "tampering": "Adulteração Detectada",
+      "brokenAt": "Cadeia quebrada na entrada #{number}",
+      "chainBreak": "Cadeia de hash quebrada",
+      "contentModified": "Conteúdo foi modificado",
+      "invalidSignature": "Assinatura inválida",
+      "verificationFailed": "Falha na Verificação",
+      "errorOccurred": "Ocorreu um erro durante a verificação"
+    },
+    "columns": {
+      "user": "Usuário",
+      "action": "Ação",
+      "target": "Alvo",
+      "details": "Detalhes",
+      "timestamp": "Hora"
+    },
+    "actions": {
+      "users": {
+        "create": "Usuário criado",
+        "update": "Usuário atualizado",
+        "delete": "Usuário excluído",
+        "enable_2fa_email": "2FA por e-mail ativado",
+        "disable_2fa_email": "2FA por e-mail desativado",
+        "enable_2fa_totp": "2FA TOTP ativado",
+        "disable_2fa_totp": "2FA TOTP desativado",
+        "deactivate": "Usuário desativado",
+        "reactivate": "Usuário reativado",
+        "delete_avatar": "Avatar excluído",
+        "upload_avatar": "Avatar carregado",
+        "change_password": "Senha alterada",
+        "add_passkey": "Passkey adicionada",
+        "remove_passkey": "Passkey removida",
+        "unlock": "Conta desbloqueada",
+        "link_google": "Conta Google vinculada",
+        "unlink_google": "Conta Google desvinculada",
+        "invite": "Usuário convidado",
+        "invite_cancel": "Convite cancelado",
+        "invite_resend": "Convite reenviado",
+        "invite_accepted": "Convite aceito",
+        "reset_password": "Senha redefinida",
+        "regenerate_backup_codes": "Códigos de backup regenerados"
+      },
+      "roles": {
+        "create": "Função criada",
+        "update": "Função atualizada",
+        "delete": "Função excluída"
+      },
+      "sessions": {
+        "revoke": "Sessão revogada",
+        "revoke_all": "Todas as sessões revogadas",
+        "revoke_own": "Própria sessão revogada",
+        "revoke_all_own": "Todas as próprias sessões revogadas"
+      },
+      "settings": {
+        "update": "Configuração atualizada"
+      },
+      "invitations": {
+        "create": "Convite enviado",
+        "delete": "Convite cancelado",
+        "resend": "Convite reenviado"
+      },
+      "auth": {
+        "login": "Login realizado",
+        "login_success": "Login bem-sucedido",
+        "logout": "Logout realizado",
+        "login_failed": "Falha no login",
+        "password_reset": "Senha redefinida",
+        "email_change": "E-mail alterado"
+      },
+      "authMethods": {
+        "password": "Senha",
+        "passkey": "Passkey",
+        "google": "Google"
+      },
+      "impersonate": {
+        "start": "Personificação iniciada",
+        "end": "Personificação encerrada"
+      },
+      "tasks": {
+        "create": "Tarefa criada",
+        "update": "Tarefa atualizada",
+        "delete": "Tarefa excluída",
+        "complete": "Tarefa completada",
+        "reopen": "Tarefa reaberta"
+      },
+      "task_lists": {
+        "create": "Lista de tarefas criada",
+        "update": "Lista de tarefas atualizada",
+        "delete": "Lista de tarefas excluída"
+      },
+      "notes": {
+        "create": "Nota criada",
+        "update": "Nota atualizada",
+        "delete": "Nota excluída",
+        "pin": "Nota fixada",
+        "unpin": "Nota desfixada"
+      },
+      "system": {
+        "send_test_email": "E-mail de teste enviado",
+        "connect_gmail": "Gmail conectado",
+        "test_storage": "Armazenamento testado"
+      },
+      "email": {
+        "send_test": "E-mail de teste enviado",
+        "test": "Configuração de e-mail testada"
+      },
+      "integration": {
+        "link": "Integração vinculada",
+        "unlink": "Integração desvinculada",
+        "disconnect": "Integração desconectada"
+      },
+      "cloud_storage": {
+        "upload": "Arquivo carregado",
+        "delete": "Arquivo excluído"
+      },
+      "two_fa": {
+        "enable": "Autenticação de dois fatores ativada",
+        "disable": "Autenticação de dois fatores desativada",
+        "regenerate_backup": "Códigos de backup regenerados"
+      },
+      "app_permissions": {
+        "update": "Permissões de app atualizadas"
+      }
+    },
+    "fields": {
+      "name": "Nome",
+      "email": "E-mail",
+      "password": "Senha",
+      "role": "Função",
+      "phoneNumber": "Telefone",
+      "avatar": "Avatar",
+      "status": "Status",
+      "active": "Ativo",
+      "dueDate": "Data de vencimento",
+      "priority": "Prioridade",
+      "assignee": "Responsável",
+      "list": "Lista",
+      "value": "Valor",
+      "displayName": "Nome de exibição",
+      "description": "Descrição",
+      "permissions": "Permissões",
+      "color": "Cor",
+      "content": "Conteúdo",
+      "preferencesTheme": "Tema",
+      "preferencesLanguage": "Idioma",
+      "preferencesTimezone": "Fuso horário",
+      "preferencesItemsPerPage": "Itens por página",
+      "preferencesDateFormat": "Formato de data",
+      "apps": "App: {name}",
+      "emptyValue": "vazio",
+      "authMethod": "Método de autenticação",
+      "ipAddress": "Endereço IP",
+      "browser": "Navegador",
+      "os": "Sistema operacional",
+      "deviceType": "Tipo de dispositivo",
+      "city": "Cidade",
+      "country": "País"
+    },
+    "verbs": {
+      "create": "Criou",
+      "update": "Atualizou",
+      "delete": "Excluiu",
+      "enable": "Ativou",
+      "disable": "Desativou",
+      "revoke": "Revogou",
+      "pin": "Fixou",
+      "unpin": "Desfixou",
+      "complete": "Completou",
+      "reopen": "Reabriu",
+      "assign": "Atribuiu",
+      "deactivate": "Desativou",
+      "reactivate": "Reativou",
+      "link": "Vinculou",
+      "unlink": "Desvinculou",
+      "upload": "Carregou",
+      "reset": "Redefiniu",
+      "send": "Enviou",
+      "disconnect": "Desconectou",
+      "test": "Testou",
+      "change": "Alterou"
+    },
+    "resources": {
+      "users": "usuário",
+      "roles": "função",
+      "sessions": "sessão",
+      "tasks": "tarefa",
+      "task_lists": "lista de tarefas",
+      "notes": "nota",
+      "settings": "configuração",
+      "invitations": "convite",
+      "integration": "integração",
+      "cloud_storage": "arquivo"
+    },
+    "noActivity": "Nenhuma atividade para exibir"
+  },
+  "settings": {
+    "title": "Configurações",
+    "description": "Configure as configurações e preferências de todo o sistema.",
+    "searchPlaceholder": "Pesquisar configurações por nome, chave ou descrição...",
+    "noResults": "Nenhuma configuração corresponde à sua pesquisa ou filtros.",
+    "noSettings": "Nenhuma configuração encontrada.",
+    "manageCategory": "Gerenciar configurações de {category}",
+    "filters": {
+      "category": "Categoria",
+      "any": "Qualquer"
+    },
+    "resetToDefault": "Redefinir para o Padrão",
+    "save": "Salvar",
+    "saving": "Salvando...",
+    "success": "Configuração atualizada",
+    "categories": {
+      "auth": "Autenticação",
+      "contact": "Informações de Contato",
+      "email": "Configurações de E-mail",
+      "features": "Recursos",
+      "general": "Geral",
+      "inventory": "Inventário",
+      "social": "Redes Sociais",
+      "branding": "Marca & Identidade",
+      "ui": "Interface do Usuário",
+      "seo": "SEO & Metadados",
+      "security": "Segurança"
+    },
+    "form": {
+      "sensitive": "Sensível",
+      "encrypted": "Este valor é criptografado",
+      "showValue": "Mostrar valor",
+      "hideValue": "Ocultar valor"
+    }
+  },
+  "invitations": {
+    "title": "Convites",
+    "searchPlaceholder": "Pesquisar por e-mail...",
+    "allStatus": "Todos os Status",
+    "pending": "Pendente",
+    "expired": "Expirado",
+    "accepted": "Aceito",
+    "columns": {
+      "email": "E-mail",
+      "role": "Função",
+      "invitedBy": "Convidado Por",
+      "status": "Status",
+      "expiresAt": "Expira em",
+      "actions": "Ações"
+    },
+    "resend": "Reenviar",
+    "cancel": "Cancelar",
+    "cancelTitle": "Cancelar convite?",
+    "cancelDescription": "Isso cancelará o convite para {email}. Eles não poderão mais aceitá-lo.",
+    "success": {
+      "resent": "Convite reenviado para {email}",
+      "cancelled": "Convite cancelado"
+    }
+  },
+  "unauthorized": {
+    "title": "Acesso Negado",
+    "description": "Você não tem permissão para acessar esta página.",
+    "contactAdmin": "Entre em contato com seu administrador se você acredita que deveria ter acesso a este recurso."
+  },
+  "taskLists": {
+    "title": "Listas de Tarefas",
+    "description": "Organize suas tarefas em listas e coleções.",
+    "new": "Nova",
+    "searchPlaceholder": "Pesquisar listas de tarefas...",
+    "noListsFiltered": "Nenhuma lista de tarefas encontrada correspondente à sua pesquisa.",
+    "noLists": "Nenhuma lista de tarefas ainda. Crie sua primeira lista para organizar suas tarefas!",
+    "createList": "Criar Lista",
+    "createTitle": "Criar Lista",
+    "createDescription": "Crie uma nova lista para organizar suas tarefas.",
+    "editTitle": "Editar Lista",
+    "editDescription": "Atualize os detalhes da lista abaixo.",
+    "deleteTitle": "Excluir Lista",
+    "deleteDescription": "Tem certeza de que deseja excluir esta lista? As tarefas nesta lista não serão excluídas, mas não estarão mais associadas a nenhuma lista.",
+    "taskCount": "{count} {count, plural, one {tarefa} other {tarefas}}",
+    "form": {
+      "name": "Nome",
+      "namePlaceholder": "ex: Sprint 1, Backlog, Pessoal",
+      "description": "Descrição",
+      "descriptionPlaceholder": "Descrição opcional",
+      "color": "Cor"
+    },
+    "saveChanges": "Salvar Alterações",
+    "deleting": "Excluindo..."
+  },
+  "hooks": {
+    "users": {
+      "created": "Usuário criado",
+      "updated": "Usuário atualizado",
+      "deactivated": "Usuário desativado",
+      "permanentlyDeleted": "Usuário excluído permanentemente",
+      "activating": "Ativando usuário...",
+      "deactivating": "Desativando usuário...",
+      "activated": "Usuário ativado",
+      "unlocking": "Desbloqueando conta...",
+      "unlocked": "Conta desbloqueada",
+      "viewingAs": "Agora visualizando como {name}",
+      "impersonationEnded": "Personificação encerrada",
+      "appPermissionsUpdated": "Permissões de aplicativo atualizadas",
+      "errors": {
+        "fetchFailed": "Falha ao buscar usuários",
+        "createFailed": "Falha ao criar usuário",
+        "updateFailed": "Falha ao atualizar usuário",
+        "deactivateFailed": "Falha ao desativar usuário",
+        "deleteFailed": "Falha ao excluir usuário",
+        "activateFailed": "Falha ao ativar usuário",
+        "unlockFailed": "Falha ao desbloquear usuário",
+        "impersonateFailed": "Falha ao iniciar personificação",
+        "endImpersonateFailed": "Falha ao encerrar personificação",
+        "appPermissionsFailed": "Falha ao atualizar permissões de aplicativo",
+        "noPermissionCreate": "Você não tem permissão para criar usuários",
+        "noPermissionUpdate": "Você não tem permissão para atualizar este usuário",
+        "noPermissionDeactivate": "Você não tem permissão para desativar usuários",
+        "noPermissionDelete": "Você não tem permissão para excluir usuários",
+        "noPermissionUnlock": "Você não tem permissão para desbloquear esta conta",
+        "noPermissionImpersonate": "Você não tem permissão para personificar usuários",
+        "noPermissionAppPermissions": "Você não tem permissão para atualizar permissões de aplicativo",
+        "userExists": "Um usuário com este e-mail já existe",
+        "emailInUse": "Endereço de e-mail já está em uso",
+        "notFound": "Usuário não encontrado",
+        "cannotImpersonateSelf": "Você não pode personificar a si mesmo",
+        "alreadyImpersonating": "Você já está personificando outro usuário",
+        "cannotImpersonateSystem": "Usuários do sistema não podem ser personificados",
+        "userInactive": "Não é possível personificar usuário inativo"
+      }
+    },
+    "roles": {
+      "created": "Função criada",
+      "updated": "Função atualizada",
+      "deleted": "Função excluída",
+      "errors": {
+        "fetchFailed": "Falha ao buscar funções",
+        "createFailed": "Falha ao criar função",
+        "updateFailed": "Falha ao atualizar função",
+        "deleteFailed": "Falha ao excluir função",
+        "noPermissionCreate": "Você não tem permissão para criar funções",
+        "noPermissionUpdate": "Esta função não pode ser modificada",
+        "noPermissionDelete": "Esta função não pode ser excluída",
+        "roleExists": "Uma função com este nome já existe",
+        "checkDetails": "Por favor, verifique os detalhes da função"
+      }
+    },
+    "sessions": {
+      "revoked": "Sessão revogada",
+      "allRevoked": "Todas as sessões revogadas",
+      "errors": {
+        "fetchFailed": "Falha ao buscar sessões",
+        "revokeFailed": "Falha ao revogar sessão",
+        "revokeAllFailed": "Falha ao revogar sessões",
+        "trackFailed": "Falha ao rastrear sessão",
+        "checkFields": "Por favor, verifique os campos do formulário"
+      }
+    },
+    "invites": {
+      "sent": "Convite enviado",
+      "cancelled": "Convite cancelado",
+      "resent": "Convite reenviado",
+      "errors": {
+        "fetchFailed": "Falha ao buscar convites pendentes",
+        "sendFailed": "Falha ao enviar convite",
+        "cancelFailed": "Falha ao cancelar convite",
+        "resendFailed": "Falha ao reenviar convite",
+        "noPermissionSend": "Você não tem permissão para convidar usuários",
+        "noPermissionCancel": "Você não tem permissão para cancelar convites",
+        "noPermissionResend": "Você não tem permissão para reenviar convites",
+        "userExists": "Um usuário com este e-mail já existe"
+      }
+    },
+    "settings": {
+      "created": "Configuração criada",
+      "updated": "Configuração atualizada",
+      "imageUploaded": "Imagem enviada e salva",
+      "errors": {
+        "fetchFailed": "Falha ao buscar configurações de administrador",
+        "createFailed": "Falha ao criar configuração",
+        "updateFailed": "Falha ao atualizar configuração",
+        "uploadFailed": "Falha ao enviar imagem",
+        "noPermissionCreate": "Você não tem permissão para criar configurações",
+        "noPermissionUpdate": "Você não tem permissão para atualizar configurações",
+        "noPermissionUpload": "Você não tem permissão para enviar imagens",
+        "svgNotAllowed": "Imagens SVG não são permitidas",
+        "imageTooLarge": "Arquivo de imagem muito grande",
+        "invalidImage": "Arquivo de imagem inválido ou corrompido",
+        "notAnImage": "O arquivo deve ser uma imagem",
+        "unsupportedFormat": "Formato de imagem não suportado"
+      }
+    },
+    "activity": {
+      "errors": {
+        "fetchFailed": "Falha ao buscar atividade",
+        "filtersFailed": "Falha ao buscar filtros de atividade",
+        "verifyFailed": "Falha na verificação"
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "title": "Notes",
+  "description": "Create and organize your personal notes.",
+  "nav": {
+    "allNotes": "Notes",
+    "archivedNotes": "Archive"
+  },
+  "searchPlaceholder": "Search notes...",
+  "new": "New",
+  "editTitle": "Edit Note",
+  "newTitle": "New Note",
+  "editDescription": "Make changes to your note below.",
+  "createDescription": "Create a new note to capture your thoughts.",
+  "fields": {
+    "title": "Title",
+    "titlePlaceholder": "Enter note title",
+    "content": "Content",
+    "contentPlaceholder": "Write your note...",
+    "color": "Color",
+    "colorPlaceholder": "Select color",
+    "pinned": "Pinned",
+    "tags": "Tags",
+    "tagsPlaceholder": "Add tags...",
+    "tagsDescription": "Add up to 5 tags to organize your note"
+  },
+  "actions": {
+    "pin": "Pin",
+    "unpin": "Unpin",
+    "archive": "Archive",
+    "unarchive": "Unarchive",
+    "edit": "Edit",
+    "delete": "Delete",
+    "more": "More actions",
+    "label": "Actions"
+  },
+  "colors": {
+    "none": "None",
+    "blue": "Blue",
+    "green": "Green",
+    "yellow": "Yellow",
+    "red": "Red",
+    "purple": "Purple"
+  },
+  "filters": {
+    "color": "Color",
+    "allColors": "All colors"
+  },
+  "empty": {
+    "noSearchResults": "No notes found matching your search.",
+    "noNotes": "No notes yet.",
+    "noArchivedNotes": "No archived notes yet.",
+    "createFirst": "Create your first note to get started."
+  },
+  "createButton": "Create Note",
+  "updateButton": "Update Note",
+  "creating": "Creating...",
+  "updating": "Updating...",
+  "archiving": "Archiving...",
+  "unarchiving": "Unarchiving...",
+  "deleteTitle": "Delete note?",
+  "deleteDescription": "This will permanently delete this note. This action cannot be undone.",
+  "archivedTitle": "Archived Notes",
+  "archivedDescription": "View and manage your archived notes.",
+  "pinnedNotes": "Pinned Notes",
+  "otherNotes": "Other Notes",
+  "success": {
+    "created": "Note created",
+    "updated": "Note updated",
+    "deleted": "Note deleted",
+    "archived": "Note archived",
+    "unarchived": "Note unarchived"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch notes",
+    "fetchOneFailed": "Failed to fetch note",
+    "createFailed": "Failed to create note",
+    "updateFailed": "Failed to update note",
+    "deleteFailed": "Failed to delete note",
+    "togglePinFailed": "Failed to toggle pin",
+    "archiveFailed": "Failed to archive note",
+    "unarchiveFailed": "Failed to unarchive note",
+    "fetchTagsFailed": "Failed to fetch tags",
+    "pinned": "Note pinned",
+    "unpinned": "Note unpinned"
+  },
+  "tags": {
+    "maxReached": "Maximum 5 tags allowed",
+    "searchPlaceholder": "Type to search tags...",
+    "noResults": "No tags found",
+    "createNew": "Create \"{name}\""
+  }
+}

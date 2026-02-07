@@ -1,0 +1,128 @@
+/* =============================================================================
+   HSL FALLBACK THEME
+   Provides baseline browser support for older browsers without OKLCH support.
+   These are simplified approximations and don't match OKLCH values exactly.
+   Browsers: IE11, Safari < 15.4, Chrome < 111, Firefox < 113
+   ============================================================================= */
+
+/* ----- Light Theme (HSL Fallback) ----- */
+:root {
+  --radius: 0.625rem;
+
+  /* Base surfaces */
+  --background: hsl(220 20% 99%);
+  --foreground: hsl(220 10% 20%);
+
+  /* Elevated surfaces */
+  --card: hsl(220 15% 98%);
+  --card-foreground: hsl(220 10% 15%);
+  --card-section: hsl(220 15% 96%);
+  --card-section-foreground: hsl(220 10% 15%);
+  --section: hsl(220 15% 97%);
+  --section-foreground: hsl(220 10% 15%);
+  --popover: hsl(220 15% 96%);
+  --popover-foreground: hsl(220 10% 15%);
+
+  /* Semantic colors */
+  --primary: hsl(220 15% 45%);
+  --primary-foreground: hsl(0 0% 98%);
+  --secondary: hsl(220 15% 97%);
+  --secondary-foreground: hsl(220 10% 20%);
+  --muted: hsl(220 10% 92%);
+  --muted-foreground: hsl(220 10% 50%);
+  --accent: hsl(220 10% 90%);
+  --accent-foreground: hsl(220 10% 20%);
+
+  /* Status colors */
+  --destructive: hsl(10 60% 45%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --success: hsl(145 60% 40%);
+  --success-foreground: hsl(0 0% 98%);
+  --warning: hsl(45 70% 55%);
+  --warning-foreground: hsl(0 0% 10%);
+
+  /* Priority colors */
+  --priority-low: hsl(220 10% 92%);
+  --priority-low-foreground: hsl(220 10% 35%);
+  --priority-medium: hsl(220 10% 90%);
+  --priority-medium-foreground: hsl(220 10% 10%);
+  --priority-high: hsl(45 70% 55%);
+  --priority-high-foreground: hsl(0 0% 10%);
+  --priority-urgent: hsl(10 60% 45%);
+  --priority-urgent-foreground: hsl(0 0% 98%);
+
+  /* Borders & inputs */
+  --border: hsl(220 10% 94%);
+  --input: hsl(220 20% 99%);
+  --ring: hsl(220 20% 70%);
+
+  /* Sidebar */
+  --sidebar: hsl(220 15% 97%);
+  --sidebar-foreground: hsl(220 10% 40%);
+  --sidebar-primary: hsl(220 10% 10%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(220 15% 90%);
+  --sidebar-accent-foreground: hsl(220 10% 20%);
+  --sidebar-border: hsl(220 10% 92%);
+  --sidebar-ring: hsl(220 20% 70%);
+}
+
+/* ----- Dark Theme (HSL Fallback) ----- */
+.dark {
+  /* Base surfaces */
+  --background: hsl(220 10% 10%);
+  --foreground: hsl(220 5% 88%);
+
+  /* Elevated surfaces */
+  --card: hsl(220 8% 14%);
+  --card-foreground: hsl(220 5% 88%);
+  --card-section: hsl(220 8% 18%);
+  --card-section-foreground: hsl(220 5% 88%);
+  --section: hsl(220 8% 14%);
+  --section-foreground: hsl(220 5% 88%);
+  --popover: hsl(220 8% 16%);
+  --popover-foreground: hsl(0 0% 98%);
+
+  /* Semantic colors */
+  --primary: hsl(220 12% 40%);
+  --primary-foreground: hsl(0 0% 96%);
+  --secondary: hsl(220 8% 16%);
+  --secondary-foreground: hsl(0 0% 98%);
+  --muted: hsl(220 6% 20%);
+  --muted-foreground: hsl(220 5% 65%);
+  --accent: hsl(220 8% 32%);
+  --accent-foreground: hsl(0 0% 98%);
+
+  /* Status colors */
+  --destructive: hsl(10 65% 40%);
+  --destructive-foreground: hsl(0 0% 98%);
+  --success: hsl(145 65% 45%);
+  --success-foreground: hsl(0 0% 98%);
+  --warning: hsl(50 70% 60%);
+  --warning-foreground: hsl(0 0% 8%);
+
+  /* Priority colors */
+  --priority-low: hsl(220 6% 20%);
+  --priority-low-foreground: hsl(220 5% 75%);
+  --priority-medium: hsl(220 8% 32%);
+  --priority-medium-foreground: hsl(0 0% 98%);
+  --priority-high: hsl(50 70% 60%);
+  --priority-high-foreground: hsl(0 0% 8%);
+  --priority-urgent: hsl(10 65% 40%);
+  --priority-urgent-foreground: hsl(0 0% 98%);
+
+  /* Borders & inputs */
+  --border: hsl(220 8% 20%);
+  --input: hsl(220 10% 10%);
+  --ring: hsl(220 15% 30%);
+
+  /* Sidebar */
+  --sidebar: hsl(220 8% 16%);
+  --sidebar-foreground: hsl(0 0% 90%);
+  --sidebar-primary: hsl(220 70% 50%);
+  --sidebar-primary-foreground: hsl(0 0% 98%);
+  --sidebar-accent: hsl(220 15% 28%);
+  --sidebar-accent-foreground: hsl(0 0% 90%);
+  --sidebar-border: hsl(220 8% 22%);
+  --sidebar-ring: hsl(220 15% 35%);
+}

@@ -1,0 +1,115 @@
+{
+  "validation": {
+    "required": "{field} is required",
+    "invalidEmail": "Invalid email address",
+    "pleaseEnterValidEmail": "Please enter a valid email address",
+    "passwordRequired": "Password is required",
+    "passwordMinLength": "Password must be at least {min} characters",
+    "passwordMaxLength": "Password must be at most {max} characters",
+    "passwordRequirements": "Password does not meet requirements",
+    "passwordRequireUppercase": "Password must contain at least one uppercase letter",
+    "passwordRequireLowercase": "Password must contain at least one lowercase letter",
+    "passwordRequireNumber": "Password must contain at least one number",
+    "passwordRequireSpecial": "Password must contain at least one special character",
+    "passwordsDoNotMatch": "Passwords do not match",
+    "codeLength": "Code must be {length} digits",
+    "resetTokenRequired": "Reset token is required",
+    "userIdRequired": "User ID is required",
+    "tokenRequired": "Token is required",
+    "nameRequired": "Name is required",
+    "titleRequired": "Title is required",
+    "contentRequired": "Content is required",
+    "roleNameMinLength": "Role name must be at least {min} characters",
+    "roleNameMaxLength": "Role name must be less than {max} characters",
+    "descriptionMaxLength": "Description must be less than {max} characters",
+    "invalidRoleId": "Invalid role ID",
+    "currentPasswordRequired": "Current password is required",
+    "nameTooLong": "Name is too long",
+    "secretRequired": "Secret is required",
+    "backupCodesRequired": "Must have {count} backup codes"
+  },
+  "api": {
+    "unauthorized": "You are not authorized to perform this action",
+    "forbidden": "Access denied",
+    "notFound": "Resource not found",
+    "serverError": "An unexpected error occurred",
+    "networkError": "Network error. Please check your connection.",
+    "rateLimited": "Too many requests. Please try again later.",
+    "sessionExpired": "Your session has expired. Please sign in again.",
+    "conflict": "This operation conflicts with existing data",
+    "validationFailed": "The provided data is invalid"
+  },
+  "auth": {
+    "invalidCredentials": "Invalid email or password",
+    "accountLocked": "Your account has been locked due to too many failed login attempts",
+    "accountDeactivated": "Your account has been deactivated",
+    "emailNotVerified": "Please verify your email address",
+    "invalidToken": "Invalid or expired token",
+    "tokenExpired": "This link has expired",
+    "invalidResetToken": "Invalid or expired reset link",
+    "invalidInviteToken": "Invalid or expired invitation link",
+    "invalidVerificationCode": "Invalid or expired verification code",
+    "invalid2faCode": "Invalid verification code"
+  },
+  "user": {
+    "emailInUse": "This email address is already in use",
+    "userExists": "A user with this email already exists",
+    "userInactive": "This user account is inactive",
+    "emailAlreadyVerified": "Email is already verified",
+    "sameEmail": "New email must be different from current email"
+  },
+  "role": {
+    "roleExists": "A role with this name already exists",
+    "roleNameExists": "This role name is already taken"
+  },
+  "google": {
+    "linkedToOther": "This Google account is already linked to another user",
+    "alreadyLinked": "A Google account is already linked to your account",
+    "idRequired": "Google account ID is required"
+  },
+  "twoFactor": {
+    "email2faAlreadyEnabled": "Email verification codes are already configured",
+    "codeRequired": "Verification code is required"
+  },
+  "passkey": {
+    "notFound": "Passkey not found",
+    "challengeExpired": "Challenge expired or not found",
+    "challengeUserMismatch": "Challenge does not belong to this user",
+    "invalidChallengeType": "Invalid challenge type",
+    "verificationFailed": "Passkey verification failed",
+    "authFailed": "Passkey authentication failed"
+  },
+  "image": {
+    "noImageProvided": "No image file provided",
+    "notAnImage": "File must be an image",
+    "svgNotAllowed": "SVG images are not allowed",
+    "tooLarge": "Image must be smaller than 10MB",
+    "unsupportedFormat": "Unsupported image format",
+    "invalid": "Invalid or corrupted image file",
+    "invalidDimensions": "Invalid image dimensions"
+  },
+  "impersonation": {
+    "cannotImpersonateSelf": "Cannot impersonate yourself",
+    "alreadyImpersonating": "Cannot start new impersonation while already impersonating",
+    "cannotImpersonateSystem": "Cannot impersonate system users"
+  },
+  "permissions": {
+    "checkingPermissions": "Checking permissions...",
+    "forbidden": "403 Forbidden",
+    "noPermissionToView": "You don't have permission to view this page.",
+    "contactAdmin": "Contact your administrator if you believe you should have access to this page."
+  },
+  "generic": {
+    "somethingWentWrong": "Something went wrong",
+    "tryAgain": "Please try again",
+    "contactSupport": "If the problem persists, please contact support"
+  },
+  "passwordStrength": {
+    "label": "Password strength",
+    "veryWeak": "Very Weak",
+    "weak": "Weak",
+    "fair": "Fair",
+    "strong": "Strong",
+    "veryStrong": "Very Strong"
+  }
+}

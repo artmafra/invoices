@@ -1,0 +1,45 @@
+/* =============================================================================
+   DENSITY SYSTEM
+   Apply data-density attribute to <html> or <body> to change UI density.
+   Default: comfortable (1x), Compact: 0.9x, Spacious: 1.1x
+   
+   Spacing tokens scale automatically with the density multiplier.
+   Tailwind CSS v4 auto-generates utility classes from these custom properties:
+   - --spacing-space-xs → gap-space-xs, space-y-space-xs
+   - --spacing-input-x → px-input-x, pl-input-x, pr-input-x
+   - --spacing-input-y → py-input-y, pt-input-y, pb-input-y
+   - --spacing-card → p-card, px-card, py-card, m-card, etc.
+   
+   See docs/UI-PATTERNS.md for usage guidance.
+   ============================================================================= */
+
+:root {
+  --density-multiplier: 1;
+
+  /* Base spacing values that scale with density multiplier */
+  --spacing-input-y: calc(0.5rem * var(--density-multiplier)); /* 8px default */
+  --spacing-input-x: calc(0.75rem * var(--density-multiplier)); /* 12px default */
+  --spacing-button-y: calc(0.5rem * var(--density-multiplier)); /* 8px default */
+  --spacing-button-x: calc(1rem * var(--density-multiplier)); /* 16px default */
+  --spacing-card: calc(1.5rem * var(--density-multiplier)); /* 24px default */
+  --spacing-section: calc(2rem * var(--density-multiplier)); /* 32px default */
+
+  /* Space tokens for flexbox/grid layouts */
+  --spacing-space-xs: calc(0.25rem * var(--density-multiplier)); /* 4px default */
+  --spacing-space-sm: calc(0.375rem * var(--density-multiplier)); /* 6px default */
+  --spacing-space-md: calc(0.6rem * var(--density-multiplier)); /* 8px default */
+  --spacing-space-lg: calc(1rem * var(--density-multiplier)); /* 16px default */
+  --spacing-space-xl: calc(1.5rem * var(--density-multiplier)); /* 24px default */
+}
+
+[data-density="compact"] {
+  --density-multiplier: 0.9;
+}
+
+[data-density="comfortable"] {
+  --density-multiplier: 1;
+}
+
+[data-density="spacious"] {
+  --density-multiplier: 1.1;
+}

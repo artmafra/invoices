@@ -1,0 +1,90 @@
+{
+  "title": "Tarefas",
+  "description": "Gerencie suas tarefas e listas de afazeres.",
+  "nav": {
+    "allTasks": "Tarefas",
+    "lists": "Listas"
+  },
+  "searchPlaceholder": "Pesquisar tarefas...",
+  "new": "Nova",
+  "editTitle": "Editar Tarefa",
+  "newTitle": "Nova Tarefa",
+  "editDescription": "Faça alterações na sua tarefa abaixo.",
+  "createDescription": "Crie uma nova tarefa para acompanhar seu trabalho.",
+  "fields": {
+    "title": "Título",
+    "titlePlaceholder": "Digite o título da tarefa",
+    "description": "Descrição",
+    "descriptionPlaceholder": "Adicionar descrição...",
+    "status": "Status",
+    "statusPlaceholder": "Selecione o status",
+    "priority": "Prioridade",
+    "priorityPlaceholder": "Selecione a prioridade",
+    "dueDate": "Data de Vencimento",
+    "dueDatePlaceholder": "Selecione a data",
+    "list": "Lista",
+    "listPlaceholder": "Selecione a lista",
+    "assignee": "Responsável",
+    "assigneePlaceholder": "Selecione o responsável",
+    "assigneeDescription": "Atribuir esta tarefa a um usuário",
+    "checklist": "Lista de Verificação",
+    "checklistDescription": "Adicione itens da lista de verificação para rastrear subtarefas"
+  },
+  "noList": "Sem lista",
+  "allStatus": "Todos os Status",
+  "allPriority": "Todas as Prioridades",
+  "status": {
+    "todo": "A Fazer",
+    "in_progress": "Em Progresso",
+    "done": "Concluído"
+  },
+  "priority": {
+    "low": "Baixa",
+    "medium": "Média",
+    "high": "Alta",
+    "urgent": "Urgente"
+  },
+  "dueDate": "Vence em {date}",
+  "completedOn": "Concluído em {date}",
+  "overdue": "Atrasado",
+  "overdueOnly": "Apenas Atrasadas",
+  "checklist": {
+    "completed": "concluídos",
+    "itemPlaceholder": "Item da lista de verificação",
+    "addPlaceholder": "Adicionar item da lista de verificação...",
+    "maxReached": "Máximo de 20 itens da lista de verificação atingido"
+  },
+  "empty": {
+    "noFilterResults": "Nenhuma tarefa encontrada correspondente aos seus filtros.",
+    "noTasks": "Nenhuma tarefa ainda.",
+    "createFirst": "Crie sua primeira tarefa para começar!"
+  },
+  "createButton": "Criar Tarefa",
+  "updateButton": "Atualizar Tarefa",
+  "creating": "Criando...",
+  "updating": "Atualizando...",
+  "deleteTitle": "Excluir tarefa?",
+  "deleteDescription": "Isso excluirá permanentemente esta tarefa. Esta ação não pode ser desfeita.",
+  "success": {
+    "created": "Tarefa criada",
+    "updated": "Tarefa atualizada",
+    "deleted": "Tarefa excluída"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar tarefas",
+    "fetchOneFailed": "Falha ao buscar tarefa",
+    "createFailed": "Falha ao criar tarefa",
+    "updateFailed": "Falha ao atualizar tarefa",
+    "deleteFailed": "Falha ao excluir tarefa",
+    "lists": {
+      "created": "Lista de tarefas criada",
+      "updated": "Lista de tarefas atualizada",
+      "deleted": "Lista de tarefas excluída",
+      "fetchFailed": "Falha ao buscar listas de tarefas",
+      "fetchOneFailed": "Falha ao buscar lista de tarefas",
+      "createFailed": "Falha ao criar lista de tarefas",
+      "updateFailed": "Falha ao atualizar lista de tarefas",
+      "deleteFailed": "Falha ao excluir lista de tarefas"
+    }
+  }
+}

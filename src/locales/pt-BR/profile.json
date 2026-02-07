@@ -1,0 +1,660 @@
+{
+  "title": "Perfil",
+  "description": "Atualize suas informações pessoais e detalhes de contato.",
+  "information": {
+    "title": "Informações",
+    "description": "Atualize suas informações pessoais e detalhes de contato.",
+    "displayName": "Nome de Exibição",
+    "displayNameDescription": "O nome exibido para outros usuários.",
+    "displayNamePlaceholder": "Digite seu nome de exibição",
+    "phoneNumber": "Número de Telefone",
+    "phoneNumberDescription": "Seu número de telefone para recuperação de conta e notificações.",
+    "phoneNumberPlaceholder": "Digite seu número de telefone",
+    "updateButton": "Atualizar Perfil",
+    "updating": "Atualizando...",
+    "noName": "Nenhum nome definido",
+    "profilePicture": "Foto de Perfil",
+    "uploadAvatar": "Carregar Avatar",
+    "removeAvatar": "Remover Avatar",
+    "success": "Perfil atualizado com sucesso"
+  },
+  "preferences": {
+    "title": "Preferências",
+    "description": "Personalize sua experiência com configurações de tema, idioma e exibição.",
+    "devicePreferences": "Preferências do Dispositivo",
+    "devicePreferencesDescription": "Estas configurações são armazenadas neste dispositivo e persistirão entre logins.",
+    "saved": "Preferências salvas",
+    "theme": {
+      "label": "Tema",
+      "description": "Escolha a aparência da interface.",
+      "placeholder": "Selecione o tema",
+      "light": "Claro",
+      "dark": "Escuro",
+      "system": "Sistema"
+    },
+    "language": {
+      "label": "Idioma",
+      "description": "Selecione seu idioma preferido para a interface.",
+      "placeholder": "Selecione o idioma"
+    },
+    "timezone": {
+      "label": "Fuso Horário",
+      "description": "Defina seu fuso horário para exibição precisa de data e hora.",
+      "placeholder": "Selecione o fuso horário",
+      "search": "Buscar fusos horários...",
+      "noResults": "Nenhum fuso horário encontrado"
+    },
+    "itemsPerPage": {
+      "label": "Itens por Página",
+      "description": "Número de itens exibidos por página em listas e tabelas.",
+      "placeholder": "Selecione o tamanho da página"
+    },
+    "density": {
+      "label": "Densidade da Interface",
+      "description": "Ajuste o espaçamento e tamanho dos elementos da interface.",
+      "placeholder": "Selecione a densidade",
+      "compact": "Compacta",
+      "comfortable": "Confortável",
+      "spacious": "Espaçosa"
+    },
+    "saveButton": "Salvar Preferências",
+    "saving": "Salvando...",
+    "success": "Preferências salvas com sucesso",
+    "errors": {
+      "saveFailed": "Falha ao salvar preferências"
+    }
+  },
+  "security": {
+    "title": "Segurança",
+    "description": "Gerencie as configurações de segurança da sua conta e métodos de login.",
+    "signInMethods": {
+      "title": "Métodos de login",
+      "description": "Gerencie como você faz login na sua conta."
+    },
+    "email": {
+      "title": "E-mail",
+      "description": "Seu endereço de e-mail principal",
+      "verificationRequired": "Verificação necessária",
+      "changeEmail": "Alterar E-mail"
+    },
+    "emails": {
+      "title": "Endereços de E-mail",
+      "description": "Gerencie seus endereços de e-mail. Você pode fazer login com qualquer e-mail verificado.",
+      "noEmails": "Nenhum endereço de e-mail encontrado",
+      "badges": {
+        "primary": "Principal"
+      },
+      "primaryDescription": "Este é seu e-mail principal para notificações e exibição de login",
+      "verifiedDescription": "Este e-mail pode ser usado para fazer login",
+      "unverifiedDescription": "Verifique este e-mail para usá-lo para login",
+      "summary": {
+        "additional": "+{count} mais",
+        "additionalUnverified": "+{count} mais (não verificado)"
+      },
+      "actions": {
+        "add": "Adicionar E-mail",
+        "verify": "Verificar",
+        "makePrimary": "Definir como Principal",
+        "remove": "Remover",
+        "more": "Mais opções"
+      },
+      "manageDialog": {
+        "title": "Gerenciar Endereços de E-mail",
+        "description": "Você pode fazer login com qualquer e-mail verificado. Um e-mail é principal e usado para notificações."
+      },
+      "addDialog": {
+        "title": "Adicionar Endereço de E-mail",
+        "description": "Adicione um endereço de e-mail secundário à sua conta. Você precisará verificá-lo antes de poder usá-lo.",
+        "emailLabel": "Endereço de e-mail",
+        "emailPlaceholder": "Digite o endereço de e-mail",
+        "emailHint": "Um código de verificação será enviado para este e-mail"
+      },
+      "verifyDialog": {
+        "title": "Verificar E-mail",
+        "description": "Digite o código de verificação de 6 dígitos enviado para {email}.",
+        "codeLabel": "Código de Verificação",
+        "resend": "Não recebeu o código? Reenviar"
+      },
+      "removeDialog": {
+        "title": "Remover E-mail?",
+        "description": "O e-mail {email} será removido da sua conta. Você não poderá mais fazer login com ele."
+      },
+      "primaryDialog": {
+        "title": "Alterar E-mail Principal?",
+        "description": "Isso alterará seu e-mail principal para {email}. Todas as notificações serão enviadas para este endereço, e suas sessões atuais serão encerradas."
+      },
+      "addSuccess": "E-mail adicionado. Verifique sua caixa de entrada para o código de verificação.",
+      "verifySuccess": "E-mail verificado com sucesso",
+      "removeSuccess": "E-mail removido com sucesso",
+      "primarySuccess": "E-mail principal alterado com sucesso",
+      "verificationSent": "Código de verificação enviado para {email}",
+      "errors": {
+        "emptyEmail": "Por favor, digite um endereço de e-mail",
+        "emptyCode": "Por favor, digite o código de verificação",
+        "addFailed": "Falha ao adicionar e-mail",
+        "verifyFailed": "Falha ao verificar e-mail",
+        "removeFailed": "Falha ao remover e-mail",
+        "setPrimaryFailed": "Falha ao definir e-mail principal",
+        "resendFailed": "Falha ao reenviar código de verificação"
+      }
+    },
+    "password": {
+      "title": "Senha",
+      "description": "Atualize sua senha"
+    },
+    "google": {
+      "title": "Google",
+      "connectedDescription": "Entrar com sua conta Google",
+      "disconnectedDescription": "Conecte sua conta Google para login rápido",
+      "connectButton": "Conectar",
+      "disconnectButton": "Desconectar",
+      "notAvailable": "Login com Google não disponível",
+      "linkFailed": "Falha ao inicializar vinculação com Google"
+    },
+    "passkeys": {
+      "title": "Chaves de acesso",
+      "configured": "{count} configuradas",
+      "connectedDescription": "Entrar com impressão digital, rosto ou chave de segurança",
+      "disconnectedDescription": "Use biometria ou chaves de segurança para login sem senha",
+      "addButton": "Adicionar chave de acesso",
+      "manageButton": "Gerenciar"
+    },
+    "twoFactor": {
+      "title": "Métodos de dois fatores",
+      "description": "Proteja sua conta com métodos de autenticação adicionais.",
+      "emailRequired": "Verificação de e-mail é necessária para ativar a autenticação de dois fatores",
+      "email": {
+        "title": "Códigos de verificação por e-mail",
+        "enabledDescription": "Receba códigos de 6 dígitos por e-mail ao entrar",
+        "disabledDescription": "Receba códigos de verificação enviados para seu endereço de e-mail"
+      },
+      "totp": {
+        "title": "Aplicativo autenticador",
+        "enabledDescription": "Use aplicativos como Google Authenticator ou Authy para códigos TOTP",
+        "disabledDescription": "Use aplicativos como Google Authenticator ou Authy para códigos TOTP"
+      },
+      "disableEmail": {
+        "title": "Desativar códigos de verificação por e-mail?",
+        "description": "Isso reduzirá a segurança da sua conta. Você pode reativá-lo a qualquer momento."
+      },
+      "disableTotp": {
+        "title": "Desativar aplicativo autenticador?",
+        "description": "Isso removerá o aplicativo autenticador da sua conta. Você pode configurá-lo novamente a qualquer momento."
+      }
+    },
+    "recoveryCodes": {
+      "title": "Códigos de recuperação",
+      "description": "Use estes códigos para entrar se você perder acesso aos seus métodos de 2FA",
+      "regenerateButton": "Regenerar",
+      "regenerate": {
+        "title": "Regenerar códigos de recuperação?",
+        "description": "Isso invalidará todos os códigos de recuperação existentes. Certifique-se de salvar os novos códigos em um local seguro."
+      },
+      "regenerated": "Códigos de recuperação regenerados"
+    },
+    "errors": {
+      "loadFailed": "Falha ao carregar configurações de segurança. Tente novamente."
+    }
+  },
+  "changeEmail": {
+    "title": "Alterar Endereço de E-mail",
+    "description": "Digite seu novo endereço de e-mail para receber um código de verificação.",
+    "verificationDescription": "Enviamos um código de verificação para {email}. Digite o código abaixo para confirmar a alteração.",
+    "currentEmail": "E-mail Atual",
+    "newEmail": "Novo Endereço de E-mail",
+    "newEmailPlaceholder": "Digite o novo endereço de e-mail",
+    "verificationCode": "Código de Verificação",
+    "codeSent": "Código de verificação enviado para {email}",
+    "success": "Endereço de e-mail atualizado",
+    "sendCode": "Enviar Código",
+    "sending": "Enviando...",
+    "verifyAndChange": "Alterar E-mail",
+    "verifying": "Verificando...",
+    "resendCode": "Não recebeu o código? Reenviar",
+    "codeExpires": "O código expira em 10 minutos",
+    "errors": {
+      "emptyEmail": "Por favor, digite um novo endereço de e-mail",
+      "sameEmail": "O novo e-mail deve ser diferente do e-mail atual",
+      "emptyCode": "Por favor, digite o código de verificação",
+      "invalidCode": "O código de verificação deve ter 6 dígitos"
+    }
+  },
+  "verifyEmail": {
+    "title": "Verificar Endereço de E-mail",
+    "description": "Enviamos um código de verificação para {email}. Digite o código abaixo para verificar seu e-mail.",
+    "sendingCode": "Enviando código de verificação para seu endereço de e-mail...",
+    "sendingCodeLoading": "Enviando código de verificação...",
+    "verificationCode": "Código de Verificação",
+    "verifyButton": "Verificar E-mail",
+    "verifying": "Verificando...",
+    "codeExpires": "O código expira em 10 minutos",
+    "resendCode": "Não recebeu o código? Reenviar",
+    "errors": {
+      "emptyCode": "Por favor, digite o código de verificação",
+      "invalidCode": "O código de verificação deve ter 6 dígitos"
+    }
+  },
+  "avatarUpload": {
+    "title": "Alterar Foto de Perfil",
+    "description": "Carregue uma nova foto de perfil ou remova a atual.",
+    "helpText": "PNG, JPG até 10MB",
+    "saving": "Salvando...",
+    "removing": "Removendo...",
+    "success": "Foto de perfil atualizada",
+    "replace": "Substituir",
+    "new": "Novo",
+    "clickToUpload": "Selecionar",
+    "dragDrop": "ou arraste e solte",
+    "uploading": "Carregando..."
+  },
+  "email2FA": {
+    "title": "Ativar 2FA por E-mail",
+    "description": "Proteja sua conta com autenticação de dois fatores baseada em e-mail",
+    "codeSentTo": "Código enviado para {email}",
+    "sendCodeTo": "Enviar um código de verificação para {email}",
+    "sendCode": "Enviar Código",
+    "resend": "Reenviar",
+    "sending": "Enviando...",
+    "enterCode": "Digite o código de 6 dígitos do seu e-mail:",
+    "verifyButton": "Verificar",
+    "verifying": "Verificando...",
+    "errors": {
+      "sendFailed": "Falha ao enviar código de verificação",
+      "verifyFailed": "Falha ao verificar código"
+    }
+  },
+  "totp2FA": {
+    "title": "Ativar Autenticador",
+    "description": "Proteja sua conta com autenticação de dois fatores baseada em tempo (TOTP)",
+    "loading": "Configurando autenticador...",
+    "scanQrCode": "Escaneie este código QR com seu aplicativo autenticador:",
+    "cantScan": "Não consegue escanear o código QR?",
+    "manualEntryLabel": "Digite esta chave manualmente:",
+    "enterCode": "Digite o código de 6 dígitos do seu aplicativo:",
+    "verifying": "Verificando...",
+    "backupCodesTitle": "Salve Seus Códigos de Backup",
+    "backupCodesDescription": "Guarde esses códigos em um lugar seguro. Cada código só pode ser usado uma vez para entrar se você perder o acesso ao seu aplicativo autenticador.",
+    "copyAll": "Copiar tudo",
+    "backupWarning": "Você não poderá ver esses códigos novamente. Se você perder tanto o aplicativo autenticador quanto esses códigos de backup, poderá perder o acesso à sua conta.",
+    "backupFileTitle": "Códigos de Backup da Autenticação de Dois Fatores TOTP",
+    "backupFileDescription": "Esses códigos podem ser usados para acessar sua conta se você perder o acesso ao seu aplicativo autenticador. Cada código só pode ser usado uma vez.",
+    "backupFileKeepSafe": "Guarde esses códigos em um lugar seguro!",
+    "backupFileGenerated": "Gerado em: {date}",
+    "codesCopied": "Todos os códigos de backup copiados para a área de transferência",
+    "codesDownloaded": "Códigos de backup baixados",
+    "success": "Autenticação de Dois Fatores TOTP ativada",
+    "errors": {
+      "setupFailed": "Falha ao configurar TOTP",
+      "invalidCode": "Código de verificação inválido"
+    }
+  },
+  "changePassword": {
+    "title": "Alterar Senha",
+    "description": "Atualize a senha da sua conta. Certifique-se de usar uma senha forte.",
+    "currentPassword": "Senha Atual",
+    "currentPasswordPlaceholder": "Digite sua senha atual",
+    "newPassword": "Nova Senha",
+    "newPasswordPlaceholder": "Digite sua nova senha",
+    "confirmPassword": "Confirmar Nova Senha",
+    "confirmPasswordPlaceholder": "Confirme sua nova senha",
+    "updateButton": "Atualizar Senha",
+    "updating": "Atualizando...",
+    "success": "Senha atualizada com sucesso",
+    "errors": {
+      "mismatch": "As novas senhas não coincidem"
+    }
+  },
+  "totp": {
+    "title": "Ativar Autenticador",
+    "description": "Proteja sua conta com autenticação de dois fatores baseada em tempo (TOTP)",
+    "step1": "Instale um aplicativo autenticador",
+    "step1Description": "Baixe o Google Authenticator, Authy ou qualquer aplicativo compatível com TOTP",
+    "step2": "Escaneie este código QR",
+    "step2Description": "Abra seu aplicativo autenticador e escaneie este código QR",
+    "manualEntry": "Não consegue escanear? Digite este código manualmente:",
+    "step3": "Digite o código de verificação",
+    "step3Description": "Digite o código de 6 dígitos do seu aplicativo autenticador",
+    "verificationCode": "Código de Verificação",
+    "verificationCodePlaceholder": "Digite o código de 6 dígitos",
+    "enableButton": "Ativar Autenticador",
+    "enabling": "Ativando...",
+    "success": "Autenticação de Dois Fatores TOTP ativada",
+    "backupTitle": "Códigos de Backup da Autenticação de Dois Fatores TOTP",
+    "backupDescription": "Esses códigos podem ser usados para acessar sua conta se você perder o acesso ao seu aplicativo autenticador. Cada código só pode ser usado uma vez.",
+    "keepSafe": "Guarde esses códigos em um lugar seguro!",
+    "codesCopied": "Todos os códigos de backup copiados para a área de transferência",
+    "codesDownloaded": "Códigos de backup baixados",
+    "copyAll": "Copiar Tudo",
+    "downloadCodes": "Baixar Códigos"
+  },
+  "passkeys": {
+    "title": "Gerenciar chaves de acesso",
+    "description": "Visualize e gerencie suas chaves de acesso registradas para login sem senha.",
+    "empty": "Nenhuma chave de acesso ainda",
+    "emptyDescription": "Adicione uma chave de acesso para entrar sem senha",
+    "synced": "Chave de acesso sincronizada",
+    "deviceBound": "Vinculada ao dispositivo",
+    "passkey": "Chave de acesso",
+    "lastUsed": "Último uso",
+    "never": "Nunca",
+    "rename": "Renomear",
+    "delete": "Excluir",
+    "deleteTitle": "Excluir chave de acesso?",
+    "deleteDescription": "Esta chave de acesso será removida permanentemente. Você não poderá mais usá-la para entrar.",
+    "renameTitle": "Renomear chave de acesso",
+    "renameDescription": "Digite um novo nome para esta chave de acesso",
+    "nameLabel": "Nome da chave de acesso",
+    "namePlaceholder": "Digite um nome",
+    "addNew": "Adicionar nova chave de acesso",
+    "adding": "Adicionando chave de acesso...",
+    "success": "Chave de acesso adicionada com sucesso",
+    "renamed": "Chave de acesso renomeada",
+    "deleted": "Chave de acesso excluída",
+    "cancelled": "Registro de chave de acesso cancelado",
+    "authCancelled": "Autenticação por chave de acesso cancelada",
+    "errors": {
+      "loadFailed": "Falha ao carregar chaves de acesso",
+      "addFailed": "Falha ao adicionar chave de acesso",
+      "deleteFailed": "Falha ao excluir chave de acesso",
+      "renameFailed": "Falha ao renomear chave de acesso",
+      "verificationFailed": "Falha na verificação da chave de acesso",
+      "authFailed": "Falha ao autenticar com chave de acesso"
+    }
+  },
+  "hooks": {
+    "profile": {
+      "updated": "Perfil atualizado",
+      "errors": {
+        "fetchFailed": "Falha ao buscar perfil do usuário",
+        "updateFailed": "Falha ao atualizar perfil",
+        "checkFields": "Por favor, verifique os campos do formulário"
+      }
+    },
+    "password": {
+      "changed": "Senha alterada",
+      "errors": {
+        "changeFailed": "Falha ao alterar senha",
+        "checkFields": "Por favor, verifique os campos do formulário"
+      }
+    },
+    "email": {
+      "verificationSent": "E-mail de verificação enviado",
+      "codeSent": "Código de verificação enviado para {email}",
+      "verified": "E-mail verificado",
+      "errors": {
+        "initiateFailed": "Falha ao iniciar alteração de e-mail",
+        "verifyFailed": "Falha ao verificar alteração de e-mail",
+        "cancelFailed": "Falha ao cancelar alteração de e-mail",
+        "emailInUse": "E-mail já está em uso",
+        "sameEmail": "O novo e-mail deve ser diferente do atual",
+        "invalidCode": "Código de verificação inválido",
+        "sendFailed": "Falha ao enviar e-mail de verificação",
+        "checkFields": "Por favor, verifique os campos do formulário",
+        "alreadyVerified": "E-mail já está verificado"
+      }
+    },
+    "emails": {
+      "added": "E-mail adicionado. Verifique sua caixa de entrada para o código de verificação.",
+      "verified": "E-mail verificado com sucesso",
+      "removed": "E-mail removido",
+      "primaryChanged": "E-mail principal alterado",
+      "codeSent": "Código de verificação enviado para {email}",
+      "errors": {
+        "fetchFailed": "Falha ao buscar e-mails",
+        "addFailed": "Falha ao adicionar e-mail",
+        "verifyFailed": "Falha ao verificar e-mail",
+        "removeFailed": "Falha ao remover e-mail",
+        "setPrimaryFailed": "Falha ao alterar e-mail principal",
+        "resendFailed": "Falha ao reenviar código de verificação",
+        "alreadyAdded": "Você já tem este endereço de e-mail",
+        "inUse": "Este e-mail já está em uso por outra conta",
+        "cannotRemovePrimary": "Não é possível remover seu e-mail principal",
+        "cannotRemoveOnly": "Não é possível remover seu único endereço de e-mail",
+        "notVerified": "O e-mail deve ser verificado antes de definir como principal",
+        "invalidCode": "Código de verificação inválido ou expirado",
+        "alreadyVerified": "Este e-mail já está verificado"
+      }
+    },
+    "avatar": {
+      "removed": "Avatar removido",
+      "errors": {
+        "uploadFailed": "Falha ao enviar avatar",
+        "removeFailed": "Falha ao remover avatar",
+        "invalidImage": "Por favor, escolha uma imagem válida",
+        "svgNotAllowed": "Imagens SVG não são permitidas",
+        "imageTooLarge": "Arquivo de imagem muito grande (máx 10MB)",
+        "notAnImage": "O arquivo deve ser uma imagem",
+        "unsupportedFormat": "Formato de imagem não suportado",
+        "invalidDimensions": "Dimensões de imagem inválidas"
+      }
+    },
+    "account": {
+      "deleted": "Conta excluída",
+      "errors": {
+        "deleteFailed": "Falha ao excluir conta",
+        "incorrectPassword": "Senha incorreta"
+      }
+    },
+    "preferences": {
+      "updated": "Preferências atualizadas",
+      "errors": {
+        "fetchFailed": "Falha ao buscar preferências",
+        "updateFailed": "Falha ao atualizar preferências",
+        "invalidValues": "Valores de preferência inválidos"
+      }
+    },
+    "twoFactor": {
+      "errors": {
+        "fetchFailed": "Falha ao buscar status de 2FA"
+      },
+      "email": {
+        "codeSent": "Código de verificação enviado para seu e-mail",
+        "enabled": "Autenticação de Dois Fatores por E-mail ativada",
+        "disabled": "Autenticação de Dois Fatores por E-mail desativada",
+        "errors": {
+          "sendFailed": "Falha ao enviar código de verificação",
+          "enableFailed": "Falha ao ativar Autenticação de Dois Fatores por E-mail",
+          "disableFailed": "Falha ao desativar Autenticação de Dois Fatores por E-mail",
+          "invalidCode": "Código de verificação inválido",
+          "alreadyEnabled": "Autenticação de Dois Fatores por E-mail já está ativada",
+          "codeRequired": "Código de verificação é obrigatório"
+        }
+      },
+      "totp": {
+        "enabled": "Autenticação de Dois Fatores TOTP ativada",
+        "disabled": "Autenticação de Dois Fatores TOTP desativada",
+        "errors": {
+          "setupFailed": "Falha ao configurar Autenticação de Dois Fatores TOTP",
+          "enableFailed": "Falha ao ativar Autenticação de Dois Fatores TOTP",
+          "disableFailed": "Falha ao desativar Autenticação de Dois Fatores TOTP",
+          "invalidCode": "Código de verificação inválido"
+        }
+      },
+      "backupCodes": {
+        "errors": {
+          "regenerateFailed": "Falha ao regenerar códigos de backup",
+          "totpRequired": "TOTP deve estar ativado para regenerar códigos de backup"
+        }
+      },
+      "resend": {
+        "success": "Código de verificação enviado",
+        "errors": {
+          "failed": "Falha ao reenviar código de verificação"
+        }
+      }
+    },
+    "google": {
+      "linked": "Conta Google vinculada",
+      "unlinked": "Conta Google desvinculada",
+      "errors": {
+        "fetchFailed": "Falha ao buscar status da conta Google",
+        "userInfoFailed": "Falha ao obter informações do usuário do Google",
+        "linkFailed": "Falha ao vincular conta Google",
+        "unlinkFailed": "Falha ao desvincular conta Google",
+        "alreadyLinked": "Conta Google já vinculada",
+        "linkedToOther": "Esta conta Google está vinculada a outro usuário",
+        "idRequired": "ID da conta Google é obrigatório"
+      }
+    },
+    "passkeys": {
+      "registered": "Chave de acesso registrada",
+      "renamed": "Chave de acesso renomeada",
+      "deleted": "Chave de acesso excluída",
+      "errors": {
+        "fetchFailed": "Falha ao buscar chaves de acesso",
+        "optionsFailed": "Falha ao obter opções de registro",
+        "registerFailed": "Falha ao registrar chave de acesso",
+        "cancelled": "Registro de chave de acesso foi cancelado",
+        "verificationFailed": "Falha na verificação da chave de acesso",
+        "challengeExpired": "Desafio expirado, tente novamente",
+        "invalidChallenge": "Desafio inválido, tente novamente",
+        "notFound": "Chave de acesso não encontrada",
+        "renameFailed": "Falha ao renomear chave de acesso",
+        "deleteFailed": "Falha ao excluir chave de acesso",
+        "authOptionsFailed": "Falha ao obter opções de autenticação",
+        "authFailed": "Falha na autenticação",
+        "authCancelled": "Autenticação com chave de acesso foi cancelada",
+        "authVerifyFailed": "Falha ao autenticar com chave de acesso"
+      }
+    },
+    "sessions": {
+      "revoked": "Sessão revogada",
+      "allRevoked": "Todas as outras sessões revogadas",
+      "errors": {
+        "fetchFailed": "Falha ao buscar sessões",
+        "revokeFailed": "Falha ao revogar sessão",
+        "revokeAllFailed": "Falha ao revogar sessões"
+      }
+    },
+    "loginHistory": {
+      "errors": {
+        "fetchFailed": "Falha ao buscar histórico de login"
+      }
+    },
+    "stepUp": {
+      "errors": {
+        "verifyFailed": "Falha na verificação. Tente novamente.",
+        "invalidCredentials": "Credenciais inválidas. Verifique e tente novamente.",
+        "tooManyAttempts": "Muitas tentativas. Tente novamente mais tarde."
+      }
+    }
+  },
+  "sessions": {
+    "title": "Sessões Ativas",
+    "description": "Gerencie suas sessões ativas em diferentes dispositivos. Você pode revogar sessões que não reconhece.",
+    "currentSession": "Sessão Atual",
+    "unknownLocation": "Localização desconhecida",
+    "unknownBrowser": "Navegador desconhecido",
+    "unknownOS": "SO desconhecido",
+    "browserOnOs": "{browser} no {os}",
+    "locationLabel": "Localização",
+    "ipAddressLabel": "Endereço IP",
+    "lastActivityLabel": "Última Atividade",
+    "createdAt": "Criado",
+    "lastActivity": "Última atividade",
+    "revokeSession": "Revogar",
+    "sessions": "Sessões",
+    "revokeTitle": "Revogar Sessão?",
+    "revokeDescription": "Isso irá desconectá-lo deste dispositivo. Você precisará entrar novamente.",
+    "revokeOtherTitle": "Revogar Todas as Outras Sessões?",
+    "revokeOtherDescription": "Isso irá desconectá-lo de todos os outros dispositivos. Apenas sua sessão atual permanecerá ativa.",
+    "revokeOtherCount": "Revogar {count} {count, plural, one {sessão} other {sessões}}",
+    "noSessionsFiltered": "Nenhuma sessão corresponde aos seus filtros.",
+    "noOtherSessions": "Nenhuma outra sessão ativa. Você está conectado apenas neste dispositivo.",
+    "refresh": "Atualizar",
+    "searchPlaceholder": "Buscar por navegador, SO ou localização...",
+    "filters": {
+      "deviceType": "Tipo de Dispositivo",
+      "any": "Qualquer dispositivo"
+    },
+    "deviceTypes": {
+      "desktop": "Desktop",
+      "mobile": "Celular",
+      "tablet": "Tablet"
+    },
+    "sorting": {
+      "lastActivityAt": "Última Atividade",
+      "createdAt": "Criado"
+    }
+  },
+  "loginHistory": {
+    "title": "Histórico de Login",
+    "description": "Visualize sua atividade recente de login e monitore acessos suspeitos.",
+    "recentActivity": "Atividade de Login Recente",
+    "recentActivityDescription": "Suas tentativas de login mais recentes",
+    "viewAll": "Ver tudo",
+    "entries": "{count, plural, one {# entrada} other {# entradas}}",
+    "successful": "Sucesso",
+    "failed": "Falhou",
+    "noHistory": "Nenhum histórico de login encontrado",
+    "unknownLocation": "Localização desconhecida",
+    "unknownBrowser": "Navegador desconhecido",
+    "unknownOS": "SO desconhecido",
+    "browserOnOs": "{browser} no {os}",
+    "ipAddressLabel": "Endereço IP:",
+    "loginMethodLabel": "Método de Login:",
+    "failureReasonLabel": "Motivo da Falha:",
+    "refresh": "Atualizar",
+    "searchPlaceholder": "Buscar por navegador, SO, localização ou IP...",
+    "filters": {
+      "any": "Qualquer",
+      "successful": "Sucesso",
+      "failed": "Falhou",
+      "status": "Status",
+      "authMethod": "Método de Login"
+    },
+    "authMethods": {
+      "any": "Qualquer",
+      "password": "Senha",
+      "google": "Google",
+      "passkey": "Chave de acesso"
+    },
+    "sorting": {
+      "createdAt": "Data"
+    },
+    "failureReasons": {
+      "invalid_credentials": "Credenciais inválidas",
+      "account_deactivated": "Conta desativada",
+      "rate_limited": "Muitas tentativas",
+      "internal_error": "Erro interno",
+      "user_not_found": "Usuário não encontrado",
+      "no_passkeys_registered": "Nenhuma chave de acesso registrada",
+      "google_not_linked": "Conta Google não vinculada",
+      "email_mismatch": "Email não corresponde"
+    },
+    "errors": {
+      "loadFailed": "Falha ao carregar histórico de login"
+    }
+  },
+  "stepUpAuth": {
+    "title": "Verificar sua identidade",
+    "description": "Para sua segurança, confirme sua identidade antes de fazer alterações na sua conta.",
+    "selectMethod": "Escolha um método de verificação:",
+    "methods": {
+      "password": {
+        "title": "Usar senha",
+        "description": "Digite sua senha atual"
+      },
+      "passkey": {
+        "title": "Usar chave de acesso",
+        "description": "Use sua impressão digital, rosto ou chave de segurança"
+      }
+    },
+    "backToMethods": "Voltar",
+    "passwordLabel": "Senha atual",
+    "passwordPlaceholder": "Digite sua senha",
+    "passkeyPrompt": "Clique no botão abaixo para verificar com sua chave de acesso",
+    "passkeyWaiting": "Aguardando verificação da chave de acesso...",
+    "verifyButton": "Verificar",
+    "usePasskeyButton": "Verificar",
+    "verifying": "Verificando...",
+    "errors": {
+      "passwordRequired": "Por favor, digite sua senha",
+      "verificationFailed": "Falha na verificação. Tente novamente.",
+      "passkeyCancelled": "Verificação da chave de acesso foi cancelada"
+    }
+  },
+  "errors": {
+    "loadFailed": "Falha ao carregar perfil. Tente novamente."
+  }
+}

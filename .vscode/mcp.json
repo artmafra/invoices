@@ -1,0 +1,28 @@
+{
+  "servers": {
+    "shadcn": {
+      "url": "https://www.shadcn.io/api/mcp",
+      "command": "npx",
+      "args": [
+        "shadcn@latest",
+        "mcp"
+      ]
+    },
+    "next-devtools": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "next-devtools-mcp@latest"
+      ]
+    },
+    "chrome-devtools": {
+      "command": "npx",
+      "args": [
+        "chrome-devtools-mcp@latest"
+      ]
+    },
+    "zod-4": {
+      "url": "https://mcp.inkeep.com/zod/mcp"
+    }
+  }
+}
