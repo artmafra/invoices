@@ -1,15 +1,25 @@
-import { mapInvoiceToPdfDTO } from "@/mappers/invoice-pdf.mapper";
-import { mapServiceToPdfDTO } from "@/mappers/service-pdf.mapper";
-import { mapSupplierToPdfDTO } from "@/mappers/supplier-pdf.mapper";
+import { InvoiceDTO }
 import { type CreateInvoiceSchema, type UpdateInvoiceSchema } from "@/schema/invoices.schema";
 import { type TaxRegime } from "@/schema/services.schema";
+import { InvoiceFilterOptions } from "@/storage/invoices.storage";
 import { invoiceStorage } from "@/storage/runtime/invoice";
 import { serviceStorage } from "@/storage/runtime/service";
 import { supplierStorage } from "@/storage/runtime/supplier";
-import { InvoicePdfTemplate } from "@/emails/invoice-pdf";
-import { renderEmailBoth } from "@/emails/render";
+import type { PaginationOptions } from "@/storage/types";
 
 export class InvoiceService {
+  async getPaginated(
+    filters?: InvoiceFilterOptions,
+    options?: PaginationOptions,
+  ): Promise<AdminTasksListResponse> {
+    const result = await invoiceStorage.findManyPaginated(filters, options);
+    return InvoiceDTO.toPaginatedResponse(result);
+  }
+
+  async getCollectionVersion(filters?: InvoiceFilterOptions) {
+    return invoiceStorage.getCollectionVersion(filters);
+  }
+
   async createInvoice(data: CreateInvoiceSchema) {
     const supplier = await supplierStorage.findById(data.supplierCnpj);
     if (!supplier) {
@@ -67,19 +77,34 @@ export class InvoiceService {
   }
 
   async getInvoiceById(id: string) {
-    await invoiceStorage.findById(id);
+    return await invoiceStorage.findById(id);
   }
 
   async getInvoiceByDueDate(dueDate: Date) {
-    await invoiceStorage.findMany({ dueDate });
+    return await invoiceStorage.findMany({
+      dueDateRange: {
+        from: dueDate,
+        to: dueDate,
+      },
+    });
   }
 
   async getInvoiceByIssueDate(issueDate: Date) {
-    await invoiceStorage.findMany({ issueDate });
+    return await invoiceStorage.findMany({
+      issueDateRange: {
+        from: issueDate,
+        to: issueDate,
+      },
+    });
   }
 
   async getInvoiceByEntryDate(entryDate: Date) {
-    await invoiceStorage.findMany({ entryDate });
+    return await invoiceStorage.findMany({
+      entryDateRange: {
+        from: entryDate,
+        to: entryDate,
+      },
+    });
   }
 
   async updateInvoice(id: string, data: UpdateInvoiceSchema) {
@@ -87,49 +112,10 @@ export class InvoiceService {
       id,
       ...data,
     };
-    await invoiceStorage.update(id, updatedData);
+    return await invoiceStorage.update(id, updatedData);
   }
 
   async deleteInvoice(id: string) {
-    await invoiceStorage.delete(id);
+    return await invoiceStorage.delete(id);
   }
-
-  // async generatePDF(id:string): Promise<Buffer>{
-  //   const invoice = await invoiceStorage.findById(id)
-  //   if(!invoice){
-  //     throw new Error("Invoice not found")
-  //   }
-
-  //   const supplier = await supplierStorage.findById(invoice.supplierCnpj)
-  //   if(!supplier){
-  //     throw new Error("Supplier not found")
-  //   }
-
-  //   const service = await serviceStorage.findById(invoice.serviceCode)
-  //   if(!service){
-  //     throw new Error("Service not found")
-  //   }
-
-  //   const invoiceDTO = mapInvoiceToPdfDTO(invoice)
-  //   const supplierDTO = mapSupplierToPdfDTO(supplier)
-  //   const serviceDTO = mapServiceToPdfDTO(service)
-
-  //   try {
-  //     const { buffer } = await renderEmailBoth(
-  //       <InvoicePdfTemplate
-  //         invoice={invoiceDTO}
-  //         supplier={supplierDTO}
-  //         service={serviceDTO}
-  //       />
-  //     );
-  //     console.error("Invoice PDF generated", { invoiceId: id });
-  //     return buffer;
-  //   } catch (error) {
-  //     console.error("Failed to generate PDF", {
-  //       invoiceId: id,
-  //       error: error instanceof Error ? error.message : String(error),
-  //     });
-  //     throw error;
-  //   }
-  // }
 }

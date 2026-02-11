@@ -27,6 +27,8 @@ export const tableInvoices = pgTable("invoices", {
   invoiceNumber: text("invoice_number").notNull(),
   materialDeductionCents: integer("material_deduction_cents").notNull().default(0),
   netAmountCents: integer("net_amount_cents").notNull(), // Líquido a receber
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const insertInvoiceSchema = createInsertSchema(tableInvoices);
