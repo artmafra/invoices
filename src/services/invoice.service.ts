@@ -12,7 +12,7 @@ export class InvoiceService {
   async getPaginated(
     filters?: InvoiceFilterOptions,
     options?: PaginationOptions,
-  ): Promise<AdminTasksListResponse> {
+  ): Promise<AdminInvoicesListResponse> {
     const result = await invoiceStorage.findManyPaginated(filters, options);
     return InvoiceDTO.toPaginatedResponse(result);
   }
