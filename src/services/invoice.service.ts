@@ -1,6 +1,7 @@
-import { InvoiceDTO }
+import { InvoiceDTO } from "@/dtos/invoice.dto";
 import { type CreateInvoiceSchema, type UpdateInvoiceSchema } from "@/schema/invoices.schema";
 import { type TaxRegime } from "@/schema/services.schema";
+import type { AdminInvoicesListResponse } from "@/types/invoices/invoices.types";
 import { InvoiceFilterOptions } from "@/storage/invoices.storage";
 import { invoiceStorage } from "@/storage/runtime/invoice";
 import { serviceStorage } from "@/storage/runtime/service";
