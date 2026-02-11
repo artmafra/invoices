@@ -26,12 +26,12 @@ export interface InvoiceFilterOptions {
 export interface InvoiceWithRelations extends Invoice {
   supplier: {
     cnpj: string;
-    name: string | null;
+    name: string;
   } | null;
 
   service: {
     code: string;
-    name: string | null;
+    name: string;
   } | null;
 }
 
