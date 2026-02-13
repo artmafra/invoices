@@ -72,8 +72,9 @@ export function InvoiceFormDialog({
     defaultValues: {
       supplierCnpj: "",
       serviceCode: "",
-      issueDate: "",
-      dueDate: "",
+      issueDate: new Date(),
+      dueDate: new Date(),
+      entryDate: new Date(),
       valueCents: 0,
       invoiceNumber: "",
       status: "issued",
@@ -87,8 +88,9 @@ export function InvoiceFormDialog({
       form.reset({
         supplierCnpj: "",
         serviceCode: "",
-        issueDate: "",
-        dueDate: "",
+        issueDate: new Date(),
+        dueDate: new Date(),
+        entryDate: new Date(),
         valueCents: 0,
         invoiceNumber: "",
         status: "issued",
@@ -174,7 +176,7 @@ export function InvoiceFormDialog({
                           <LazyCalendar
                             mode="single"
                             selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => field.onChange(date ? date.toISOString() : null)}
+                            onSelect={(date) => field.onChange(date ?? undefined)}
                             disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus
                           />
@@ -239,7 +241,7 @@ export function InvoiceFormDialog({
               />
               <FormField
                 control={form.control}
-                name="materialDeductionCents"
+                name="invoiceNumber"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("fields.invoiceNumber")}</FormLabel>

@@ -36,6 +36,7 @@ export const activityTargetSchema = z.object({
   id: z.string().optional(),
   /** Display name for the entity */
   name: z.string().optional(),
+  number: z.string().optional(),
 });
 
 // ========================================

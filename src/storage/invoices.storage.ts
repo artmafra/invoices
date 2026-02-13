@@ -224,6 +224,16 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     return result[0];
   }
 
+  // For uniqueness check
+  async findByNumber(number: string): Promise<Invoice | undefined> {
+    const result = await db
+      .select()
+      .from(tableInvoices)
+      .where(ilike(tableInvoices.invoiceNumber, number))
+      .limit(1);
+
+    return result[0];
+  }
   async create(data: InsertInvoiceSchema) {
     const result = await db.insert(tableInvoices).values(data).returning();
     return result[0];

@@ -67,7 +67,7 @@ export class InvoiceService {
 
     const netAmountCents = value - tax;
 
-    await invoiceStorage.create({
+    return await invoiceStorage.create({
       ...data,
       netAmountCents,
     });
@@ -118,5 +118,12 @@ export class InvoiceService {
 
   async deleteInvoice(id: string) {
     return await invoiceStorage.delete(id);
+  }
+
+  async isNumberAvailable(number: string, excludeId?: string): Promise<boolean> {
+    const existing = await invoiceStorage.findByNumber(number);
+    if (!existing) return true;
+    if (excludeId && existing.id === excludeId) return true;
+    return false;
   }
 }

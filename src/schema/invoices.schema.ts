@@ -12,7 +12,7 @@ export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 // INVOICE SCHEMA
 
 export const tableInvoices = pgTable("invoices", {
-  id: uuid("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   supplierCnpj: text("supplier_cnpj")
     .notNull()
     .references(() => tableSuppliers.cnpj),
@@ -36,6 +36,7 @@ export const updateInvoiceSchema = createUpdateSchema(tableInvoices);
 
 export const createInvoiceSchema = insertInvoiceSchema
   .omit({
+    id: true,
     netAmountCents: true,
   })
   .extend({

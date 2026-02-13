@@ -103,6 +103,7 @@ export function InvoicesPageContent() {
         serviceCode: data.serviceCode.trim(),
         issueDate: data.issueDate,
         dueDate: data.dueDate,
+        entryDate: data.entryDate,
         valueCents: data.valueCents,
         invoiceNumber: data.invoiceNumber,
         status: data.status,
@@ -125,8 +126,8 @@ export function InvoicesPageContent() {
         openEditDialog(invoiceId, {
           supplierCnpj: invoice.supplierCnpj,
           serviceCode: invoice.serviceCode,
-          issueDate: invoice.issueDate ? new Date(invoice.issueDate).toISOString() : undefined,
-          dueDate: invoice.dueDate ? new Date(invoice.dueDate).toISOString() : undefined,
+          issueDate: new Date(invoice.issueDate),
+          dueDate: new Date(invoice.dueDate),
           valueCents: invoice.valueCents,
           invoiceNumber: invoice.invoiceNumber,
           status: invoice.status,
@@ -216,6 +217,7 @@ export function InvoicesPageContent() {
         <LazyInvoiceFormDialog
           open={dialogs.showFormDialog}
           onOpenChange={(open) => !open && closeFormDialog()}
+          initialData={dialogs.initialData}
           onSubmit={handleSubmit}
           isEditing={!!dialogs.editingInvoiceId}
           isSaving={actions.isCreating || actions.isUpdating}
