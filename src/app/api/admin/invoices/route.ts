@@ -15,7 +15,7 @@ import { invoiceService } from "@/services/runtime/invoice";
 import { createInvoiceSchema, getInvoicesQuerySchema } from "@/validations/invoice.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("invoice", "view");
+  const { authorized, error, status } = await requirePermission("invoices", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -92,9 +92,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     invoiceNumber: validation.data.invoiceNumber,
     status: validation.data.status,
     materialDeductionCents: validation.data.materialDeductionCents,
-    entryDate: validation.data.entryDate
-      ? validation.data.entryDate
-      : new Date(validation.data.entryDate),
+    entryDate: validation.data.entryDate,
     inssPercent: validation.data.inssPercent,
     csPercent: validation.data.csPercent,
     issqnPercent: validation.data.issqnPercent,

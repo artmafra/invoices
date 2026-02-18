@@ -62,7 +62,7 @@ export const createInvoiceSchema = z
     dueDate: z.date(),
     entryDate: z.date(),
 
-    valueCents: z.number().int().positive().max(MAX_INVOICE_VALUE_CENTS),
+    valueCents: z.number().int().positive().min(1).max(MAX_INVOICE_VALUE_CENTS),
     invoiceNumber: z.string().min(1).max(50),
     materialDeductionCents: z.number().int().min(0).optional(),
 

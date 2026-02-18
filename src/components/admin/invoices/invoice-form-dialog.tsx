@@ -105,7 +105,7 @@ export function InvoiceFormDialog({
   };
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
           <DialogTitle>{isEditing ? t("editTitle") : t("newTitle")}</DialogTitle>
@@ -233,7 +233,15 @@ export function InvoiceFormDialog({
                   <FormItem>
                     <FormLabel>{t("fields.valueCents")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={t("fields.valueCentsPlaceholder")} />
+                      <Input
+                        {...field}
+                        type="number"
+                        inputMode="numeric"
+                        placeholder={t("fields.valueCentsPlaceholder")}
+                        onChange={(e) =>
+                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
+                        }
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -285,7 +293,12 @@ export function InvoiceFormDialog({
                     <FormControl>
                       <Input
                         {...field}
+                        type="number"
+                        inputMode="numeric"
                         placeholder={t("fields.materialDeductionCentsPlaceholder")}
+                        onChange={(e) =>
+                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
+                        }
                       />
                     </FormControl>
                     <FormMessage />
