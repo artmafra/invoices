@@ -215,7 +215,7 @@ export function InvoiceFormDialog({
                           <LazyCalendar
                             mode="single"
                             selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => field.onChange(date ? date.toISOString() : null)}
+                            onSelect={(date) => field.onChange(date ?? undefined)}
                             disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus
                           />

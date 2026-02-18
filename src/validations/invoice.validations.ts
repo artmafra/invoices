@@ -58,9 +58,9 @@ export const createInvoiceSchema = z
     supplierCnpj: z.string().length(14, "Invalid CNPJ"),
     serviceCode: z.string().min(1),
 
-    issueDate: z.coerce.date().refine((v) => v instanceof Date, { message: "Invalid date" }),
-    dueDate: z.coerce.date().refine((v) => v instanceof Date, { message: "Invalid date" }),
-    entryDate: z.coerce.date().refine((v) => v instanceof Date, { message: "Invalid date" }),
+    issueDate: z.date(),
+    dueDate: z.date(),
+    entryDate: z.date(),
 
     valueCents: z.number().int().positive().max(MAX_INVOICE_VALUE_CENTS),
     invoiceNumber: z.string().min(1).max(50),
@@ -80,8 +80,8 @@ export type CreateInvoiceInput = z.infer<typeof createInvoiceSchema>;
 export const updateInvoiceSchema = z
   .object({
     status: invoiceStatusSchema.optional(),
-    supplierCnpj: z.string(),
-    serviceCode: z.string(),
+    supplierCnpj: z.string().optional(),
+    serviceCode: z.string().optional(),
 
     issueDate: z.coerce.date().optional(),
     dueDate: z.coerce.date().optional(),
