@@ -137,11 +137,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   await activityService.logCreate(
     session,
     "users",
-<<<<<<< HEAD
-    { type: "user", id: newUser.id, name: newUser.name || newUser.email },
-=======
     { type: "user", id: newUser.id, name: newUser.name },
->>>>>>> relax
     {
       metadata: {
         name: newUser.name,

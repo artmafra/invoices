@@ -25,22 +25,14 @@ export const POST = withErrorHandler(
       await activityService.logAction(session, "reactivate", "users", {
         type: "user",
         id: userId,
-<<<<<<< HEAD
-        name: user.name || user.email,
-=======
         name: user.name,
->>>>>>> relax
       });
 
       return NextResponse.json(user);
     } catch (err: unknown) {
       const error = err as { message?: string };
       if (error.message?.includes("not found")) {
-<<<<<<< HEAD
-        throw new NotFoundError("User");
-=======
         throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
       }
       throw err;
     }

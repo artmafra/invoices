@@ -6,11 +6,7 @@
  * Each app has its own routes, permissions, settings, and navigation items.
  */
 
-<<<<<<< HEAD
-import { CheckSquare, Gamepad2, ScrollText, StickyNote, type LucideIcon } from "lucide-react";
-=======
 import { CheckSquare, Gamepad2, StickyNote, type LucideIcon } from "lucide-react";
->>>>>>> relax
 
 // =============================================================================
 // App Type Definitions
@@ -153,25 +149,6 @@ export const APPS_REGISTRY: AppDefinition[] = [
       { resource: "games", action: "delete", description: "Delete" },
     ],
   }),
-<<<<<<< HEAD
-
-  defineApp("invoices", {
-    slug: "invoices",
-    name: "Notas",
-    description: "Create and manage corporational invoices",
-    icon: ScrollText,
-    iconName: "ScrollText",
-    version: "1.0.0",
-    enabledByDefault: true,
-    permissions: [
-      { resource: "invoices", action: "view", description: "View" },
-      { resource: "invoices", action: "create", description: "Create" },
-      { resource: "invoices", action: "edit", description: "Edit" },
-      { resource: "invoices", action: "delete", description: "Delete" },
-    ],
-  }),
-=======
->>>>>>> relax
 ];
 
 // =============================================================================

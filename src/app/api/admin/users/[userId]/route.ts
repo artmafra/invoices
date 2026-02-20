@@ -37,22 +37,14 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
   // Check if user exists and if they have a system role
   const existingUser = await userService.getUserByIdWithRole(userId);
   if (!existingUser) {
-<<<<<<< HEAD
-    throw new NotFoundError("User");
-=======
     throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Check if user has a system role
   if (existingUser.roleId) {
     const userRole = await roleService.getRoleById(existingUser.roleId);
     if (userRole?.isSystem) {
-<<<<<<< HEAD
-      throw new ForbiddenError("System users cannot be modified");
-=======
       throw new ForbiddenError("System users cannot be modified", "SYSTEM_RESOURCE_PROTECTED");
->>>>>>> relax
     }
   }
 
@@ -63,14 +55,10 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
   if (validatedData.roleId) {
     const targetRole = await roleService.getRoleById(validatedData.roleId);
     if (targetRole?.isSystem) {
-<<<<<<< HEAD
-      throw new ForbiddenError("Cannot assign system role to users through the UI");
-=======
       throw new ForbiddenError(
         "Cannot assign system role to users through the UI",
         "SYSTEM_RESOURCE_PROTECTED",
       );
->>>>>>> relax
     }
   }
 
@@ -97,11 +85,7 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
   } catch (err: unknown) {
     const updateError = err as { message?: string; cause?: { code?: string } };
     if (updateError.message?.includes("not found")) {
-<<<<<<< HEAD
-      throw new NotFoundError("User");
-=======
       throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
     }
     // Check for unique constraint violation (duplicate email)
     if (updateError.cause?.code === "23505") {
@@ -143,11 +127,7 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
     await activityService.logUpdate(
       session,
       "users",
-<<<<<<< HEAD
-      { type: "user", id: userId, name: existingUser.name || existingUser.email },
-=======
       { type: "user", id: userId, name: existingUser.name },
->>>>>>> relax
       changes,
     );
   }
@@ -194,11 +174,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   // Check if user exists and if they have a system role
   const existingUser = await userService.getUserByIdWithRole(userId);
   if (!existingUser) {
-<<<<<<< HEAD
-    throw new NotFoundError("User");
-=======
     throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Check if user has a system role
@@ -216,11 +192,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   } catch (err: unknown) {
     const deactivateError = err as { message?: string };
     if (deactivateError.message?.includes("not found")) {
-<<<<<<< HEAD
-      throw new NotFoundError("User");
-=======
       throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
     }
     throw err;
   }
@@ -229,11 +201,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   await activityService.logAction(session, "deactivate", "users", {
     type: "user",
     id: userId,
-<<<<<<< HEAD
-    name: existingUser.name || existingUser.email,
-=======
     name: existingUser.name,
->>>>>>> relax
   });
 
   // Transform to DTO to exclude password hash

@@ -11,11 +11,7 @@ interface PageContainerProps {
  */
 export function PageContainer({ children, className }: PageContainerProps) {
   return (
-<<<<<<< HEAD
-    <div className="flex flex-1 flex-col">
-=======
     <div className="flex flex-1 flex-col overflow-y-auto">
->>>>>>> relax
       <div
         className={cn(
           "@container/main flex flex-col pt-[calc(var(--spacing-card)*0.67)] pb-section px-[calc(var(--spacing-card)*0.7)] gap-section transition-[padding,gap] duration-200",

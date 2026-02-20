@@ -32,11 +32,7 @@ export const POST = withErrorHandler(async (request: NextRequest, context: Route
   // Check if user exists and if they have a system role
   const existingUser = await userService.getUserByIdWithRole(userId);
   if (!existingUser) {
-<<<<<<< HEAD
-    throw new NotFoundError("User");
-=======
     throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Check if user has a system role
@@ -53,11 +49,7 @@ export const POST = withErrorHandler(async (request: NextRequest, context: Route
   } catch (err: unknown) {
     const deleteError = err as { message?: string };
     if (deleteError.message?.includes("not found")) {
-<<<<<<< HEAD
-      throw new NotFoundError("User");
-=======
       throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
     }
     throw err;
   }

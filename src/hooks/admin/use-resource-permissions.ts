@@ -45,18 +45,6 @@ export interface NotePermissions {
 }
 
 /**
-<<<<<<< HEAD
- * Invoice permissions for the invoices resource
- */
-export interface InvoicePermissions {
-  canCreate: boolean;
-  canEdit: boolean;
-  canDelete: boolean;
-}
-
-/**
-=======
->>>>>>> relax
  * Game permissions for the games resource
  */
 export interface GamePermissions {
@@ -196,26 +184,6 @@ export function useNotePermissions(): NotePermissions & {
   };
 }
 
-<<<<<<< HEAD
-export function useInvoicePermissions(): InvoicePermissions & {
-  currentUserId: string | undefined;
-  isLoading: boolean;
-} {
-  const { session, status } = useSessionContext();
-  const permissions = session?.user?.permissions || [];
-  const currentUserId = session?.user?.id;
-
-  return {
-    canCreate: permissions.includes("invoices.create"),
-    canEdit: permissions.includes("invoices.edit"),
-    canDelete: permissions.includes("invoices.delete"),
-    currentUserId,
-    isLoading: status === "loading",
-  };
-}
-
-=======
->>>>>>> relax
 /**
  * Hook to extract typed permissions for the games resource
  */

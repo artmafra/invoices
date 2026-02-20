@@ -116,11 +116,7 @@ export function TaskCard({
               )}
 
               <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
-<<<<<<< HEAD
-                {task.assignee && <span>{task.assignee.name || task.assignee.email}</span>}
-=======
                 {task.assignee && <span>{task.assignee.name}</span>}
->>>>>>> relax
                 {task.dueDate && (
                   <span className={isOverdue ? "text-destructive" : ""}>
                     {t("dueDate", {

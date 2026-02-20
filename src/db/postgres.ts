@@ -50,11 +50,7 @@ let dbInstance: ReturnType<typeof drizzle> | undefined;
  * Connection is only established when first accessed at runtime.
  * Prevents connection attempts during Next.js build phase.
  */
-<<<<<<< HEAD
-export function getDb() {
-=======
 export function getPostgresClient() {
->>>>>>> relax
   if (dbInstance) {
     return dbInstance;
   }
@@ -85,11 +81,7 @@ export function getPostgresClient() {
  */
 export const db = new Proxy({} as ReturnType<typeof drizzle>, {
   get(_, prop) {
-<<<<<<< HEAD
-    const client = getDb();
-=======
     const client = getPostgresClient();
->>>>>>> relax
     const value = client[prop as keyof typeof client];
     return typeof value === "function" ? (value as (...args: any[]) => any).bind(client) : value;
   },

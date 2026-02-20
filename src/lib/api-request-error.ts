@@ -45,16 +45,11 @@ export type MutationErrorMessages = {
   // User/account related
   userExists?: string;
   userInactive?: string;
-<<<<<<< HEAD
-=======
   userNotFound?: string;
->>>>>>> relax
 
   // Role related
   roleExists?: string;
   roleNameExists?: string;
-<<<<<<< HEAD
-=======
   roleNotFound?: string;
 
   // Game related
@@ -85,17 +80,13 @@ export type MutationErrorMessages = {
   cannotDeleteSelf?: string;
   notAuthenticated?: string;
   invalidCredentials?: string;
->>>>>>> relax
 
   // Auth/token related
   invalidResetToken?: string;
   invalidInviteToken?: string;
   invalidVerificationCode?: string;
   invalid2faCode?: string;
-<<<<<<< HEAD
-=======
   sessionNotFound?: string;
->>>>>>> relax
   sessionExpired?: string;
 
   // Email related
@@ -140,8 +131,6 @@ export type MutationErrorMessages = {
   alreadyImpersonating?: string;
   cannotImpersonateSystem?: string;
 
-<<<<<<< HEAD
-=======
   // Step-up auth related
   stepUpMethodNotAllowed?: string;
 
@@ -153,7 +142,6 @@ export type MutationErrorMessages = {
   invalidPathCharacters?: string;
   pathNotAllowed?: string;
 
->>>>>>> relax
   // Generic fallback (required)
   fallback: string;
 };
@@ -171,16 +159,11 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   // User/account related
   USER_EXISTS: "userExists",
   USER_INACTIVE: "userInactive",
-<<<<<<< HEAD
-=======
   USER_NOT_FOUND: "userNotFound",
->>>>>>> relax
 
   // Role related
   ROLE_EXISTS: "roleExists",
   ROLE_NAME_EXISTS: "roleNameExists",
-<<<<<<< HEAD
-=======
   ROLE_NOT_FOUND: "roleNotFound",
 
   // Game related
@@ -215,7 +198,6 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   CANNOT_DELETE_SELF: "cannotDeleteSelf",
   NOT_AUTHENTICATED: "notAuthenticated",
   INVALID_CREDENTIALS: "invalidCredentials",
->>>>>>> relax
 
   // Auth/token related
   INVALID_RESET_TOKEN: "invalidResetToken",
@@ -264,8 +246,6 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   CANNOT_IMPERSONATE_SELF: "cannotImpersonateSelf",
   ALREADY_IMPERSONATING: "alreadyImpersonating",
   CANNOT_IMPERSONATE_SYSTEM: "cannotImpersonateSystem",
-<<<<<<< HEAD
-=======
 
   // Step-up auth related
   STEP_UP_METHOD_NOT_ALLOWED: "stepUpMethodNotAllowed",
@@ -277,7 +257,6 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   INVALID_PATH_SEPARATOR: "invalidPathSeparator",
   INVALID_PATH_CHARACTERS: "invalidPathCharacters",
   PATH_NOT_ALLOWED: "pathNotAllowed",
->>>>>>> relax
 };
 
 /**

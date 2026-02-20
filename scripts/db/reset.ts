@@ -11,15 +11,7 @@ if (!DEFAULT_PASSWORD) {
   process.exit(1);
 }
 
-<<<<<<< HEAD
 const USERS_TO_CREATE = [{ email: "artmafra@gmail.com", name: "Arthur", role: "system" }];
-=======
-const USERS_TO_CREATE = [
-  { email: "mafrazzrafael@gmail.com", name: "Rafael", role: "system" },
-  { email: "mafrazzrafael+hanne@gmail.com", name: "Hanne", role: "admin" },
-  { email: "mafrazzrafael+arthur@gmail.com", name: "Arthur", role: "user" },
-];
->>>>>>> relax
 
 async function resetDatabase() {
   console.log("");

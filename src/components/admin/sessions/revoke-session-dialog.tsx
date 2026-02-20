@@ -63,11 +63,7 @@ export function RevokeSessionDialog({
               {showUserInfo && "userName" in session && (
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">{t("user")}:</span>
-<<<<<<< HEAD
-                  <span>{session.userName || session.userEmail}</span>
-=======
                   <span>{session.userName}</span>
->>>>>>> relax
                 </div>
               )}
               <div className="flex justify-between">

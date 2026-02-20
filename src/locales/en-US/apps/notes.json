@@ -76,10 +76,7 @@
     "createFailed": "Failed to create note",
     "updateFailed": "Failed to update note",
     "deleteFailed": "Failed to delete note",
-<<<<<<< HEAD
-=======
     "noteNotFound": "Note not found",
->>>>>>> relax
     "togglePinFailed": "Failed to toggle pin",
     "archiveFailed": "Failed to archive note",
     "unarchiveFailed": "Failed to unarchive note",

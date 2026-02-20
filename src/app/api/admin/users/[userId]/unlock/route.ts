@@ -27,11 +27,7 @@ export const POST = withErrorHandler(
     // Get the user to unlock
     const user = await userService.getUserById(userId);
     if (!user) {
-<<<<<<< HEAD
-      throw new NotFoundError("User");
-=======
       throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
     }
 
     // Unlock the account
@@ -44,11 +40,7 @@ export const POST = withErrorHandler(
     await activityService.logAction(session, "unlock", "users", {
       type: "user",
       id: userId,
-<<<<<<< HEAD
-      name: user.name || user.email,
-=======
       name: user.name,
->>>>>>> relax
     });
 
     return NextResponse.json({

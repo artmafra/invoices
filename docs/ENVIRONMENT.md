@@ -12,23 +12,12 @@ This project uses a two-layer approach:
 **Recommended:** Import `env` from `@/lib/env` instead of using `process.env`:
 
 ```typescript
-<<<<<<< HEAD
-
-
-const url = process.env.DATABASE_URL;        // ✅ string (validated)
-const port = process.env.PORT;                // ✅ number (auto-coerced)
-=======
 const url = process.env.DATABASE_URL; // ✅ string (validated)
 const port = process.env.PORT; // ✅ number (auto-coerced)
->>>>>>> relax
 const cache = process.env.ENABLE_VERSION_CACHE; // ✅ boolean (auto-coerced)
 ```
 
 Benefits:
-<<<<<<< HEAD
-=======
-
->>>>>>> relax
 - ✅ Validates on startup (fails fast with clear errors)
 - ✅ Type coercion (strings → numbers, booleans)
 - ✅ Default values

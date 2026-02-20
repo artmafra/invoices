@@ -7,11 +7,7 @@ import type { AuthMethod } from "@/types/auth/step-up-auth.types";
  */
 interface ImpersonatedBy {
   id: string;
-<<<<<<< HEAD
-  name: string | null;
-=======
   name: string;
->>>>>>> relax
   email: string;
 }
 

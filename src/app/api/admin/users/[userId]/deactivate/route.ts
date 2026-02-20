@@ -33,11 +33,7 @@ export const POST = withErrorHandler(async (request: NextRequest, context: Route
   // Check if user exists and if they have a system role
   const existingUser = await userService.getUserByIdWithRole(userId);
   if (!existingUser) {
-<<<<<<< HEAD
-    throw new NotFoundError("User");
-=======
     throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Check if user has a system role
@@ -55,11 +51,7 @@ export const POST = withErrorHandler(async (request: NextRequest, context: Route
   } catch (err: unknown) {
     const deactivateError = err as { message?: string };
     if (deactivateError.message?.includes("not found")) {
-<<<<<<< HEAD
-      throw new NotFoundError("User");
-=======
       throw new NotFoundError("User", "USER_NOT_FOUND");
->>>>>>> relax
     }
     throw err;
   }
@@ -68,11 +60,7 @@ export const POST = withErrorHandler(async (request: NextRequest, context: Route
   await activityService.logAction(session, "deactivate", "users", {
     type: "user",
     id: userId,
-<<<<<<< HEAD
-    name: existingUser.name || existingUser.email,
-=======
     name: existingUser.name,
->>>>>>> relax
   });
 
   // Transform to DTO to exclude password hash

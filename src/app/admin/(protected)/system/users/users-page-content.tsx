@@ -12,10 +12,7 @@ import { useUsers } from "@/hooks/admin/use-users";
 import { useUsersActions } from "@/hooks/admin/use-users-actions";
 import { useUsersDialogs } from "@/hooks/admin/use-users-dialogs";
 import { useUsersFilters } from "@/hooks/admin/use-users-filters";
-<<<<<<< HEAD
-=======
 import { useStepUpAuth } from "@/hooks/public/use-step-up-auth";
->>>>>>> relax
 import { usePaginationSize } from "@/hooks/use-pagination-size";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
@@ -32,10 +29,7 @@ import { ErrorBoundary } from "@/components/shared/error-boundary";
 import { LoadingTransition } from "@/components/shared/loading-transition";
 import { PageContainer } from "@/components/shared/page-container";
 import { PageDescription } from "@/components/shared/page-description";
-<<<<<<< HEAD
-=======
 import { StepUpAuthDialog } from "@/components/shared/step-up-auth-dialog";
->>>>>>> relax
 import { Button } from "@/components/ui/button";
 import { SidebarInset } from "@/components/ui/sidebar";
 
@@ -46,12 +40,9 @@ export function AdminUsersSettingsPageContent() {
   // Permissions
   const permissions = useUserPermissions();
 
-<<<<<<< HEAD
-=======
   // Step-up authentication
   const stepUpAuth = useStepUpAuth();
 
->>>>>>> relax
   // Filters and sorting
   const {
     filters,
@@ -129,25 +120,18 @@ export function AdminUsersSettingsPageContent() {
     handleResendInvite,
     handleConfirmToggleUserStatus,
     handleConfirmPermanentlyDeleteUser,
-<<<<<<< HEAD
-    handleConfirmStartImpersonation,
-=======
     handleConfirmStartImpersonation: handleImpersonation,
->>>>>>> relax
     handleConfirmUnlockUser,
     handleEditUser,
     shouldDisableAction,
     getDisabledActionTooltip,
   } = actions;
 
-<<<<<<< HEAD
-=======
   // Wrap the impersonation confirmation with step-up auth
   const handleConfirmStartImpersonation = () => {
     stepUpAuth.withStepUp(handleImpersonation);
   };
 
->>>>>>> relax
   // Sync app permissions state when editing user's permissions are fetched
   useEffect(() => {
     if (editingUserAppPermissions?.permissions) {
@@ -300,11 +284,7 @@ export function AdminUsersSettingsPageContent() {
             onOpenChange={(open) => !open && closeDeleteConfirm()}
             title={t("deleteTitle")}
             description={t("deleteDescription", {
-<<<<<<< HEAD
-              name: dialogs.userToDelete?.name || dialogs.userToDelete?.email || "",
-=======
               name: dialogs.userToDelete?.name || "",
->>>>>>> relax
             })}
             confirmText={tc("buttons.delete")}
             onConfirm={handleConfirmPermanentlyDeleteUser}
@@ -319,19 +299,10 @@ export function AdminUsersSettingsPageContent() {
             description={
               dialogs.userToToggleStatus?.isActive
                 ? t("deactivateDescription", {
-<<<<<<< HEAD
-                    name:
-                      dialogs.userToToggleStatus?.name || dialogs.userToToggleStatus?.email || "",
-                  })
-                : t("activateDescription", {
-                    name:
-                      dialogs.userToToggleStatus?.name || dialogs.userToToggleStatus?.email || "",
-=======
                     name: dialogs.userToToggleStatus?.name || "",
                   })
                 : t("activateDescription", {
                     name: dialogs.userToToggleStatus?.name || "",
->>>>>>> relax
                   })
             }
             confirmText={
@@ -347,11 +318,7 @@ export function AdminUsersSettingsPageContent() {
             onOpenChange={(open) => !open && closeImpersonateConfirm()}
             title={t("impersonateTitle")}
             description={t("impersonateDescription", {
-<<<<<<< HEAD
-              name: dialogs.userToImpersonate?.name || dialogs.userToImpersonate?.email || "",
-=======
               name: dialogs.userToImpersonate?.name || "",
->>>>>>> relax
             })}
             confirmText={t("startImpersonation")}
             onConfirm={handleConfirmStartImpersonation}
@@ -364,19 +331,13 @@ export function AdminUsersSettingsPageContent() {
             onOpenChange={(open) => !open && closeUnlockConfirm()}
             title={t("unlockTitle")}
             description={t("unlockDescription", {
-<<<<<<< HEAD
-              name: dialogs.userToUnlock?.name || dialogs.userToUnlock?.email || "",
-=======
               name: dialogs.userToUnlock?.name || "",
->>>>>>> relax
             })}
             confirmText={t("unlockAccount")}
             onConfirm={handleConfirmUnlockUser}
             loading={mutations.unlockUser.isPending}
             variant="warning"
           />
-<<<<<<< HEAD
-=======
 
           {/* Step-up authentication dialog for impersonation */}
           <StepUpAuthDialog
@@ -389,7 +350,6 @@ export function AdminUsersSettingsPageContent() {
             title={t("stepUpAuth.impersonateTitle")}
             description={t("stepUpAuth.impersonateDescription")}
           />
->>>>>>> relax
         </PageContainer>
       </SidebarInset>
     </ErrorBoundary>

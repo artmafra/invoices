@@ -133,13 +133,7 @@ export function NoteCard({
         <div className="flex gap-space-sm">
           {note.createdBy ? (
             <UserHoverCard userId={note.createdBy.id}>
-<<<<<<< HEAD
-              <span className="cursor-pointer hover:underline">
-                {note.createdBy.name || note.createdBy.email}
-              </span>
-=======
               <span className="cursor-pointer hover:underline">{note.createdBy.name}</span>
->>>>>>> relax
             </UserHoverCard>
           ) : (
             <span>Unknown</span>

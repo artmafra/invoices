@@ -44,20 +44,12 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     const setting = await settingsService.getSetting(validatedQuery.key);
 
     if (!setting) {
-<<<<<<< HEAD
-      throw new NotFoundError("Setting");
-=======
       throw new NotFoundError("Setting", "SETTING_NOT_FOUND");
->>>>>>> relax
     }
 
     // Filter out sensitive settings for non-system users
     if (isSensitiveSetting(setting.key) && !session?.user?.isSystemRole) {
-<<<<<<< HEAD
-      throw new NotFoundError("Setting");
-=======
       throw new NotFoundError("Setting", "SETTING_NOT_FOUND");
->>>>>>> relax
     }
 
     return NextResponse.json(setting);

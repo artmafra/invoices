@@ -101,15 +101,11 @@ export function NoteFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
           <Form {...form}>
-<<<<<<< HEAD
-            <form id="note-form" onSubmit={form.handleSubmit(handleSubmit)} className="space-y-space-lg">
-=======
             <form
               id="note-form"
               onSubmit={form.handleSubmit(handleSubmit)}
               className="space-y-space-lg"
             >
->>>>>>> relax
               <FormField
                 control={form.control}
                 name="title"

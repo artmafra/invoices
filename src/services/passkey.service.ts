@@ -178,11 +178,7 @@ export class PasskeyService {
       rpName,
       rpID: this.getRpId(),
       userName: userEmail,
-<<<<<<< HEAD
-      userDisplayName: userName || userEmail,
-=======
       userDisplayName: userName,
->>>>>>> relax
       // Don't prompt user for additional authenticators
       attestationType: "none",
       // Prevent re-registering existing authenticators

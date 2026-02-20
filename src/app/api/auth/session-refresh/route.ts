@@ -20,11 +20,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   const user = await userService.getUserByIdWithRole(session.user.id);
 
   if (!user) {
-<<<<<<< HEAD
-    throw new NotFoundError("User not found");
-=======
     throw new NotFoundError("User not found", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Return user data that can be used to update the session

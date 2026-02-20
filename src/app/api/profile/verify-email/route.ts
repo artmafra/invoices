@@ -28,11 +28,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   // Get the user's current email from the database
   const currentUser = await userService.getUserById(session.user.id);
   if (!currentUser) {
-<<<<<<< HEAD
-    throw new NotFoundError("User not found");
-=======
     throw new NotFoundError("User not found", "USER_NOT_FOUND");
->>>>>>> relax
   }
 
   // Check if email is already verified

@@ -134,17 +134,11 @@ export const STEP_UP_CONFIG = {
   WINDOW_MS: 10 * 60 * 1000, // 10 minutes
 
   /** Allowed methods for step-up verification */
-<<<<<<< HEAD
-  METHODS: ["password", "passkey"] as const,
-} as const;
-
-=======
   METHODS: ["password", "passkey", "totp"] as const,
 } as const;
 
 export type StepUpMethod = (typeof STEP_UP_CONFIG.METHODS)[number];
 
->>>>>>> relax
 // =============================================================================
 // Rate Limiting Policy
 // =============================================================================

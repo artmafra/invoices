@@ -535,10 +535,7 @@
       "errors": {
         "verifyFailed": "Verification failed. Please try again.",
         "invalidCredentials": "Invalid credentials. Please check and try again.",
-<<<<<<< HEAD
-=======
         "stepUpMethodNotAllowed": "This authentication method is not allowed by policy.",
->>>>>>> relax
         "tooManyAttempts": "Too many attempts. Please try again later."
       }
     }
@@ -642,22 +639,16 @@
       "passkey": {
         "title": "Use passkey",
         "description": "Use your fingerprint, face, or security key"
-<<<<<<< HEAD
-=======
       },
       "totp": {
         "title": "Use authenticator app",
         "description": "Enter code from your authenticator app"
->>>>>>> relax
       }
     },
     "backToMethods": "Back",
     "passwordLabel": "Current password",
     "passwordPlaceholder": "Enter your password",
-<<<<<<< HEAD
-=======
     "totpLabel": "Verification code",
->>>>>>> relax
     "passkeyPrompt": "Click the button below to verify with your passkey",
     "passkeyWaiting": "Waiting for passkey verification...",
     "verifyButton": "Verify",

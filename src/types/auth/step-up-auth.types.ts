@@ -23,10 +23,7 @@ export interface StepUpAuthResponse {
 export interface AuthCapabilities {
   hasPassword: boolean;
   hasPasskeys: boolean;
-<<<<<<< HEAD
-=======
   hasTotp: boolean;
->>>>>>> relax
 }
 
 // ========================================

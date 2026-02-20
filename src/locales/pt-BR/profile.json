@@ -535,10 +535,7 @@
       "errors": {
         "verifyFailed": "Falha na verificação. Tente novamente.",
         "invalidCredentials": "Credenciais inválidas. Verifique e tente novamente.",
-<<<<<<< HEAD
-=======
         "stepUpMethodNotAllowed": "Este método de autenticação não é permitido pela política.",
->>>>>>> relax
         "tooManyAttempts": "Muitas tentativas. Tente novamente mais tarde."
       }
     }
@@ -642,22 +639,16 @@
       "passkey": {
         "title": "Usar chave de acesso",
         "description": "Use sua impressão digital, rosto ou chave de segurança"
-<<<<<<< HEAD
-=======
       },
       "totp": {
         "title": "Usar aplicativo autenticador",
         "description": "Digite o código do seu aplicativo autenticador"
->>>>>>> relax
       }
     },
     "backToMethods": "Voltar",
     "passwordLabel": "Senha atual",
     "passwordPlaceholder": "Digite sua senha",
-<<<<<<< HEAD
-=======
     "totpLabel": "Código de verificação",
->>>>>>> relax
     "passkeyPrompt": "Clique no botão abaixo para verificar com sua chave de acesso",
     "passkeyWaiting": "Aguardando verificação da chave de acesso...",
     "verifyButton": "Verificar",

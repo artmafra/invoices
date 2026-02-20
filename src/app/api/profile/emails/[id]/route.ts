@@ -49,11 +49,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   // Get email to verify ownership and log activity
   const userEmail = await userEmailService.getEmailById(id);
   if (!userEmail) {
-<<<<<<< HEAD
-    throw new NotFoundError("Email");
-=======
     throw new NotFoundError("Email", "EMAIL_NOT_FOUND");
->>>>>>> relax
   }
 
   if (userEmail.userId !== session.user.id) {
@@ -109,11 +105,7 @@ export const GET = withErrorHandler(async (request: NextRequest, context: RouteP
 
   const userEmail = await userEmailService.getEmailById(id);
   if (!userEmail) {
-<<<<<<< HEAD
-    throw new NotFoundError("Email");
-=======
     throw new NotFoundError("Email", "EMAIL_NOT_FOUND");
->>>>>>> relax
   }
 
   if (userEmail.userId !== session.user.id) {

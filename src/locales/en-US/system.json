@@ -31,13 +31,10 @@
     "impersonateTitle": "Start Impersonation?",
     "impersonateDescription": "You are about to view the application as \"{name}\". You will see the app with their permissions and access. Your actions will be logged.",
     "startImpersonation": "Start Impersonation",
-<<<<<<< HEAD
-=======
     "stepUpAuth": {
       "impersonateTitle": "Verify Your Identity",
       "impersonateDescription": "For security, please confirm your identity before impersonating another user."
     },
->>>>>>> relax
     "unlockTitle": "Unlock Account?",
     "unlockDescription": "Are you sure you want to unlock the account for \"{name}\"? This will allow them to attempt logging in again immediately.",
     "noUsersFiltered": "No users match your filters.",
@@ -610,12 +607,6 @@
         "userExists": "A user with this email already exists",
         "emailInUse": "Email address is already in use",
         "notFound": "User not found",
-<<<<<<< HEAD
-        "cannotImpersonateSelf": "You cannot impersonate yourself",
-        "alreadyImpersonating": "You are already impersonating another user",
-        "cannotImpersonateSystem": "System users cannot be impersonated",
-        "userInactive": "Cannot impersonate inactive user"
-=======
         "userNotFound": "User not found",
         "cannotImpersonateSelf": "You cannot impersonate yourself",
         "alreadyImpersonating": "You are already impersonating another user",
@@ -626,7 +617,6 @@
         "cannotModifySelf": "You cannot perform this action on your own account",
         "cannotDeleteSelf": "You cannot delete your own account",
         "insufficientPermissions": "You don't have sufficient permissions for this action"
->>>>>>> relax
       }
     },
     "roles": {
@@ -642,10 +632,7 @@
         "noPermissionUpdate": "This role can't be modified",
         "noPermissionDelete": "This role can't be deleted",
         "roleExists": "A role with this name already exists",
-<<<<<<< HEAD
-=======
         "roleNotFound": "Role not found",
->>>>>>> relax
         "checkDetails": "Please check the role details"
       }
     },
@@ -654,10 +641,7 @@
       "allRevoked": "All sessions revoked",
       "errors": {
         "fetchFailed": "Failed to fetch sessions",
-<<<<<<< HEAD
-=======
         "sessionNotFound": "Session not found",
->>>>>>> relax
         "revokeFailed": "Failed to revoke session",
         "revokeAllFailed": "Failed to revoke sessions",
         "trackFailed": "Failed to track session",
@@ -687,10 +671,7 @@
         "fetchFailed": "Failed to fetch admin settings",
         "createFailed": "Failed to create setting",
         "updateFailed": "Failed to update setting",
-<<<<<<< HEAD
-=======
         "settingNotFound": "Setting not found",
->>>>>>> relax
         "uploadFailed": "Failed to upload image",
         "noPermissionCreate": "You don't have permission to create settings",
         "noPermissionUpdate": "You don't have permission to update settings",
@@ -699,9 +680,6 @@
         "imageTooLarge": "Image file is too large",
         "invalidImage": "Invalid or corrupted image file",
         "notAnImage": "File must be an image",
-<<<<<<< HEAD
-        "unsupportedFormat": "Unsupported image format"
-=======
         "unsupportedFormat": "Unsupported image format",
         "invalidImageKey": "Invalid image key",
         "noImageKey": "No image key provided",
@@ -709,7 +687,6 @@
         "invalidPathSeparator": "Invalid path format",
         "invalidPathCharacters": "Path contains invalid characters",
         "pathNotAllowed": "Access to this path is not allowed"
->>>>>>> relax
       }
     },
     "activity": {

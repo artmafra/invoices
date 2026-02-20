@@ -432,19 +432,10 @@ export const useStartImpersonation = () => {
       // This is one of the few cases where invalidating everything is correct and necessary
       await queryClient.invalidateQueries();
 
-<<<<<<< HEAD
-      toast.success(
-        t("viewingAs", { name: data.impersonatedUser.name || data.impersonatedUser.email }),
-      );
-
-      // Navigate to admin root to avoid permission errors on current page
-      router.push("/admin");
-=======
       toast.success(t("viewingAs", { name: data.impersonatedUser.name }));
 
       // Navigate to admin root to avoid permission errors on current page
       router.push("/admin/profile");
->>>>>>> relax
     },
     onError: (error: Error) => {
       handleMutationError(error, {

@@ -282,13 +282,9 @@ export function VerifyIntegrityDialog({
                   </div>
                   <div>
                     <p className="font-medium text-destructive">{t("verificationFailed")}</p>
-<<<<<<< HEAD
-                    <p className="text-sm text-muted-foreground mt-space-xs">{t("errorOccurred")}</p>
-=======
                     <p className="text-sm text-muted-foreground mt-space-xs">
                       {t("errorOccurred")}
                     </p>
->>>>>>> relax
                   </div>
                 </div>
               </div>

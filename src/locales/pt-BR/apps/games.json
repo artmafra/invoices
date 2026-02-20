@@ -79,12 +79,8 @@
     "updateFailed": "Falha ao atualizar jogo",
     "deleteFailed": "Falha ao excluir jogo",
     "uploadFailed": "Falha ao enviar imagem de capa",
-<<<<<<< HEAD
-    "removeCoverFailed": "Falha ao remover imagem de capa"
-=======
     "removeCoverFailed": "Falha ao remover imagem de capa",
     "gameNotFound": "Jogo não encontrado",
     "gameExists": "Um jogo com este nome já existe"
->>>>>>> relax
   }
 }

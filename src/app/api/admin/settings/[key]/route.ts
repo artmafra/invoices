@@ -45,11 +45,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   const setting = await settingsService.getSetting(validatedData.key);
 
   if (!setting) {
-<<<<<<< HEAD
-    throw new NotFoundError("Setting");
-=======
     throw new NotFoundError("Setting", "SETTING_NOT_FOUND");
->>>>>>> relax
   }
 
   const deleted = await settingsService.deleteSetting(validatedData.key);

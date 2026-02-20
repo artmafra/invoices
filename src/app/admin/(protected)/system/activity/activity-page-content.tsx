@@ -136,11 +136,7 @@ export function AdminActivityPageContent() {
               anyLabel={t("filters.any")}
               options={users.map((user: AdminUserResponse) => ({
                 value: user.id,
-<<<<<<< HEAD
-                label: user.name || user.email,
-=======
                 label: user.name,
->>>>>>> relax
               }))}
             />
 

@@ -92,11 +92,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   // Check for duplicate name
   const isNameAvailable = await gameService.isNameAvailable(validation.data.name);
   if (!isNameAvailable) {
-<<<<<<< HEAD
-    throw new ConflictError("A game with this name already exists");
-=======
     throw new ConflictError("A game with this name already exists", "GAME_EXISTS");
->>>>>>> relax
   }
 
   const game = await gameService.create({

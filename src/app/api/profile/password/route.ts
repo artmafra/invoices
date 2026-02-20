@@ -2,11 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
 import { withErrorHandler } from "@/lib/api-handler";
 import { auth } from "@/lib/auth";
-<<<<<<< HEAD
-import { fromZodError, UnauthorizedError, ValidationError } from "@/lib/errors";
-=======
 import { fromZodError, RateLimitError, UnauthorizedError, ValidationError } from "@/lib/errors";
->>>>>>> relax
 import { validatePasswordServer } from "@/lib/password-policy.server";
 import { getClientIp, withRateLimit } from "@/lib/rate-limit";
 import { requireStepUpAuth } from "@/lib/step-up-auth";
@@ -74,11 +70,7 @@ export const PUT = withErrorHandler(async (request: NextRequest) => {
   await activityService.logAction(session, "change_password", "users", {
     type: "user",
     id: session.user.id,
-<<<<<<< HEAD
-    name: session.user.name || session.user.email || undefined,
-=======
     name: session.user.name || undefined,
->>>>>>> relax
   });
 
   return NextResponse.json({

@@ -194,11 +194,7 @@ export function SessionsPageContent() {
               isRevoking={revokeAllUserSessionsMutation.isPending}
               sessionCount={dialogs.userToRevokeAll?.sessionCount || 0}
               translationNamespace="system.sessions"
-<<<<<<< HEAD
-              targetUserName={dialogs.userToRevokeAll?.name || dialogs.userToRevokeAll?.email}
-=======
               targetUserName={dialogs.userToRevokeAll?.name}
->>>>>>> relax
             />
           </LoadingTransition>
         </PageContainer>

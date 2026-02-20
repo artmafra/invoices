@@ -15,11 +15,7 @@ export type EmailIdParam = z.infer<typeof emailIdParamSchema>;
 // ========================================
 
 export const updateProfileSchema = z.object({
-<<<<<<< HEAD
-  name: z.string().max(255).optional(),
-=======
   name: z.string().min(1, "Name cannot be empty").max(255).optional(),
->>>>>>> relax
   phone: z.string().max(20).optional(),
 });
 

@@ -128,11 +128,7 @@ export const POST = withErrorHandler(async (req: NextRequest) => {
     {
       type: "user",
       id: session.user.id,
-<<<<<<< HEAD
-      name: session.user.name || session.user.email || undefined,
-=======
       name: session.user.name || undefined,
->>>>>>> relax
     },
     { metadata: { googleEmail: email } },
   );
@@ -170,11 +166,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest) => {
   await activityService.logAction(session, "unlink_google", "users", {
     type: "user",
     id: session.user.id,
-<<<<<<< HEAD
-    name: session.user.name || session.user.email || undefined,
-=======
     name: session.user.name || undefined,
->>>>>>> relax
   });
 
   // Send security alert email (async, don't block response)

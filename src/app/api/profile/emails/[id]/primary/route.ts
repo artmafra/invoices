@@ -50,11 +50,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, context: Rout
   // Get email to verify ownership
   const userEmail = await userEmailService.getEmailById(id);
   if (!userEmail) {
-<<<<<<< HEAD
-    throw new NotFoundError("Email");
-=======
     throw new NotFoundError("Email", "EMAIL_NOT_FOUND");
->>>>>>> relax
   }
 
   if (userEmail.userId !== session.user.id) {
@@ -73,11 +69,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, context: Rout
     );
 
     if (!result) {
-<<<<<<< HEAD
-      throw new NotFoundError("Email");
-=======
       throw new NotFoundError("Email", "EMAIL_NOT_FOUND");
->>>>>>> relax
     }
 
     // Log activity

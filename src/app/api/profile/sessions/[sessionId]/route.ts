@@ -31,11 +31,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   const targetSession = await userSessionService.getSessionById(sessionId);
 
   if (!targetSession) {
-<<<<<<< HEAD
-    throw new NotFoundError("Session not found");
-=======
     throw new NotFoundError("Session not found", "SESSION_NOT_FOUND");
->>>>>>> relax
   }
 
   if (targetSession.userId !== session.user.id) {

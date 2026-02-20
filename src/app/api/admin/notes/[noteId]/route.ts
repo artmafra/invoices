@@ -26,11 +26,7 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
   const note = await noteService.getByIdWithCreator(noteId);
 
   if (!note) {
-<<<<<<< HEAD
-    throw new NotFoundError("Note not found");
-=======
     throw new NotFoundError("Note not found", "NOTE_NOT_FOUND");
->>>>>>> relax
   }
 
   return NextResponse.json(note);
@@ -52,11 +48,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   const existingNote = await noteService.getByIdWithCreator(noteId);
 
   if (!existingNote) {
-<<<<<<< HEAD
-    throw new NotFoundError("Note not found");
-=======
     throw new NotFoundError("Note not found", "NOTE_NOT_FOUND");
->>>>>>> relax
   }
 
   const body = await request.json();
@@ -124,11 +116,7 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
   const existingNote = await noteService.getById(noteId);
 
   if (!existingNote) {
-<<<<<<< HEAD
-    throw new NotFoundError("Note not found");
-=======
     throw new NotFoundError("Note not found", "NOTE_NOT_FOUND");
->>>>>>> relax
   }
 
   await noteService.delete(noteId);
