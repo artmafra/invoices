@@ -35,6 +35,10 @@ requireStepUpAuth(session);
 
 - Password (credentials)
 - Passkey (WebAuthn)
+<<<<<<< HEAD
+=======
+- TOTP (Authenticator App)
+>>>>>>> relax
 
 ## Key files
 

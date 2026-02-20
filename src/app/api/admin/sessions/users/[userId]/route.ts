@@ -25,7 +25,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
 
   // Get the target user's email for logging
   const targetUser = await userService.getUserById(userId);
+<<<<<<< HEAD
   const targetUserName = targetUser?.name || targetUser?.email || userId;
+=======
+  const targetUserName = targetUser?.name || userId;
+>>>>>>> relax
 
   // Revoke all sessions for a specific user
   const count = await userSessionService.revokeAllUserSessions(userId);

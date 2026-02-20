@@ -76,6 +76,10 @@
     "createFailed": "Falha ao criar nota",
     "updateFailed": "Falha ao atualizar nota",
     "deleteFailed": "Falha ao excluir nota",
+<<<<<<< HEAD
+=======
+    "noteNotFound": "Nota não encontrada",
+>>>>>>> relax
     "togglePinFailed": "Falha ao alternar fixação",
     "archiveFailed": "Falha ao arquivar nota",
     "unarchiveFailed": "Falha ao desarquivar nota",

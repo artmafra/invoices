@@ -547,11 +547,24 @@ export async function handleGoogleSignIn(
     }
 
     // Update user's name from Google if it changed (but preserve existing profile picture)
+<<<<<<< HEAD
     if (existingUser.name !== user.name) {
+=======
+    // Only update if Google provided a non-empty name
+    if (user.name && existingUser.name !== user.name) {
+>>>>>>> relax
       await userService.updateUser(existingUser.id, {
         name: user.name,
         emailVerified: existingUser.emailVerified || new Date(),
       });
+<<<<<<< HEAD
+=======
+    } else if (!user.name && !existingUser.emailVerified) {
+      // At least verify the email even if we can't update the name
+      await userService.updateUser(existingUser.id, {
+        emailVerified: new Date(),
+      });
+>>>>>>> relax
     }
 
     // Set user data for the session

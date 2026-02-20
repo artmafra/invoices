@@ -128,7 +128,15 @@ export function GameFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
           <Form {...form}>
+<<<<<<< HEAD
             <form id="game-form" onSubmit={form.handleSubmit(handleSubmit)} className="space-y-space-lg">
+=======
+            <form
+              id="game-form"
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-space-lg"
+            >
+>>>>>>> relax
               {/* Cover Image */}
               <div className="space-y-space-sm">
                 <FormLabel>{t("fields.coverImage")}</FormLabel>

@@ -79,6 +79,12 @@
     "updateFailed": "Failed to update game",
     "deleteFailed": "Failed to delete game",
     "uploadFailed": "Failed to upload cover image",
+<<<<<<< HEAD
     "removeCoverFailed": "Failed to remove cover image"
+=======
+    "removeCoverFailed": "Failed to remove cover image",
+    "gameNotFound": "Game not found",
+    "gameExists": "A game with this name already exists"
+>>>>>>> relax
   }
 }

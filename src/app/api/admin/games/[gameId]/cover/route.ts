@@ -23,7 +23,11 @@ export const POST = withErrorHandler(async (request: NextRequest, { params }: Ro
   const existingGame = await gameService.getById(gameId);
 
   if (!existingGame) {
+<<<<<<< HEAD
     throw new NotFoundError("Game not found");
+=======
+    throw new NotFoundError("Game not found", "GAME_NOT_FOUND");
+>>>>>>> relax
   }
 
   const formData = await request.formData();
@@ -95,7 +99,11 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
   const existingGame = await gameService.getById(gameId);
 
   if (!existingGame) {
+<<<<<<< HEAD
     throw new NotFoundError("Game not found");
+=======
+    throw new NotFoundError("Game not found", "GAME_NOT_FOUND");
+>>>>>>> relax
   }
 
   // Update game to remove cover image URL

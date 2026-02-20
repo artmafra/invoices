@@ -4,6 +4,13 @@ import { z } from "zod";
 // Storage Param Schemas
 // ========================================
 
+<<<<<<< HEAD
+=======
+/**
+ * Storage key schema - validates structure only
+ * Security validation (path traversal, allowed paths) is done in the route for specific error codes
+ */
+>>>>>>> relax
 export const storageKeyParamSchema = z.object({
   key: z
     .union([z.array(z.string()), z.string()])
@@ -22,6 +29,7 @@ export const storageKeyParamSchema = z.object({
         throw new Error("Invalid image key");
       }
     })
+<<<<<<< HEAD
     .refine(
       (segments) => {
         // Validate each segment
@@ -48,6 +56,8 @@ export const storageKeyParamSchema = z.object({
       },
       { message: "Invalid image key" },
     )
+=======
+>>>>>>> relax
     .transform((segments) => segments.join("/")), // Return as string path
 });
 

@@ -76,6 +76,10 @@ export function EmailsSection() {
     handleStepUpSuccess,
     hasPassword,
     hasPasskeys,
+<<<<<<< HEAD
+=======
+    hasTotp,
+>>>>>>> relax
     withStepUp,
   } = useStepUpAuth();
 
@@ -440,6 +444,10 @@ export function EmailsSection() {
         onSuccess={handleStepUpSuccess}
         hasPassword={hasPassword}
         hasPasskeys={hasPasskeys}
+<<<<<<< HEAD
+=======
+        hasTotp={hasTotp}
+>>>>>>> relax
       />
     </>
   );

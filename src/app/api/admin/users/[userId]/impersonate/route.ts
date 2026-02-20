@@ -2,6 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { withErrorHandler } from "@/lib/api-handler";
 import { auth, generateSessionUpdateToken } from "@/lib/auth";
 import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } from "@/lib/errors";
+<<<<<<< HEAD
+=======
+import { requireStepUpAuth } from "@/lib/step-up-auth";
+>>>>>>> relax
 import { activityService } from "@/services/runtime/activity";
 import { appPermissionsService } from "@/services/runtime/app-permissions";
 import { permissionService } from "@/services/runtime/permission";
@@ -30,6 +34,12 @@ export const POST = withErrorHandler(async (request: NextRequest, { params }: Ro
     throw new ForbiddenError("Only system administrators can impersonate users");
   }
 
+<<<<<<< HEAD
+=======
+  // SECURITY: Require step-up authentication for impersonation
+  requireStepUpAuth(session);
+
+>>>>>>> relax
   const { userId } = userIdParamSchema.parse(await params);
 
   // Prevent impersonating yourself
@@ -49,7 +59,11 @@ export const POST = withErrorHandler(async (request: NextRequest, { params }: Ro
   const targetUser = await userService.getUserById(userId);
 
   if (!targetUser) {
+<<<<<<< HEAD
     throw new NotFoundError("User");
+=======
+    throw new NotFoundError("User", "USER_NOT_FOUND");
+>>>>>>> relax
   }
 
   // Check if target is a system user
@@ -87,7 +101,11 @@ export const POST = withErrorHandler(async (request: NextRequest, { params }: Ro
   await activityService.logAction(session, "impersonate.start", "user", {
     type: "user",
     id: targetUser.id,
+<<<<<<< HEAD
     name: targetUser.name || targetUser.email,
+=======
+    name: targetUser.name,
+>>>>>>> relax
   });
 
   // Build impersonated user data
@@ -158,7 +176,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
   const originalUser = await userService.getUserById(originalAdminId);
 
   if (!originalUser) {
+<<<<<<< HEAD
     throw new NotFoundError("Original user");
+=======
+    throw new NotFoundError("Original user", "USER_NOT_FOUND");
+>>>>>>> relax
   }
 
   // Get original user's role and permissions
@@ -189,7 +211,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
     {
       type: "user",
       id: session.user.id,
+<<<<<<< HEAD
       name: (session.user.name || session.user.email) ?? undefined,
+=======
+      name: session.user.name ?? undefined,
+>>>>>>> relax
     },
   );
 

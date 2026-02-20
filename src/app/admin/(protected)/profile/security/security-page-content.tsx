@@ -75,6 +75,10 @@ export function SecurityPageContent() {
     handleStepUpSuccess,
     hasPassword,
     hasPasskeys: hasPasskeysForStepUp,
+<<<<<<< HEAD
+=======
+    hasTotp,
+>>>>>>> relax
     withStepUp,
   } = useStepUpAuth();
 
@@ -220,6 +224,10 @@ export function SecurityPageContent() {
                   onSuccess={handleStepUpSuccess}
                   hasPassword={hasPassword}
                   hasPasskeys={hasPasskeysForStepUp}
+<<<<<<< HEAD
+=======
+                  hasTotp={hasTotp}
+>>>>>>> relax
                 />
               )}
             </>

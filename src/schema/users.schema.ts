@@ -5,7 +5,11 @@ export const usersTable = pgTable(
   "users",
   {
     id: uuid("id").primaryKey().notNull(),
+<<<<<<< HEAD
     name: varchar("name", { length: 255 }),
+=======
+    name: varchar("name", { length: 255 }).notNull(),
+>>>>>>> relax
     email: varchar("email", { length: 255 }).notNull().unique(),
     emailVerified: timestamp("email_verified", { withTimezone: true }),
     image: varchar("image", { length: 255 }),

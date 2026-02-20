@@ -118,7 +118,15 @@ export function TaskFormDialog({
             {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
           <Form {...form}>
+<<<<<<< HEAD
             <form id="task-form" onSubmit={form.handleSubmit(handleSubmit)} className="space-y-section">
+=======
+            <form
+              id="task-form"
+              onSubmit={form.handleSubmit(handleSubmit)}
+              className="space-y-section"
+            >
+>>>>>>> relax
               <FormField
                 control={form.control}
                 name="title"

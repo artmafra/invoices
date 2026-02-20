@@ -73,7 +73,11 @@ export const PUT = withErrorHandler(
     // Self-grant restriction: cannot modify own permissions unless system role
     const targetUser = await userService.getUserById(userId);
     if (!targetUser) {
+<<<<<<< HEAD
       throw new NotFoundError("User");
+=======
+      throw new NotFoundError("User", "USER_NOT_FOUND");
+>>>>>>> relax
     }
 
     if (session.user.id === userId) {
@@ -136,7 +140,11 @@ export const PUT = withErrorHandler(
     await activityService.logUpdate(
       session,
       "users",
+<<<<<<< HEAD
       { type: "user", id: userId, name: targetUser.name || targetUser.email },
+=======
+      { type: "user", id: userId, name: targetUser.name },
+>>>>>>> relax
       changes,
     );
 

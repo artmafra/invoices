@@ -30,7 +30,11 @@ export const GET = withErrorHandler(async (request: NextRequest, { params }: Rou
     async () => {
       const user = await userService.getUserByIdWithRole(userId);
       if (!user) {
+<<<<<<< HEAD
         throw new NotFoundError("User not found");
+=======
+        throw new NotFoundError("User not found", "USER_NOT_FOUND");
+>>>>>>> relax
       }
       // Return minimal data needed for hover card
       return {

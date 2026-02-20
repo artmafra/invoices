@@ -36,7 +36,12 @@ export const useStepUpVerify = () => {
     },
     onError: (error: Error) => {
       handleMutationError(error, {
+<<<<<<< HEAD
         validation: t("errors.invalidCredentials"),
+=======
+        invalidCredentials: t("errors.invalidCredentials"),
+        stepUpMethodNotAllowed: t("errors.stepUpMethodNotAllowed"),
+>>>>>>> relax
         rateLimitExceeded: t("errors.tooManyAttempts"),
         fallback: t("errors.verifyFailed"),
       });
@@ -95,6 +100,14 @@ interface UseStepUpAuthReturn {
   hasPasskeys: boolean;
 
   /**
+<<<<<<< HEAD
+=======
+   * Whether the user has TOTP configured
+   */
+  hasTotp: boolean;
+
+  /**
+>>>>>>> relax
    * Execute an action that requires step-up auth.
    * Opens dialog if verification needed, otherwise executes immediately.
    */
@@ -130,6 +143,10 @@ interface UseStepUpAuthReturn {
  *   onSuccess={handleStepUpSuccess}
  *   hasPassword={hasPassword}
  *   hasPasskeys={hasPasskeys}
+<<<<<<< HEAD
+=======
+ *   hasTotp={hasTotp}
+>>>>>>> relax
  * />
  * ```
  */
@@ -142,12 +159,24 @@ export function useStepUpAuth(options: UseStepUpAuthOptions = {}): UseStepUpAuth
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [pendingAction, setPendingAction] = useState<(() => void | Promise<void>) | null>(null);
 
+<<<<<<< HEAD
   // Auth capabilities from profile
   const hasPassword = profile?.hasPassword ?? false;
   const hasPasskeys = profile?.hasPasskeys ?? false;
 
   // Check if user can perform step-up auth (has at least one method)
   const canStepUp = hasPassword || hasPasskeys;
+=======
+  // Auth capabilities from profile (filtered by policy)
+  const hasPassword =
+    (profile?.hasPassword ?? false) && STEP_UP_CONFIG.METHODS.includes("password");
+  const hasPasskeys = (profile?.hasPasskeys ?? false) && STEP_UP_CONFIG.METHODS.includes("passkey");
+  const hasTotp =
+    (profile?.totpTwoFactorEnabled ?? false) && STEP_UP_CONFIG.METHODS.includes("totp");
+
+  // Check if user can perform step-up auth (has at least one method)
+  const canStepUp = hasPassword || hasPasskeys || hasTotp;
+>>>>>>> relax
 
   // Check if step-up is verified (within grace period)
   const isVerified = useCallback(() => {
@@ -222,6 +251,10 @@ export function useStepUpAuth(options: UseStepUpAuthOptions = {}): UseStepUpAuth
     handleStepUpSuccess,
     hasPassword,
     hasPasskeys,
+<<<<<<< HEAD
+=======
+    hasTotp,
+>>>>>>> relax
     withStepUp,
   };
 }

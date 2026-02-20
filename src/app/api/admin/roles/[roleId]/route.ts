@@ -36,11 +36,19 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
   // Check if role is a system role
   const existingRole = await roleService.getRoleByIdWithPermissions(roleId);
   if (!existingRole) {
+<<<<<<< HEAD
     throw new NotFoundError("Role");
   }
 
   if (existingRole.isSystem) {
     throw new ForbiddenError("System roles cannot be modified");
+=======
+    throw new NotFoundError("Role", "ROLE_NOT_FOUND");
+  }
+
+  if (existingRole.isSystem) {
+    throw new ForbiddenError("System roles cannot be modified", "SYSTEM_RESOURCE_PROTECTED");
+>>>>>>> relax
   }
 
   const body = await request.json();
@@ -85,7 +93,11 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
   } catch (err: unknown) {
     const updateError = err as Error;
     if (updateError.message?.includes("not found")) {
+<<<<<<< HEAD
       throw new NotFoundError("Role");
+=======
+      throw new NotFoundError("Role", "ROLE_NOT_FOUND");
+>>>>>>> relax
     }
     if (updateError.message?.includes("already exists")) {
       throw new ConflictError(updateError.message, "ROLE_NAME_EXISTS");
@@ -175,7 +187,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   // Check if role is a system role
   const existingRole = await roleService.getRoleById(roleId);
   if (!existingRole) {
+<<<<<<< HEAD
     throw new NotFoundError("Role");
+=======
+    throw new NotFoundError("Role", "ROLE_NOT_FOUND");
+>>>>>>> relax
   }
 
   if (existingRole.isSystem) {
@@ -192,7 +208,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   } catch (err: unknown) {
     const deleteError = err as Error;
     if (deleteError.message?.includes("not found")) {
+<<<<<<< HEAD
       throw new NotFoundError("Role");
+=======
+      throw new NotFoundError("Role", "ROLE_NOT_FOUND");
+>>>>>>> relax
     }
     if (deleteError.message?.includes("protected")) {
       throw new ValidationError(deleteError.message);

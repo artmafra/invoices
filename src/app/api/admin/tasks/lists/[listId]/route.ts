@@ -26,7 +26,11 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
   const list = await taskService.getListById(listId);
 
   if (!list) {
+<<<<<<< HEAD
     throw new NotFoundError("Task list not found");
+=======
+    throw new NotFoundError("Task list not found", "TASK_LIST_NOT_FOUND");
+>>>>>>> relax
   }
 
   return NextResponse.json(list);
@@ -48,7 +52,11 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   const existingList = await taskService.getListById(listId);
 
   if (!existingList) {
+<<<<<<< HEAD
     throw new NotFoundError("Task list not found");
+=======
+    throw new NotFoundError("Task list not found", "TASK_LIST_NOT_FOUND");
+>>>>>>> relax
   }
 
   const body = await request.json();
@@ -95,7 +103,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
   const existingList = await taskService.getListById(listId);
 
   if (!existingList) {
+<<<<<<< HEAD
     throw new NotFoundError("Task list not found");
+=======
+    throw new NotFoundError("Task list not found", "TASK_LIST_NOT_FOUND");
+>>>>>>> relax
   }
 
   await taskService.deleteList(listId);

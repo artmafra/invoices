@@ -56,8 +56,12 @@ export function PendingInviteCard({
               </Badge>
             </div>
             <CardDescription>
+<<<<<<< HEAD
               {t("invitedBy", { name: invite.inviterName || invite.inviterEmail })} •{" "}
               {formatTimeUntil(invite.expiresAt)}
+=======
+              {t("invitedBy", { name: invite.inviterName })} • {formatTimeUntil(invite.expiresAt)}
+>>>>>>> relax
             </CardDescription>
           </div>
 

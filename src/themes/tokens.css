@@ -121,6 +121,20 @@
         var(--surface-hue)
     );
     --sidebar-ring: oklch(0.75 0.03 var(--primary-hue));
+<<<<<<< HEAD
+=======
+
+    /* Scrollbar */
+    --scrollbar-thumb: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 10) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --scrollbar-thumb-hover: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 13) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --scrollbar-track: transparent;
+>>>>>>> relax
   }
 
   /* ----- Dark Theme (OKLCH Computed Tokens) ----- */
@@ -216,5 +230,19 @@
         var(--surface-hue)
     );
     --sidebar-ring: oklch(0.4 0.03 var(--primary-hue));
+<<<<<<< HEAD
+=======
+
+    /* Scrollbar */
+    --scrollbar-thumb: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 4) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --scrollbar-thumb-hover: oklch(
+      calc(var(--lightness-base) + var(--lightness-step) * 6) var(--surface-chroma)
+        var(--surface-hue)
+    );
+    --scrollbar-track: transparent;
+>>>>>>> relax
   }
 }

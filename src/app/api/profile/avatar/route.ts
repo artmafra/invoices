@@ -88,7 +88,11 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     {
       type: "user",
       id: session.user.id,
+<<<<<<< HEAD
       name: session.user.name || session.user.email || undefined,
+=======
+      name: session.user.name || undefined,
+>>>>>>> relax
     },
     {
       metadata: {
@@ -135,7 +139,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest) => {
   await activityService.logAction(session, "delete_avatar", "users", {
     type: "user",
     id: session.user.id,
+<<<<<<< HEAD
     name: session.user.name || session.user.email || undefined,
+=======
+    name: session.user.name || undefined,
+>>>>>>> relax
   });
 
   return NextResponse.json({

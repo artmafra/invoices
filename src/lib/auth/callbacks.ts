@@ -176,7 +176,11 @@ async function handleSessionUpdate(token: JWT, session: Record<string, unknown>)
 
       token.impersonatedBy = {
         id: userId,
+<<<<<<< HEAD
         name: (token.name as string) || null,
+=======
+        name: token.name as string,
+>>>>>>> relax
         email: token.email!,
       };
       token.sub = payload.id;
@@ -349,7 +353,11 @@ export function sessionCallback({ session, token }: { session: Session; token: J
     if (token.impersonatedBy) {
       session.user.impersonatedBy = token.impersonatedBy as {
         id: string;
+<<<<<<< HEAD
         name: string | null;
+=======
+        name: string;
+>>>>>>> relax
         email: string;
       };
     }

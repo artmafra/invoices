@@ -157,6 +157,11 @@ export function useUsersActions({
 
   /**
    * Confirm start impersonation handler
+<<<<<<< HEAD
+=======
+   * Note: This is called after the warning dialog confirms.
+   * The step-up auth check is handled by the parent component.
+>>>>>>> relax
    */
   const handleConfirmStartImpersonation = async () => {
     const user = dialogs.userToImpersonate;

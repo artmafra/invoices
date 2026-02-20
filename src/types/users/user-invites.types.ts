@@ -14,7 +14,11 @@ export const pendingUserInviteResponseSchema = z.object({
   roleId: z.uuid().nullable(),
   roleName: z.string().nullable(),
   invitedBy: z.uuid(),
+<<<<<<< HEAD
   inviterName: z.string().nullable(),
+=======
+  inviterName: z.string(),
+>>>>>>> relax
   inviterEmail: z.email(),
   expiresAt: z.string().datetime(),
   createdAt: z.string().datetime(),

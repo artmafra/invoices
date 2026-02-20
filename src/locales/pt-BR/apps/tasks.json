@@ -70,12 +70,24 @@
     "updated": "Tarefa atualizada",
     "deleted": "Tarefa excluída"
   },
+<<<<<<< HEAD
+=======
+  "errors": {
+    "noCreatePermission": "Você não tem permissão para criar tarefas",
+    "noEditPermission": "Você não tem permissão para editar tarefas",
+    "noDeletePermission": "Você não tem permissão para excluir tarefas"
+  },
+>>>>>>> relax
   "hooks": {
     "fetchFailed": "Falha ao buscar tarefas",
     "fetchOneFailed": "Falha ao buscar tarefa",
     "createFailed": "Falha ao criar tarefa",
     "updateFailed": "Falha ao atualizar tarefa",
     "deleteFailed": "Falha ao excluir tarefa",
+<<<<<<< HEAD
+=======
+    "taskNotFound": "Tarefa não encontrada",
+>>>>>>> relax
     "lists": {
       "created": "Lista de tarefas criada",
       "updated": "Lista de tarefas atualizada",
@@ -84,7 +96,12 @@
       "fetchOneFailed": "Falha ao buscar lista de tarefas",
       "createFailed": "Falha ao criar lista de tarefas",
       "updateFailed": "Falha ao atualizar lista de tarefas",
+<<<<<<< HEAD
       "deleteFailed": "Falha ao excluir lista de tarefas"
+=======
+      "deleteFailed": "Falha ao excluir lista de tarefas",
+      "taskListNotFound": "Lista de tarefas não encontrada"
+>>>>>>> relax
     }
   }
 }

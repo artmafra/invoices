@@ -45,16 +45,57 @@ export type MutationErrorMessages = {
   // User/account related
   userExists?: string;
   userInactive?: string;
+<<<<<<< HEAD
+=======
+  userNotFound?: string;
+>>>>>>> relax
 
   // Role related
   roleExists?: string;
   roleNameExists?: string;
+<<<<<<< HEAD
+=======
+  roleNotFound?: string;
+
+  // Game related
+  gameExists?: string;
+  gameNotFound?: string;
+
+  // Task related
+  taskNotFound?: string;
+  taskListNotFound?: string;
+
+  // Note related
+  noteNotFound?: string;
+
+  // Settings related
+  settingNotFound?: string;
+
+  // Email related (existing + new)
+  emailNotFound?: string;
+
+  // Storage related
+  imageNotFound?: string;
+
+  // Permission/Authorization related
+  insufficientPermissions?: string;
+  systemResourceProtected?: string;
+  ownershipMismatch?: string;
+  cannotModifySelf?: string;
+  cannotDeleteSelf?: string;
+  notAuthenticated?: string;
+  invalidCredentials?: string;
+>>>>>>> relax
 
   // Auth/token related
   invalidResetToken?: string;
   invalidInviteToken?: string;
   invalidVerificationCode?: string;
   invalid2faCode?: string;
+<<<<<<< HEAD
+=======
+  sessionNotFound?: string;
+>>>>>>> relax
   sessionExpired?: string;
 
   // Email related
@@ -99,6 +140,20 @@ export type MutationErrorMessages = {
   alreadyImpersonating?: string;
   cannotImpersonateSystem?: string;
 
+<<<<<<< HEAD
+=======
+  // Step-up auth related
+  stepUpMethodNotAllowed?: string;
+
+  // Storage/Path security
+  invalidImageKey?: string;
+  noImageKey?: string;
+  pathTraversalAttempt?: string;
+  invalidPathSeparator?: string;
+  invalidPathCharacters?: string;
+  pathNotAllowed?: string;
+
+>>>>>>> relax
   // Generic fallback (required)
   fallback: string;
 };
@@ -116,10 +171,51 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   // User/account related
   USER_EXISTS: "userExists",
   USER_INACTIVE: "userInactive",
+<<<<<<< HEAD
+=======
+  USER_NOT_FOUND: "userNotFound",
+>>>>>>> relax
 
   // Role related
   ROLE_EXISTS: "roleExists",
   ROLE_NAME_EXISTS: "roleNameExists",
+<<<<<<< HEAD
+=======
+  ROLE_NOT_FOUND: "roleNotFound",
+
+  // Game related
+  GAME_EXISTS: "gameExists",
+  GAME_NOT_FOUND: "gameNotFound",
+
+  // Task related
+  TASK_NOT_FOUND: "taskNotFound",
+  TASK_LIST_NOT_FOUND: "taskListNotFound",
+
+  // Note related
+  NOTE_NOT_FOUND: "noteNotFound",
+
+  // Session related
+  SESSION_NOT_FOUND: "sessionNotFound",
+  SESSION_EXPIRED: "sessionExpired",
+
+  // Settings related
+  SETTING_NOT_FOUND: "settingNotFound",
+
+  // Email related (existing + new)
+  EMAIL_NOT_FOUND: "emailNotFound",
+
+  // Storage related
+  IMAGE_NOT_FOUND: "imageNotFound",
+
+  // Permission/Authorization related
+  INSUFFICIENT_PERMISSIONS: "insufficientPermissions",
+  SYSTEM_RESOURCE_PROTECTED: "systemResourceProtected",
+  OWNERSHIP_MISMATCH: "ownershipMismatch",
+  CANNOT_MODIFY_SELF: "cannotModifySelf",
+  CANNOT_DELETE_SELF: "cannotDeleteSelf",
+  NOT_AUTHENTICATED: "notAuthenticated",
+  INVALID_CREDENTIALS: "invalidCredentials",
+>>>>>>> relax
 
   // Auth/token related
   INVALID_RESET_TOKEN: "invalidResetToken",
@@ -168,6 +264,20 @@ const CODE_TO_MESSAGE_KEY: Record<string, keyof MutationErrorMessages> = {
   CANNOT_IMPERSONATE_SELF: "cannotImpersonateSelf",
   ALREADY_IMPERSONATING: "alreadyImpersonating",
   CANNOT_IMPERSONATE_SYSTEM: "cannotImpersonateSystem",
+<<<<<<< HEAD
+=======
+
+  // Step-up auth related
+  STEP_UP_METHOD_NOT_ALLOWED: "stepUpMethodNotAllowed",
+
+  // Storage/Path security
+  INVALID_IMAGE_KEY: "invalidImageKey",
+  NO_IMAGE_KEY: "noImageKey",
+  PATH_TRAVERSAL_ATTEMPT: "pathTraversalAttempt",
+  INVALID_PATH_SEPARATOR: "invalidPathSeparator",
+  INVALID_PATH_CHARACTERS: "invalidPathCharacters",
+  PATH_NOT_ALLOWED: "pathNotAllowed",
+>>>>>>> relax
 };
 
 /**

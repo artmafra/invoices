@@ -28,7 +28,15 @@ export const ThemeToggleButton = ({
       onClick={onClick}
       size="sm"
       variant="outline"
+<<<<<<< HEAD
       className={cn("relative overflow-hidden transition-all", showLabel && "gap-space-sm", className)}
+=======
+      className={cn(
+        "relative overflow-hidden transition-all",
+        showLabel && "gap-space-sm",
+        className,
+      )}
+>>>>>>> relax
       aria-label="Toggle theme"
     >
       {theme === "light" ? (

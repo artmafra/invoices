@@ -31,6 +31,13 @@
     "impersonateTitle": "Iniciar Personificação?",
     "impersonateDescription": "Você está prestes a visualizar o aplicativo como \"{name}\". Você verá o aplicativo com as permissões e acesso deles. Suas ações serão registradas.",
     "startImpersonation": "Iniciar Personificação",
+<<<<<<< HEAD
+=======
+    "stepUpAuth": {
+      "impersonateTitle": "Verifique Sua Identidade",
+      "impersonateDescription": "Por segurança, confirme sua identidade antes de personificar outro usuário."
+    },
+>>>>>>> relax
     "unlockTitle": "Desbloquear Conta?",
     "unlockDescription": "Tem certeza de que deseja desbloquear a conta de \"{name}\"? Isso permitirá que eles tentem fazer login novamente imediatamente.",
     "noUsersFiltered": "Nenhum usuário corresponde aos seus filtros.",
@@ -602,10 +609,23 @@
         "userExists": "Um usuário com este e-mail já existe",
         "emailInUse": "Endereço de e-mail já está em uso",
         "notFound": "Usuário não encontrado",
+<<<<<<< HEAD
         "cannotImpersonateSelf": "Você não pode personificar a si mesmo",
         "alreadyImpersonating": "Você já está personificando outro usuário",
         "cannotImpersonateSystem": "Usuários do sistema não podem ser personificados",
         "userInactive": "Não é possível personificar usuário inativo"
+=======
+        "userNotFound": "Usuário não encontrado",
+        "cannotImpersonateSelf": "Você não pode personificar a si mesmo",
+        "alreadyImpersonating": "Você já está personificando outro usuário",
+        "cannotImpersonateSystem": "Usuários do sistema não podem ser personificados",
+        "userInactive": "Não é possível personificar usuário inativo",
+        "systemResourceProtected": "Este recurso é protegido e não pode ser modificado",
+        "ownershipMismatch": "Você não tem permissão para acessar este recurso",
+        "cannotModifySelf": "Você não pode executar esta ação em sua própria conta",
+        "cannotDeleteSelf": "Você não pode excluir sua própria conta",
+        "insufficientPermissions": "Você não tem permissões suficientes para esta ação"
+>>>>>>> relax
       }
     },
     "roles": {
@@ -621,6 +641,10 @@
         "noPermissionUpdate": "Esta função não pode ser modificada",
         "noPermissionDelete": "Esta função não pode ser excluída",
         "roleExists": "Uma função com este nome já existe",
+<<<<<<< HEAD
+=======
+        "roleNotFound": "Função não encontrada",
+>>>>>>> relax
         "checkDetails": "Por favor, verifique os detalhes da função"
       }
     },
@@ -629,6 +653,10 @@
       "allRevoked": "Todas as sessões revogadas",
       "errors": {
         "fetchFailed": "Falha ao buscar sessões",
+<<<<<<< HEAD
+=======
+        "sessionNotFound": "Sessão não encontrada",
+>>>>>>> relax
         "revokeFailed": "Falha ao revogar sessão",
         "revokeAllFailed": "Falha ao revogar sessões",
         "trackFailed": "Falha ao rastrear sessão",
@@ -658,6 +686,10 @@
         "fetchFailed": "Falha ao buscar configurações de administrador",
         "createFailed": "Falha ao criar configuração",
         "updateFailed": "Falha ao atualizar configuração",
+<<<<<<< HEAD
+=======
+        "settingNotFound": "Configuração não encontrada",
+>>>>>>> relax
         "uploadFailed": "Falha ao enviar imagem",
         "noPermissionCreate": "Você não tem permissão para criar configurações",
         "noPermissionUpdate": "Você não tem permissão para atualizar configurações",
@@ -666,7 +698,17 @@
         "imageTooLarge": "Arquivo de imagem muito grande",
         "invalidImage": "Arquivo de imagem inválido ou corrompido",
         "notAnImage": "O arquivo deve ser uma imagem",
+<<<<<<< HEAD
         "unsupportedFormat": "Formato de imagem não suportado"
+=======
+        "unsupportedFormat": "Formato de imagem não suportado",
+        "invalidImageKey": "Chave de imagem inválida",
+        "noImageKey": "Nenhuma chave de imagem fornecida",
+        "pathTraversalAttempt": "Acesso negado: Caminho inválido",
+        "invalidPathSeparator": "Formato de caminho inválido",
+        "invalidPathCharacters": "O caminho contém caracteres inválidos",
+        "pathNotAllowed": "Acesso a este caminho não é permitido"
+>>>>>>> relax
       }
     },
     "activity": {

@@ -6,7 +6,11 @@
  * Each app has its own routes, permissions, settings, and navigation items.
  */
 
+<<<<<<< HEAD
 import { CheckSquare, Gamepad2, ScrollText, StickyNote, type LucideIcon } from "lucide-react";
+=======
+import { CheckSquare, Gamepad2, StickyNote, type LucideIcon } from "lucide-react";
+>>>>>>> relax
 
 // =============================================================================
 // App Type Definitions
@@ -149,6 +153,7 @@ export const APPS_REGISTRY: AppDefinition[] = [
       { resource: "games", action: "delete", description: "Delete" },
     ],
   }),
+<<<<<<< HEAD
 
   defineApp("invoices", {
     slug: "invoices",
@@ -165,6 +170,8 @@ export const APPS_REGISTRY: AppDefinition[] = [
       { resource: "invoices", action: "delete", description: "Delete" },
     ],
   }),
+=======
+>>>>>>> relax
 ];
 
 // =============================================================================

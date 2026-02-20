@@ -73,9 +73,13 @@ export function ActivityTimelineItem({ log }: ActivityTimelineItemProps) {
   const impersonation = log.details?.impersonation;
   const effectiveDisplay = log.userName || log.userEmail || "System";
   const effectiveId = impersonation?.effective.id || log.userId;
+<<<<<<< HEAD
   const actorDisplay = impersonation
     ? impersonation.actor.name || impersonation.actor.email || impersonation.actor.id
     : effectiveDisplay;
+=======
+  const actorDisplay = impersonation ? impersonation.actor.name : effectiveDisplay;
+>>>>>>> relax
   const actorId = impersonation?.actor.id;
 
   return (

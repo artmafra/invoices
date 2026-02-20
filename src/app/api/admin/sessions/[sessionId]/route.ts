@@ -26,12 +26,20 @@ export const DELETE = withErrorHandler(async (request: NextRequest, context: Rou
   const targetSession = await userSessionService.getSessionById(sessionId);
 
   if (!targetSession) {
+<<<<<<< HEAD
     throw new NotFoundError("Session");
+=======
+    throw new NotFoundError("Session", "SESSION_NOT_FOUND");
+>>>>>>> relax
   }
 
   // Get user info for logging
   const sessionUser = await userService.getUserById(targetSession.userId);
+<<<<<<< HEAD
   const sessionUserName = sessionUser?.name || sessionUser?.email || targetSession.userId;
+=======
+  const sessionUserName = sessionUser?.name || targetSession.userId;
+>>>>>>> relax
   const sessionDeviceInfo = `${targetSession.browser ?? "Unknown"} on ${targetSession.os ?? "Unknown"}`;
 
   await userSessionService.revokeSession(sessionId, "Admin revoked");

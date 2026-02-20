@@ -101,7 +101,13 @@ export function ValueItem({ field, value }: ValueItemProps) {
             ))}
           </div>
         ) : (
+<<<<<<< HEAD
           <span className="text-muted-foreground text-xs ml-space-xs">{tCommon("values.none")}</span>
+=======
+          <span className="text-muted-foreground text-xs ml-space-xs">
+            {tCommon("values.none")}
+          </span>
+>>>>>>> relax
         )}
       </div>
     );
@@ -145,7 +151,13 @@ export function ValueItem({ field, value }: ValueItemProps) {
   return (
     <div className="text-sm flex items-center gap-space-sm flex-wrap">
       <span>{fieldLabel}:</span>
+<<<<<<< HEAD
       <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">{String(value)}</code>
+=======
+      <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">
+        {String(value)}
+      </code>
+>>>>>>> relax
     </div>
   );
 }

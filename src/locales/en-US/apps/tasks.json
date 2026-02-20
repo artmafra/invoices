@@ -70,12 +70,24 @@
     "updated": "Task updated",
     "deleted": "Task deleted"
   },
+<<<<<<< HEAD
+=======
+  "errors": {
+    "noCreatePermission": "You don't have permission to create tasks",
+    "noEditPermission": "You don't have permission to edit tasks",
+    "noDeletePermission": "You don't have permission to delete tasks"
+  },
+>>>>>>> relax
   "hooks": {
     "fetchFailed": "Failed to fetch tasks",
     "fetchOneFailed": "Failed to fetch task",
     "createFailed": "Failed to create task",
     "updateFailed": "Failed to update task",
     "deleteFailed": "Failed to delete task",
+<<<<<<< HEAD
+=======
+    "taskNotFound": "Task not found",
+>>>>>>> relax
     "lists": {
       "created": "Task list created",
       "updated": "Task list updated",
@@ -84,7 +96,12 @@
       "fetchOneFailed": "Failed to fetch task list",
       "createFailed": "Failed to create task list",
       "updateFailed": "Failed to update task list",
+<<<<<<< HEAD
       "deleteFailed": "Failed to delete task list"
+=======
+      "deleteFailed": "Failed to delete task list",
+      "taskListNotFound": "Task list not found"
+>>>>>>> relax
     }
   }
 }

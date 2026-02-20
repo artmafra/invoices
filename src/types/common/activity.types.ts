@@ -36,7 +36,10 @@ export const activityTargetSchema = z.object({
   id: z.string().optional(),
   /** Display name for the entity */
   name: z.string().optional(),
+<<<<<<< HEAD
   number: z.string().optional(),
+=======
+>>>>>>> relax
 });
 
 // ========================================
@@ -61,13 +64,21 @@ export const activityDetailsSchema = z.object({
       /** The real actor performing the action (e.g., admin) */
       actor: z.object({
         id: z.string(),
+<<<<<<< HEAD
         name: z.string().nullable().optional(),
+=======
+        name: z.string(),
+>>>>>>> relax
         email: z.string().nullable().optional(),
       }),
       /** The effective user identity used for authorization */
       effective: z.object({
         id: z.string(),
+<<<<<<< HEAD
         name: z.string().nullable().optional(),
+=======
+        name: z.string(),
+>>>>>>> relax
         email: z.string().nullable().optional(),
       }),
     })

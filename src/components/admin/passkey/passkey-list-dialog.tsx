@@ -67,6 +67,10 @@ export function PasskeyListDialog({ open, onOpenChange, onSuccess }: PasskeyList
     handleStepUpSuccess,
     hasPassword,
     hasPasskeys: hasPasskeysForStepUp,
+<<<<<<< HEAD
+=======
+    hasTotp,
+>>>>>>> relax
     withStepUp,
   } = useStepUpAuth();
 
@@ -307,6 +311,10 @@ export function PasskeyListDialog({ open, onOpenChange, onSuccess }: PasskeyList
         onSuccess={handleStepUpSuccess}
         hasPassword={hasPassword}
         hasPasskeys={hasPasskeysForStepUp}
+<<<<<<< HEAD
+=======
+        hasTotp={hasTotp}
+>>>>>>> relax
       />
     </>
   );

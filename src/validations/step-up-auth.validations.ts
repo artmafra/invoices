@@ -24,11 +24,28 @@ export const stepUpPasskeySchema = z.object({
 });
 
 /**
+<<<<<<< HEAD
  * Combined step-up authentication request schema
+=======
+ * Step-up authentication request (TOTP method)
+ */
+export const stepUpTotpSchema = z.object({
+  method: z.literal("totp"),
+  code: z.string().length(6, "Code must be 6 digits"),
+});
+
+/**
+ * Combined step-up authentication request schema
+ * Note: Method policy validation is done in the route for better error codes
+>>>>>>> relax
  */
 export const stepUpAuthSchema = z.discriminatedUnion("method", [
   stepUpPasswordSchema,
   stepUpPasskeySchema,
+<<<<<<< HEAD
+=======
+  stepUpTotpSchema,
+>>>>>>> relax
 ]);
 
 // ========================================

@@ -26,7 +26,11 @@ export const POST = withErrorHandler(async (request: NextRequest, { params }: Ro
   const existingNote = await noteService.getById(noteId);
 
   if (!existingNote) {
+<<<<<<< HEAD
     throw new NotFoundError("Note not found");
+=======
+    throw new NotFoundError("Note not found", "NOTE_NOT_FOUND");
+>>>>>>> relax
   }
 
   const note = await noteService.togglePin(noteId, session.user.id);

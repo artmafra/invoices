@@ -45,6 +45,7 @@ export interface NotePermissions {
 }
 
 /**
+<<<<<<< HEAD
  * Invoice permissions for the invoices resource
  */
 export interface InvoicePermissions {
@@ -54,6 +55,8 @@ export interface InvoicePermissions {
 }
 
 /**
+=======
+>>>>>>> relax
  * Game permissions for the games resource
  */
 export interface GamePermissions {
@@ -193,6 +196,7 @@ export function useNotePermissions(): NotePermissions & {
   };
 }
 
+<<<<<<< HEAD
 export function useInvoicePermissions(): InvoicePermissions & {
   currentUserId: string | undefined;
   isLoading: boolean;
@@ -210,6 +214,8 @@ export function useInvoicePermissions(): InvoicePermissions & {
   };
 }
 
+=======
+>>>>>>> relax
 /**
  * Hook to extract typed permissions for the games resource
  */

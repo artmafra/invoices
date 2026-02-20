@@ -85,6 +85,10 @@ export function EmailManageDialog({ open, onOpenChange, onSuccess }: EmailManage
     handleStepUpSuccess,
     hasPassword,
     hasPasskeys,
+<<<<<<< HEAD
+=======
+    hasTotp,
+>>>>>>> relax
     withStepUp,
   } = useStepUpAuth();
 
@@ -228,7 +232,14 @@ export function EmailManageDialog({ open, onOpenChange, onSuccess }: EmailManage
             ) : (
               <div className="divide-y divide-border">
                 {emailList.map((email) => (
+<<<<<<< HEAD
                   <div key={email.id} className="flex items-center justify-between gap-space-md py-space-md">
+=======
+                  <div
+                    key={email.id}
+                    className="flex items-center justify-between gap-space-md py-space-md"
+                  >
+>>>>>>> relax
                     <div className="flex items-center gap-space-md min-w-0">
                       <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-muted">
                         <Mail className="h-4 w-4 text-muted-foreground" />
@@ -438,6 +449,10 @@ export function EmailManageDialog({ open, onOpenChange, onSuccess }: EmailManage
         onSuccess={handleStepUpSuccess}
         hasPassword={hasPassword}
         hasPasskeys={hasPasskeys}
+<<<<<<< HEAD
+=======
+        hasTotp={hasTotp}
+>>>>>>> relax
       />
     </>
   );

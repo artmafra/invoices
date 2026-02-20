@@ -36,7 +36,11 @@ export interface ActivitySession {
     email?: string | null;
     impersonatedBy?: {
       id: string;
+<<<<<<< HEAD
       name: string | null;
+=======
+      name: string;
+>>>>>>> relax
       email: string;
     };
   };
@@ -144,8 +148,13 @@ export class ActivityService {
           },
           effective: {
             id: effectiveUserId,
+<<<<<<< HEAD
             name: sessionUser?.name ?? null,
             email: sessionUser?.email ?? null,
+=======
+            name: sessionUser!.name || "Unknown",
+            email: sessionUser!.email || "unknown@example.com",
+>>>>>>> relax
           },
         },
       };

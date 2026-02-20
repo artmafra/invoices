@@ -11,15 +11,24 @@ function normalizeObjectKey(rawSegments: string[] | undefined): string {
   try {
     segments = (rawSegments ?? []).map((segment) => decodeURIComponent(segment));
   } catch {
+<<<<<<< HEAD
     throw new ValidationError("Invalid image key");
   }
 
   if (segments.length === 0) {
     throw new ValidationError("No image key provided");
+=======
+    throw new ValidationError("Invalid image key", "INVALID_IMAGE_KEY");
+  }
+
+  if (segments.length === 0) {
+    throw new ValidationError("No image key provided", "NO_IMAGE_KEY");
+>>>>>>> relax
   }
 
   for (const segment of segments) {
     if (!segment || segment === "." || segment === "..") {
+<<<<<<< HEAD
       throw new ValidationError("Invalid image key");
     }
 
@@ -29,6 +38,17 @@ function normalizeObjectKey(rawSegments: string[] | undefined): string {
 
     if (!/^[a-zA-Z0-9._-]+$/.test(segment)) {
       throw new ValidationError("Invalid image key");
+=======
+      throw new ValidationError("Path traversal attempt detected", "PATH_TRAVERSAL_ATTEMPT");
+    }
+
+    if (segment.includes("/") || segment.includes("\\")) {
+      throw new ValidationError("Invalid path separator in segment", "INVALID_PATH_SEPARATOR");
+    }
+
+    if (!/^[a-zA-Z0-9._-]+$/.test(segment)) {
+      throw new ValidationError("Invalid characters in path segment", "INVALID_PATH_CHARACTERS");
+>>>>>>> relax
     }
   }
 
@@ -36,7 +56,11 @@ function normalizeObjectKey(rawSegments: string[] | undefined): string {
 
   // Hard allowlist: only serve images under the images/ prefix.
   if (!objectKey.startsWith("images/")) {
+<<<<<<< HEAD
     throw new ValidationError("Invalid image key");
+=======
+    throw new ValidationError("Access to this path is not allowed", "PATH_NOT_ALLOWED");
+>>>>>>> relax
   }
 
   return objectKey;
@@ -68,14 +92,22 @@ export const GET = withErrorHandler(
       const result = await file.getMetadata();
       metadata = result[0] as any;
     } catch {
+<<<<<<< HEAD
       throw new NotFoundError("Image");
+=======
+      throw new NotFoundError("Image", "IMAGE_NOT_FOUND");
+>>>>>>> relax
     }
 
     const contentType = metadata?.contentType;
 
     // Only serve raster images; reject SVG explicitly.
     if (!contentType || !contentType.startsWith("image/") || contentType === "image/svg+xml") {
+<<<<<<< HEAD
       throw new NotFoundError("Image");
+=======
+      throw new NotFoundError("Image", "IMAGE_NOT_FOUND");
+>>>>>>> relax
     }
 
     const etag = metadata?.etag;

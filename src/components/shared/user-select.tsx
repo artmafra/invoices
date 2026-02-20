@@ -64,7 +64,11 @@ export function UserSelect({
             <div className="flex items-center gap-space-sm truncate">
               <User className="h-4 w-4 shrink-0" />
               {selectedUser ? (
+<<<<<<< HEAD
                 <span className="truncate">{selectedUser.name || selectedUser.email}</span>
+=======
+                <span className="truncate">{selectedUser.name}</span>
+>>>>>>> relax
               ) : (
                 <span>{placeholder || t("placeholder")}</span>
               )}
@@ -95,7 +99,11 @@ export function UserSelect({
                 {users.map((user) => (
                   <CommandItem
                     key={user.id}
+<<<<<<< HEAD
                     value={`${user.name || ""} ${user.email}`}
+=======
+                    value={`${user.name} ${user.email}`}
+>>>>>>> relax
                     keywords={[user.id]}
                     onSelect={() => {
                       onChange(value === user.id ? null : user.id);
@@ -109,10 +117,15 @@ export function UserSelect({
                       )}
                     />
                     <div className="flex flex-col">
+<<<<<<< HEAD
                       <span>{user.name || user.email}</span>
                       {user.name && (
                         <span className="text-xs text-muted-foreground">{user.email}</span>
                       )}
+=======
+                      <span>{user.name}</span>
+                      <span className="text-xs text-muted-foreground">{user.email}</span>
+>>>>>>> relax
                     </div>
                   </CommandItem>
                 ))}

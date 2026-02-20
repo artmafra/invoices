@@ -65,6 +65,14 @@
   --sidebar-accent-foreground: hsl(220 10% 20%);
   --sidebar-border: hsl(220 10% 92%);
   --sidebar-ring: hsl(220 20% 70%);
+<<<<<<< HEAD
+=======
+
+  /* Scrollbar */
+  --scrollbar-thumb: hsl(345deg 3% 70%);
+  --scrollbar-thumb-hover: hsl(345deg 3% 60%);
+  --scrollbar-track: transparent;
+>>>>>>> relax
 }
 
 /* ----- Dark Theme (HSL Fallback) ----- */
@@ -125,4 +133,12 @@
   --sidebar-accent-foreground: hsl(0 0% 90%);
   --sidebar-border: hsl(220 8% 22%);
   --sidebar-ring: hsl(220 15% 35%);
+<<<<<<< HEAD
+=======
+
+  /* Scrollbar */
+  --scrollbar-thumb: hsl(345deg 3% 19%);
+  --scrollbar-thumb-hover: hsl(345deg 3% 23%);
+  --scrollbar-track: transparent;
+>>>>>>> relax
 }

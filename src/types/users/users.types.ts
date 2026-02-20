@@ -79,7 +79,11 @@ export const adminUserFiltersSchema = z.object({
 
 export const impersonateUserDataSchema = z.object({
   id: z.string(),
+<<<<<<< HEAD
   name: z.string().nullable(),
+=======
+  name: z.string(),
+>>>>>>> relax
   email: z.string(),
   image: z.string().nullable(),
   role: z.string(),
@@ -117,7 +121,11 @@ export const userAppPermissionsSchema = z.object({
 
 export const userHoverCardResponseSchema = z.object({
   id: z.string(),
+<<<<<<< HEAD
   name: z.string().nullable(),
+=======
+  name: z.string(),
+>>>>>>> relax
   email: z.string(),
   image: z.string().nullable(),
   roleName: z.string().nullable(),

@@ -32,7 +32,11 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
   const game = await gameService.getByIdWithCreator(gameId);
 
   if (!game) {
+<<<<<<< HEAD
     throw new NotFoundError("Game not found");
+=======
+    throw new NotFoundError("Game", "GAME_NOT_FOUND");
+>>>>>>> relax
   }
 
   return NextResponse.json(game);
@@ -54,7 +58,11 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   const existingGame = await gameService.getById(gameId);
 
   if (!existingGame) {
+<<<<<<< HEAD
     throw new NotFoundError("Game not found");
+=======
+    throw new NotFoundError("Game not found", "GAME_NOT_FOUND");
+>>>>>>> relax
   }
 
   const body = await request.json();
@@ -68,7 +76,11 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   if (validation.data.name && validation.data.name !== existingGame.name) {
     const isNameAvailable = await gameService.isNameAvailable(validation.data.name, gameId);
     if (!isNameAvailable) {
+<<<<<<< HEAD
       throw new ConflictError("A game with this name already exists");
+=======
+      throw new ConflictError("A game with this name already exists", "GAME_EXISTS");
+>>>>>>> relax
     }
   }
 
@@ -131,7 +143,11 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
   const existingGame = await gameService.getById(gameId);
 
   if (!existingGame) {
+<<<<<<< HEAD
     throw new NotFoundError("Game not found");
+=======
+    throw new NotFoundError("Game not found", "GAME_NOT_FOUND");
+>>>>>>> relax
   }
 
   await gameService.delete(gameId);

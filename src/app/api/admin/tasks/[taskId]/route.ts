@@ -27,7 +27,11 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
   const task = await taskService.getByIdWithRelations(taskId);
 
   if (!task) {
+<<<<<<< HEAD
     throw new NotFoundError("Task");
+=======
+    throw new NotFoundError("Task", "TASK_NOT_FOUND");
+>>>>>>> relax
   }
 
   return NextResponse.json(task);
@@ -50,7 +54,11 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   const existingTask = await taskService.getById(taskId);
 
   if (!existingTask) {
+<<<<<<< HEAD
     throw new NotFoundError("Task");
+=======
+    throw new NotFoundError("Task", "TASK_NOT_FOUND");
+>>>>>>> relax
   }
 
   const body = await request.json();
@@ -130,7 +138,11 @@ export const DELETE = withErrorHandler(async (request: NextRequest, { params }: 
   const existingTask = await taskService.getById(taskId);
 
   if (!existingTask) {
+<<<<<<< HEAD
     throw new NotFoundError("Task");
+=======
+    throw new NotFoundError("Task", "TASK_NOT_FOUND");
+>>>>>>> relax
   }
 
   await taskService.delete(taskId);

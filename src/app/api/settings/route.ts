@@ -32,7 +32,11 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     const setting = await settingsService.getSetting(validatedQuery.key);
 
     if (!setting || setting.scope !== "public") {
+<<<<<<< HEAD
       throw new NotFoundError("Setting not found");
+=======
+      throw new NotFoundError("Setting not found", "SETTING_NOT_FOUND");
+>>>>>>> relax
     }
 
     return NextResponse.json(setting);

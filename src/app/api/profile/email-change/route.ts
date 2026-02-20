@@ -51,7 +51,11 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   // Get the current email from the database (not session) to handle recent email changes
   const currentUser = await userService.getUserById(session.user.id);
   if (!currentUser) {
+<<<<<<< HEAD
     throw new NotFoundError("User");
+=======
+    throw new NotFoundError("User", "USER_NOT_FOUND");
+>>>>>>> relax
   }
 
   // Check if the new email is different from the current one
@@ -120,7 +124,11 @@ export const PUT = withErrorHandler(async (request: NextRequest) => {
     {
       type: "user",
       id: session.user.id,
+<<<<<<< HEAD
       name: session.user.name || session.user.email || undefined,
+=======
+      name: session.user.name || undefined,
+>>>>>>> relax
     },
     [{ field: "email", from: result.oldEmail, to: result.newEmail }],
   );
