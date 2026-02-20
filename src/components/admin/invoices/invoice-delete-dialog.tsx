@@ -32,17 +32,19 @@ export function InvoiceDeleteDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{t("deleteTitle")}</DialogTitle>
+          <DialogTitle>{"Excluir nota fiscal?"}</DialogTitle>
         </DialogHeader>
         <DialogBody>
-          <DialogDescription>{t("deleteDescription")}</DialogDescription>
+          <DialogDescription>
+            {"Isso excluirá permanentemente esta tarefa. Esta ação não pode ser desfeita."}
+          </DialogDescription>
         </DialogBody>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)}>
-            {tc("buttons.cancel")}
+            {"Cancelar"}
           </Button>
           <Button variant="destructive" onClick={onConfirm} disabled={isPending}>
-            {isPending ? tc("buttons.processing") : tc("buttons.delete")}
+            {isPending ? "Processando..." : "Excluir"}
           </Button>
         </DialogFooter>
       </DialogContent>

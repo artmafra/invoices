@@ -1,6 +1,5 @@
 import { type InvoiceStatus } from "@/schema/invoices.schema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { apiErrorFromResponseBody, handleMutationError } from "@/lib/api-request-error";
 import type { PaginatedResult } from "@/storage/types";
@@ -26,6 +25,7 @@ export interface Invoice {
   materialDeductionCents: number;
   netAmountCents: number;
   status: InvoiceStatus;
+  paidAt: string;
   createdAt: string;
   updatedAt: string;
 }
@@ -64,8 +64,6 @@ export const INVOICES_QUERY_KEY = QUERY_KEYS.all;
  * Get paginated invoices
  */
 export const useInvoices = (filters: InvoiceFilters = {}, page: number = 1, limit: number = 20) => {
-  const t = useTranslations("apps/invoices");
-
   return useQuery({
     queryKey: QUERY_KEYS.list(filters, page, limit),
     queryFn: async (): Promise<PaginatedResult<InvoiceWithRelations>> => {
@@ -85,7 +83,7 @@ export const useInvoices = (filters: InvoiceFilters = {}, page: number = 1, limi
       const response = await fetch(`/api/admin/invoices?${params.toString()}`);
 
       if (!response.ok) {
-        throw new Error(t("hooks.fetchFailed"));
+        throw new Error("Erro ao buscar nota fiscal");
       }
 
       return response.json();
@@ -99,15 +97,13 @@ export const useInvoices = (filters: InvoiceFilters = {}, page: number = 1, limi
  * Get single invoice by ID
  */
 export const useInvoice = (invoiceId: string) => {
-  const t = useTranslations("apps/invoices");
-
   return useQuery({
     queryKey: QUERY_KEYS.detail(invoiceId),
     queryFn: async (): Promise<InvoiceWithRelations> => {
       const response = await fetch(`/api/admin/invoices/${invoiceId}`);
 
       if (!response.ok) {
-        throw new Error(t("hooks.fetchOneFailed"));
+        throw new Error("Erro ao buscar nota fiscal");
       }
 
       return response.json();
@@ -122,7 +118,6 @@ export const useInvoice = (invoiceId: string) => {
  */
 export const useCreateInvoice = () => {
   const queryClient = useQueryClient();
-  const t = useTranslations("apps/invoices");
 
   return useMutation({
     mutationFn: async (data: CreateInvoiceInput): Promise<Invoice> => {
@@ -135,17 +130,17 @@ export const useCreateInvoice = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw apiErrorFromResponseBody(result, t("hooks.createFailed"));
+        throw apiErrorFromResponseBody(result, "Erro ao criar nota fiscal");
       }
 
       return result;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
-      toast.success(t("success.created"));
+      toast.success("Nota criada com sucesso");
     },
     onError: (error: Error) => {
-      handleMutationError(error, { fallback: t("hooks.createFailed") });
+      handleMutationError(error, { fallback: "Erro ao criar nota fiscal" });
     },
   });
 };
@@ -155,7 +150,6 @@ export const useCreateInvoice = () => {
  */
 export const useUpdateInvoice = () => {
   const queryClient = useQueryClient();
-  const t = useTranslations("apps/invoices");
 
   return useMutation({
     mutationFn: async ({
@@ -174,7 +168,7 @@ export const useUpdateInvoice = () => {
       const result = await response.json();
 
       if (!response.ok) {
-        throw apiErrorFromResponseBody(result, t("hooks.updateFailed"));
+        throw apiErrorFromResponseBody(result, "Erro ao atualizar nota fiscal");
       }
 
       return result;
@@ -182,10 +176,10 @@ export const useUpdateInvoice = () => {
     onSuccess: (_, variables) => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.detail(variables.invoiceId) });
-      toast.success(t("success.updated"));
+      toast.success("Nota atualizada com sucesso");
     },
     onError: (error: Error) => {
-      handleMutationError(error, { fallback: t("hooks.updateFailed") });
+      handleMutationError(error, { fallback: "Erro ao atualizar nota fiscal" });
     },
   });
 };
@@ -195,7 +189,6 @@ export const useUpdateInvoice = () => {
  */
 export const useDeleteInvoice = () => {
   const queryClient = useQueryClient();
-  const t = useTranslations("apps/invoices");
 
   return useMutation({
     mutationFn: async (invoiceId: string): Promise<void> => {
@@ -205,15 +198,15 @@ export const useDeleteInvoice = () => {
 
       if (!response.ok) {
         const result = await response.json();
-        throw apiErrorFromResponseBody(result, t("hooks.deleteFailed"));
+        throw apiErrorFromResponseBody(result, "Erro ao excluir nota fiscal");
       }
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
-      toast.success(t("success.deleted"));
+      toast.success("Nota excluída com sucesso");
     },
     onError: (error: Error) => {
-      handleMutationError(error, { fallback: t("hooks.deleteFailed") });
+      handleMutationError(error, { fallback: "Erro ao excluir nota fiscal" });
     },
   });
 };

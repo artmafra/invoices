@@ -149,23 +149,23 @@ export function InvoicesPageContent() {
     <ErrorBoundary fallback={AdminErrorFallback}>
       <SidebarInset>
         <AdminHeader
-          title={t("title")}
+          title={"Notas Fiscais"}
           actions={
             permissions.canCreate && (
               <Button size="sm" variant="outline" onClick={openCreateDialog}>
                 <Plus className="h-4" />
-                <span className="hidden sm:inline">{t("new")}</span>
+                <span className="hidden sm:inline">{"Nova"}</span>
               </Button>
             )
           }
         />
         <PageContainer>
-          <PageDescription>{t("description")}</PageDescription>
+          <PageDescription>{"Gerencie suas notas fiscais"}</PageDescription>
           <div className="space-y-section">
             {/* Search & Filters */}
             <SearchBar
               ref={searchRef}
-              searchPlaceholder={t("searchPlaceholder")}
+              searchPlaceholder={"Pesquisar notas fiscais..."}
               searchValue={searchInput}
               onSearchChange={setSearchInput}
               hasActiveFilters={hasActiveFilters}
@@ -195,7 +195,7 @@ export function InvoicesPageContent() {
             <LoadingTransition
               ref={animationRef}
               isLoading={isLoading && !data}
-              loadingMessage={tc("loading.invoices")}
+              loadingMessage={"Carregando notas fiscais..."}
             >
               <InvoicesListView
                 invoices={data?.data || []}

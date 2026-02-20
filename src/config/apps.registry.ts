@@ -152,7 +152,7 @@ export const APPS_REGISTRY: AppDefinition[] = [
 
   defineApp("invoices", {
     slug: "invoices",
-    name: "Invoices",
+    name: "Notas",
     description: "Create and manage corporational invoices",
     icon: ScrollText,
     iconName: "ScrollText",

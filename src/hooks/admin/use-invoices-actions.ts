@@ -1,7 +1,6 @@
 "use client";
 
 import type { InvoiceStatus } from "@/schema/invoices.schema";
-import { useTranslations } from "next-intl";
 import { withPermissionGuard } from "@/lib/mutations/permission-guard";
 import type { useCreateInvoice, useDeleteInvoice, useUpdateInvoice } from "./use-invoices";
 import type { InvoicePermissions } from "./use-resource-permissions";
@@ -35,14 +34,12 @@ export function useInvoicesActions({
   onUpdateSuccess,
   onDeleteSuccess,
 }: UseInvoicesActionsParams) {
-  const t = useTranslations("apps/invoices");
-
   /**
    * Create invoice handler
    */
   const handleCreate = withPermissionGuard(
     permissions.canCreate,
-    t("errors.noCreatePermission"),
+    "Você não tem autorização para criar uma nota fiscal",
     async (data: Parameters<typeof createMutation.mutateAsync>[0]) => {
       await createMutation.mutateAsync(data);
       onCreateSuccess?.();
@@ -55,7 +52,7 @@ export function useInvoicesActions({
    */
   const handleUpdate = withPermissionGuard(
     permissions.canEdit,
-    t("errors.noEditPermission"),
+    "Você não tem autorização para editar uma nota fiscal",
     async (data: Parameters<typeof updateMutation.mutateAsync>[0]) => {
       await updateMutation.mutateAsync(data);
       onUpdateSuccess?.();
@@ -67,7 +64,7 @@ export function useInvoicesActions({
    */
   const handleDelete = withPermissionGuard(
     permissions.canDelete,
-    t("errors.noDeletePermission"),
+    "Você não tem autorização para excluir uma nota fiscal",
     async (invoiceId: string) => {
       await deleteMutation.mutateAsync(invoiceId);
       onDeleteSuccess?.();
@@ -80,7 +77,7 @@ export function useInvoicesActions({
    */
   const handleStatusChange = withPermissionGuard(
     permissions.canEdit,
-    t("errors.noEditPermission"),
+    "Você não tem autorização para editar uma nota fiscal",
     (invoiceId: string, status: InvoiceStatus) => {
       updateMutation.mutate({
         invoiceId,

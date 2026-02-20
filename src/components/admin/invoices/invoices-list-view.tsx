@@ -63,7 +63,7 @@ export function InvoicesListView({
 
   // Filter for paid invoices if needed
   const filteredInvoices = invoices.filter((invoice) => {
-    return invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "paid";
+    return invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "Paga";
   });
 
   return (
@@ -87,9 +87,13 @@ export function InvoicesListView({
         </div>
       ) : (
         <EmptyState
-          title={hasActiveFilters ? t("empty.noFilterResults") : t("empty.noInvoices")}
+          title={
+            hasActiveFilters
+              ? "Nenhuma nota fiscal encontrada correspondente aos seus filtros."
+              : "Nenhuma nota fiscal ainda."
+          }
           action={{
-            label: t("createButton"),
+            label: "Criar Nota Fiscal",
             onClick: onCreate,
             icon: Plus,
           }}
