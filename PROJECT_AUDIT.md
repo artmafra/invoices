@@ -1,6 +1,7 @@
-# Backend Security Audit
+    # Backend Security Audit
 
 ## Summary
+
 - Authentication flows use layered controls: rate limiting on login and 2FA endpoints, Redis-backed lockout, and short-lived session-update tokens that gate impersonation, step-up, and passkey sign-ins.
 - Sensitive profile actions correctly require recent strong auth (password/passkey) and revoke other sessions (e.g., password change, passkey removal, 2FA disable) to contain account takeover.
 - Found high-risk gaps around admin-driven impersonation and password resets that allow hijacked admin sessions or stale sessions to persist after credential resets.
@@ -30,4 +31,5 @@
 - Low (M): Hash `sessionToken` before persisting (or drop it if unused) to reduce blast radius from a database leak; adjust lookups to compare hashes when needed.
 
 ## Optional Refactors
+
 - Add a centralized helper that applies both permission checks and step-up enforcement for “privileged admin” actions (impersonation, role/permission edits) to reduce drift between endpoints.

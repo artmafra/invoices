@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { useTranslations } from "next-intl";
 import { useListFilters } from "./use-list-filters";
 

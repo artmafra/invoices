@@ -1,0 +1,71 @@
+{
+  "title": "Notas Fiscais",
+  "description": "Gerencie suas notas fiscais",
+  "nav": {
+    "allTasks": "Notas Fiscais"
+  },
+  "searchPlaceholder": "Pesquisar notas fiscais...",
+  "new": "Nova",
+  "editTitle": "Editar Nota Fiscal",
+  "newTitle": "Nova Nota Fiscal",
+  "editDescription": "Faça alterações na sua nota fiscal abaixo.",
+  "createDescription": "Crie uma nova nota fiscal",
+  "fields": {
+    "supplierCnpj": "CNPJ do Fornecedor",
+    "supplierCnpjPlaceholder": "Digite o CNPJ do Fornecedor",
+    "serviceCode": "Código de Serviço",
+    "serviceCodePlaceholder": "Adicionar código de serviço...",
+    "dueDate": "Data de Vencimento",
+    "dueDatePlaceholder": "Selecione a data",
+    "issueDate": "Data de Emissão",
+    "issueDatePlaceholder": "Selecione a data",
+    "valueCents": "Valor da Nota Fiscal",
+    "invoiceNumber": "Número da Nota Fiscal",
+    "invoiceNumberPlaceholder": "Digite o Número da Nota Fiscal",
+    "status": "Status da Nota Fiscal",
+    "materialDeductionCents": "Dedução Material"
+  },
+  "allStatus": "Todos os Status",
+  "status": {
+    "issued": "Emitida",
+    "paid": "Paga",
+    "cancelled": "Cancelada"
+  },
+  "dates": {
+    "from": "De",
+    "to": "Até",
+    "select": "Selecione a Data"
+  },
+  "dueDate": "Vence em {date}",
+  "paidAt": "Paga em {date}",
+  "overdue": "Vencida",
+  "overdueOnly": "Apenas Vencidas",
+  "empty": {
+    "noFilterResults": "Nenhuma nota fiscal encontrada correspondente aos seus filtros.",
+    "noInvoices": "Nenhuma nota fiscal ainda.",
+    "createFirst": "Crie sua primeira tarefa para começar!"
+  },
+  "createButton": "Criar Nota Fiscal",
+  "updateButton": "Atualizar Nota Fiscal",
+  "creating": "Criando...",
+  "updating": "Atualizando...",
+  "deleteTitle": "Excluir nota fiscal?",
+  "deleteDescription": "Isso excluirá permanentemente esta nota fiscal. Esta ação não pode ser desfeita.",
+  "success": {
+    "created": "Nota fiscal criada",
+    "updated": "Nota fiscal atualizada",
+    "deleted": "Nota fiscal excluída"
+  },
+  "errors": {
+    "noCreatePermission": "Você não tem permissão para criar notas fiscais",
+    "noEditPermission": "Você não tem permissão para editar notas fiscais",
+    "noDeletePermission": "Você não tem permissão para excluir notas fiscais"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar nota fiscal",
+    "fetchOneFailed": "Falha ao buscar notas fiscais",
+    "createFailed": "Falha ao criar notas fiscais",
+    "updateFailed": "Falha ao atualizar notas fiscais",
+    "deleteFailed": "Falha ao excluir notas fiscais"
+  }
+}

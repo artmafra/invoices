@@ -73,14 +73,14 @@ export function InvoicesFilters({
     <>
       {/* STATUS */}
       <SearchBarFilterSelect
-        label={"Status da Nota Fiscal"}
+        label={t("fields.status")}
         value={statusFilter === "all" ? undefined : statusFilter}
         onValueChange={(v) => onStatusFilterChange(v ?? "all")}
-        anyLabel={"Todos"}
+        anyLabel={t("allStatus")}
         options={[
-          { value: "Emitida", label: "Emitida" },
-          { value: "Paga", label: "Paga" },
-          { value: "Cancelada", label: "Cancelada" },
+          { value: "issued", label: t("status.issued") },
+          { value: "paid", label: t("status.paid") },
+          { value: "cancelled", label: t("status.cancelled") },
         ]}
       />
 
@@ -90,7 +90,7 @@ export function InvoicesFilters({
         variant={activeFilter === "supplierCnpj" ? "default" : "outline"}
         onClick={() => setActiveFilter((f) => (f === "supplierCnpj" ? null : "supplierCnpj"))}
       >
-        {"CNPJ do Fornecedor"}
+        {t("fields.supplierCnpj")}
       </Button>
 
       {/* SERVICE CODE */}
@@ -99,7 +99,7 @@ export function InvoicesFilters({
         variant={activeFilter === "serviceCode" ? "default" : "outline"}
         onClick={() => setActiveFilter((f) => (f === "serviceCode" ? null : "serviceCode"))}
       >
-        {"Código de Serviço"}
+        {t("fields.serviceCode")}
       </Button>
 
       {/* ISSUE DATE */}
@@ -108,7 +108,7 @@ export function InvoicesFilters({
         variant={activeFilter === "issueDate" ? "default" : "outline"}
         onClick={() => setActiveFilter((f) => (f === "issueDate" ? null : "issueDate"))}
       >
-        {"Data de Emissão"}
+        {t("fields.issueDate")}
       </Button>
 
       {/* DUE DATE */}
@@ -117,14 +117,14 @@ export function InvoicesFilters({
         variant={activeFilter === "dueDate" ? "default" : "outline"}
         onClick={() => setActiveFilter((f) => (f === "dueDate" ? null : "dueDate"))}
       >
-        {"Data de Vencimento"}
+        {t("fields.dueDate")}
       </Button>
 
       {/* ACTIVE FILTER INPUT */}
       {activeFilter === "supplierCnpj" && (
         <Input
           autoFocus
-          placeholder={"Digite o CNPJ do Fornecedor"}
+          placeholder={t("fields.supplierCnpjPlaceholder")}
           onChange={(e) => onSupplierCnpjFilter(e.target.value)}
           className="w-full sm:w-64"
         />
@@ -133,7 +133,7 @@ export function InvoicesFilters({
       {activeFilter === "serviceCode" && (
         <Input
           autoFocus
-          placeholder={"Digite o Código de Serviço"}
+          placeholder={t("fields.serviceCodePlaceholder")}
           onChange={(e) => onServiceCodeFilter(e.target.value)}
           className="w-full sm:w-64"
         />
@@ -216,7 +216,7 @@ export function InvoicesFilters({
                 {dueDateRange.from ? (
                   dueDateRange.from.toLocaleDateString("pt-BR")
                 ) : (
-                  <span>{"De"}</span>
+                  <span>{t("dates.from")}</span>
                 )}
                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
               </Button>
@@ -244,7 +244,7 @@ export function InvoicesFilters({
                 {dueDateRange.to ? (
                   dueDateRange.to.toLocaleDateString("pt-BR")
                 ) : (
-                  <span>{"Até"}</span>
+                  <span>{t("dates.to")}</span>
                 )}
                 <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
               </Button>

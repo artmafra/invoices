@@ -16,9 +16,9 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 const STATUS_CONFIG = {
-  Emitida: "bg-priority-medium text-priority-medium-foreground",
-  Paga: "bg-success text-success-foreground",
-  Cancelada: "bg-destructive text-destructive-foreground",
+  issued: "bg-priority-medium text-priority-medium-foreground",
+  paid: "bg-success text-success-foreground",
+  cancelled: "bg-destructive text-destructive-foreground",
 } as const;
 
 interface InvoiceCardProps {
@@ -43,7 +43,7 @@ export function InvoiceCard({
   const { formatDate } = useDateFormat();
 
   const isOverdue =
-    invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "Paga";
+    invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "paid";
 
   return (
     <Card>
@@ -64,9 +64,9 @@ export function InvoiceCard({
                     })}
                   </span>
                 )}
-                {invoice.status === "Paga" && invoice.paidAt && (
+                {invoice.status === "paid" && invoice.paidAt && (
                   <span className="text-xs">
-                    {t("completedOn", {
+                    {t("paidAt", {
                       date: formatDate(invoice.paidAt),
                     })}
                   </span>
@@ -91,7 +91,7 @@ export function InvoiceCard({
                   {canEdit && (
                     <DropdownMenuItem onClick={() => onEdit(invoice.id)}>
                       <Pencil className="h-4 w-4" />
-                      {"Editar"}
+                      {tc("buttons.edit")}
                     </DropdownMenuItem>
                   )}
                   {canDelete && (
@@ -100,7 +100,7 @@ export function InvoiceCard({
                       className="text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
-                      {"Excluir"}
+                      {tc("buttons.delete")}
                     </DropdownMenuItem>
                   )}
                 </DropdownMenuContent>

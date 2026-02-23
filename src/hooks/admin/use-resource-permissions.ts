@@ -53,6 +53,12 @@ export interface GamePermissions {
   canDelete: boolean;
 }
 
+export interface InvoicePermissions {
+  canCreate: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+}
+
 /**
  * Task list permissions for the task-lists resource
  */
@@ -179,6 +185,23 @@ export function useNotePermissions(): NotePermissions & {
     canCreate: permissions.includes("notes.create"),
     canEdit: permissions.includes("notes.edit"),
     canDelete: permissions.includes("notes.delete"),
+    currentUserId,
+    isLoading: status === "loading",
+  };
+}
+
+export function useInvoicePermissions(): InvoicePermissions & {
+  currentUserId: string | undefined;
+  isLoading: boolean;
+} {
+  const { session, status } = useSessionContext();
+  const permissions = session?.user?.permissions || [];
+  const currentUserId = session?.user?.id;
+
+  return {
+    canCreate: permissions.includes("invoices.create"),
+    canEdit: permissions.includes("invoices.edit"),
+    canDelete: permissions.includes("invoices.delete"),
     currentUserId,
     isLoading: status === "loading",
   };

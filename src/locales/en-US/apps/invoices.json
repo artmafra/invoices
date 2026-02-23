@@ -1,0 +1,66 @@
+{
+  "title": "Invoices",
+  "description": "Manage your invoices",
+  "nav": {
+    "allTasks": "Invoices"
+  },
+  "searchPlaceholder": "Search invoices...",
+  "new": "New",
+  "editTitle": "Edit Invoice",
+  "newTitle": "New Invoice",
+  "editDescription": "Make changes to your invoices below.",
+  "createDescription": "Create a new Invoice",
+  "fields": {
+    "supplierCnpj": "Supplier CNPJ",
+    "titlePlaceholder": "Type the Supplier CNPJ",
+    "serviceCode": "Service Code",
+    "serviceCodePlaceholder": "Add Service Code...",
+    "dueDate": "Due date",
+    "dueDatePlaceholder": "Select a date",
+    "issueDate": "Issue date",
+    "issueDatePlaceholder": "Select a date",
+    "valueCents": "Invoice Value",
+    "invoiceNumber": "Invoice Number",
+    "invoiceNumberPlaceholder": "Type the Invoice Number",
+    "status": "Invoice status",
+    "materialDeductionCents": "Material Deduction"
+  },
+  "allStatus": "All status",
+  "status": {
+    "issued": "Issued",
+    "paid": "Paid",
+    "cancelled": "Cancelled"
+  },
+  "dates": {
+    "from": "From",
+    "to": "To",
+    "select": "Select a Date"
+  },
+  "dueDate": "Due on {date}",
+  "paidAt": "Paid at {date}",
+  "overdue": "Overdue",
+  "overdueOnly": "Overdue Only",
+  "empty": {
+    "noFilterResults": "No invoice found matching your filters",
+    "noTasks": "No invoice yet.",
+    "createFirst": "Create your first invoice to get starded!"
+  },
+  "createButton": "Create Invoice",
+  "updateButton": "Update Invoice",
+  "creating": "Creating",
+  "updating": "Updating...",
+  "deleteTitle": "Delete Invoice?",
+  "deleteDescription": "This will permanently delete this invoice. This action cannot be undone.",
+  "success": {
+    "created": "Invoice created",
+    "updated": "Invoice updated",
+    "deleted": "Invoice deleted"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch invoices",
+    "fetchOneFailed": "Failed to fetch invoice",
+    "createFailed": "Failed to create invoice.",
+    "updateFailed": "Failed to update invoice.",
+    "deleteFailed": "Failed to delete invoice."
+  }
+}

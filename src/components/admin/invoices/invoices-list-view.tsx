@@ -8,6 +8,7 @@ import type { InvoiceWithRelations } from "@/hooks/admin/use-invoices";
 import type { InvoicePermissions } from "@/hooks/admin/use-resource-permissions";
 import { DataPagination } from "@/components/shared/data-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
+import { InvoiceCard } from "./invoice-card";
 
 export interface InvoicesListViewProps {
   // Data
@@ -63,7 +64,7 @@ export function InvoicesListView({
 
   // Filter for paid invoices if needed
   const filteredInvoices = invoices.filter((invoice) => {
-    return invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "Paga";
+    return invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "paid";
   });
 
   return (
@@ -72,28 +73,24 @@ export function InvoicesListView({
       {filteredInvoices.length > 0 ? (
         <div className="space-y-space-md">
           <div className="flex flex-col gap-space-md">
-            {/* {filteredInvoices.map((invoice) => (
+            {filteredInvoices.map((invoice) => (
               <InvoiceCard
                 key={invoice.id}
-                task={invoice}
+                invoice={invoice}
                 canEdit={permissions.canEdit}
                 canDelete={permissions.canDelete}
                 onStatusChange={onStatusChange}
                 onEdit={() => onEdit(invoice.id)}
                 onDelete={() => onDelete(invoice.id)}
               />
-            ))} */}
+            ))}
           </div>
         </div>
       ) : (
         <EmptyState
-          title={
-            hasActiveFilters
-              ? "Nenhuma nota fiscal encontrada correspondente aos seus filtros."
-              : "Nenhuma nota fiscal ainda."
-          }
+          title={hasActiveFilters ? t("empty.noFilterResults") : t("empty.noInvoices")}
           action={{
-            label: "Criar Nota Fiscal",
+            label: t("createButton"),
             onClick: onCreate,
             icon: Plus,
           }}

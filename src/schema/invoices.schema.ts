@@ -6,7 +6,7 @@ import z from "zod";
 
 // INVOICE STATUS
 
-export const INVOICE_STATUSES = ["Emitida", "Paga", "Cancelada"] as const;
+export const INVOICE_STATUSES = ["issued", "paid", "cancelled"] as const;
 export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 
 // INVOICE SCHEMA
@@ -19,7 +19,7 @@ export const tableInvoices = pgTable("invoices", {
   serviceCode: text("service_code")
     .notNull()
     .references(() => tableServices.code),
-  status: text("status", { enum: INVOICE_STATUSES }).notNull().default("Emitida"),
+  status: text("status", { enum: INVOICE_STATUSES }).notNull().default("issued"),
   entryDate: timestamp("entry_date").notNull().defaultNow(), // Data entrada
   issueDate: timestamp("issue_date").notNull(), // Data de emissão
   dueDate: timestamp("due_date").notNull(), // Data vencimento

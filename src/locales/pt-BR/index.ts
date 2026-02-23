@@ -7,6 +7,7 @@
 
 import admin from "./admin.json";
 import games from "./apps/games.json";
+import invoices from "./apps/invoices.json";
 import notes from "./apps/notes.json";
 import tasks from "./apps/tasks.json";
 import auth from "./auth.json";
@@ -27,6 +28,7 @@ const messages = {
   "apps/games": games,
   "apps/notes": notes,
   "apps/tasks": tasks,
+  "apps/invoices": invoices,
 } as const;
 
 export default messages;

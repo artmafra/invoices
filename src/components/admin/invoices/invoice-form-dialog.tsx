@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { CalendarIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { cn } from "@/lib/utils";
@@ -40,7 +41,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-const STATUS_VALUES: InvoiceStatus[] = ["Emitida", "Paga", "Cancelada"];
+const STATUS_VALUES: InvoiceStatus[] = ["issued", "paid", "cancelled"];
 
 export type InvoiceFormValues = z.infer<typeof createInvoiceSchema>;
 
@@ -61,6 +62,8 @@ export function InvoiceFormDialog({
   isEditing,
   isSaving,
 }: InvoiceFormDialogProps) {
+  const tc = useTranslations("common");
+  const t = useTranslations("apps/invoices");
   const { formatDate } = useDateFormat();
 
   const form = useForm<InvoiceFormValues>({
@@ -73,7 +76,7 @@ export function InvoiceFormDialog({
       entryDate: new Date(),
       valueCents: 0,
       invoiceNumber: "",
-      status: "Emitida",
+      status: "issued",
       materialDeductionCents: 0,
       ...initialData,
     },
@@ -89,7 +92,7 @@ export function InvoiceFormDialog({
         entryDate: new Date(),
         valueCents: 0,
         invoiceNumber: "",
-        status: "Emitida",
+        status: "issued",
         materialDeductionCents: 0,
         ...initialData,
       });
@@ -104,11 +107,11 @@ export function InvoiceFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>{isEditing ? "Editar nota fiscal" : "Nova nota fiscal"}</DialogTitle>
+          <DialogTitle>{isEditing ? t("editTitle") : t("newTitle")}</DialogTitle>
         </DialogHeader>
         <DialogBody className="max-h-[80vh] overflow-y-auto">
           <DialogDescription className="mb-space-lg">
-            {isEditing ? "Faça alterações na nota fiscal abaixo." : "Crie uma nova nota fiscal."}
+            {isEditing ? t("editDescription") : t("createDescription")}
           </DialogDescription>
           <Form {...form}>
             <form
@@ -121,9 +124,9 @@ export function InvoiceFormDialog({
                 name="supplierCnpj"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"CNPJ Do Fornecedor"}</FormLabel>
+                    <FormLabel>{t("fields.supplierCnpj")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={"Digite o CNPJ do Fornecedor"} />
+                      <Input {...field} placeholder={t("fields.supplierCnpjPlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -134,9 +137,9 @@ export function InvoiceFormDialog({
                 name="serviceCode"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"Código de Serviço"}</FormLabel>
+                    <FormLabel>{t("fields.serviceCode")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={"Digite o Código de Serviço"} />
+                      <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -148,7 +151,7 @@ export function InvoiceFormDialog({
                   name="issueDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{"Data de Emissão"}</FormLabel>
+                      <FormLabel>{t("fields.issueDate")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -162,7 +165,7 @@ export function InvoiceFormDialog({
                               {field.value ? (
                                 formatDate(new Date(field.value))
                               ) : (
-                                <span>{"Selecione a Data"}</span>
+                                <span>{t("dates.select")}</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
@@ -187,7 +190,7 @@ export function InvoiceFormDialog({
                   name="dueDate"
                   render={({ field }) => (
                     <FormItem className="flex flex-col">
-                      <FormLabel>{"Data de Vencimento"}</FormLabel>
+                      <FormLabel>{t("fields.dueDate")}</FormLabel>
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -201,7 +204,7 @@ export function InvoiceFormDialog({
                               {field.value ? (
                                 formatDate(new Date(field.value))
                               ) : (
-                                <span>{"Selecione a Data"}</span>
+                                <span>{t("dates.select")}</span>
                               )}
                               <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                             </Button>
@@ -227,13 +230,12 @@ export function InvoiceFormDialog({
                 name="valueCents"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"Valor da Nota"}</FormLabel>
+                    <FormLabel>{t("fields.valueCents")}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         type="number"
                         inputMode="numeric"
-                        placeholder={"Digite o valor da nota"}
                         onChange={(e) =>
                           field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
                         }
@@ -248,9 +250,9 @@ export function InvoiceFormDialog({
                 name="invoiceNumber"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"Número da Nota Fiscal"}</FormLabel>
+                    <FormLabel>{t("fields.invoiceNumber")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={"Digite o Número da Nota Fiscal"} />
+                      <Input {...field} placeholder={t("fields.invoiceNumberPlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -261,7 +263,7 @@ export function InvoiceFormDialog({
                 name="status"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"Status da Nota Fiscal"}</FormLabel>
+                    <FormLabel>{t("fields.status")}</FormLabel>
                     <Select value={field.value} onValueChange={field.onChange}>
                       <FormControl>
                         <SelectTrigger className="w-full">
@@ -271,7 +273,7 @@ export function InvoiceFormDialog({
                       <SelectContent>
                         {STATUS_VALUES.map((status) => (
                           <SelectItem key={status} value={status}>
-                            {`${status}`}
+                            {t(`status.${status}`)}
                           </SelectItem>
                         ))}
                       </SelectContent>
@@ -285,13 +287,12 @@ export function InvoiceFormDialog({
                 name="materialDeductionCents"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{"Dedução Material"}</FormLabel>
+                    <FormLabel>{t("fields.materialDeductionCents")}</FormLabel>
                     <FormControl>
                       <Input
                         {...field}
                         type="number"
                         inputMode="numeric"
-                        placeholder={"Digite a Dedução Material"}
                         onChange={(e) =>
                           field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
                         }
@@ -306,15 +307,15 @@ export function InvoiceFormDialog({
         </DialogBody>
         <DialogFooter>
           <Button variant="outline" onClick={() => onOpenChange(false)} disabled={isSaving}>
-            {"Cancelar"}
+            {tc("buttons.cancel")}
           </Button>
           <LoadingButton
             type="submit"
             form="invoice-form"
             loading={isSaving}
-            loadingText={isEditing ? "Salvando..." : "Criando..."}
+            loadingText={isEditing ? tc("buttons.saving") : tc("buttons.creating")}
           >
-            {isEditing ? "Salvar" : "Criar"}
+            {isEditing ? tc("buttons.save") : tc("buttons.create")}
           </LoadingButton>
         </DialogFooter>
       </DialogContent>

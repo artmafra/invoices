@@ -66,6 +66,7 @@
     "sessions": "Loading sessions...",
     "loginHistory": "Loading login history...",
     "notes": "Loading notes...",
+    "invoices": "Loading invoices...",
     "tasks": "Loading tasks...",
     "games": "Loading games...",
     "passkeys": "Loading passkeys...",
