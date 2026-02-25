@@ -160,12 +160,12 @@ export function InvoicesPageContent() {
           }
         />
         <PageContainer>
-          <PageDescription>{"Gerencie suas notas fiscais"}</PageDescription>
+          <PageDescription>{t("description")}</PageDescription>
           <div className="space-y-section">
             {/* Search & Filters */}
             <SearchBar
               ref={searchRef}
-              searchPlaceholder={"Pesquisar notas fiscais..."}
+              searchPlaceholder={t("searchPlaceholder")}
               searchValue={searchInput}
               onSearchChange={setSearchInput}
               hasActiveFilters={hasActiveFilters}
@@ -195,7 +195,7 @@ export function InvoicesPageContent() {
             <LoadingTransition
               ref={animationRef}
               isLoading={isLoading && !data}
-              loadingMessage={"Carregando notas fiscais..."}
+              loadingMessage={t("loading")}
             >
               <InvoicesListView
                 invoices={data?.data || []}

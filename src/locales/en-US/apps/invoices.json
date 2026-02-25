@@ -10,6 +10,7 @@
   "newTitle": "New Invoice",
   "editDescription": "Make changes to your invoices below.",
   "createDescription": "Create a new Invoice",
+  "loading": "Loading invoices",
   "fields": {
     "supplierCnpj": "Supplier CNPJ",
     "titlePlaceholder": "Type the Supplier CNPJ",
@@ -55,6 +56,11 @@
     "created": "Invoice created",
     "updated": "Invoice updated",
     "deleted": "Invoice deleted"
+  },
+  "errors": {
+    "noCreatePermission": "You do not have permission to create an invoice",
+    "noEditPermission": "You do not have permission to edit a invoice",
+    "noDeletePermission": "You do not have permission to delete a invoice"
   },
   "hooks": {
     "fetchFailed": "Failed to fetch invoices",

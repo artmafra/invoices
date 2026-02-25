@@ -7,7 +7,7 @@
 import admin from "./admin.json";
 import games from "./apps/games.json";
 import invoices from "./apps/invoices.json";
-import notes from "./apps/notes.json";
+import suppliers from "./apps/suppliers.json";
 import tasks from "./apps/tasks.json";
 import auth from "./auth.json";
 import common from "./common.json";
@@ -25,7 +25,7 @@ const messages = {
   errors,
   emails,
   "apps/games": games,
-  "apps/notes": notes,
+  "apps/suppliers": suppliers,
   "apps/tasks": tasks,
   "apps/invoices": invoices,
 } as const;

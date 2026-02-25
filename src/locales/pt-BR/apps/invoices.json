@@ -10,6 +10,7 @@
   "newTitle": "Nova Nota Fiscal",
   "editDescription": "Faça alterações na sua nota fiscal abaixo.",
   "createDescription": "Crie uma nova nota fiscal",
+  "loading": "Carregando Notas Fiscais...",
   "fields": {
     "supplierCnpj": "CNPJ do Fornecedor",
     "supplierCnpjPlaceholder": "Digite o CNPJ do Fornecedor",
@@ -64,8 +65,8 @@
   "hooks": {
     "fetchFailed": "Falha ao buscar nota fiscal",
     "fetchOneFailed": "Falha ao buscar notas fiscais",
-    "createFailed": "Falha ao criar notas fiscais",
-    "updateFailed": "Falha ao atualizar notas fiscais",
-    "deleteFailed": "Falha ao excluir notas fiscais"
+    "createFailed": "Falha ao criar nota fiscal",
+    "updateFailed": "Falha ao atualizar nota fiscal",
+    "deleteFailed": "Falha ao excluir nota fiscal"
   }
 }
