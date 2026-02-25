@@ -15,7 +15,7 @@ import { supplierService } from "@/services/runtime/supplier";
 import { createSupplierSchema, getSuppliersQuerySchema } from "@/validations/supplier.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("suppliers", "view");
+  const { authorized, error, status } = await requirePermission("invoices", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -50,11 +50,11 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
   return handleConditionalRequest(
     request,
     async () => {
-      const version = await invoiceService.getCollectionVersion(filters);
+      const version = await supplierService.getCollectionVersion(filters);
       return `${version.maxUpdatedAt?.toISOString() ?? "empty"}:${version.count}:${queryParamsSeed}`;
     },
     async () => {
-      return invoiceService.getPaginated(filters, options);
+      return supplierService.getPaginated(filters, options);
     },
   );
 });
@@ -68,62 +68,38 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   }
 
   const body = await request.json();
-  const validation = createInvoiceSchema.safeParse(body);
+  const validation = createSupplierSchema.safeParse(body);
 
   if (!validation.success) {
     throw new ValidationError("Validation Failed", validation.error.flatten());
   }
 
-  // Check for duplicate number
-  const isNumberAvailable = await invoiceService.isNumberAvailable(validation.data.invoiceNumber);
-  if (!isNumberAvailable) {
-    throw new ConflictError("A invoice with this number already exists");
+  // Check for duplicate supplier
+  const isSupplierAvailable = await supplierService.isSupplierAvailable(validation.data.cnpj);
+  if (!isSupplierAvailable) {
+    throw new ConflictError("This supplier already exists");
   }
 
-  const invoice = await invoiceService.createInvoice({
-    supplierCnpj: validation.data.supplierCnpj,
-    serviceCode: validation.data.serviceCode,
-    issueDate: validation.data.issueDate,
-    dueDate: validation.data.dueDate,
-    valueCents: validation.data.valueCents,
-    invoiceNumber: validation.data.invoiceNumber,
-    status: validation.data.status,
-    materialDeductionCents: validation.data.materialDeductionCents,
-    entryDate: validation.data.entryDate,
-    inssPercent: validation.data.inssPercent,
-    csPercent: validation.data.csPercent,
-    issqnPercent: validation.data.issqnPercent,
+  const supplier = await supplierService.createSupplier({
+    taxRegime: validation.data.taxRegime,
+    cnpj: validation.data.cnpj,
+    name: validation.data.name,
+    city: validation.data.city,
   });
 
   await activityService.logCreate(
     session,
     "invoices",
-    { type: "invoice", id: invoice.id, name: invoice.invoiceNumber },
+    { type: "supplier", id: supplier.cnpj, name: supplier.name },
     {
       metadata: {
-        supplierCnpj: invoice.supplierCnpj,
-        serviceCode: invoice.serviceCode,
-
-        status: invoice.status,
-
-        valueCents: invoice.valueCents,
-        netAmountCents: invoice.netAmountCents,
-        materialDeductionCents: invoice.materialDeductionCents,
-
-        dates: {
-          issueDate: invoice.issueDate,
-          dueDate: invoice.dueDate,
-          entryDate: invoice.entryDate,
-        },
-
-        taxes: {
-          inssPercent: validation.data.inssPercent ?? null,
-          csPercent: validation.data.csPercent ?? null,
-          issqnPercent: validation.data.issqnPercent ?? null,
-        },
+        cnpj: supplier.cnpj,
+        name: supplier.name,
+        city: supplier.city,
+        taxRegime: supplier.taxRegime,
       },
     },
   );
 
-  return NextResponse.json(invoice, { status: 201 });
+  return NextResponse.json(supplier, { status: 201 });
 });

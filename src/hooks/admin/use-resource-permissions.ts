@@ -38,7 +38,7 @@ export interface TaskPermissions {
 /**
  * Note permissions for the notes resource
  */
-export interface NotePermissions {
+export interface SupplierPermissions {
   canCreate: boolean;
   canEdit: boolean;
   canDelete: boolean;
@@ -173,7 +173,7 @@ export function useTaskPermissions(): TaskPermissions & {
 /**
  * Hook to extract typed permissions for the notes resource
  */
-export function useNotePermissions(): NotePermissions & {
+export function useSupplierPermissions(): SupplierPermissions & {
   currentUserId: string | undefined;
   isLoading: boolean;
 } {
@@ -182,9 +182,9 @@ export function useNotePermissions(): NotePermissions & {
   const currentUserId = session?.user?.id;
 
   return {
-    canCreate: permissions.includes("notes.create"),
-    canEdit: permissions.includes("notes.edit"),
-    canDelete: permissions.includes("notes.delete"),
+    canCreate: permissions.includes("suppliers.create"),
+    canEdit: permissions.includes("suppliers.edit"),
+    canDelete: permissions.includes("suppliers.delete"),
     currentUserId,
     isLoading: status === "loading",
   };

@@ -101,7 +101,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   await activityService.logCreate(
     session,
     "invoices",
-    { type: "invoice", id: invoice.id, number: invoice.invoiceNumber },
+    { type: "invoice", id: invoice.id, name: invoice.invoiceNumber },
     {
       metadata: {
         supplierCnpj: invoice.supplierCnpj,
