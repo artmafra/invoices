@@ -1,13 +1,18 @@
-import { pgTable, text } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
+
+export const SUPPLIER_TAX_REGIME = ["sn", "n", "mei"] as const;
+export type SupplierTaxRegime = (typeof SUPPLIER_TAX_REGIME)[number];
 
 export const tableSuppliers = pgTable("suppliers", {
   cnpj: text("cnpj").primaryKey(),
   name: text("name").notNull().unique(),
   city: text("city").notNull(),
-  taxRegime: text("taxRegime", { enum: ["sn", "n", "mei"] }).notNull(),
+  taxRegime: text("taxRegime", { enum: SUPPLIER_TAX_REGIME }).notNull(),
   obs: text("obs"),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+  updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });
 
 export const insertSupplierSchema = createInsertSchema(tableSuppliers).extend({
