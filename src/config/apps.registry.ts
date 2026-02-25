@@ -110,6 +110,23 @@ export const APPS_REGISTRY: AppDefinition[] = [
     ],
   }),
 
+  defineApp("invoices", {
+    slug: "invoices",
+    name: "Notas",
+    description: "Create and manage invoices",
+    icon: StickyNote,
+    iconName: "StickyNote",
+    version: "1.0.0",
+    enabledByDefault: true,
+    permissions: [
+      // Invoice: App access is controlled via user entitlements (app_permissions table)
+      { resource: "invoices", action: "view", description: "View" },
+      { resource: "invoices", action: "create", description: "Create" },
+      { resource: "invoices", action: "edit", description: "Edit" },
+      { resource: "invoices", action: "delete", description: "Delete" },
+    ],
+  }),
+
   // ==========================================================================
   // Tasks App - Task management with lists, status, and assignments
   // ==========================================================================

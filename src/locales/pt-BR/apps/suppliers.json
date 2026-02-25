@@ -1,0 +1,59 @@
+{
+  "title": "Fornecedores",
+  "description": "Gerencie seus fornecedores e suas informações.",
+  "searchPlaceholder": "Pesquisar fornecedores...",
+  "new": "Novo",
+  "editTitle": "Editar Fornecedor",
+  "createTitle": "Novo Fornecedor",
+  "editDescription": "Faça alterações nas informações do fornecedor abaixo.",
+  "createDescription": "Adicione um novo fornecedor ao seu sistema.",
+  "fields": {
+    "cnpj": "CNPJ",
+    "cnpjPlaceholder": "Digite o CNPJ com 14 dígitos",
+    "name": "Nome",
+    "namePlaceholder": "Digite o nome do fornecedor",
+    "city": "Cidade",
+    "cityPlaceholder": "Digite a cidade",
+    "taxRegime": "Regime Tributário",
+    "taxRegimePlaceholder": "Selecione o regime tributário",
+    "obs": "Observações",
+    "obsPlaceholder": "Notas adicionais..."
+  },
+  "taxRegimes": {
+    "sn": "Simples Nacional",
+    "n": "Normal",
+    "mei": "MEI"
+  },
+  "filters": {
+    "taxRegime": "Regime Tributário",
+    "city": "Cidade",
+    "allRegimes": "Todos os regimes",
+    "allCities": "Todas as cidades"
+  },
+  "empty": {
+    "title": "Nenhum fornecedor encontrado",
+    "noSearchResults": "Nenhum fornecedor encontrado na sua pesquisa.",
+    "noSuppliers": "Nenhum fornecedor ainda.",
+    "createFirst": "Crie seu primeiro fornecedor para começar."
+  },
+  "deleteTitle": "Excluir fornecedor?",
+  "deleteDescription": "Isso excluirá permanentemente este fornecedor. Esta ação não pode ser desfeita.",
+  "success": {
+    "created": "Fornecedor criado",
+    "updated": "Fornecedor atualizado",
+    "deleted": "Fornecedor excluído"
+  },
+  "errors": {
+    "noCreatePermission": "Você não tem permissão para criar fornecedores",
+    "noEditPermission": "Você não tem permissão para editar fornecedores",
+    "noDeletePermission": "Você não tem permissão para excluir fornecedores"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar fornecedores",
+    "fetchOneFailed": "Falha ao buscar fornecedor",
+    "createFailed": "Falha ao criar fornecedor",
+    "updateFailed": "Falha ao atualizar fornecedor",
+    "deleteFailed": "Falha ao excluir fornecedor",
+    "supplierNotFound": "Fornecedor não encontrado"
+  }
+}

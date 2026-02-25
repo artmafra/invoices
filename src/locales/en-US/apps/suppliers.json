@@ -1,0 +1,59 @@
+{
+  "title": "Suppliers",
+  "description": "Manage your suppliers and their information.",
+  "searchPlaceholder": "Search suppliers...",
+  "new": "New",
+  "editTitle": "Edit Supplier",
+  "createTitle": "New Supplier",
+  "editDescription": "Make changes to supplier information below.",
+  "createDescription": "Add a new supplier to your system.",
+  "fields": {
+    "cnpj": "CNPJ",
+    "cnpjPlaceholder": "Enter 14-digit CNPJ",
+    "name": "Name",
+    "namePlaceholder": "Enter supplier name",
+    "city": "City",
+    "cityPlaceholder": "Enter city",
+    "taxRegime": "Tax Regime",
+    "taxRegimePlaceholder": "Select tax regime",
+    "obs": "Observations",
+    "obsPlaceholder": "Additional notes..."
+  },
+  "taxRegimes": {
+    "sn": "Simples Nacional",
+    "n": "Normal",
+    "mei": "MEI"
+  },
+  "filters": {
+    "taxRegime": "Tax Regime",
+    "city": "City",
+    "allRegimes": "All regimes",
+    "allCities": "All cities"
+  },
+  "empty": {
+    "title": "No suppliers found",
+    "noSearchResults": "No suppliers found matching your search.",
+    "noSuppliers": "No suppliers yet.",
+    "createFirst": "Create your first supplier to get started."
+  },
+  "deleteTitle": "Delete supplier?",
+  "deleteDescription": "This will permanently delete this supplier. This action cannot be undone.",
+  "success": {
+    "created": "Supplier created",
+    "updated": "Supplier updated",
+    "deleted": "Supplier deleted"
+  },
+  "errors": {
+    "noCreatePermission": "You don't have permission to create suppliers",
+    "noEditPermission": "You don't have permission to edit suppliers",
+    "noDeletePermission": "You don't have permission to delete suppliers"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch suppliers",
+    "fetchOneFailed": "Failed to fetch supplier",
+    "createFailed": "Failed to create supplier",
+    "updateFailed": "Failed to update supplier",
+    "deleteFailed": "Failed to delete supplier",
+    "supplierNotFound": "Supplier not found"
+  }
+}
