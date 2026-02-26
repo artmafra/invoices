@@ -13,6 +13,7 @@ import {
   formatCnpj,
   formatServiceCode,
 } from "@/lib/cnpj-service-code";
+import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
 import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
 import { useDateFormat } from "@/hooks/use-date-format";
@@ -275,11 +276,21 @@ export function InvoiceFormDialog({
                     <FormControl>
                       <Input
                         {...field}
-                        type="number"
+                        placeholder="R$ 0,00"
                         inputMode="numeric"
-                        onChange={(e) =>
-                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
-                        }
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const cents = parseTocents(input);
+                          field.onChange(cents);
+                        }}
+                        onBlur={() => {
+                          // Ensure clean value on blur
+                          if (field.value) {
+                            field.onChange(parseTocents(field.value.toString()));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? getDisplayValue(field.value) : ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -332,11 +343,21 @@ export function InvoiceFormDialog({
                     <FormControl>
                       <Input
                         {...field}
-                        type="number"
+                        placeholder="R$ 0,00"
                         inputMode="numeric"
-                        onChange={(e) =>
-                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
-                        }
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const cents = parseTocents(input);
+                          field.onChange(cents);
+                        }}
+                        onBlur={() => {
+                          // Ensure clean value on blur
+                          if (field.value) {
+                            field.onChange(parseTocents(field.value.toString()));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? getDisplayValue(field.value) : ""}
                       />
                     </FormControl>
                     <FormMessage />
