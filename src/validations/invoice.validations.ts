@@ -1,5 +1,11 @@
 import { INVOICE_STATUSES } from "@/schema/invoices.schema";
 import { z } from "zod";
+import {
+  extractCnpjDigits,
+  extractServiceCodeCharacters,
+  isValidCnpjChecksum,
+  isValidServiceCodeFormat,
+} from "@/lib/cnpj-service-code";
 import { baseQuerySchema } from "./query.validations";
 
 // ========================================
@@ -27,8 +33,17 @@ export const invoiceStatusSchema = z.enum(INVOICE_STATUSES);
 export const getInvoicesQuerySchema = baseQuerySchema
   .extend({
     status: invoiceStatusSchema.optional(),
-    supplierCnpj: z.string().length(14).optional(),
-    serviceCode: z.string().optional(),
+    supplierCnpj: z
+      .string()
+      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have 14 digits")
+      .optional(),
+    serviceCode: z
+      .string()
+      .refine(
+        (code) => isValidServiceCodeFormat(code),
+        "Service code must have 7 digits (XXXX-X/XX format)",
+      )
+      .optional(),
 
     issueDateFrom: z.coerce.date().optional(),
     issueDateTo: z.coerce.date().optional(),
@@ -55,8 +70,18 @@ export const getInvoicesQuerySchema = baseQuerySchema
 export const createInvoiceSchema = z
   .object({
     status: invoiceStatusSchema.optional(),
-    supplierCnpj: z.string().length(14, "Invalid CNPJ"),
-    serviceCode: z.string().min(1),
+    supplierCnpj: z
+      .string()
+      .min(1, "CNPJ is required")
+      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
+      .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)"),
+    serviceCode: z
+      .string()
+      .min(1, "Service code is required")
+      .refine(
+        (code) => isValidServiceCodeFormat(code),
+        "Service code must have 7 digits in format XXXX-X/XX",
+      ),
 
     issueDate: z.date(),
     dueDate: z.date(),
@@ -73,15 +98,31 @@ export const createInvoiceSchema = z
   .refine((data) => !data.dueDate || !data.issueDate || data.dueDate > data.issueDate, {
     message: "Due date must be after issue date",
     path: ["dueDate"],
-  });
+  })
+  .transform((data) => ({
+    ...data,
+    // Store backend data without formatting (just digits)
+    supplierCnpj: extractCnpjDigits(data.supplierCnpj),
+    serviceCode: extractServiceCodeCharacters(data.serviceCode),
+  }));
 
 export type CreateInvoiceInput = z.infer<typeof createInvoiceSchema>;
 
 export const updateInvoiceSchema = z
   .object({
     status: invoiceStatusSchema.optional(),
-    supplierCnpj: z.string().optional(),
-    serviceCode: z.string().optional(),
+    supplierCnpj: z
+      .string()
+      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
+      .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)")
+      .optional(),
+    serviceCode: z
+      .string()
+      .refine(
+        (code) => isValidServiceCodeFormat(code),
+        "Service code must have 7 digits in format XXXX-X/XX",
+      )
+      .optional(),
 
     issueDate: z.coerce.date().optional(),
     dueDate: z.coerce.date().optional(),
@@ -98,6 +139,12 @@ export const updateInvoiceSchema = z
   .refine((data) => !data.issueDate || !data.dueDate || data.dueDate > data.issueDate, {
     message: "Due date must be after issue date",
     path: ["dueDate"],
-  });
+  })
+  .transform((data) => ({
+    ...data,
+    // Store backend data without formatting (just digits) if provided
+    supplierCnpj: data.supplierCnpj ? extractCnpjDigits(data.supplierCnpj) : undefined,
+    serviceCode: data.serviceCode ? extractServiceCodeCharacters(data.serviceCode) : undefined,
+  }));
 
 export type UpdateInvoiceInput = z.infer<typeof updateInvoiceSchema>;
