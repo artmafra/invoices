@@ -13,6 +13,7 @@
   "loading": "Loading invoices",
   "fields": {
     "supplierCnpj": "Supplier CNPJ",
+    "supplierCnpjPlaceholder": "Type the supplier's CNPJ",
     "titlePlaceholder": "Type the Supplier CNPJ",
     "serviceCode": "Service Code",
     "serviceCodePlaceholder": "Add Service Code...",
@@ -43,7 +44,7 @@
   "overdueOnly": "Overdue Only",
   "empty": {
     "noFilterResults": "No invoice found matching your filters",
-    "noTasks": "No invoice yet.",
+    "noInvoices": "No invoice yet.",
     "createFirst": "Create your first invoice to get starded!"
   },
   "createButton": "Create Invoice",

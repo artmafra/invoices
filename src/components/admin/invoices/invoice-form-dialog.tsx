@@ -7,12 +7,18 @@ import { CalendarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+  extractCnpjDigits,
+  extractServiceCodeCharacters,
+  formatCnpj,
+  formatServiceCode,
+} from "@/lib/cnpj-service-code";
+import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
 import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
 import { useDateFormat } from "@/hooks/use-date-format";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { LoadingButton } from "@/components/shared/loading-button";
-import { UserSelect } from "@/components/shared/user-select";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -126,7 +132,25 @@ export function InvoiceFormDialog({
                   <FormItem>
                     <FormLabel>{t("fields.supplierCnpj")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={t("fields.supplierCnpjPlaceholder")} />
+                      <Input
+                        {...field}
+                        placeholder={t("fields.supplierCnpjPlaceholder")}
+                        maxLength={18} // XX.XXX.XXX/XXXX-XX
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const digits = extractCnpjDigits(input);
+                          // Update with extracted digits (max 14)
+                          field.onChange(digits.slice(0, 14));
+                        }}
+                        onBlur={() => {
+                          // Ensure value is clean (digits only) on blur
+                          if (field.value) {
+                            field.onChange(extractCnpjDigits(field.value));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? formatCnpj(field.value) : ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -139,7 +163,25 @@ export function InvoiceFormDialog({
                   <FormItem>
                     <FormLabel>{t("fields.serviceCode")}</FormLabel>
                     <FormControl>
-                      <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
+                      <Input
+                        {...field}
+                        placeholder={t("fields.serviceCodePlaceholder")}
+                        maxLength={11} // XXXX-X/XX
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const digits = extractServiceCodeCharacters(input);
+                          // Update with extracted digits (max 7)
+                          field.onChange(digits.slice(0, 7));
+                        }}
+                        onBlur={() => {
+                          // Ensure value is clean (digits only) on blur
+                          if (field.value) {
+                            field.onChange(extractServiceCodeCharacters(field.value));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? formatServiceCode(field.value) : ""}
+                      />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -234,11 +276,21 @@ export function InvoiceFormDialog({
                     <FormControl>
                       <Input
                         {...field}
-                        type="number"
+                        placeholder="R$ 0,00"
                         inputMode="numeric"
-                        onChange={(e) =>
-                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
-                        }
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const cents = parseTocents(input);
+                          field.onChange(cents);
+                        }}
+                        onBlur={() => {
+                          // Ensure clean value on blur
+                          if (field.value) {
+                            field.onChange(parseTocents(field.value.toString()));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? getDisplayValue(field.value) : ""}
                       />
                     </FormControl>
                     <FormMessage />
@@ -291,11 +343,21 @@ export function InvoiceFormDialog({
                     <FormControl>
                       <Input
                         {...field}
-                        type="number"
+                        placeholder="R$ 0,00"
                         inputMode="numeric"
-                        onChange={(e) =>
-                          field.onChange(e.target.value ? parseInt(e.target.value, 10) : 0)
-                        }
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const cents = parseTocents(input);
+                          field.onChange(cents);
+                        }}
+                        onBlur={() => {
+                          // Ensure clean value on blur
+                          if (field.value) {
+                            field.onChange(parseTocents(field.value.toString()));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? getDisplayValue(field.value) : ""}
                       />
                     </FormControl>
                     <FormMessage />
