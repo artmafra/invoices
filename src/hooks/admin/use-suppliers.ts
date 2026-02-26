@@ -46,7 +46,7 @@ export const useSuppliers = (
 
   return useQuery({
     queryKey: QUERY_KEYS.list(filters, page, limit),
-    queryFn: async (): Promise<PaginatedResult<Supplier>> => {
+    queryFn: async (): Promise<Supplier[]> => {
       const params = new URLSearchParams();
       params.set("page", page.toString());
       params.set("limit", limit.toString());
