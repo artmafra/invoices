@@ -6,7 +6,7 @@
  * Each app has its own routes, permissions, settings, and navigation items.
  */
 
-import { CheckSquare, Gamepad2, StickyNote, type LucideIcon } from "lucide-react";
+import { CheckSquare, FilePenLine, Gamepad2, StickyNote, type LucideIcon } from "lucide-react";
 
 // =============================================================================
 // App Type Definitions
@@ -114,8 +114,8 @@ export const APPS_REGISTRY: AppDefinition[] = [
     slug: "invoices",
     name: "Notas",
     description: "Create and manage invoices",
-    icon: StickyNote,
-    iconName: "StickyNote",
+    icon: FilePenLine,
+    iconName: "FilePenLine",
     version: "1.0.0",
     enabledByDefault: true,
     permissions: [

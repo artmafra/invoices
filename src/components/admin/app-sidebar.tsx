@@ -2,7 +2,15 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
-import { Archive, CheckSquare, Gamepad2, StickyNote, type LucideIcon } from "lucide-react";
+import {
+  Archive,
+  CheckSquare,
+  FilePenLine,
+  Gamepad2,
+  StickyNote,
+  Users,
+  type LucideIcon,
+} from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { NavItem } from "@/lib/navigation";
 import { useSelectedApp } from "@/hooks/admin/use-selected-app";
@@ -63,6 +71,23 @@ const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
       },
     ],
   },
+  invoices: {
+    icon: FilePenLine,
+    getItems: (t) => [
+      {
+        title: t("nav.allTasks"),
+        url: "/admin/invoices",
+        icon: FilePenLine,
+        permission: { resource: "invoices", action: "view" },
+      },
+      {
+        title: t("nav.suppliers"),
+        url: "/admin/invoices/suppliers",
+        icon: Users,
+        permission: { resource: "invoices", action: "view" },
+      },
+    ],
+  },
   games: {
     icon: Gamepad2,
     getItems: (t) => [
@@ -81,7 +106,8 @@ export function AppSidebar(
 ) {
   const { userPermissions, ...sidebarProps } = props;
   const pathname = usePathname();
-  const tNotes = useTranslations("apps/notes");
+  const tInvoices = useTranslations("apps/invoices");
+  const tSuppliers = useTranslations("apps/suppliers");
   const tTasks = useTranslations("apps/tasks");
   const tGames = useTranslations("apps/games");
   const { selectedApp } = useSelectedApp();
@@ -93,11 +119,12 @@ export function AppSidebar(
   // Map app IDs to their translation functions
   const appTranslations: Record<string, ReturnType<typeof useTranslations>> = React.useMemo(
     () => ({
-      notes: tNotes,
+      invoices: tInvoices,
+      suppliers: tSuppliers,
       tasks: tTasks,
       games: tGames,
     }),
-    [tNotes, tTasks, tGames],
+    [tInvoices, tSuppliers, tTasks, tGames],
   );
 
   // Build nav items from selected app using translations
