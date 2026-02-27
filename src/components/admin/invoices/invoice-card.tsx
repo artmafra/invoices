@@ -38,7 +38,7 @@ export function InvoiceCard({
   onEdit,
   onDelete,
 }: InvoiceCardProps) {
-  const t = useTranslations("apps/tasks");
+  const t = useTranslations("apps/invoices");
   const tc = useTranslations("common");
   const { formatDate } = useDateFormat();
 

@@ -2,7 +2,8 @@
   "title": "Notas Fiscais",
   "description": "Gerencie suas notas fiscais",
   "nav": {
-    "allTasks": "Notas Fiscais"
+    "allTasks": "Notas Fiscais",
+    "suppliers": "Fornecedores"
   },
   "searchPlaceholder": "Pesquisar notas fiscais...",
   "new": "Nova",

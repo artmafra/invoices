@@ -2,7 +2,8 @@
   "title": "Invoices",
   "description": "Manage your invoices",
   "nav": {
-    "allTasks": "Invoices"
+    "allTasks": "Invoices",
+    "suppliers": "Suppliers"
   },
   "searchPlaceholder": "Search invoices...",
   "new": "New",
