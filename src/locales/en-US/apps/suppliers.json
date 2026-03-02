@@ -38,6 +38,7 @@
   },
   "deleteTitle": "Delete supplier?",
   "deleteDescription": "This will permanently delete this supplier. This action cannot be undone.",
+  "deleting": "Deleting...",
   "success": {
     "created": "Supplier created",
     "updated": "Supplier updated",

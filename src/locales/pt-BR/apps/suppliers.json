@@ -38,6 +38,7 @@
   },
   "deleteTitle": "Excluir fornecedor?",
   "deleteDescription": "Isso excluirá permanentemente este fornecedor. Esta ação não pode ser desfeita.",
+  "deleting": "Excluindo...",
   "success": {
     "created": "Fornecedor criado",
     "updated": "Fornecedor atualizado",

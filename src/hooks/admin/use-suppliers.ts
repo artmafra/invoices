@@ -54,13 +54,14 @@ export const useSuppliers = (
       if (filters.city) params.set("city", filters.city);
       if (filters.taxRegime) params.set("taxRegime", filters.taxRegime);
 
-      const response = await fetch(`/api/admin/suppliers?${params.toString()}`);
+      const response = await fetch(`/api/admin/invoices/suppliers?${params.toString()}`);
 
       if (!response.ok) {
         throw new Error(t("hooks.fetchFailed"));
       }
 
-      return response.json();
+      const result = await response.json();
+      return result.data; // Extract the data array from the paginated response
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 5 * 60 * 1000, // 5 minutes
@@ -76,7 +77,7 @@ export const useSupplier = (cnpj: string) => {
   return useQuery({
     queryKey: QUERY_KEYS.detail(cnpj),
     queryFn: async (): Promise<Supplier> => {
-      const response = await fetch(`/api/admin/suppliers/${cnpj}`);
+      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`);
 
       if (!response.ok) {
         throw new Error(t("hooks.fetchOneFailed"));
@@ -98,7 +99,7 @@ export const useCreateSupplier = () => {
 
   return useMutation({
     mutationFn: async (data: CreateSupplierInput): Promise<Supplier> => {
-      const response = await fetch("/api/admin/suppliers", {
+      const response = await fetch("/api/admin/invoices/suppliers", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -137,7 +138,7 @@ export const useUpdateSupplier = () => {
       cnpj: string;
       data: UpdateSupplierInput;
     }): Promise<Supplier> => {
-      const response = await fetch(`/api/admin/suppliers/${cnpj}`, {
+      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -171,7 +172,7 @@ export const useDeleteSupplier = () => {
 
   return useMutation({
     mutationFn: async (cnpj: string): Promise<void> => {
-      const response = await fetch(`/api/admin/suppliers/${cnpj}`, {
+      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`, {
         method: "DELETE",
       });
 

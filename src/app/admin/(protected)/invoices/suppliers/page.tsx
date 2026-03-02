@@ -4,6 +4,7 @@ import { useCallback, useMemo, useRef, useState } from "react";
 import { SupplierTaxRegime } from "@/schema/suppliers.schema";
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { formatCnpj } from "@/lib/cnpj-service-code";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
 import {
@@ -69,7 +70,9 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
                 <CardTitle>{supplier.name}</CardTitle>
               </div>
               <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
-                {<span>{supplier.cnpj}</span>}
+                {<span>{formatCnpj(supplier.cnpj)}</span>}
+              </div>
+              <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
                 {<span>{supplier.city}</span>}
               </div>
             </div>
