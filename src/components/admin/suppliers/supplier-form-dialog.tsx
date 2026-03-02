@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { createSupplierSchema } from "@/validations/supplier.validations";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { Button } from "@/components/ui/button";
@@ -113,7 +114,21 @@ export function SupplierFormDialog({
                       <Input
                         {...field}
                         placeholder={t("fields.cnpjPlaceholder")}
-                        disabled={isEditing}
+                        maxLength={18} // XX.XXX.XXX/XXXX-XX
+                        onChange={(e) => {
+                          const input = e.target.value;
+                          const digits = extractCnpjDigits(input);
+                          // Update with extracted digits (max 14)
+                          field.onChange(digits.slice(0, 14));
+                        }}
+                        onBlur={() => {
+                          // Ensure value is clean (digits only) on blur
+                          if (field.value) {
+                            field.onChange(extractCnpjDigits(field.value));
+                          }
+                          field.onBlur();
+                        }}
+                        value={field.value ? formatCnpj(field.value) : ""}
                       />
                     </FormControl>
                     <FormMessage />
