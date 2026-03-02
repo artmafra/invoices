@@ -1,9 +1,5 @@
 import { SupplierDTO } from "@/dtos/supplier.dto";
-import {
-  InsertSupplierSchema,
-  tableSuppliers,
-  UpdateSupplierSchema,
-} from "@/schema/suppliers.schema";
+import { InsertSupplierSchema, UpdateSupplierSchema } from "@/schema/suppliers.schema";
 import { AdminSuppliersListResponse } from "@/types/suppliers/suppliers.types";
 import { supplierStorage } from "@/storage/runtime/supplier";
 import { SupplierFilterOptions } from "@/storage/suppliers.storage";

@@ -55,6 +55,12 @@ const PERMISSION_DESCRIPTIONS: Record<CorePermissionString, string> = {
   // Activity
   "activity.view": "View activity",
   "activity.verify": "Verify activity log integrity",
+
+  // Invoices
+  "invoices.view": "View invoices list and details",
+  "invoices.create": "Create new invoices",
+  "invoices.edit": "Edit invoice details",
+  "invoices.delete": "Delete invoices",
 };
 
 /**

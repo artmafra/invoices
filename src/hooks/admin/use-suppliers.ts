@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { apiErrorFromResponseBody, handleMutationError } from "@/lib/api-request-error";
-import type { PaginatedResult } from "@/storage/types";
 import type { CreateSupplierInput, UpdateSupplierInput } from "@/validations/supplier.validations";
 import { SUPPLIERS_QUERY_KEYS as QUERY_KEYS } from "./suppliers.query-keys";
 

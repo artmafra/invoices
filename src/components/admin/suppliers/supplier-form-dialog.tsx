@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { SUPPLIER_TAX_REGIME, type SupplierTaxRegime } from "@/schema/suppliers.schema";
+import { SUPPLIER_TAX_REGIME } from "@/schema/suppliers.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";

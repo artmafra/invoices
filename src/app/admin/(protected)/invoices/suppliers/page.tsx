@@ -2,7 +2,7 @@
 
 import { useCallback, useMemo, useRef, useState } from "react";
 import { SupplierTaxRegime } from "@/schema/suppliers.schema";
-import { Loader2, MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
@@ -16,6 +16,7 @@ import {
 import { useDebounce } from "@/hooks/use-debounce";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
+import { SupplierFilters } from "@/components/admin/suppliers/supplier-filters";
 import { SupplierFormDialog } from "@/components/admin/suppliers/supplier-form-dialog";
 import { AdminErrorFallback } from "@/components/shared/admin-error-fallback";
 import { EmptyState } from "@/components/shared/empty-state";
@@ -27,7 +28,7 @@ import { RequirePermission } from "@/components/shared/require-permission";
 import { SearchBar } from "@/components/shared/search-bar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogBody,
@@ -41,7 +42,6 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { SidebarInset } from "@/components/ui/sidebar";
@@ -141,6 +141,16 @@ function SuppliersPageContent() {
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
   const [deleteSupplierCnpj, setDeleteSupplierCnpj] = useState<string | null>(null);
 
+  // Filters
+  const [taxRegimeFilter, setTaxRegimeFilter] = useState("all");
+  const [nameFilter, setNameFilter] = useState("");
+  const [cityFilter, setCityFilter] = useState("");
+  const [cnpjFilter, setCnpjFilter] = useState("");
+
+  const debouncedNameFilter = useDebounce(nameFilter, 300);
+  const debouncedCityFilter = useDebounce(cityFilter, 300);
+  const debouncedCnpjFilter = useDebounce(cnpjFilter, 300);
+
   const handleOpenCreate = useCallback(() => {
     setEditingSupplier(null);
     setShowFormDialog(true);
@@ -205,17 +215,55 @@ function SuppliersPageContent() {
 
   const filteredSuppliers = useMemo(() => {
     if (!suppliers) return [];
-    if (!debouncedSearch) return suppliers;
 
-    const searchLower = debouncedSearch.toLowerCase();
-    return suppliers.filter(
-      (supplier) =>
-        supplier.cnpj ||
-        supplier.name.toLowerCase().includes(searchLower) ||
-        supplier.city.toLowerCase().includes(searchLower) ||
-        supplier.taxRegime.toLowerCase().includes(searchLower),
-    );
-  }, [suppliers, debouncedSearch]);
+    return suppliers.filter((supplier) => {
+      // Search filter
+      if (debouncedSearch) {
+        const searchLower = debouncedSearch.toLowerCase();
+        const matchesSearch =
+          supplier.cnpj.includes(searchLower) ||
+          supplier.name.toLowerCase().includes(searchLower) ||
+          supplier.city.toLowerCase().includes(searchLower) ||
+          supplier.taxRegime.toLowerCase().includes(searchLower);
+        if (!matchesSearch) return false;
+      }
+
+      // Tax regime filter
+      if (taxRegimeFilter !== "all" && supplier.taxRegime !== taxRegimeFilter) {
+        return false;
+      }
+
+      // Name filter
+      if (
+        debouncedNameFilter &&
+        !supplier.name.toLowerCase().includes(debouncedNameFilter.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // City filter
+      if (
+        debouncedCityFilter &&
+        !supplier.city.toLowerCase().includes(debouncedCityFilter.toLowerCase())
+      ) {
+        return false;
+      }
+
+      // CNPJ filter
+      if (debouncedCnpjFilter && !supplier.cnpj.includes(debouncedCnpjFilter)) {
+        return false;
+      }
+
+      return true;
+    });
+  }, [
+    suppliers,
+    debouncedSearch,
+    taxRegimeFilter,
+    debouncedNameFilter,
+    debouncedCityFilter,
+    debouncedCnpjFilter,
+  ]);
 
   const isSaving = createSupplier.isPending || updateSupplier.isPending;
 
@@ -244,7 +292,16 @@ function SuppliersPageContent() {
             searchPlaceholder={t("searchPlaceholder")}
             searchValue={search}
             onSearchChange={setSearch}
-          />
+          >
+            <SupplierFilters
+              taxRegimeFilter={taxRegimeFilter}
+              onTaxRegimeFilterChange={setTaxRegimeFilter}
+              onNameFilter={setNameFilter}
+              onCityFilter={setCityFilter}
+              onCnpjFilter={setCnpjFilter}
+              t={t}
+            />
+          </SearchBar>
 
           <LoadingTransition
             isLoading={isLoading && !suppliers}

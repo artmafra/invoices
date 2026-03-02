@@ -83,7 +83,11 @@ export function useInvoicesActions({
     (invoiceId: string, status: InvoiceStatus) => {
       updateMutation.mutate({
         invoiceId,
-        data: { status },
+        data: {
+          status,
+          supplierCnpj: undefined,
+          serviceCode: undefined,
+        },
       });
     },
   );

@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { ZodError } from "zod";
 import { withErrorHandler } from "@/lib/api-handler";
 import {
   ConflictError,
