@@ -1,12 +1,12 @@
 /**
  * Base repository interface that all repositories should implement
  */
-export interface BaseStorage<T, TInsert = Partial<T>, TUpdate = Partial<T>> {
-  findById(id: string): Promise<T | undefined>;
+export interface BaseStorage<T, TInsert = Partial<T>, TUpdate = Partial<T>, TId = string> {
+  findById(id: TId): Promise<T | undefined>;
   findMany(filters?: Record<string, any>): Promise<T[]>;
   create(data: TInsert): Promise<T>;
-  update(id: string, data: TUpdate): Promise<T>;
-  delete(id: string): Promise<boolean>;
+  update(id: TId, data: TUpdate): Promise<T>;
+  delete(id: TId): Promise<boolean>;
 }
 
 /**

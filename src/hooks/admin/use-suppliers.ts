@@ -11,6 +11,7 @@ import { SUPPLIERS_QUERY_KEYS as QUERY_KEYS } from "./suppliers.query-keys";
 // =============================================================================
 
 export interface Supplier {
+  id: number;
   cnpj: string;
   name: string;
   city: string;
@@ -69,15 +70,15 @@ export const useSuppliers = (
 };
 
 /**
- * Get a single supplier by CNPJ
+ * Get a single supplier by ID
  */
-export const useSupplier = (cnpj: string) => {
+export const useSupplier = (id: number) => {
   const t = useTranslations("apps/suppliers");
 
   return useQuery({
-    queryKey: QUERY_KEYS.detail(cnpj),
+    queryKey: QUERY_KEYS.detail(id),
     queryFn: async (): Promise<Supplier> => {
-      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`);
+      const response = await fetch(`/api/admin/invoices/suppliers/${id}`);
 
       if (!response.ok) {
         throw new Error(t("hooks.fetchOneFailed"));
@@ -85,7 +86,7 @@ export const useSupplier = (cnpj: string) => {
 
       return response.json();
     },
-    enabled: !!cnpj,
+    enabled: !!id,
     staleTime: 30 * 1000,
   });
 };
@@ -132,13 +133,13 @@ export const useUpdateSupplier = () => {
 
   return useMutation({
     mutationFn: async ({
-      cnpj,
+      id,
       data,
     }: {
-      cnpj: string;
+      id: number;
       data: UpdateSupplierInput;
     }): Promise<Supplier> => {
-      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`, {
+      const response = await fetch(`/api/admin/invoices/suppliers/${id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -152,13 +153,41 @@ export const useUpdateSupplier = () => {
 
       return result;
     },
-    onSuccess: (_, variables) => {
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.detail(variables.cnpj) });
+    onMutate: async ({ id, data }) => {
+      // Cancel outgoing refetches so they don't overwrite optimistic update
+      await queryClient.cancelQueries({ queryKey: QUERY_KEYS.lists() });
+
+      // Snapshot current list data for rollback
+      const previousLists = queryClient.getQueriesData<Supplier[]>({
+        queryKey: QUERY_KEYS.lists(),
+      });
+
+      // Optimistically update all cached supplier lists
+      queryClient.setQueriesData<Supplier[]>({ queryKey: QUERY_KEYS.lists() }, (old) => {
+        if (!old) return old;
+        return old.map((supplier) =>
+          supplier.id === id ? { ...supplier, ...data } : supplier,
+        );
+      });
+
+      return { previousLists };
+    },
+    onSuccess: () => {
       toast.success(t("success.updated"));
     },
-    onError: (error: Error) => {
+    onError: (error: Error, _variables, context) => {
+      // Rollback to previous data on error
+      if (context?.previousLists) {
+        for (const [queryKey, data] of context.previousLists) {
+          queryClient.setQueryData(queryKey, data);
+        }
+      }
       handleMutationError(error, { fallback: t("hooks.updateFailed") });
+    },
+    onSettled: (_data, _error, variables) => {
+      // Always refetch after mutation to ensure server state is synced
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.detail(variables.id) });
     },
   });
 };
@@ -171,8 +200,8 @@ export const useDeleteSupplier = () => {
   const t = useTranslations("apps/suppliers");
 
   return useMutation({
-    mutationFn: async (cnpj: string): Promise<void> => {
-      const response = await fetch(`/api/admin/invoices/suppliers/${cnpj}`, {
+    mutationFn: async (id: number): Promise<void> => {
+      const response = await fetch(`/api/admin/invoices/suppliers/${id}`, {
         method: "DELETE",
       });
 

@@ -10,5 +10,5 @@ export const SUPPLIERS_QUERY_KEYS = {
 
   details: () => [...SUPPLIERS_QUERY_KEYS.all, "detail"] as const,
 
-  detail: (cnpj: string) => [...SUPPLIERS_QUERY_KEYS.details(), cnpj] as const,
+  detail: (id: number) => [...SUPPLIERS_QUERY_KEYS.details(), id] as const,
 };

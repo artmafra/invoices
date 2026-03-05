@@ -6,6 +6,12 @@ import { baseQuerySchema } from "./query.validations";
 // Supplier Param Schemas
 // ========================================
 
+export const supplierIdParamSchema = z.object({
+  id: z.coerce.number().int().positive(),
+});
+
+export type SupplierIdParam = z.infer<typeof supplierIdParamSchema>;
+
 export const supplierCnpjParamSchema = z.object({
   cnpj: z.string().length(14, "Invalid CNPJ format"),
 });
@@ -53,6 +59,7 @@ export const createSupplierRequestSchema = createSupplierSchema;
 export type CreateSupplierInput = z.infer<typeof createSupplierSchema>;
 
 export const updateSupplierSchema = z.object({
+  cnpj: cnpjValidation.optional(),
   name: nameValidation.optional(),
   city: cityValidation.optional(),
   taxRegime: supplierTaxRegimeSchema.optional(),

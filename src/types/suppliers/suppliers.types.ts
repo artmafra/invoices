@@ -8,6 +8,7 @@ import { z } from "zod";
 
 // Base schema from database table
 const adminSupplierBaseSchema = createSelectSchema(tableSuppliers).pick({
+  id: true,
   name: true,
   city: true,
   taxRegime: true,

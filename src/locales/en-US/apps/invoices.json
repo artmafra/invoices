@@ -3,7 +3,8 @@
   "description": "Manage your invoices",
   "nav": {
     "allTasks": "Invoices",
-    "suppliers": "Suppliers"
+    "suppliers": "Suppliers",
+    "services": "Services"
   },
   "searchPlaceholder": "Search invoices...",
   "new": "New",
