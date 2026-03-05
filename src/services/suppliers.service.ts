@@ -22,31 +22,30 @@ export class SupplierService {
     return await supplierStorage.findMany();
   }
 
+  async getSupplierById(id: number) {
+    return await supplierStorage.findById(id);
+  }
+
   async getSupplierByCnpj(cnpj: string) {
-    return await supplierStorage.findById(cnpj);
+    return await supplierStorage.findByCnpj(cnpj);
   }
 
   async createSupplier(data: InsertSupplierSchema) {
     return await supplierStorage.create(data);
   }
 
-  async updateSupplier(cnpj: string, data: UpdateSupplierSchema) {
-    const updatedData = {
-      cnpj,
-      ...data,
-    };
-
-    return await supplierStorage.update(cnpj, updatedData);
+  async updateSupplier(id: number, data: UpdateSupplierSchema) {
+    return await supplierStorage.update(id, data);
   }
 
-  async deleteSupplier(cnpj: string) {
-    return await supplierStorage.delete(cnpj);
+  async deleteSupplier(id: number) {
+    return await supplierStorage.delete(id);
   }
 
-  async isSupplierAvailable(cnpj: string, excludeId?: string): Promise<boolean> {
-    const existing = await supplierStorage.findById(cnpj);
+  async isSupplierCnpjAvailable(cnpj: string, excludeId?: number): Promise<boolean> {
+    const existing = await supplierStorage.findByCnpj(cnpj);
     if (!existing) return true;
-    if (excludeId && existing.cnpj === excludeId) return true;
+    if (excludeId && existing.id === excludeId) return true;
     return false;
   }
 }

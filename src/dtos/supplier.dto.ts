@@ -9,6 +9,7 @@ import { transformPaginatedResult } from "./base-dto.helper";
 export class SupplierDTO {
   static toAdminResponse(supplier: Supplier): AdminSupplierResponse {
     return {
+      id: supplier.id,
       cnpj: supplier.cnpj,
       name: supplier.name,
       city: supplier.city,

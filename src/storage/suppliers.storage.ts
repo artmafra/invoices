@@ -19,7 +19,7 @@ export interface SupplierFilterOptions {
   cnpj?: string;
 }
 
-export class SuppliersStorage implements BaseStorage<Supplier> {
+export class SuppliersStorage implements BaseStorage<Supplier, InsertSupplierSchema, UpdateSupplierSchema, number> {
   private buildWhereConditions(filters?: SupplierFilterOptions) {
     const conditions: SQL<unknown>[] = [];
 
@@ -56,7 +56,7 @@ export class SuppliersStorage implements BaseStorage<Supplier> {
       const query = db
         .select({
           maxUpdatedAt: max(tableSuppliers.updatedAt),
-          count: count(tableSuppliers.cnpj),
+          count: count(tableSuppliers.id),
         })
         .from(tableSuppliers);
 
@@ -100,7 +100,7 @@ export class SuppliersStorage implements BaseStorage<Supplier> {
     const conditions = this.buildWhereConditions(filters);
     const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
-    let countQuery = db.select({ count: count(tableSuppliers.cnpj) }).from(tableSuppliers);
+    let countQuery = db.select({ count: count(tableSuppliers.id) }).from(tableSuppliers);
 
     let dataQuery = db.select().from(tableSuppliers).orderBy(orderBy).$dynamic();
 
@@ -125,21 +125,32 @@ export class SuppliersStorage implements BaseStorage<Supplier> {
     return result[0];
   }
 
-  async update(cnpj: string, data: UpdateSupplierSchema) {
+  async update(id: number, data: UpdateSupplierSchema) {
     const result = await db
       .update(tableSuppliers)
-      .set(data)
-      .where(eq(tableSuppliers.cnpj, cnpj))
+      .set({
+        ...data,
+        updatedAt: new Date(),
+      })
+      .where(eq(tableSuppliers.id, id))
       .returning();
     return result[0];
   }
 
-  async delete(cnpj: string) {
-    await db.delete(tableSuppliers).where(eq(tableSuppliers.cnpj, cnpj)).returning();
+  async delete(id: number) {
+    await db.delete(tableSuppliers).where(eq(tableSuppliers.id, id)).returning();
     return true;
   }
 
-  async findById(cnpj: string) {
+  async findById(id: number) {
+    return await db
+      .select()
+      .from(tableSuppliers)
+      .where(eq(tableSuppliers.id, id))
+      .then((res) => res[0]);
+  }
+
+  async findByCnpj(cnpj: string) {
     return await db
       .select()
       .from(tableSuppliers)

@@ -10,15 +10,15 @@ import {
 import { requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
 import { supplierService } from "@/services/runtime/supplier";
-import { supplierCnpjParamSchema, updateSupplierSchema } from "@/validations/supplier.validations";
+import { supplierIdParamSchema, updateSupplierSchema } from "@/validations/supplier.validations";
 
 interface RouteParams {
-  params: Promise<{ supplierId: string }>;
+  params: Promise<{ id: string }>;
 }
 
 /**
- * GET /api/admin/invoices/suppliers/[supplierId]
- * Get a single supplier by CNPJ
+ * GET /api/admin/invoices/suppliers/[id]
+ * Get a single supplier by ID
  */
 export const GET = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
   const { authorized, error, status } = await requirePermission("invoices", "view");
@@ -28,9 +28,9 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
     throw new ForbiddenError(error);
   }
 
-  const { supplierId } = await params;
-  const { cnpj } = supplierCnpjParamSchema.parse({ cnpj: supplierId });
-  const supplier = await supplierService.getSupplierByCnpj(cnpj);
+  const { id: idParam } = await params;
+  const { id } = supplierIdParamSchema.parse({ id: idParam });
+  const supplier = await supplierService.getSupplierById(id);
 
   if (!supplier) {
     throw new NotFoundError("Supplier not found");
@@ -40,20 +40,20 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
 });
 
 /**
- * PATCH /api/admin/invoices/suppliers/[supplierId]
+ * PATCH /api/admin/invoices/suppliers/[id]
  * Update a supplier
  */
 export const PATCH = withErrorHandler(async (request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status, session } = await requirePermission("suppliers", "edit");
+  const { authorized, error, status, session } = await requirePermission("invoices", "edit");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);
     throw new ForbiddenError(error);
   }
 
-  const { supplierId } = await params;
-  const { cnpj } = supplierCnpjParamSchema.parse({ cnpj: supplierId });
-  const existingSupplier = await supplierService.getSupplierByCnpj(cnpj);
+  const { id: idParam } = await params;
+  const { id } = supplierIdParamSchema.parse({ id: idParam });
+  const existingSupplier = await supplierService.getSupplierById(id);
 
   if (!existingSupplier) {
     throw new NotFoundError("Supplier not found");
@@ -66,28 +66,32 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     throw new ValidationError("Validation failed", validation.error.flatten());
   }
 
-  const updateData: Parameters<typeof supplierService.updateSupplier>[1] = {};
-
-  if (validation.data.name !== undefined) updateData.name = validation.data.name;
-  if (validation.data.city !== undefined) updateData.city = validation.data.city;
-  if (validation.data.taxRegime !== undefined) updateData.taxRegime = validation.data.taxRegime;
-  if (validation.data.obs !== undefined) updateData.obs = validation.data.obs;
+  // Check for duplicate CNPJ if being changed
+  if (validation.data.cnpj && validation.data.cnpj !== existingSupplier.cnpj) {
+    const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(validation.data.cnpj, id);
+    if (!isCnpjAvailable) {
+      throw new ConflictError("A supplier with this CNPJ already exists");
+    }
+  }
 
   // Check for duplicate supplier name if being changed
   if (validation.data.name && validation.data.name !== existingSupplier.name) {
     const allSuppliers = await supplierService.getAllSuppliers();
     const isDuplicate = allSuppliers.some(
-      (s) => s.name.toLowerCase() === validation.data.name!.toLowerCase() && s.cnpj !== cnpj,
+      (s) => s.name.toLowerCase() === validation.data.name!.toLowerCase() && s.id !== id,
     );
     if (isDuplicate) {
       throw new ConflictError("A supplier with this name already exists");
     }
   }
 
-  const supplier = await supplierService.updateSupplier(cnpj, updateData);
+  const supplier = await supplierService.updateSupplier(id, validation.data);
 
   // Build changes array for fields that changed
   const changes = [];
+  if (validation.data.cnpj !== undefined && existingSupplier.cnpj !== supplier.cnpj) {
+    changes.push({ field: "cnpj", from: existingSupplier.cnpj, to: supplier.cnpj });
+  }
   if (validation.data.name !== undefined && existingSupplier.name !== supplier.name) {
     changes.push({ field: "name", from: existingSupplier.name, to: supplier.name });
   }
@@ -113,7 +117,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     await activityService.logUpdate(
       session,
       "invoices",
-      { type: "supplier", id: supplier.cnpj, name: supplier.name },
+      { type: "supplier", id: supplier.id.toString(), name: supplier.name },
       changes,
     );
   }
@@ -122,7 +126,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
 });
 
 /**
- * DELETE /api/admin/invoices/suppliers/[supplierId]
+ * DELETE /api/admin/invoices/suppliers/[id]
  * Delete a supplier
  */
 export const DELETE = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
@@ -133,19 +137,19 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
     throw new ForbiddenError(error);
   }
 
-  const { supplierId } = await params;
-  const { cnpj } = supplierCnpjParamSchema.parse({ cnpj: supplierId });
-  const existingSupplier = await supplierService.getSupplierByCnpj(cnpj);
+  const { id: idParam } = await params;
+  const { id } = supplierIdParamSchema.parse({ id: idParam });
+  const existingSupplier = await supplierService.getSupplierById(id);
 
   if (!existingSupplier) {
     throw new NotFoundError("Supplier not found");
   }
 
-  await supplierService.deleteSupplier(cnpj);
+  await supplierService.deleteSupplier(id);
 
   await activityService.logDelete(session, "invoices", {
     type: "supplier",
-    id: existingSupplier.cnpj,
+    id: existingSupplier.id.toString(),
     name: existingSupplier.name,
   });
 

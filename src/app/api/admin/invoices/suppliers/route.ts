@@ -73,10 +73,10 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     throw new ValidationError("Validation Failed", validation.error.flatten());
   }
 
-  // Check for duplicate supplier
-  const isSupplierAvailable = await supplierService.isSupplierAvailable(validation.data.cnpj);
-  if (!isSupplierAvailable) {
-    throw new ConflictError("This supplier already exists");
+  // Check for duplicate supplier CNPJ
+  const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(validation.data.cnpj);
+  if (!isCnpjAvailable) {
+    throw new ConflictError("A supplier with this CNPJ already exists");
   }
 
   const supplier = await supplierService.createSupplier({
@@ -89,9 +89,10 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   await activityService.logCreate(
     session,
     "invoices",
-    { type: "supplier", id: supplier.cnpj, name: supplier.name },
+    { type: "supplier", id: supplier.id.toString(), name: supplier.name },
     {
       metadata: {
+        id: supplier.id,
         cnpj: supplier.cnpj,
         name: supplier.name,
         city: supplier.city,

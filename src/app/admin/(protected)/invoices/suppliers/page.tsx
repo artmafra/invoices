@@ -51,8 +51,8 @@ interface SupplierCardProps {
   supplier: Supplier;
   canEdit: boolean;
   canDelete: boolean;
-  onEdit: (supplierCnpj: string) => void;
-  onDelete: (supplierCnpj: string) => void;
+  onEdit: (supplierId: number) => void;
+  onDelete: (supplierId: number) => void;
 }
 
 function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: SupplierCardProps) {
@@ -90,14 +90,14 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   {canEdit && (
-                    <DropdownMenuItem onClick={() => onEdit(supplier.cnpj)}>
+                    <DropdownMenuItem onClick={() => onEdit(supplier.id)}>
                       <Pencil className="h-4 w-4" />
                       {tc("buttons.edit")}
                     </DropdownMenuItem>
                   )}
                   {canDelete && (
                     <DropdownMenuItem
-                      onClick={() => onDelete(supplier.cnpj)}
+                      onClick={() => onDelete(supplier.id)}
                       className="text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -114,9 +114,9 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
   );
 }
 
-export default function TaskListsPage() {
+export default function SuppliersPage() {
   return (
-    <RequirePermission resource="suppliers">
+    <RequirePermission resource="invoices">
       <ErrorBoundary fallback={AdminErrorFallback}>
         <SuppliersPageContent />
       </ErrorBoundary>
@@ -142,7 +142,7 @@ function SuppliersPageContent() {
   const debouncedSearch = useDebounce(search, 300);
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
-  const [deleteSupplierCnpj, setDeleteSupplierCnpj] = useState<string | null>(null);
+  const [deleteSupplierId, setDeleteSupplierId] = useState<number | null>(null);
 
   // Filters
   const [taxRegimeFilter, setTaxRegimeFilter] = useState("all");
@@ -153,6 +153,23 @@ function SuppliersPageContent() {
   const debouncedNameFilter = useDebounce(nameFilter, 300);
   const debouncedCityFilter = useDebounce(cityFilter, 300);
   const debouncedCnpjFilter = useDebounce(cnpjFilter, 300);
+
+  // Check if any filters are active
+  const hasActiveFilters =
+    search.trim() !== "" ||
+    taxRegimeFilter !== "all" ||
+    nameFilter.trim() !== "" ||
+    cityFilter.trim() !== "" ||
+    cnpjFilter.trim() !== "";
+
+  // Clear all filters
+  const clearFilters = useCallback(() => {
+    setSearch("");
+    setTaxRegimeFilter("all");
+    setNameFilter("");
+    setCityFilter("");
+    setCnpjFilter("");
+  }, []);
 
   const handleOpenCreate = useCallback(() => {
     setEditingSupplier(null);
@@ -183,8 +200,9 @@ function SuppliersPageContent() {
 
         // Fire mutation (optimistic update handles the rest)
         updateSupplier.mutate({
-          cnpj: editingSupplier.cnpj,
+          id: editingSupplier.id,
           data: {
+            cnpj: data.cnpj,
             name: data.name,
             city: data.city,
             taxRegime: data.taxRegime,
@@ -207,14 +225,14 @@ function SuppliersPageContent() {
   );
 
   const handleDelete = useCallback(async () => {
-    if (!deleteSupplierCnpj) return;
+    if (!deleteSupplierId) return;
     try {
-      await deleteSupplier.mutateAsync(deleteSupplierCnpj);
-      setDeleteSupplierCnpj(null);
+      await deleteSupplier.mutateAsync(deleteSupplierId);
+      setDeleteSupplierId(null);
     } catch {
       // Error handled by mutation
     }
-  }, [deleteSupplierCnpj, deleteSupplier]);
+  }, [deleteSupplierId, deleteSupplier]);
 
   const filteredSuppliers = useMemo(() => {
     if (!suppliers) return [];
@@ -295,6 +313,8 @@ function SuppliersPageContent() {
             searchPlaceholder={t("searchPlaceholder")}
             searchValue={search}
             onSearchChange={setSearch}
+            hasActiveFilters={hasActiveFilters}
+            onClear={clearFilters}
           >
             <SupplierFilters
               taxRegimeFilter={taxRegimeFilter}
@@ -325,10 +345,10 @@ function SuppliersPageContent() {
               <div className="grid gap-space-lg sm:grid-cols-2 lg:grid-cols-3">
                 {filteredSuppliers?.map((supplier) => (
                   <SupplierCard
-                    key={supplier.cnpj}
+                    key={supplier.id}
                     supplier={supplier}
                     onEdit={() => handleOpenEdit(supplier)}
-                    onDelete={() => setDeleteSupplierCnpj(supplier.cnpj)}
+                    onDelete={() => setDeleteSupplierId(supplier.id)}
                     canEdit={canEdit}
                     canDelete={canDelete}
                   />
@@ -360,10 +380,7 @@ function SuppliersPageContent() {
       />
 
       {/* Delete Confirmation Dialog */}
-      <Dialog
-        open={!!deleteSupplierCnpj}
-        onOpenChange={(open) => !open && setDeleteSupplierCnpj(null)}
-      >
+      <Dialog open={!!deleteSupplierId} onOpenChange={(open) => !open && setDeleteSupplierId(null)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("deleteTitle")}</DialogTitle>
@@ -372,7 +389,7 @@ function SuppliersPageContent() {
             <DialogDescription>{t("deleteDescription")}</DialogDescription>
           </DialogBody>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteSupplierCnpj(null)}>
+            <Button variant="outline" onClick={() => setDeleteSupplierId(null)}>
               {tc("buttons.cancel")}
             </Button>
             <Button
