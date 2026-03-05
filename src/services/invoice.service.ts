@@ -22,7 +22,7 @@ export class InvoiceService {
   }
 
   async createInvoice(data: CreateInvoiceSchema) {
-    const supplier = await supplierStorage.findById(data.supplierCnpj);
+    const supplier = await supplierStorage.findByCnpj(data.supplierCnpj);
     if (!supplier) {
       throw new Error("Supplier not found");
     }

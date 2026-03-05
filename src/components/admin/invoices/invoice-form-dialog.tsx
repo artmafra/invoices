@@ -163,25 +163,7 @@ export function InvoiceFormDialog({
                   <FormItem>
                     <FormLabel>{t("fields.serviceCode")}</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={t("fields.serviceCodePlaceholder")}
-                        maxLength={11} // XXXX-X/XX
-                        onChange={(e) => {
-                          const input = e.target.value;
-                          const digits = extractServiceCodeCharacters(input);
-                          // Update with extracted digits (max 7)
-                          field.onChange(digits.slice(0, 7));
-                        }}
-                        onBlur={() => {
-                          // Ensure value is clean (digits only) on blur
-                          if (field.value) {
-                            field.onChange(extractServiceCodeCharacters(field.value));
-                          }
-                          field.onBlur();
-                        }}
-                        value={field.value ? formatServiceCode(field.value) : ""}
-                      />
+                      <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
