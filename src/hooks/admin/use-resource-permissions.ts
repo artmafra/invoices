@@ -171,7 +171,7 @@ export function useTaskPermissions(): TaskPermissions & {
 }
 
 /**
- * Hook to extract typed permissions for the notes resource
+ * Hook to extract typed permissions for the suppliers resource (part of invoices)
  */
 export function useSupplierPermissions(): SupplierPermissions & {
   currentUserId: string | undefined;
@@ -182,9 +182,9 @@ export function useSupplierPermissions(): SupplierPermissions & {
   const currentUserId = session?.user?.id;
 
   return {
-    canCreate: permissions.includes("suppliers.create"),
-    canEdit: permissions.includes("suppliers.edit"),
-    canDelete: permissions.includes("suppliers.delete"),
+    canCreate: permissions.includes("invoices.create"),
+    canEdit: permissions.includes("invoices.edit"),
+    canDelete: permissions.includes("invoices.delete"),
     currentUserId,
     isLoading: status === "loading",
   };
