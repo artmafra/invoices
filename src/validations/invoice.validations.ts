@@ -37,13 +37,7 @@ export const getInvoicesQuerySchema = baseQuerySchema
       .string()
       .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have 14 digits")
       .optional(),
-    serviceCode: z
-      .string()
-      .refine(
-        (code) => isValidServiceCodeFormat(code),
-        "Service code must have 7 digits (XXXX-X/XX format)",
-      )
-      .optional(),
+    serviceCode: z.string().optional(),
 
     issueDateFrom: z.coerce.date().optional(),
     issueDateTo: z.coerce.date().optional(),
@@ -75,14 +69,7 @@ export const createInvoiceSchema = z
       .min(1, "CNPJ is required")
       .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
       .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)"),
-    serviceCode: z
-      .string()
-      .min(1, "Service code is required")
-      .refine(
-        (code) => isValidServiceCodeFormat(code),
-        "Service code must have 7 digits in format XXXX-X/XX",
-      ),
-
+    serviceCode: z.string().min(1, "Service code is required"),
     issueDate: z.date(),
     dueDate: z.date(),
     entryDate: z.date(),
@@ -103,7 +90,6 @@ export const createInvoiceSchema = z
     ...data,
     // Store backend data without formatting (just digits)
     supplierCnpj: extractCnpjDigits(data.supplierCnpj),
-    serviceCode: extractServiceCodeCharacters(data.serviceCode),
   }));
 
 export type CreateInvoiceInput = z.infer<typeof createInvoiceSchema>;
@@ -116,13 +102,7 @@ export const updateInvoiceSchema = z
       .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
       .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)")
       .optional(),
-    serviceCode: z
-      .string()
-      .refine(
-        (code) => isValidServiceCodeFormat(code),
-        "Service code must have 7 digits in format XXXX-X/XX",
-      )
-      .optional(),
+    serviceCode: z.string().optional(),
 
     issueDate: z.coerce.date().optional(),
     dueDate: z.coerce.date().optional(),
@@ -144,7 +124,6 @@ export const updateInvoiceSchema = z
     ...data,
     // Store backend data without formatting (just digits) if provided
     supplierCnpj: data.supplierCnpj ? extractCnpjDigits(data.supplierCnpj) : undefined,
-    serviceCode: data.serviceCode ? extractServiceCodeCharacters(data.serviceCode) : undefined,
   }));
 
 export type UpdateInvoiceInput = z.infer<typeof updateInvoiceSchema>;

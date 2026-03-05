@@ -165,9 +165,7 @@ export const useUpdateSupplier = () => {
       // Optimistically update all cached supplier lists
       queryClient.setQueriesData<Supplier[]>({ queryKey: QUERY_KEYS.lists() }, (old) => {
         if (!old) return old;
-        return old.map((supplier) =>
-          supplier.id === id ? { ...supplier, ...data } : supplier,
-        );
+        return old.map((supplier) => (supplier.id === id ? { ...supplier, ...data } : supplier));
       });
 
       return { previousLists };
