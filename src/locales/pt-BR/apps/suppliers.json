@@ -47,7 +47,14 @@
   "errors": {
     "noCreatePermission": "Você não tem permissão para criar fornecedores",
     "noEditPermission": "Você não tem permissão para editar fornecedores",
-    "noDeletePermission": "Você não tem permissão para excluir fornecedores"
+    "noDeletePermission": "Você não tem permissão para excluir fornecedores",
+    "cnpjRequired": "CNPJ é obrigatório",
+    "cnpjInvalid": "CNPJ deve conter 14 dígitos",
+    "nameRequired": "Nome é obrigatório",
+    "nameMaxLength": "Nome deve ter no máximo 200 caracteres",
+    "cityRequired": "Cidade é obrigatória",
+    "cityMaxLength": "Cidade deve ter no máximo 100 caracteres",
+    "taxRegimeRequired": "Regime tributário é obrigatório"
   },
   "hooks": {
     "fetchFailed": "Falha ao buscar fornecedores",

@@ -63,8 +63,8 @@ export function useSuppliersActions({
   const handleDelete = withPermissionGuard(
     permissions.canDelete,
     t("errors.noDeletePermission"),
-    async (cnpj: string) => {
-      await deleteMutation.mutateAsync(cnpj);
+    async (id: number) => {
+      await deleteMutation.mutateAsync(id);
       onDeleteSuccess?.();
     },
   );

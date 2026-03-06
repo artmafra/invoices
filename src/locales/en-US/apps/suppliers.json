@@ -47,7 +47,14 @@
   "errors": {
     "noCreatePermission": "You don't have permission to create suppliers",
     "noEditPermission": "You don't have permission to edit suppliers",
-    "noDeletePermission": "You don't have permission to delete suppliers"
+    "noDeletePermission": "You don't have permission to delete suppliers",
+    "cnpjRequired": "CNPJ is required",
+    "cnpjInvalid": "CNPJ must contain 14 digits",
+    "nameRequired": "Name is required",
+    "nameMaxLength": "Name must be at most 200 characters",
+    "cityRequired": "City is required",
+    "cityMaxLength": "City must be at most 100 characters",
+    "taxRegimeRequired": "Tax regime is required"
   },
   "hooks": {
     "fetchFailed": "Failed to fetch suppliers",

@@ -9,6 +9,7 @@ import { z } from "zod";
 import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { createSupplierSchema } from "@/validations/supplier.validations";
 import { LoadingButton } from "@/components/shared/loading-button";
+import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -21,11 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import {
   Form,
-  FormControl,
   FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -59,8 +56,32 @@ export function SupplierFormDialog({
   const tc = useTranslations("common");
   const t = useTranslations("apps/suppliers");
 
-  const form = useForm<SupplierFormValues>({
-    resolver: zodResolver(createSupplierSchema),
+  // Extend schema with translated error messages at runtime
+  const translatedFormSchema = z.object({
+    cnpj: z
+      .string()
+      .trim()
+      .min(1, t("errors.cnpjRequired"))
+      .regex(/^\d{14}$/, t("errors.cnpjInvalid")),
+    name: z
+      .string()
+      .trim()
+      .min(1, t("errors.nameRequired"))
+      .max(200, t("errors.nameMaxLength")),
+    city: z
+      .string()
+      .trim()
+      .min(1, t("errors.cityRequired"))
+      .max(100, t("errors.cityMaxLength")),
+    taxRegime: z.enum(SUPPLIER_TAX_REGIME),
+    obs: z.string().optional(),
+  });
+
+  type TranslatedSupplierFormValues = z.infer<typeof translatedFormSchema>;
+
+  const form = useForm<TranslatedSupplierFormValues>({
+    resolver: zodResolver(translatedFormSchema),
+    mode: "onBlur", // Validate only on blur
     defaultValues: {
       cnpj: "",
       name: "",
@@ -84,8 +105,9 @@ export function SupplierFormDialog({
     }
   }, [open, initialData, form]);
 
-  const handleSubmit = (data: SupplierFormValues) => {
-    onSubmit(data);
+  const handleSubmit = (data: TranslatedSupplierFormValues) => {
+    // Cast to SupplierFormValues for the parent handler
+    onSubmit(data as SupplierFormValues);
   };
 
   return (
@@ -107,72 +129,73 @@ export function SupplierFormDialog({
               <FormField
                 control={form.control}
                 name="cnpj"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.cnpj")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={t("fields.cnpjPlaceholder")}
-                        maxLength={18} // XX.XXX.XXX/XXXX-XX
-                        onChange={(e) => {
-                          const input = e.target.value;
-                          const digits = extractCnpjDigits(input);
-                          // Update with extracted digits (max 14)
-                          field.onChange(digits.slice(0, 14));
-                        }}
-                        onBlur={() => {
-                          // Ensure value is clean (digits only) on blur
-                          if (field.value) {
-                            field.onChange(extractCnpjDigits(field.value));
-                          }
-                          field.onBlur();
-                        }}
-                        value={field.value ? formatCnpj(field.value) : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.cnpj")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.cnpj}
+                  >
+                    <Input
+                      {...field}
+                      placeholder={t("fields.cnpjPlaceholder")}
+                      maxLength={18} // XX.XXX.XXX/XXXX-XX
+                      onChange={(e) => {
+                        const input = e.target.value;
+                        const digits = extractCnpjDigits(input);
+                        // Update with extracted digits (max 14)
+                        field.onChange(digits.slice(0, 14));
+                      }}
+                      onBlur={() => {
+                        // Ensure value is clean (digits only) on blur
+                        if (field.value) {
+                          field.onChange(extractCnpjDigits(field.value));
+                        }
+                        field.onBlur();
+                      }}
+                      value={field.value ? formatCnpj(field.value) : ""}
+                    />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.name")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder={t("fields.namePlaceholder")} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.name")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.name}
+                  >
+                    <Input {...field} placeholder={t("fields.namePlaceholder")} />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="city"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.city")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder={t("fields.cityPlaceholder")} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.city")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.city}
+                  >
+                    <Input {...field} placeholder={t("fields.cityPlaceholder")} />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="taxRegime"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.taxRegime")}</FormLabel>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.taxRegime")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.taxRegime}
+                  >
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue placeholder={t("fields.taxRegimePlaceholder")} />
-                        </SelectTrigger>
-                      </FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue placeholder={t("fields.taxRegimePlaceholder")} />
+                      </SelectTrigger>
                       <SelectContent>
                         {SUPPLIER_TAX_REGIME.map((taxRegime) => (
                           <SelectItem key={taxRegime} value={taxRegime}>
@@ -181,26 +204,25 @@ export function SupplierFormDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
-                  </FormItem>
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="obs"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.obs")}</FormLabel>
-                    <FormControl>
-                      <Textarea
-                        {...field}
-                        value={field.value ?? ""}
-                        placeholder={t("fields.obsPlaceholder")}
-                        rows={3}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.obs")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.obs}
+                  >
+                    <Textarea
+                      {...field}
+                      value={field.value ?? ""}
+                      placeholder={t("fields.obsPlaceholder")}
+                      rows={3}
+                    />
+                  </FormFieldWithTooltip>
                 )}
               />
             </form>
