@@ -63,7 +63,17 @@
   "errors": {
     "noCreatePermission": "You do not have permission to create an invoice",
     "noEditPermission": "You do not have permission to edit a invoice",
-    "noDeletePermission": "You do not have permission to delete a invoice"
+    "noDeletePermission": "You do not have permission to delete a invoice",
+    "cnpjRequired": "Supplier CNPJ is required",
+    "cnpjInvalid": "CNPJ must have exactly 14 digits",
+    "cnpjChecksum": "Invalid CNPJ (failed checksum validation)",
+    "serviceCodeRequired": "Service code is required",
+    "valueCentsRequired": "Invoice value is required",
+    "valueCentsInvalid": "Invoice value must be positive",
+    "valueCentsTooHigh": "Invoice value exceeds maximum allowed",
+    "invoiceNumberRequired": "Invoice number is required",
+    "invoiceNumberTooLong": "Invoice number must be at most 50 characters",
+    "dueDateAfterIssueDate": "Due date must be after issue date"
   },
   "hooks": {
     "fetchFailed": "Failed to fetch invoices",

@@ -7,16 +7,12 @@ import { CalendarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import {
-  extractCnpjDigits,
-  extractServiceCodeCharacters,
-  formatCnpj,
-  formatServiceCode,
-} from "@/lib/cnpj-service-code";
+import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
 import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
 import { useDateFormat } from "@/hooks/use-date-format";
+import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { Button } from "@/components/ui/button";
@@ -29,14 +25,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
+import { Form, FormControl, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import {
@@ -72,8 +61,48 @@ export function InvoiceFormDialog({
   const t = useTranslations("apps/invoices");
   const { formatDate } = useDateFormat();
 
-  const form = useForm<InvoiceFormValues>({
-    resolver: zodResolver(createInvoiceSchema),
+  // Create translated schema with error messages
+  const translatedFormSchema = z
+    .object({
+      status: z.enum(["issued", "paid", "cancelled"]).optional(),
+      supplierCnpj: z
+        .string()
+        .trim()
+        .min(1, t("errors.cnpjRequired"))
+        .regex(/^\d{14}$/, t("errors.cnpjInvalid")),
+      serviceCode: z.string().min(1, t("errors.serviceCodeRequired")),
+      issueDate: z.date(),
+      dueDate: z.date(),
+      entryDate: z.date(),
+      valueCents: z
+        .number()
+        .int()
+        .positive(t("errors.valueCentsInvalid"))
+        .min(1, t("errors.valueCentsRequired"))
+        .max(1_000_000_000, t("errors.valueCentsTooHigh")),
+      invoiceNumber: z
+        .string()
+        .min(1, t("errors.invoiceNumberRequired"))
+        .max(50, t("errors.invoiceNumberTooLong")),
+      materialDeductionCents: z.number().int().min(0).optional(),
+      inssPercent: z.number().min(0).max(100).optional(),
+      csPercent: z.number().min(0).max(100).optional(),
+      issqnPercent: z.number().min(0).max(100).optional(),
+    })
+    .refine((data) => !data.dueDate || !data.issueDate || data.dueDate > data.issueDate, {
+      message: t("errors.dueDateAfterIssueDate"),
+      path: ["dueDate"],
+    })
+    .transform((data) => ({
+      ...data,
+      supplierCnpj: extractCnpjDigits(data.supplierCnpj),
+    }));
+
+  type TranslatedInvoiceFormValues = z.infer<typeof translatedFormSchema>;
+
+  const form = useForm<TranslatedInvoiceFormValues>({
+    resolver: zodResolver(translatedFormSchema),
+    mode: "onBlur", // Validate only on blur
     defaultValues: {
       supplierCnpj: "",
       serviceCode: "",
@@ -105,8 +134,9 @@ export function InvoiceFormDialog({
     }
   }, [open, initialData, form]);
 
-  const handleSubmit = (data: InvoiceFormValues) => {
-    onSubmit(data);
+  const handleSubmit = (data: TranslatedInvoiceFormValues) => {
+    // Cast to InvoiceFormValues for the parent handler
+    onSubmit(data as InvoiceFormValues);
   };
 
   return (
@@ -128,54 +158,57 @@ export function InvoiceFormDialog({
               <FormField
                 control={form.control}
                 name="supplierCnpj"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.supplierCnpj")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder={t("fields.supplierCnpjPlaceholder")}
-                        maxLength={18} // XX.XXX.XXX/XXXX-XX
-                        onChange={(e) => {
-                          const input = e.target.value;
-                          const digits = extractCnpjDigits(input);
-                          // Update with extracted digits (max 14)
-                          field.onChange(digits.slice(0, 14));
-                        }}
-                        onBlur={() => {
-                          // Ensure value is clean (digits only) on blur
-                          if (field.value) {
-                            field.onChange(extractCnpjDigits(field.value));
-                          }
-                          field.onBlur();
-                        }}
-                        value={field.value ? formatCnpj(field.value) : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.supplierCnpj")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.supplierCnpj}
+                  >
+                    <Input
+                      {...field}
+                      placeholder={t("fields.supplierCnpjPlaceholder")}
+                      maxLength={18} // XX.XXX.XXX/XXXX-XX
+                      onChange={(e) => {
+                        const input = e.target.value;
+                        const digits = extractCnpjDigits(input);
+                        // Update with extracted digits (max 14)
+                        field.onChange(digits.slice(0, 14));
+                      }}
+                      onBlur={() => {
+                        // Ensure value is clean (digits only) on blur
+                        if (field.value) {
+                          field.onChange(extractCnpjDigits(field.value));
+                        }
+                        field.onBlur();
+                      }}
+                      value={field.value ? formatCnpj(field.value) : ""}
+                    />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="serviceCode"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.serviceCode")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.serviceCode")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.serviceCode}
+                  >
+                    <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
+                  </FormFieldWithTooltip>
                 )}
               />
               <div className="grid gap-space-xl sm:grid-cols-2">
                 <FormField
                   control={form.control}
                   name="issueDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>{t("fields.issueDate")}</FormLabel>
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("fields.issueDate")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.issueDate}
+                    >
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -199,22 +232,27 @@ export function InvoiceFormDialog({
                           <LazyCalendar
                             mode="single"
                             selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => field.onChange(date ?? undefined)}
+                            onSelect={(date) => {
+                              field.onChange(date ?? undefined);
+                              field.onBlur();
+                            }}
                             disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus
                           />
                         </PopoverContent>
                       </Popover>
-                      <FormMessage />
-                    </FormItem>
+                    </FormFieldWithTooltip>
                   )}
                 />
                 <FormField
                   control={form.control}
                   name="dueDate"
-                  render={({ field }) => (
-                    <FormItem className="flex flex-col">
-                      <FormLabel>{t("fields.dueDate")}</FormLabel>
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("fields.dueDate")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.dueDate}
+                    >
                       <Popover>
                         <PopoverTrigger asChild>
                           <FormControl>
@@ -238,72 +276,75 @@ export function InvoiceFormDialog({
                           <LazyCalendar
                             mode="single"
                             selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => field.onChange(date ?? undefined)}
+                            onSelect={(date) => {
+                              field.onChange(date ?? undefined);
+                              field.onBlur();
+                            }}
                             disabled={(date) => date < new Date("1900-01-01")}
                             initialFocus
                           />
                         </PopoverContent>
                       </Popover>
-                      <FormMessage />
-                    </FormItem>
+                    </FormFieldWithTooltip>
                   )}
                 />
               </div>
               <FormField
                 control={form.control}
                 name="valueCents"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.valueCents")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="R$ 0,00"
-                        inputMode="numeric"
-                        onChange={(e) => {
-                          const input = e.target.value;
-                          const cents = parseTocents(input);
-                          field.onChange(cents);
-                        }}
-                        onBlur={() => {
-                          // Ensure clean value on blur
-                          if (field.value) {
-                            field.onChange(parseTocents(field.value.toString()));
-                          }
-                          field.onBlur();
-                        }}
-                        value={field.value ? getDisplayValue(field.value) : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.valueCents")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.valueCents}
+                  >
+                    <Input
+                      {...field}
+                      placeholder="R$ 0,00"
+                      inputMode="numeric"
+                      onChange={(e) => {
+                        const input = e.target.value;
+                        const cents = parseTocents(input);
+                        field.onChange(cents);
+                      }}
+                      onBlur={() => {
+                        // Ensure clean value on blur
+                        if (field.value) {
+                          field.onChange(parseTocents(field.value.toString()));
+                        }
+                        field.onBlur();
+                      }}
+                      value={field.value ? getDisplayValue(field.value) : ""}
+                    />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="invoiceNumber"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.invoiceNumber")}</FormLabel>
-                    <FormControl>
-                      <Input {...field} placeholder={t("fields.invoiceNumberPlaceholder")} />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.invoiceNumber")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.invoiceNumber}
+                  >
+                    <Input {...field} placeholder={t("fields.invoiceNumberPlaceholder")} />
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="status"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.status")}</FormLabel>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.status")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.status}
+                  >
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <FormControl>
-                        <SelectTrigger className="w-full">
-                          <SelectValue />
-                        </SelectTrigger>
-                      </FormControl>
+                      <SelectTrigger className="w-full">
+                        <SelectValue />
+                      </SelectTrigger>
                       <SelectContent>
                         {STATUS_VALUES.map((status) => (
                           <SelectItem key={status} value={status}>
@@ -312,38 +353,37 @@ export function InvoiceFormDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                    <FormMessage />
-                  </FormItem>
+                  </FormFieldWithTooltip>
                 )}
               />
               <FormField
                 control={form.control}
                 name="materialDeductionCents"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("fields.materialDeductionCents")}</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        placeholder="R$ 0,00"
-                        inputMode="numeric"
-                        onChange={(e) => {
-                          const input = e.target.value;
-                          const cents = parseTocents(input);
-                          field.onChange(cents);
-                        }}
-                        onBlur={() => {
-                          // Ensure clean value on blur
-                          if (field.value) {
-                            field.onChange(parseTocents(field.value.toString()));
-                          }
-                          field.onBlur();
-                        }}
-                        value={field.value ? getDisplayValue(field.value) : ""}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
+                render={({ field, fieldState }) => (
+                  <FormFieldWithTooltip
+                    label={t("fields.materialDeductionCents")}
+                    error={fieldState.error?.message}
+                    isTouched={!!form.formState.touchedFields.materialDeductionCents}
+                  >
+                    <Input
+                      {...field}
+                      placeholder="R$ 0,00"
+                      inputMode="numeric"
+                      onChange={(e) => {
+                        const input = e.target.value;
+                        const cents = parseTocents(input);
+                        field.onChange(cents);
+                      }}
+                      onBlur={() => {
+                        // Ensure clean value on blur
+                        if (field.value) {
+                          field.onChange(parseTocents(field.value.toString()));
+                        }
+                        field.onBlur();
+                      }}
+                      value={field.value ? getDisplayValue(field.value) : ""}
+                    />
+                  </FormFieldWithTooltip>
                 )}
               />
             </form>

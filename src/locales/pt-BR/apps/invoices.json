@@ -62,7 +62,17 @@
   "errors": {
     "noCreatePermission": "Você não tem permissão para criar notas fiscais",
     "noEditPermission": "Você não tem permissão para editar notas fiscais",
-    "noDeletePermission": "Você não tem permissão para excluir notas fiscais"
+    "noDeletePermission": "Você não tem permissão para excluir notas fiscais",
+    "cnpjRequired": "CNPJ do fornecedor é obrigatório",
+    "cnpjInvalid": "CNPJ deve conter exatamente 14 dígitos",
+    "cnpjChecksum": "CNPJ inválido (falha na validação do dígito verificador)",
+    "serviceCodeRequired": "Código de serviço é obrigatório",
+    "valueCentsRequired": "Valor da nota fiscal é obrigatório",
+    "valueCentsInvalid": "Valor da nota fiscal deve ser positivo",
+    "valueCentsTooHigh": "Valor da nota fiscal excede o máximo permitido",
+    "invoiceNumberRequired": "Número da nota fiscal é obrigatório",
+    "invoiceNumberTooLong": "Número da nota fiscal deve ter no máximo 50 caracteres",
+    "dueDateAfterIssueDate": "Data de vencimento deve ser após a data de emissão"
   },
   "hooks": {
     "fetchFailed": "Falha ao buscar nota fiscal",
