@@ -12,6 +12,7 @@ import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
 import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
 import { useDateFormat } from "@/hooks/use-date-format";
+import { CnpjSelect } from "@/components/shared/cnpj-select";
 import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { LoadingButton } from "@/components/shared/loading-button";
@@ -159,31 +160,20 @@ export function InvoiceFormDialog({
                 control={form.control}
                 name="supplierCnpj"
                 render={({ field, fieldState }) => (
-                  <FormFieldWithTooltip
-                    label={t("fields.supplierCnpj")}
-                    error={fieldState.error?.message}
-                    isTouched={!!form.formState.touchedFields.supplierCnpj}
-                  >
-                    <Input
-                      {...field}
-                      placeholder={t("fields.supplierCnpjPlaceholder")}
-                      maxLength={18} // XX.XXX.XXX/XXXX-XX
-                      onChange={(e) => {
-                        const input = e.target.value;
-                        const digits = extractCnpjDigits(input);
-                        // Update with extracted digits (max 14)
-                        field.onChange(digits.slice(0, 14));
-                      }}
-                      onBlur={() => {
-                        // Ensure value is clean (digits only) on blur
-                        if (field.value) {
-                          field.onChange(extractCnpjDigits(field.value));
-                        }
+                  <div className="space-y-space-sm">
+                    <CnpjSelect
+                      value={field.value || null}
+                      onChange={(cnpj) => {
+                        field.onChange(cnpj || "");
                         field.onBlur();
                       }}
-                      value={field.value ? formatCnpj(field.value) : ""}
+                      label={t("fields.supplierCnpj")}
+                      placeholder={t("fields.supplierCnpjPlaceholder")}
                     />
-                  </FormFieldWithTooltip>
+                    {fieldState.error?.message && form.formState.touchedFields.supplierCnpj && (
+                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                    )}
+                  </div>
                 )}
               />
               <FormField

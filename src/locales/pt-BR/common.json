@@ -172,6 +172,12 @@
       "search": "Buscar usuários...",
       "noResults": "Nenhum usuário encontrado",
       "none": "Sem responsável"
+    },
+    "cnpjSelect": {
+      "placeholder": "Selecionar CNPJ",
+      "search": "Buscar por CNPJ, nome ou cidade...",
+      "noResults": "Nenhum fornecedor encontrado",
+      "none": "Sem fornecedor"
     }
   },
   "items": "itens"

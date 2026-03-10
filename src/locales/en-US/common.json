@@ -172,6 +172,12 @@
       "search": "Search users...",
       "noResults": "No users found",
       "none": "No assignee"
+    },
+    "cnpjSelect": {
+      "placeholder": "Select CNPJ",
+      "search": "Search by CNPJ, name or city...",
+      "noResults": "No suppliers found",
+      "none": "No supplier"
     }
   },
   "items": "items"
