@@ -1,0 +1,65 @@
+{
+  "title": "Services",
+  "description": "Manage service codes and their tax rates.",
+  "searchPlaceholder": "Search services by code or description...",
+  "new": "New Service",
+  "editTitle": "Edit Service",
+  "createTitle": "New Service",
+  "editDescription": "Make changes to service information below.",
+  "createDescription": "Add a new service to your system.",
+  "sections": {
+    "basic": "Basic Information",
+    "snTaxes": "Tax Rates - Simples Nacional (SN)",
+    "nTaxes": "Tax Rates - Normal (N)",
+    "meiTaxes": "Tax Rates - MEI"
+  },
+  "fields": {
+    "code": "Service Code",
+    "codePlaceholder": "Enter service code",
+    "description": "Description",
+    "descriptionPlaceholder": "Enter service description",
+    "debit": "Debit",
+    "debitPlaceholder": "Enter debit code",
+    "obs": "Observations",
+    "obsPlaceholder": "Additional notes...",
+    "taxRates": {
+      "issqn": "ISSQN (%)",
+      "inss": "INSS (%)",
+      "cs": "CS (%)",
+      "irrf": "IRRF (%)"
+    }
+  },
+  "empty": {
+    "title": "No services found",
+    "noSearchResults": "No services found matching your search.",
+    "noServices": "No services yet.",
+    "createFirst": "Create your first service to get started."
+  },
+  "deleteTitle": "Delete service?",
+  "deleteDescription": "This will permanently delete this service. This action cannot be undone.",
+  "deleting": "Deleting...",
+  "success": {
+    "created": "Service created",
+    "updated": "Service updated",
+    "deleted": "Service deleted"
+  },
+  "errors": {
+    "noCreatePermission": "You don't have permission to create services",
+    "noEditPermission": "You don't have permission to edit services",
+    "noDeletePermission": "You don't have permission to delete services",
+    "codeRequired": "Service code is required",
+    "codeMaxLength": "Service code must be at most 20 characters",
+    "descriptionRequired": "Description is required",
+    "descriptionMaxLength": "Description must be at most 500 characters",
+    "debitRequired": "Debit is required",
+    "debitMaxLength": "Debit must be at most 100 characters"
+  },
+  "hooks": {
+    "fetchFailed": "Failed to fetch services",
+    "fetchOneFailed": "Failed to fetch service",
+    "createFailed": "Failed to create service",
+    "updateFailed": "Failed to update service",
+    "deleteFailed": "Failed to delete service",
+    "serviceNotFound": "Service not found"
+  }
+}

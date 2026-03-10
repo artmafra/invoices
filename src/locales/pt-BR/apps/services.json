@@ -1,0 +1,65 @@
+{
+  "title": "Serviços",
+  "description": "Gerencie códigos de serviço e suas alíquotas.",
+  "searchPlaceholder": "Buscar serviços por código ou descrição...",
+  "new": "Novo Serviço",
+  "editTitle": "Editar Serviço",
+  "createTitle": "Novo Serviço",
+  "editDescription": "Altere as informações do serviço abaixo.",
+  "createDescription": "Adicione um novo serviço ao seu sistema.",
+  "sections": {
+    "basic": "Informações Básicas",
+    "snTaxes": "Alíquotas - Simples Nacional (SN)",
+    "nTaxes": "Alíquotas - Normal (N)",
+    "meiTaxes": "Alíquotas - MEI"
+  },
+  "fields": {
+    "code": "Código do Serviço",
+    "codePlaceholder": "Digite o código do serviço",
+    "description": "Descrição",
+    "descriptionPlaceholder": "Digite a descrição do serviço",
+    "debit": "Débito",
+    "debitPlaceholder": "Digite o código de débito",
+    "obs": "Observações",
+    "obsPlaceholder": "Notas adicionais...",
+    "taxRates": {
+      "issqn": "ISSQN (%)",
+      "inss": "INSS (%)",
+      "cs": "CS (%)",
+      "irrf": "IRRF (%)"
+    }
+  },
+  "empty": {
+    "title": "Nenhum serviço encontrado",
+    "noSearchResults": "Nenhum serviço encontrado com sua busca.",
+    "noServices": "Nenhum serviço ainda.",
+    "createFirst": "Crie seu primeiro serviço para começar."
+  },
+  "deleteTitle": "Deletar serviço?",
+  "deleteDescription": "Isso irá deletar permanentemente este serviço. Esta ação não pode ser desfeita.",
+  "deleting": "Deletando...",
+  "success": {
+    "created": "Serviço criado",
+    "updated": "Serviço atualizado",
+    "deleted": "Serviço deletado"
+  },
+  "errors": {
+    "noCreatePermission": "Você não tem permissão para criar serviços",
+    "noEditPermission": "Você não tem permissão para editar serviços",
+    "noDeletePermission": "Você não tem permissão para deletar serviços",
+    "codeRequired": "Código do serviço é obrigatório",
+    "codeMaxLength": "Código do serviço deve ter no máximo 20 caracteres",
+    "descriptionRequired": "Descrição é obrigatória",
+    "descriptionMaxLength": "Descrição deve ter no máximo 500 caracteres",
+    "debitRequired": "Débito é obrigatório",
+    "debitMaxLength": "Débito deve ter no máximo 100 caracteres"
+  },
+  "hooks": {
+    "fetchFailed": "Falha ao buscar serviços",
+    "fetchOneFailed": "Falha ao buscar serviço",
+    "createFailed": "Falha ao criar serviço",
+    "updateFailed": "Falha ao atualizar serviço",
+    "deleteFailed": "Falha ao deletar serviço",
+    "serviceNotFound": "Serviço não encontrado"
+  }
+}

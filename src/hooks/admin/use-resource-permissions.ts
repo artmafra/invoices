@@ -45,6 +45,15 @@ export interface SupplierPermissions {
 }
 
 /**
+ * Service permissions for the services resource (part of invoices)
+ */
+export interface ServicePermissions {
+  canCreate: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+}
+
+/**
  * Game permissions for the games resource
  */
 export interface GamePermissions {
@@ -191,6 +200,26 @@ export function useSupplierPermissions(): SupplierPermissions & {
 }
 
 export function useInvoicePermissions(): InvoicePermissions & {
+  currentUserId: string | undefined;
+  isLoading: boolean;
+} {
+  const { session, status } = useSessionContext();
+  const permissions = session?.user?.permissions || [];
+  const currentUserId = session?.user?.id;
+
+  return {
+    canCreate: permissions.includes("invoices.create"),
+    canEdit: permissions.includes("invoices.edit"),
+    canDelete: permissions.includes("invoices.delete"),
+    currentUserId,
+    isLoading: status === "loading",
+  };
+}
+
+/**
+ * Hook to extract typed permissions for the services resource (part of invoices)
+ */
+export function useServicePermissions(): ServicePermissions & {
   currentUserId: string | undefined;
   isLoading: boolean;
 } {

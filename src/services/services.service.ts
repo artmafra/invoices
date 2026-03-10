@@ -3,11 +3,11 @@ import { serviceStorage } from "@/storage/runtime/service";
 
 export class ServiceService {
   async getAllServices() {
-    await serviceStorage.findMany();
+    return await serviceStorage.findMany();
   }
 
   async getServiceByCode(code: string) {
-    await serviceStorage.findById(code);
+    return await serviceStorage.findById(code);
   }
 
   async updateService(code: string, data: UpdateServiceSchema) {
@@ -15,14 +15,14 @@ export class ServiceService {
       code,
       ...data,
     };
-    await serviceStorage.update(code, updatedData);
+    return await serviceStorage.update(code, updatedData);
   }
 
   async createService(data: InsertServiceSchema) {
-    await serviceStorage.create(data);
+    return await serviceStorage.create(data);
   }
 
   async deleteService(code: string) {
-    await serviceStorage.delete(code);
+    return await serviceStorage.delete(code);
   }
 }
