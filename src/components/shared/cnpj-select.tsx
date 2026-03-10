@@ -3,7 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Building2 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { formatCnpj } from "@/lib/cnpj-service-code";
+import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { cn } from "@/lib/utils";
 import { useSuppliers } from "@/hooks/admin/use-suppliers";
 import { useDebounce } from "@/hooks/use-debounce";
@@ -13,6 +13,7 @@ import { Label } from "@/components/ui/label";
 interface CnpjSelectProps {
   value: string | null;
   onChange: (cnpj: string | null) => void;
+  onBlur?: () => void;
   label?: string;
   placeholder?: string;
   description?: string;
@@ -22,6 +23,7 @@ interface CnpjSelectProps {
 export function CnpjSelect({
   value,
   onChange,
+  onBlur: onBlurProp,
   label,
   placeholder,
   description,
@@ -33,7 +35,10 @@ export function CnpjSelect({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-  const debouncedSearch = useDebounce(inputValue, 300);
+
+  // Extract digits for search
+  const inputDigits = extractCnpjDigits(inputValue);
+  const debouncedSearch = useDebounce(inputDigits, 300);
 
   const { data: suppliers } = useSuppliers({
     search: debouncedSearch || undefined,
@@ -42,24 +47,23 @@ export function CnpjSelect({
   const suppliersList = suppliers ?? [];
   const filteredSuppliers = suppliersList.filter((supplier) => {
     const searchLower = inputValue.toLowerCase();
+    const digits = extractCnpjDigits(inputValue);
     return (
-      supplier.cnpj.includes(inputValue) ||
+      supplier.cnpj.includes(digits) ||
       supplier.name.toLowerCase().includes(searchLower) ||
-      formatCnpj(supplier.cnpj).includes(inputValue)
+      supplier.city.toLowerCase().includes(searchLower)
     );
   });
 
   // Sync input value with prop value
   useEffect(() => {
     if (value) {
-      const supplier = suppliersList.find((s) => s.cnpj === value);
-      if (supplier) {
-        setInputValue(formatCnpj(supplier.cnpj));
-      }
-    } else if (!inputValue) {
+      // Format the value when it comes from parent
+      setInputValue(formatCnpj(value));
+    } else if (value === null && !inputValue) {
       setInputValue("");
     }
-  }, [value, suppliersList]);
+  }, [value]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -74,14 +78,21 @@ export function CnpjSelect({
   }, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setInputValue(newValue);
+    const input = e.target.value;
+    const digits = extractCnpjDigits(input);
+
+    // Format the input value for display
+    const formatted = formatCnpj(digits);
+    setInputValue(formatted);
     setShowSuggestions(true);
     setSelectedIndex(-1);
 
-    // If input is empty, clear the selection
-    if (!newValue) {
+    // Pass only digits to parent (or null if empty)
+    if (digits.length === 0) {
       onChange(null);
+    } else if (digits.length === 14) {
+      // Only update parent when we have a full CNPJ
+      onChange(digits);
     }
   };
 
@@ -90,6 +101,16 @@ export function CnpjSelect({
     onChange(supplier.cnpj);
     setShowSuggestions(false);
     setSelectedIndex(-1);
+  };
+
+  const handleBlur = () => {
+    // On blur, ensure we pass the current digits to parent
+    const digits = extractCnpjDigits(inputValue);
+    if (digits.length > 0) {
+      onChange(digits);
+      // Call parent's onBlur if provided
+      onBlurProp?.();
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -130,9 +151,11 @@ export function CnpjSelect({
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
             onFocus={() => setShowSuggestions(true)}
+            onBlur={handleBlur}
             placeholder={placeholder || t("placeholder")}
             disabled={disabled}
             className="pl-10"
+            maxLength={18} // XX.XXX.XXX/XXXX-XX
           />
         </div>
 
@@ -147,7 +170,11 @@ export function CnpjSelect({
                     "flex w-full cursor-pointer flex-col rounded-sm px-2 py-2 text-left text-sm hover:bg-accent hover:text-accent-foreground",
                     index === selectedIndex && "bg-accent text-accent-foreground",
                   )}
-                  onClick={() => handleSelectSupplier(supplier)}
+                  onMouseDown={(e) => {
+                    // Use onMouseDown instead of onClick to prevent blur from clearing selection
+                    e.preventDefault();
+                    handleSelectSupplier(supplier);
+                  }}
                   onMouseEnter={() => setSelectedIndex(index)}
                 >
                   <span className="font-medium">{supplier.name}</span>
@@ -160,7 +187,7 @@ export function CnpjSelect({
           </div>
         )}
 
-        {showSuggestions && inputValue && filteredSuppliers.length === 0 && (
+        {showSuggestions && inputValue && filteredSuppliers.length === 0 && debouncedSearch && (
           <div className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover p-3 shadow-md">
             <p className="text-sm text-muted-foreground">{t("noResults")}</p>
           </div>

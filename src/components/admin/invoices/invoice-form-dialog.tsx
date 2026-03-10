@@ -7,7 +7,7 @@ import { CalendarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
+import { extractCnpjDigits } from "@/lib/cnpj-service-code";
 import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
 import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
@@ -165,8 +165,8 @@ export function InvoiceFormDialog({
                       value={field.value || null}
                       onChange={(cnpj) => {
                         field.onChange(cnpj || "");
-                        field.onBlur();
                       }}
+                      onBlur={field.onBlur}
                       label={t("fields.supplierCnpj")}
                       placeholder={t("fields.supplierCnpjPlaceholder")}
                     />
