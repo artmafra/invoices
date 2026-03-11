@@ -6,23 +6,23 @@ export class ServiceService {
     return await serviceStorage.findMany();
   }
 
-  async getServiceByCode(code: string) {
-    return await serviceStorage.findById(code);
+  async getServiceById(id: string) {
+    return await serviceStorage.findById(id);
   }
 
-  async updateService(code: string, data: UpdateServiceSchema) {
-    const updatedData = {
-      code,
-      ...data,
-    };
-    return await serviceStorage.update(code, updatedData);
+  async getServiceByCode(code: string) {
+    return await serviceStorage.findByCode(code);
+  }
+
+  async updateService(id: string, data: UpdateServiceSchema) {
+    return await serviceStorage.update(id, data);
   }
 
   async createService(data: InsertServiceSchema) {
     return await serviceStorage.create(data);
   }
 
-  async deleteService(code: string) {
-    return await serviceStorage.delete(code);
+  async deleteService(id: string) {
+    return await serviceStorage.delete(id);
   }
 }

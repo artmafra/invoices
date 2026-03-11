@@ -9,5 +9,5 @@ export const SERVICES_QUERY_KEYS = {
 
   details: () => [...SERVICES_QUERY_KEYS.all, "detail"] as const,
 
-  detail: (code: string) => [...SERVICES_QUERY_KEYS.details(), code] as const,
+  detail: (id: string) => [...SERVICES_QUERY_KEYS.details(), id] as const,
 };

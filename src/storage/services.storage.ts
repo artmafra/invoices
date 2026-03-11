@@ -22,21 +22,29 @@ export class ServicesStorage implements BaseStorage<
     return result[0];
   }
 
-  async update(code: string, data: UpdateServiceSchema) {
+  async update(id: string, data: UpdateServiceSchema) {
     const result = await db
       .update(tableServices)
       .set(data)
-      .where(eq(tableServices.code, code))
+      .where(eq(tableServices.id, id))
       .returning();
     return result[0];
   }
 
-  async delete(code: string) {
-    await db.delete(tableServices).where(eq(tableServices.code, code));
+  async delete(id: string) {
+    await db.delete(tableServices).where(eq(tableServices.id, id));
     return true;
   }
 
-  async findById(code: string) {
+  async findById(id: string) {
+    return await db
+      .select()
+      .from(tableServices)
+      .where(eq(tableServices.id, id))
+      .then((res) => res[0]);
+  }
+
+  async findByCode(code: string) {
     return await db
       .select()
       .from(tableServices)

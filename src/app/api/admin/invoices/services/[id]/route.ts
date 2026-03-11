@@ -4,15 +4,15 @@ import { ForbiddenError, NotFoundError, UnauthorizedError, ValidationError } fro
 import { requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
 import { serviceService } from "@/services/runtime/service";
-import { serviceCodeParamSchema, updateServiceSchema } from "@/validations/service.validations";
+import { serviceIdParamSchema, updateServiceSchema } from "@/validations/service.validations";
 
 interface RouteParams {
-  params: Promise<{ code: string }>;
+  params: Promise<{ id: string }>;
 }
 
 /**
- * GET /api/admin/services/[code]
- * Get a single service by code
+ * GET /api/admin/services/[id]
+ * Get a single service by id
  */
 export const GET = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
   const { authorized, error, status } = await requirePermission("invoices", "view");
@@ -22,9 +22,9 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
     throw new ForbiddenError(error);
   }
 
-  const { code: codeParam } = await params;
-  const { code } = serviceCodeParamSchema.parse({ code: codeParam });
-  const service = await serviceService.getServiceByCode(code);
+  const { id: idParam } = await params;
+  const { id } = serviceIdParamSchema.parse({ id: idParam });
+  const service = await serviceService.getServiceById(id);
 
   if (!service) {
     throw new NotFoundError("Service not found");
@@ -34,7 +34,7 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
 });
 
 /**
- * PATCH /api/admin/services/[code]
+ * PATCH /api/admin/services/[id]
  * Update a service
  */
 export const PATCH = withErrorHandler(async (request: NextRequest, { params }: RouteParams) => {
@@ -45,9 +45,9 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     throw new ForbiddenError(error);
   }
 
-  const { code: codeParam } = await params;
-  const { code } = serviceCodeParamSchema.parse({ code: codeParam });
-  const existingService = await serviceService.getServiceByCode(code);
+  const { id: idParam } = await params;
+  const { id } = serviceIdParamSchema.parse({ id: idParam });
+  const existingService = await serviceService.getServiceById(id);
 
   if (!existingService) {
     throw new NotFoundError("Service not found");
@@ -60,7 +60,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     throw new ValidationError("Validation failed", validation.error.flatten());
   }
 
-  const service = await serviceService.updateService(code, validation.data);
+  const service = await serviceService.updateService(id, validation.data);
 
   // Build changes array for fields that changed
   const changes = [];
@@ -73,9 +73,6 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
       from: existingService.description,
       to: service.description,
     });
-  }
-  if (validation.data.debit !== undefined && existingService.debit !== service.debit) {
-    changes.push({ field: "debit", from: existingService.debit, to: service.debit });
   }
   if (validation.data.sn !== undefined) {
     changes.push({ field: "sn", from: existingService.sn, to: service.sn });
@@ -95,7 +92,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     await activityService.logUpdate(
       session,
       "invoices",
-      { type: "service", id: service.code, name: service.description },
+      { type: "service", id: service.id, name: service.description },
       changes,
     );
   }
@@ -104,7 +101,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
 });
 
 /**
- * DELETE /api/admin/services/[code]
+ * DELETE /api/admin/services/[id]
  * Delete a service
  */
 export const DELETE = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
@@ -115,19 +112,19 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
     throw new ForbiddenError(error);
   }
 
-  const { code: codeParam } = await params;
-  const { code } = serviceCodeParamSchema.parse({ code: codeParam });
-  const existingService = await serviceService.getServiceByCode(code);
+  const { id: idParam } = await params;
+  const { id } = serviceIdParamSchema.parse({ id: idParam });
+  const existingService = await serviceService.getServiceById(id);
 
   if (!existingService) {
     throw new NotFoundError("Service not found");
   }
 
-  await serviceService.deleteService(code);
+  await serviceService.deleteService(id);
 
   await activityService.logDelete(session, "invoices", {
     type: "service",
-    id: existingService.code,
+    id: existingService.id,
     name: existingService.description,
   });
 

@@ -5,6 +5,12 @@ import { baseQuerySchema } from "./query.validations";
 // Service Param Schemas
 // ========================================
 
+export const serviceIdParamSchema = z.object({
+  id: z.string().uuid("Invalid service ID"),
+});
+
+export type ServiceIdParam = z.infer<typeof serviceIdParamSchema>;
+
 export const serviceCodeParamSchema = z.object({
   code: z.string().min(1, "Service code is required"),
 });
@@ -46,17 +52,10 @@ const descriptionValidation = z
   .min(1, "Description is required")
   .max(500, "Description must be at most 500 characters");
 
-const debitValidation = z
-  .string()
-  .trim()
-  .min(1, "Debit is required")
-  .max(100, "Debit must be at most 100 characters");
-
 /** Client-side schema (form) */
 export const createServiceSchema = z.object({
   code: codeValidation,
   description: descriptionValidation,
-  debit: debitValidation,
   sn: taxRatesValidation,
   n: taxRatesValidation,
   mei: taxRatesValidation,
@@ -70,7 +69,6 @@ export type CreateServiceInput = z.infer<typeof createServiceSchema>;
 
 export const updateServiceSchema = z.object({
   description: descriptionValidation.optional(),
-  debit: debitValidation.optional(),
   sn: taxRatesValidation.optional(),
   n: taxRatesValidation.optional(),
   mei: taxRatesValidation.optional(),

@@ -52,7 +52,6 @@ export function ServiceFormDialog({
       .trim()
       .min(1, t("errors.descriptionRequired"))
       .max(500, t("errors.descriptionMaxLength")),
-    debit: z.string().trim().min(1, t("errors.debitRequired")).max(100, t("errors.debitMaxLength")),
     sn: z.object({
       issqn: z.number().min(0).max(100).nullable(),
       inss: z.number().min(0).max(100).nullable(),
@@ -82,7 +81,6 @@ export function ServiceFormDialog({
     defaultValues: {
       code: "",
       description: "",
-      debit: "",
       sn: { issqn: null, inss: null, cs: null, irrf: null },
       n: { issqn: null, inss: null, cs: null, irrf: null },
       mei: { issqn: null, inss: null, cs: null, irrf: null },
@@ -96,7 +94,6 @@ export function ServiceFormDialog({
       form.reset({
         code: "",
         description: "",
-        debit: "",
         sn: { issqn: null, inss: null, cs: null, irrf: null },
         n: { issqn: null, inss: null, cs: null, irrf: null },
         mei: { issqn: null, inss: null, cs: null, irrf: null },
@@ -157,19 +154,6 @@ export function ServiceFormDialog({
                       isTouched={!!form.formState.touchedFields.description}
                     >
                       <Input {...field} placeholder={t("fields.descriptionPlaceholder")} />
-                    </FormFieldWithTooltip>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="debit"
-                  render={({ field, fieldState }) => (
-                    <FormFieldWithTooltip
-                      label={t("fields.debit")}
-                      error={fieldState.error?.message}
-                      isTouched={!!form.formState.touchedFields.debit}
-                    >
-                      <Input {...field} placeholder={t("fields.debitPlaceholder")} />
                     </FormFieldWithTooltip>
                   )}
                 />

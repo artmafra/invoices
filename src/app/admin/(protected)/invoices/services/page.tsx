@@ -47,8 +47,8 @@ interface ServiceCardProps {
   service: Service;
   canEdit: boolean;
   canDelete: boolean;
-  onEdit: (serviceCode: string) => void;
-  onDelete: (serviceCode: string) => void;
+  onEdit: (serviceId: string) => void;
+  onDelete: (serviceId: string) => void;
 }
 
 function ServiceCard({ service, onEdit, onDelete, canEdit, canDelete }: ServiceCardProps) {
@@ -68,9 +68,6 @@ function ServiceCard({ service, onEdit, onDelete, canEdit, canDelete }: ServiceC
               <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
                 <span>{service.description}</span>
               </div>
-              <div className="flex items-center gap-space-sm truncate text-xs text-muted-foreground">
-                <span>Debit: {service.debit}</span>
-              </div>
             </div>
             {(canEdit || canDelete) && (
               <DropdownMenu>
@@ -81,14 +78,14 @@ function ServiceCard({ service, onEdit, onDelete, canEdit, canDelete }: ServiceC
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end">
                   {canEdit && (
-                    <DropdownMenuItem onClick={() => onEdit(service.code)}>
+                    <DropdownMenuItem onClick={() => onEdit(service.id)}>
                       <Pencil className="h-4 w-4" />
                       {tc("buttons.edit")}
                     </DropdownMenuItem>
                   )}
                   {canDelete && (
                     <DropdownMenuItem
-                      onClick={() => onDelete(service.code)}
+                      onClick={() => onDelete(service.id)}
                       className="text-destructive"
                     >
                       <Trash2 className="h-4 w-4" />
@@ -133,7 +130,7 @@ function ServicesPageContent() {
   const debouncedSearch = useDebounce(search, 300);
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
-  const [deleteServiceCode, setDeleteServiceCode] = useState<string | null>(null);
+  const [deleteServiceId, setDeleteServiceId] = useState<string | null>(null);
 
   // Check if any filters are active
   const hasActiveFilters = search.trim() !== "";
@@ -148,10 +145,13 @@ function ServicesPageContent() {
     setShowFormDialog(true);
   }, []);
 
-  const handleOpenEdit = useCallback((service: Service) => {
-    setEditingService(service);
-    setShowFormDialog(true);
-  }, []);
+  const handleOpenEdit = useCallback((serviceId: string) => {
+    const service = services?.find((s) => s.id === serviceId);
+    if (service) {
+      setEditingService(service);
+      setShowFormDialog(true);
+    }
+  }, [services]);
 
   const handleCloseForm = useCallback(() => {
     setShowFormDialog(false);
@@ -162,7 +162,6 @@ function ServicesPageContent() {
     (data: {
       code: string;
       description: string;
-      debit: string;
       sn: { issqn: number | null; inss: number | null; cs: number | null; irrf: number | null };
       n: { issqn: number | null; inss: number | null; cs: number | null; irrf: number | null };
       mei: { issqn: number | null; inss: number | null; cs: number | null; irrf: number | null };
@@ -174,10 +173,9 @@ function ServicesPageContent() {
 
         // Fire mutation (optimistic update handles the rest)
         updateService.mutate({
-          code: editingService.code,
+          id: editingService.id,
           data: {
             description: data.description,
-            debit: data.debit,
             sn: data.sn,
             n: data.n,
             mei: data.mei,
@@ -200,14 +198,14 @@ function ServicesPageContent() {
   );
 
   const handleDelete = useCallback(async () => {
-    if (!deleteServiceCode) return;
+    if (!deleteServiceId) return;
     try {
-      await deleteService.mutateAsync(deleteServiceCode);
-      setDeleteServiceCode(null);
+      await deleteService.mutateAsync(deleteServiceId);
+      setDeleteServiceId(null);
     } catch {
       // Error handled by mutation
     }
-  }, [deleteServiceCode, deleteService]);
+  }, [deleteServiceId, deleteService]);
 
   const filteredServices = useMemo(() => {
     if (!services) return [];
@@ -218,8 +216,7 @@ function ServicesPageContent() {
         const searchLower = debouncedSearch.toLowerCase();
         const matchesSearch =
           service.code.toLowerCase().includes(searchLower) ||
-          service.description.toLowerCase().includes(searchLower) ||
-          service.debit.toLowerCase().includes(searchLower);
+          service.description.toLowerCase().includes(searchLower);
         if (!matchesSearch) return false;
       }
 
@@ -277,10 +274,10 @@ function ServicesPageContent() {
               <div className="grid gap-space-lg sm:grid-cols-2 lg:grid-cols-3">
                 {filteredServices?.map((service) => (
                   <ServiceCard
-                    key={service.code}
+                    key={service.id}
                     service={service}
-                    onEdit={() => handleOpenEdit(service)}
-                    onDelete={() => setDeleteServiceCode(service.code)}
+                    onEdit={handleOpenEdit}
+                    onDelete={setDeleteServiceId}
                     canEdit={canEdit}
                     canDelete={canDelete}
                   />
@@ -300,7 +297,6 @@ function ServicesPageContent() {
             ? {
                 code: editingService.code,
                 description: editingService.description,
-                debit: editingService.debit,
                 sn: editingService.sn,
                 n: editingService.n,
                 mei: editingService.mei,
@@ -315,8 +311,8 @@ function ServicesPageContent() {
 
       {/* Delete Confirmation Dialog */}
       <Dialog
-        open={!!deleteServiceCode}
-        onOpenChange={(open) => !open && setDeleteServiceCode(null)}
+        open={!!deleteServiceId}
+        onOpenChange={(open) => !open && setDeleteServiceId(null)}
       >
         <DialogContent>
           <DialogHeader>
@@ -326,7 +322,7 @@ function ServicesPageContent() {
             <DialogDescription>{t("deleteDescription")}</DialogDescription>
           </DialogBody>
           <DialogFooter>
-            <Button variant="outline" onClick={() => setDeleteServiceCode(null)}>
+            <Button variant="outline" onClick={() => setDeleteServiceId(null)}>
               {tc("buttons.cancel")}
             </Button>
             <Button variant="destructive" onClick={handleDelete} disabled={deleteService.isPending}>
