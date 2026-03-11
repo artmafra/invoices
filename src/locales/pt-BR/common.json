@@ -177,8 +177,12 @@
       "placeholder": "Selecionar CNPJ",
       "search": "Buscar por CNPJ, nome ou cidade...",
       "noResults": "Nenhum fornecedor encontrado",
-      "none": "Sem fornecedor"
-    }
+      "none": "Sem fornecedor"    },
+    "serviceSelect": {
+      "placeholder": "Selecionar serviço",
+      "search": "Buscar por código ou descrição...",
+      "noResults": "Nenhum serviço encontrado",
+      "none": "Nenhum serviço"    }
   },
   "items": "itens"
 }

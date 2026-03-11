@@ -178,6 +178,12 @@
       "search": "Search by CNPJ, name or city...",
       "noResults": "No suppliers found",
       "none": "No supplier"
+    },
+    "serviceSelect": {
+      "placeholder": "Select service",
+      "search": "Search by code or description...",
+      "noResults": "No services found",
+      "none": "No service"
     }
   },
   "items": "items"
