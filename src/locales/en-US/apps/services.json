@@ -29,6 +29,11 @@
       "irrf": "IRRF (%)"
     }
   },
+  "table": {
+    "code": "Service Code",
+    "description": "Service Description",
+    "obs": "Obs"
+  },
   "empty": {
     "title": "No services found",
     "noSearchResults": "No services found matching your search.",
@@ -48,7 +53,8 @@
     "noEditPermission": "You don't have permission to edit services",
     "noDeletePermission": "You don't have permission to delete services",
     "codeRequired": "Service code is required",
-    "codeMaxLength": "Service code must be at most 20 characters",
+    "codeMaxLength": "Service code must be at most 25 characters",
+    "codeDuplicate": "A service with this code already exists",
     "descriptionRequired": "Description is required",
     "descriptionMaxLength": "Description must be at most 500 characters",
     "debitRequired": "Debit is required",

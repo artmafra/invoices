@@ -60,10 +60,27 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     throw new ValidationError("Validation failed", validation.error.flatten());
   }
 
+  // Check if code is being changed and if the new code already exists
+  if (validation.data.code && validation.data.code !== existingService.code) {
+    const serviceWithCode = await serviceService.getServiceByCode(validation.data.code);
+    if (serviceWithCode && serviceWithCode.id !== id) {
+      throw new ValidationError("Code already exists", {
+        fieldErrors: { code: ["A service with this code already exists"] },
+      });
+    }
+  }
+
   const service = await serviceService.updateService(id, validation.data);
 
   // Build changes array for fields that changed
   const changes = [];
+  if (validation.data.code !== undefined && existingService.code !== service.code) {
+    changes.push({
+      field: "code",
+      from: existingService.code,
+      to: service.code,
+    });
+  }
   if (
     validation.data.description !== undefined &&
     existingService.description !== service.description

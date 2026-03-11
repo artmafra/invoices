@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useMemo, useRef, useState } from "react";
-import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
+import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useServicePermissions } from "@/hooks/admin/use-resource-permissions";
@@ -16,6 +16,7 @@ import { useDebounce } from "@/hooks/use-debounce";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
 import { ServiceFormDialog } from "@/components/admin/services/service-form-dialog";
+import { ServiceTable } from "@/components/admin/services/service-table";
 import { AdminErrorFallback } from "@/components/shared/admin-error-fallback";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
@@ -25,7 +26,6 @@ import { PageDescription } from "@/components/shared/page-description";
 import { RequirePermission } from "@/components/shared/require-permission";
 import { SearchBar } from "@/components/shared/search-bar";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   Dialog,
   DialogBody,
@@ -35,72 +35,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import { SidebarInset } from "@/components/ui/sidebar";
-
-interface ServiceCardProps {
-  service: Service;
-  canEdit: boolean;
-  canDelete: boolean;
-  onEdit: (serviceId: string) => void;
-  onDelete: (serviceId: string) => void;
-}
-
-function ServiceCard({ service, onEdit, onDelete, canEdit, canDelete }: ServiceCardProps) {
-  const t = useTranslations("apps/services");
-  const tc = useTranslations("common");
-
-  return (
-    <Card>
-      <CardContent>
-        <div>
-          <div className="flex items-center gap-space-lg">
-            {/* Service Info */}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-space-sm">
-                <CardTitle>{service.code}</CardTitle>
-              </div>
-              <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
-                <span>{service.description}</span>
-              </div>
-            </div>
-            {(canEdit || canDelete) && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {canEdit && (
-                    <DropdownMenuItem onClick={() => onEdit(service.id)}>
-                      <Pencil className="h-4 w-4" />
-                      {tc("buttons.edit")}
-                    </DropdownMenuItem>
-                  )}
-                  {canDelete && (
-                    <DropdownMenuItem
-                      onClick={() => onDelete(service.id)}
-                      className="text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      {tc("buttons.delete")}
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
-          </div>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
 
 export default function ServicesPage() {
   return (
@@ -145,13 +80,16 @@ function ServicesPageContent() {
     setShowFormDialog(true);
   }, []);
 
-  const handleOpenEdit = useCallback((serviceId: string) => {
-    const service = services?.find((s) => s.id === serviceId);
-    if (service) {
-      setEditingService(service);
-      setShowFormDialog(true);
-    }
-  }, [services]);
+  const handleOpenEdit = useCallback(
+    (serviceId: string) => {
+      const service = services?.find((s) => s.id === serviceId);
+      if (service) {
+        setEditingService(service);
+        setShowFormDialog(true);
+      }
+    },
+    [services],
+  );
 
   const handleCloseForm = useCallback(() => {
     setShowFormDialog(false);
@@ -175,6 +113,7 @@ function ServicesPageContent() {
         updateService.mutate({
           id: editingService.id,
           data: {
+            code: data.code,
             description: data.description,
             sn: data.sn,
             n: data.n,
@@ -271,18 +210,13 @@ function ServicesPageContent() {
                 showAction={!search && canCreate}
               />
             ) : (
-              <div className="grid gap-space-lg sm:grid-cols-2 lg:grid-cols-3">
-                {filteredServices?.map((service) => (
-                  <ServiceCard
-                    key={service.id}
-                    service={service}
-                    onEdit={handleOpenEdit}
-                    onDelete={setDeleteServiceId}
-                    canEdit={canEdit}
-                    canDelete={canDelete}
-                  />
-                ))}
-              </div>
+              <ServiceTable
+                services={filteredServices}
+                onEdit={handleOpenEdit}
+                onDelete={setDeleteServiceId}
+                canEdit={canEdit}
+                canDelete={canDelete}
+              />
             )}
           </LoadingTransition>
         </div>
@@ -310,10 +244,7 @@ function ServicesPageContent() {
       />
 
       {/* Delete Confirmation Dialog */}
-      <Dialog
-        open={!!deleteServiceId}
-        onOpenChange={(open) => !open && setDeleteServiceId(null)}
-      >
+      <Dialog open={!!deleteServiceId} onOpenChange={(open) => !open && setDeleteServiceId(null)}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{t("deleteTitle")}</DialogTitle>

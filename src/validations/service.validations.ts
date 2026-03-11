@@ -44,7 +44,7 @@ const codeValidation = z
   .string()
   .trim()
   .min(1, "Service code is required")
-  .max(20, "Service code must be at most 20 characters");
+  .max(25, "Service code must be at most 25 characters");
 
 const descriptionValidation = z
   .string()
@@ -68,6 +68,7 @@ export const createServiceRequestSchema = createServiceSchema;
 export type CreateServiceInput = z.infer<typeof createServiceSchema>;
 
 export const updateServiceSchema = z.object({
+  code: codeValidation.optional(),
   description: descriptionValidation.optional(),
   sn: taxRatesValidation.optional(),
   n: taxRatesValidation.optional(),

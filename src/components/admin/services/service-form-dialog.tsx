@@ -136,11 +136,7 @@ export function ServiceFormDialog({
                       error={fieldState.error?.message}
                       isTouched={!!form.formState.touchedFields.code}
                     >
-                      <Input
-                        {...field}
-                        placeholder={t("fields.codePlaceholder")}
-                        disabled={isEditing}
-                      />
+                      <Input {...field} placeholder={t("fields.codePlaceholder")} />
                     </FormFieldWithTooltip>
                   )}
                 />
