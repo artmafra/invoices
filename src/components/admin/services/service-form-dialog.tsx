@@ -33,6 +33,69 @@ export interface ServiceFormDialogProps {
   isSaving: boolean;
 }
 
+// Formata número para string com vírgula (ex: 5.5 -> "5,50")
+const formatTaxRateForDisplay = (value: number | null | undefined): string => {
+  if (value === null || value === undefined) return "";
+  // Converte para centavos e formata
+  const cents = Math.round(value * 100);
+  const integerPart = Math.floor(cents / 100);
+  const decimalPart = cents % 100;
+  return `${integerPart},${decimalPart.toString().padStart(2, "0")}`;
+};
+
+// Parse string formatada para número (ex: "5,50" -> 5.5)
+const parseFormattedTaxRate = (formatted: string): number | null => {
+  if (!formatted) return null;
+  const cleaned = formatted.replace(",", "");
+  const cents = parseInt(cleaned, 10);
+  if (isNaN(cents)) return null;
+  const value = cents / 100;
+  return value > 100 ? 100 : value;
+};
+
+// Gerencia o input com máscara de empurrar dígitos
+const handleTaxRateInput = (
+  currentFormatted: string,
+  newInput: string,
+  field: { onChange: (value: number | null) => void },
+) => {
+  // Remove tudo exceto números
+  const digitsOnly = newInput.replace(/[^0-9]/g, "");
+
+  // Se está vazio, retorna null
+  if (digitsOnly === "") {
+    field.onChange(null);
+    return "";
+  }
+
+  // Limita a 4 dígitos (máximo 99,99)
+  const limited = digitsOnly.slice(0, 4);
+
+  // Formata sempre com 2 casas decimais
+  const cents = parseInt(limited, 10);
+  if (isNaN(cents)) {
+    field.onChange(null);
+    return "";
+  }
+
+  // Converte para número decimal
+  const value = cents / 100;
+
+  // Limita a 100
+  if (value > 100) {
+    field.onChange(100);
+    return "100,00";
+  }
+
+  // Atualiza o valor
+  field.onChange(value);
+
+  // Retorna formatado
+  const integerPart = Math.floor(cents / 100);
+  const decimalPart = cents % 100;
+  return `${integerPart},${decimalPart.toString().padStart(2, "0")}`;
+};
+
 export function ServiceFormDialog({
   open,
   onOpenChange,
@@ -168,16 +231,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.sn?.issqn}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -191,16 +255,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.sn?.inss}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -214,16 +279,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.sn?.cs}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -237,16 +303,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.sn?.irrf}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -267,16 +334,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.n?.issqn}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -290,16 +358,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.n?.inss}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -313,16 +382,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.n?.cs}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -336,16 +406,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.n?.irrf}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -366,16 +437,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.mei?.issqn}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -389,16 +461,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.mei?.inss}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -412,16 +485,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.mei?.cs}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
@@ -435,16 +509,17 @@ export function ServiceFormDialog({
                         isTouched={!!form.formState.touchedFields.mei?.irrf}
                       >
                         <Input
-                          {...field}
-                          type="number"
-                          step="0.01"
-                          min="0"
-                          max="100"
-                          placeholder="0.00"
-                          value={field.value ?? ""}
+                          type="text"
+                          placeholder="0,00"
+                          value={formatTaxRateForDisplay(field.value)}
                           onChange={(e) =>
-                            field.onChange(e.target.value === "" ? null : e.target.value)
+                            handleTaxRateInput(
+                              formatTaxRateForDisplay(field.value),
+                              e.target.value,
+                              field,
+                            )
                           }
+                          onBlur={field.onBlur}
                         />
                       </FormFieldWithTooltip>
                     )}
