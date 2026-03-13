@@ -1,4 +1,4 @@
-import { jsonb, pgTable, text, uuid } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
 
@@ -10,6 +10,7 @@ export const tableServices = pgTable("services", {
   n: jsonb("n").$type<TaxRates>().notNull(),
   mei: jsonb("mei").$type<TaxRates>().notNull(),
   obs: text("obs"),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const taxRatesSchema = z.object({

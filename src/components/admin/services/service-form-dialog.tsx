@@ -5,6 +5,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import {
+  formatTaxRateForDisplay,
+  handleTaxRateInput,
+  parseFormattedTaxRate,
+} from "@/lib/tax-formatting";
 import { createServiceSchema } from "@/validations/service.validations";
 import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
 import { LoadingButton } from "@/components/shared/loading-button";
@@ -32,69 +37,6 @@ export interface ServiceFormDialogProps {
   isEditing: boolean;
   isSaving: boolean;
 }
-
-// Formata número para string com vírgula (ex: 5.5 -> "5,50")
-const formatTaxRateForDisplay = (value: number | null | undefined): string => {
-  if (value === null || value === undefined) return "";
-  // Converte para centavos e formata
-  const cents = Math.round(value * 100);
-  const integerPart = Math.floor(cents / 100);
-  const decimalPart = cents % 100;
-  return `${integerPart},${decimalPart.toString().padStart(2, "0")}`;
-};
-
-// Parse string formatada para número (ex: "5,50" -> 5.5)
-const parseFormattedTaxRate = (formatted: string): number | null => {
-  if (!formatted) return null;
-  const cleaned = formatted.replace(",", "");
-  const cents = parseInt(cleaned, 10);
-  if (isNaN(cents)) return null;
-  const value = cents / 100;
-  return value > 100 ? 100 : value;
-};
-
-// Gerencia o input com máscara de empurrar dígitos
-const handleTaxRateInput = (
-  currentFormatted: string,
-  newInput: string,
-  field: { onChange: (value: number | null) => void },
-) => {
-  // Remove tudo exceto números
-  const digitsOnly = newInput.replace(/[^0-9]/g, "");
-
-  // Se está vazio, retorna null
-  if (digitsOnly === "") {
-    field.onChange(null);
-    return "";
-  }
-
-  // Limita a 4 dígitos (máximo 99,99)
-  const limited = digitsOnly.slice(0, 4);
-
-  // Formata sempre com 2 casas decimais
-  const cents = parseInt(limited, 10);
-  if (isNaN(cents)) {
-    field.onChange(null);
-    return "";
-  }
-
-  // Converte para número decimal
-  const value = cents / 100;
-
-  // Limita a 100
-  if (value > 100) {
-    field.onChange(100);
-    return "100,00";
-  }
-
-  // Atualiza o valor
-  field.onChange(value);
-
-  // Retorna formatado
-  const integerPart = Math.floor(cents / 100);
-  const decimalPart = cents % 100;
-  return `${integerPart},${decimalPart.toString().padStart(2, "0")}`;
-};
 
 export function ServiceFormDialog({
   open,

@@ -36,16 +36,19 @@ export function ServiceTable({
   const tc = useTranslations("common");
 
   const formatTaxRate = (value: number | null) => {
-    if (value === null) return "NT";
+    if (value === null || value === 0) return "NT";
     return `${value.toFixed(2).replace(".", ",")}%`;
   };
 
   return (
-    <div className="space-y-0">
+    <div className="space-y-0 overflow-x-auto">
       {/* Regime headers outside table */}
-      <div className="sticky top-0 z-20 flex bg-background">
-        <div className="flex-none" style={{ width: "calc(136px + 28% + 20px)" }}>
-          {/* Empty space for code and description columns */}
+      <div className="sticky top-0 z-30 flex bg-background min-w-max">
+        <div className="flex-none" style={{ width: 200 }}>
+          {/* Empty space for code column */}
+        </div>
+        <div className="flex-none" style={{ width: 280 }}>
+          {/* Empty space for description column */}
         </div>
         <div
           className="flex-none border border-b-0 bg-muted/50 px-space-sm py-space-xs text-center text-sm font-medium"
@@ -67,11 +70,13 @@ export function ServiceTable({
         </div>
       </div>
       <div className="rounded-md border">
-        <Table>
+        <Table className="table-fixed min-w-max">
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center border-r w-[12%]">{t("table.code")}</TableHead>
-              <TableHead className="text-center border-r w-[28%]">
+              <TableHead className="text-center border-r" style={{ width: 200 }}>
+                {t("table.code")}
+              </TableHead>
+              <TableHead className="text-center border-r-5" style={{ width: 280 }}>
                 {t("table.description")}
               </TableHead>
               {/* SN columns */}
@@ -84,7 +89,7 @@ export function ServiceTable({
               <TableHead className="text-center border-r border-l" style={{ width: 56 }}>
                 CS
               </TableHead>
-              <TableHead className="text-center border-r" style={{ width: 56 }}>
+              <TableHead className="text-center border-r-5" style={{ width: 56 }}>
                 IRRF
               </TableHead>
               {/* N columns */}
@@ -97,7 +102,7 @@ export function ServiceTable({
               <TableHead className="text-center border-r border-l" style={{ width: 56 }}>
                 CS
               </TableHead>
-              <TableHead className="text-center border-r" style={{ width: 56 }}>
+              <TableHead className="text-center border-r-5" style={{ width: 56 }}>
                 IRRF
               </TableHead>
               {/* MEI columns */}
@@ -110,7 +115,7 @@ export function ServiceTable({
               <TableHead className="text-center border-r border-l" style={{ width: 56 }}>
                 CS
               </TableHead>
-              <TableHead className="sticky top-0  text-center border-r" style={{ width: 56 }}>
+              <TableHead className="text-center border-r-5" style={{ width: 56 }}>
                 IRRF
               </TableHead>
               <TableHead className="text-center border-r">{t("table.obs")}</TableHead>
@@ -125,7 +130,7 @@ export function ServiceTable({
                 <TableCell className="font-medium border-r align-top break-words">
                   {service.code}
                 </TableCell>
-                <TableCell className="border-r align-top break-words">
+                <TableCell className="border-r-5 align-top break-words">
                   {service.description}
                 </TableCell>
                 {/* SN tax rates */}
@@ -147,7 +152,7 @@ export function ServiceTable({
                 >
                   {formatTaxRate(service.sn.cs)}
                 </TableCell>
-                <TableCell className="text-center border-r align-top" style={{ width: 56 }}>
+                <TableCell className="text-center border-r-5 align-top" style={{ width: 56 }}>
                   {formatTaxRate(service.sn.irrf)}
                 </TableCell>
                 {/* N tax rates */}
@@ -169,7 +174,7 @@ export function ServiceTable({
                 >
                   {formatTaxRate(service.n.cs)}
                 </TableCell>
-                <TableCell className="text-center border-r align-top" style={{ width: 56 }}>
+                <TableCell className="text-center border-r-5 align-top" style={{ width: 56 }}>
                   {formatTaxRate(service.n.irrf)}
                 </TableCell>
                 {/* MEI tax rates */}
@@ -191,7 +196,7 @@ export function ServiceTable({
                 >
                   {formatTaxRate(service.mei.cs)}
                 </TableCell>
-                <TableCell className="text-center border-r align-top" style={{ width: 56 }}>
+                <TableCell className="text-center border-r-5 align-top" style={{ width: 56 }}>
                   {formatTaxRate(service.mei.irrf)}
                 </TableCell>
                 {/* Obs */}

@@ -4,7 +4,7 @@ import {
   type Service,
   type UpdateServiceSchema,
 } from "@/schema/services.schema";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { db } from "@/db/postgres";
 import type { BaseStorage } from "@/storage/types";
 
@@ -14,7 +14,7 @@ export class ServicesStorage implements BaseStorage<
   UpdateServiceSchema
 > {
   async findMany() {
-    return await db.select().from(tableServices);
+    return await db.select().from(tableServices).orderBy(asc(tableServices.createdAt));
   }
 
   async create(data: InsertServiceSchema) {
