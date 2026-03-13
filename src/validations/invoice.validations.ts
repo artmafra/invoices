@@ -67,8 +67,7 @@ export const createInvoiceSchema = z
     supplierCnpj: z
       .string()
       .min(1, "CNPJ is required")
-      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
-      .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)"),
+      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits"),
     serviceCode: z.string().min(1, "Service code is required"),
     issueDate: z.coerce.date(),
     dueDate: z.coerce.date(),

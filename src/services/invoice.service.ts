@@ -26,7 +26,7 @@ export class InvoiceService {
     if (!supplier) {
       throw new Error("Supplier not found");
     }
-    const service = await serviceStorage.findById(data.serviceCode);
+    const service = await serviceStorage.findByCode(data.serviceCode);
     if (!service) {
       throw new Error("Service not found");
     }
@@ -65,7 +65,7 @@ export class InvoiceService {
       tax += taxValue;
     }
 
-    const netAmountCents = value - tax;
+    const netAmountCents = Math.round(value - tax);
 
     return await invoiceStorage.create({
       ...data,
