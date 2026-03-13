@@ -3,26 +3,26 @@ import { serviceStorage } from "@/storage/runtime/service";
 
 export class ServiceService {
   async getAllServices() {
-    await serviceStorage.findMany();
+    return await serviceStorage.findMany();
+  }
+
+  async getServiceById(id: string) {
+    return await serviceStorage.findById(id);
   }
 
   async getServiceByCode(code: string) {
-    await serviceStorage.findById(code);
+    return await serviceStorage.findByCode(code);
   }
 
-  async updateService(code: string, data: UpdateServiceSchema) {
-    const updatedData = {
-      code,
-      ...data,
-    };
-    await serviceStorage.update(code, updatedData);
+  async updateService(id: string, data: UpdateServiceSchema) {
+    return await serviceStorage.update(id, data);
   }
 
   async createService(data: InsertServiceSchema) {
-    await serviceStorage.create(data);
+    return await serviceStorage.create(data);
   }
 
-  async deleteService(code: string) {
-    await serviceStorage.delete(code);
+  async deleteService(id: string) {
+    return await serviceStorage.delete(id);
   }
 }

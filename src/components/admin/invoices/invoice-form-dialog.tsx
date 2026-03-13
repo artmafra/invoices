@@ -16,6 +16,7 @@ import { CnpjSelect } from "@/components/shared/cnpj-select";
 import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { LoadingButton } from "@/components/shared/loading-button";
+import { ServiceSelect } from "@/components/shared/service-select";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -180,13 +181,20 @@ export function InvoiceFormDialog({
                 control={form.control}
                 name="serviceCode"
                 render={({ field, fieldState }) => (
-                  <FormFieldWithTooltip
-                    label={t("fields.serviceCode")}
-                    error={fieldState.error?.message}
-                    isTouched={!!form.formState.touchedFields.serviceCode}
-                  >
-                    <Input {...field} placeholder={t("fields.serviceCodePlaceholder")} />
-                  </FormFieldWithTooltip>
+                  <div className="space-y-space-sm">
+                    <ServiceSelect
+                      value={field.value || null}
+                      onChange={(code) => {
+                        field.onChange(code || "");
+                      }}
+                      onBlur={field.onBlur}
+                      label={t("fields.serviceCode")}
+                      placeholder={t("fields.serviceCodePlaceholder")}
+                    />
+                    {fieldState.error?.message && form.formState.touchedFields.serviceCode && (
+                      <p className="text-xs text-destructive">{fieldState.error.message}</p>
+                    )}
+                  </div>
                 )}
               />
               <div className="grid gap-space-xl sm:grid-cols-2">

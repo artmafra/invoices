@@ -8,8 +8,8 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { createSupplierSchema } from "@/validations/supplier.validations";
-import { LoadingButton } from "@/components/shared/loading-button";
 import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
+import { LoadingButton } from "@/components/shared/loading-button";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -20,10 +20,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import {
-  Form,
-  FormField,
-} from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -63,16 +60,8 @@ export function SupplierFormDialog({
       .trim()
       .min(1, t("errors.cnpjRequired"))
       .regex(/^\d{14}$/, t("errors.cnpjInvalid")),
-    name: z
-      .string()
-      .trim()
-      .min(1, t("errors.nameRequired"))
-      .max(200, t("errors.nameMaxLength")),
-    city: z
-      .string()
-      .trim()
-      .min(1, t("errors.cityRequired"))
-      .max(100, t("errors.cityMaxLength")),
+    name: z.string().trim().min(1, t("errors.nameRequired")).max(200, t("errors.nameMaxLength")),
+    city: z.string().trim().min(1, t("errors.cityRequired")).max(100, t("errors.cityMaxLength")),
     taxRegime: z.enum(SUPPLIER_TAX_REGIME),
     obs: z.string().optional(),
   });

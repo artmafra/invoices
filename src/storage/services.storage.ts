@@ -4,7 +4,7 @@ import {
   type Service,
   type UpdateServiceSchema,
 } from "@/schema/services.schema";
-import { eq } from "drizzle-orm";
+import { asc, eq } from "drizzle-orm";
 import { db } from "@/db/postgres";
 import type { BaseStorage } from "@/storage/types";
 
@@ -14,7 +14,7 @@ export class ServicesStorage implements BaseStorage<
   UpdateServiceSchema
 > {
   async findMany() {
-    return await db.select().from(tableServices);
+    return await db.select().from(tableServices).orderBy(asc(tableServices.createdAt));
   }
 
   async create(data: InsertServiceSchema) {
@@ -22,21 +22,29 @@ export class ServicesStorage implements BaseStorage<
     return result[0];
   }
 
-  async update(code: string, data: UpdateServiceSchema) {
+  async update(id: string, data: UpdateServiceSchema) {
     const result = await db
       .update(tableServices)
       .set(data)
-      .where(eq(tableServices.code, code))
+      .where(eq(tableServices.id, id))
       .returning();
     return result[0];
   }
 
-  async delete(code: string) {
-    await db.delete(tableServices).where(eq(tableServices.code, code));
+  async delete(id: string) {
+    await db.delete(tableServices).where(eq(tableServices.id, id));
     return true;
   }
 
-  async findById(code: string) {
+  async findById(id: string) {
+    return await db
+      .select()
+      .from(tableServices)
+      .where(eq(tableServices.id, id))
+      .then((res) => res[0]);
+  }
+
+  async findByCode(code: string) {
     return await db
       .select()
       .from(tableServices)
