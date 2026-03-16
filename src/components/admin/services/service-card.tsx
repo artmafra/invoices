@@ -30,13 +30,7 @@ const TAX_FIELDS = [
   { key: "irrf" as const, label: "IRRF" },
 ];
 
-export function ServiceTable({
-  services,
-  onEdit,
-  onDelete,
-  canEdit,
-  canDelete,
-}: ServiceTableProps) {
+export function ServiceCard({ services, onEdit, onDelete, canEdit, canDelete }: ServiceTableProps) {
   const tc = useTranslations("common");
 
   const formatTaxRate = (value: number | null) => {
@@ -103,7 +97,7 @@ export function ServiceTable({
                 key={regime.key}
                 className="flex flex-col gap-space-xs rounded-lg border border-border bg-muted/50 p-space-lg"
               >
-                <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+                <p className="text-xs font-semibold uppercase tracking-wide text-foreground text-center">
                   {regime.label}
                 </p>
                 <div className="flex flex-col gap-space-xs">

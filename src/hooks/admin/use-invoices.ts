@@ -35,10 +35,18 @@ export interface InvoiceWithRelations extends Invoice {
   supplier?: {
     cnpj: string;
     name: string;
+    city: string;
+    taxRegime: string;
   };
   service?: {
     code: string;
-    name: string;
+    description: string;
+    taxRates: {
+      issqn: number | null;
+      inss: number | null;
+      cs: number | null;
+      irrf: number | null;
+    };
   };
 }
 

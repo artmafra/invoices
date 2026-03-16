@@ -1,4 +1,5 @@
 import { tableInvoices } from "@/schema/invoices.schema";
+import { type TaxRates } from "@/schema/services.schema";
 import { createSelectSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -33,6 +34,8 @@ export const adminInvoiceResponseSchema = adminInvoiceBaseSchema
       .object({
         cnpj: z.string(),
         name: z.string(),
+        city: z.string(),
+        taxRegime: z.string(),
       })
       .nullable(),
 
@@ -40,7 +43,13 @@ export const adminInvoiceResponseSchema = adminInvoiceBaseSchema
     service: z
       .object({
         code: z.string(),
-        name: z.string(),
+        description: z.string(),
+        taxRates: z.object({
+          issqn: z.number().nullable(),
+          inss: z.number().nullable(),
+          cs: z.number().nullable(),
+          irrf: z.number().nullable(),
+        }),
       })
       .nullable(),
   })

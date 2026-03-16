@@ -81,5 +81,23 @@
     "createFailed": "Failed to create invoice.",
     "updateFailed": "Failed to update invoice.",
     "deleteFailed": "Failed to delete invoice."
+  },
+  "card": {
+    "supplier": "Supplier",
+    "service": "Service",
+    "dates": "Dates",
+    "entryDate": "Entry",
+    "issueDate": "Issue",
+    "dueDate": "Due date",
+    "taxRegimes": {
+      "sn": "Simples Nacional",
+      "n": "Normal",
+      "mei": "MEI"
+    },
+    "taxes": "Taxes & Withholdings",
+    "grossValue": "Gross value",
+    "materialDeduction": "Material deduction",
+    "notRetained": "not retained",
+    "netAmount": "Net receivable"
   }
 }

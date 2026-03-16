@@ -5,8 +5,8 @@ import {
   type InvoiceStatus,
   type UpdateInvoiceSchema,
 } from "@/schema/invoices.schema";
-import { tableServices } from "@/schema/services.schema";
-import { tableSuppliers } from "@/schema/suppliers.schema";
+import { tableServices, type TaxRates, type TaxRegime } from "@/schema/services.schema";
+import { tableSuppliers, type SupplierTaxRegime } from "@/schema/suppliers.schema";
 import { and, asc, count, desc, eq, gte, ilike, lte, max, type SQL } from "drizzle-orm";
 import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
@@ -27,11 +27,14 @@ export interface InvoiceWithRelations extends Invoice {
   supplier: {
     cnpj: string;
     name: string;
+    city: string;
+    taxRegime: SupplierTaxRegime;
   } | null;
 
   service: {
     code: string;
-    name: string;
+    description: string;
+    taxRates: TaxRates;
   } | null;
 }
 
@@ -150,6 +153,8 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
       .select({
         cnpj: tableSuppliers.cnpj,
         name: tableSuppliers.name,
+        city: tableSuppliers.city,
+        taxRegime: tableSuppliers.taxRegime,
       })
       .from(tableSuppliers)
       .as("supplier");
@@ -159,6 +164,9 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
       .select({
         code: tableServices.code,
         description: tableServices.description,
+        sn: tableServices.sn,
+        n: tableServices.n,
+        mei: tableServices.mei,
       })
       .from(tableServices)
       .as("service");
@@ -172,10 +180,15 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
         supplier: {
           cnpj: supplierSub.cnpj,
           name: supplierSub.name,
+          city: supplierSub.city,
+          taxRegime: supplierSub.taxRegime,
         },
         service: {
           code: serviceSub.code,
           description: serviceSub.description,
+          sn: serviceSub.sn,
+          n: serviceSub.n,
+          mei: serviceSub.mei,
         },
       })
       .from(tableInvoices)
@@ -195,11 +208,31 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     });
 
     // Map final structure
-    const data: InvoiceWithRelations[] = result.data.map(({ invoice, supplier, service }) => ({
-      ...invoice,
-      supplier: supplier?.cnpj ? supplier : null,
-      service: service?.code ? service : null,
-    }));
+    const data: InvoiceWithRelations[] = result.data.map(({ invoice, supplier, service }) => {
+      const regime = (supplier?.taxRegime?.toLowerCase() ?? "n") as TaxRegime;
+      const taxRates: TaxRates = service?.code
+        ? (service[regime] ?? { issqn: null, inss: null, cs: null, irrf: null })
+        : { issqn: null, inss: null, cs: null, irrf: null };
+
+      return {
+        ...invoice,
+        supplier: supplier?.cnpj
+          ? {
+              cnpj: supplier.cnpj,
+              name: supplier.name,
+              city: supplier.city,
+              taxRegime: supplier.taxRegime as SupplierTaxRegime,
+            }
+          : null,
+        service: service?.code
+          ? {
+              code: service.code,
+              description: service.description,
+              taxRates,
+            }
+          : null,
+      };
+    });
 
     return {
       ...result,

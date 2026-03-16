@@ -15,8 +15,8 @@ import {
 import { useDebounce } from "@/hooks/use-debounce";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
+import { ServiceCard } from "@/components/admin/services/service-card";
 import { ServiceFormDialog } from "@/components/admin/services/service-form-dialog";
-import { ServiceTable } from "@/components/admin/services/service-table";
 import { AdminErrorFallback } from "@/components/shared/admin-error-fallback";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
@@ -210,7 +210,7 @@ function ServicesPageContent() {
                 showAction={!search && canCreate}
               />
             ) : (
-              <ServiceTable
+              <ServiceCard
                 services={filteredServices}
                 onEdit={handleOpenEdit}
                 onDelete={setDeleteServiceId}
