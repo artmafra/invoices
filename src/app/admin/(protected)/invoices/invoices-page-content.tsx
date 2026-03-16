@@ -116,7 +116,7 @@ export function InvoicesPageContent() {
         await actions.handleCreate(invoiceData);
       }
     },
-    [dialogs.deleteInvoiceId, actions],
+    [dialogs.editingInvoiceId, actions],
   );
 
   const handleOpenEdit = useCallback(

@@ -269,20 +269,23 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
   }
   async create(data: InsertInvoiceSchema) {
     const result = await db.insert(tableInvoices).values(data).returning();
+    await versionCache.invalidate("invoices");
     return result[0];
   }
 
   async update(id: string, data: UpdateInvoiceSchema) {
     const result = await db
       .update(tableInvoices)
-      .set(data)
+      .set({ ...data, updatedAt: new Date() })
       .where(eq(tableInvoices.id, id))
       .returning();
+    await versionCache.invalidate("invoices");
     return result[0];
   }
 
   async delete(id: string) {
     const result = await db.delete(tableInvoices).where(eq(tableInvoices.id, id)).returning();
+    await versionCache.invalidate("invoices");
     return result.length > 0;
   }
 }

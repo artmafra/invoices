@@ -99,7 +99,6 @@ export const updateInvoiceSchema = z
     supplierCnpj: z
       .string()
       .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits")
-      .refine(isValidCnpjChecksum, "Invalid CNPJ (failed checksum validation)")
       .optional(),
     serviceCode: z.string().optional(),
 
