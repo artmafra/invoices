@@ -108,10 +108,6 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
       to: supplier.taxRegime,
     });
   }
-  if (validation.data.obs !== undefined && existingSupplier.obs !== supplier.obs) {
-    changes.push({ field: "obs", from: existingSupplier.obs, to: supplier.obs });
-  }
-
   // Only log if there are actual changes
   if (changes.length > 0) {
     await activityService.logUpdate(

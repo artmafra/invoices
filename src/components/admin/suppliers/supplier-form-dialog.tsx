@@ -29,7 +29,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Textarea } from "@/components/ui/textarea";
 
 export type SupplierFormValues = z.infer<typeof createSupplierSchema>;
 
@@ -63,7 +62,6 @@ export function SupplierFormDialog({
     name: z.string().trim().min(1, t("errors.nameRequired")).max(200, t("errors.nameMaxLength")),
     city: z.string().trim().min(1, t("errors.cityRequired")).max(100, t("errors.cityMaxLength")),
     taxRegime: z.enum(SUPPLIER_TAX_REGIME),
-    obs: z.string().optional(),
   });
 
   type TranslatedSupplierFormValues = z.infer<typeof translatedFormSchema>;
@@ -76,7 +74,6 @@ export function SupplierFormDialog({
       name: "",
       city: "",
       taxRegime: "sn",
-      obs: "",
       ...initialData,
     },
   });
@@ -88,7 +85,6 @@ export function SupplierFormDialog({
         name: "",
         city: "",
         taxRegime: "sn",
-        obs: "",
         ...initialData,
       });
     }
@@ -193,24 +189,6 @@ export function SupplierFormDialog({
                         ))}
                       </SelectContent>
                     </Select>
-                  </FormFieldWithTooltip>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="obs"
-                render={({ field, fieldState }) => (
-                  <FormFieldWithTooltip
-                    label={t("fields.obs")}
-                    error={fieldState.error?.message}
-                    isTouched={!!form.formState.touchedFields.obs}
-                  >
-                    <Textarea
-                      {...field}
-                      value={field.value ?? ""}
-                      placeholder={t("fields.obsPlaceholder")}
-                      rows={3}
-                    />
                   </FormFieldWithTooltip>
                 )}
               />

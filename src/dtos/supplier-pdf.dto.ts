@@ -5,5 +5,4 @@ export interface SupplierPdfDTO {
   name: string;
   city: string;
   taxRegime: TaxRegime;
-  obs?: string | null;
 }

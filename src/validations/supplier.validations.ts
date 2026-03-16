@@ -50,7 +50,6 @@ export const createSupplierSchema = z.object({
   name: nameValidation,
   city: cityValidation,
   taxRegime: supplierTaxRegimeSchema,
-  obs: z.string().optional(),
 });
 
 /** Server-side schema (API) */
@@ -63,7 +62,6 @@ export const updateSupplierSchema = z.object({
   name: nameValidation.optional(),
   city: cityValidation.optional(),
   taxRegime: supplierTaxRegimeSchema.optional(),
-  obs: z.string().optional(),
 });
 
 export type UpdateSupplierInput = z.infer<typeof updateSupplierSchema>;

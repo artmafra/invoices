@@ -192,7 +192,6 @@ function SuppliersPageContent() {
       name: string;
       city: string;
       taxRegime: SupplierTaxRegime;
-      obs?: string;
     }) => {
       if (editingSupplier) {
         // Close form immediately for instant feedback
@@ -206,7 +205,6 @@ function SuppliersPageContent() {
             name: data.name,
             city: data.city,
             taxRegime: data.taxRegime,
-            obs: data.obs,
           },
         });
       } else {
@@ -370,7 +368,6 @@ function SuppliersPageContent() {
                 name: editingSupplier.name,
                 city: editingSupplier.city,
                 taxRegime: editingSupplier.taxRegime,
-                obs: editingSupplier.obs ?? undefined,
               }
             : undefined
         }

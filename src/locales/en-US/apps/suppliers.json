@@ -15,9 +15,7 @@
     "city": "City",
     "cityPlaceholder": "Enter city",
     "taxRegime": "Tax Regime",
-    "taxRegimePlaceholder": "Select tax regime",
-    "obs": "Observations",
-    "obsPlaceholder": "Additional notes..."
+    "taxRegimePlaceholder": "Select tax regime"
   },
   "taxRegimes": {
     "sn": "Simples Nacional",
