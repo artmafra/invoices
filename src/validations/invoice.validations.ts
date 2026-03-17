@@ -33,10 +33,7 @@ export const invoiceStatusSchema = z.enum(INVOICE_STATUSES);
 export const getInvoicesQuerySchema = baseQuerySchema
   .extend({
     status: invoiceStatusSchema.optional(),
-    supplierCnpj: z
-      .string()
-      .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have 14 digits")
-      .optional(),
+    supplierCnpj: z.string().transform(extractCnpjDigits).optional(),
     serviceCode: z.string().optional(),
 
     issueDateFrom: z.coerce.date().optional(),

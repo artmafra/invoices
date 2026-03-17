@@ -62,51 +62,46 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
   return (
     <Card>
       <CardContent>
-        <div>
-          <div className="flex items-center gap-space-lg">
-            {/* Supplier Info */}
-            <div className="min-w-0 flex-1">
-              <div className="flex items-center gap-space-sm">
-                <CardTitle>{supplier.name}</CardTitle>
-              </div>
-              <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
-                {<span>{formatCnpj(supplier.cnpj)}</span>}
-              </div>
-              <div className="flex items-center gap-space-sm truncate text-sm text-muted-foreground">
-                {<span>{supplier.city}</span>}
-              </div>
+        <div className="flex flex-col gap-space-sm">
+          {/* Top row: name on left, actions on right */}
+          <div className="flex items-start justify-between gap-space-sm">
+            <CardTitle className="min-w-0 flex-1">{supplier.name}</CardTitle>
+            <div className="flex shrink-0 items-center gap-space-sm">
+              {(canEdit || canDelete) && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="ghost" size="icon" className="h-8 w-8">
+                      <MoreHorizontal className="h-4 w-4" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {canEdit && (
+                      <DropdownMenuItem onClick={() => onEdit(supplier.id)}>
+                        <Pencil className="h-4 w-4" />
+                        {tc("buttons.edit")}
+                      </DropdownMenuItem>
+                    )}
+                    {canDelete && (
+                      <DropdownMenuItem
+                        onClick={() => onDelete(supplier.id)}
+                        className="text-destructive"
+                      >
+                        <Trash2 className="h-4 w-4" />
+                        {tc("buttons.delete")}
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </div>
-            <div className="hidden items-center gap-space-sm sm:flex">
-              <Badge className={"bg-priority-medium text-priority-medium-foreground"}>
-                {t(`taxRegimes.${supplier.taxRegime}`)}
-              </Badge>
-            </div>
-            {(canEdit || canDelete) && (
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MoreHorizontal className="h-4 w-4" />
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
-                  {canEdit && (
-                    <DropdownMenuItem onClick={() => onEdit(supplier.id)}>
-                      <Pencil className="h-4 w-4" />
-                      {tc("buttons.edit")}
-                    </DropdownMenuItem>
-                  )}
-                  {canDelete && (
-                    <DropdownMenuItem
-                      onClick={() => onDelete(supplier.id)}
-                      className="text-destructive"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                      {tc("buttons.delete")}
-                    </DropdownMenuItem>
-                  )}
-                </DropdownMenuContent>
-              </DropdownMenu>
-            )}
+          </div>
+          {/* Bottom row: city on left, regime in center, CNPJ on right */}
+          <div className="flex items-center justify-between gap-space-sm">
+            <span className="text-sm text-muted-foreground">{supplier.city}</span>
+            <span className="text-sm text-muted-foreground">{formatCnpj(supplier.cnpj)}</span>
+            <Badge className={"bg-priority-medium text-priority-medium-foreground"}>
+              {t(`taxRegimes.${supplier.taxRegime}`)}
+            </Badge>
           </div>
         </div>
       </CardContent>
@@ -187,12 +182,7 @@ function SuppliersPageContent() {
   }, []);
 
   const handleSubmit = useCallback(
-    (data: {
-      cnpj: string;
-      name: string;
-      city: string;
-      taxRegime: SupplierTaxRegime;
-    }) => {
+    (data: { cnpj: string; name: string; city: string; taxRegime: SupplierTaxRegime }) => {
       if (editingSupplier) {
         // Close form immediately for instant feedback
         handleCloseForm();
