@@ -7,7 +7,7 @@
 
 export const siteConfig = {
   /** Company/website name */
-  name: "Template",
+  name: "Mafra",
 
   /** Website tagline or slogan */
   tagline: "Build websites faster with this modern template",
