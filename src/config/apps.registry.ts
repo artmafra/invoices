@@ -90,26 +90,6 @@ export function defineApp<S extends string>(
  * ```
  */
 export const APPS_REGISTRY: AppDefinition[] = [
-  // ==========================================================================
-  // Notes App - Simple internal notes/memos for admin users
-  // ==========================================================================
-  defineApp("notes", {
-    slug: "notes",
-    name: "Notes",
-    description: "Create and manage internal notes and memos",
-    icon: StickyNote,
-    iconName: "StickyNote",
-    version: "1.0.0",
-    enabledByDefault: true,
-    permissions: [
-      // Note: App access is controlled via user entitlements (app_permissions table)
-      { resource: "notes", action: "view", description: "View" },
-      { resource: "notes", action: "create", description: "Create" },
-      { resource: "notes", action: "edit", description: "Edit" },
-      { resource: "notes", action: "delete", description: "Delete" },
-    ],
-  }),
-
   defineApp("invoices", {
     slug: "invoices",
     name: "Notas",
@@ -124,46 +104,6 @@ export const APPS_REGISTRY: AppDefinition[] = [
       { resource: "invoices", action: "create", description: "Create" },
       { resource: "invoices", action: "edit", description: "Edit" },
       { resource: "invoices", action: "delete", description: "Delete" },
-    ],
-  }),
-
-  // ==========================================================================
-  // Tasks App - Task management with lists, status, and assignments
-  // ==========================================================================
-  defineApp("tasks", {
-    slug: "tasks",
-    name: "Tasks",
-    description: "Manage tasks, to-do lists, and assignments",
-    icon: CheckSquare,
-    iconName: "CheckSquare",
-    version: "1.0.0",
-    enabledByDefault: true,
-    permissions: [
-      // Note: App access is controlled via user entitlements (app_permissions table)
-      { resource: "tasks", action: "view", description: "View" },
-      { resource: "tasks", action: "create", description: "Create" },
-      { resource: "tasks", action: "edit", description: "Edit" },
-      { resource: "tasks", action: "delete", description: "Delete" },
-      { resource: "tasks", action: "assign", description: "Assign" },
-    ],
-  }),
-
-  // ==========================================================================
-  // Coop Games App - Track cooperative games for play sessions
-  // ==========================================================================
-  defineApp("games", {
-    slug: "games",
-    name: "Games",
-    description: "Track cooperative games for play sessions",
-    icon: Gamepad2,
-    iconName: "Gamepad2",
-    version: "1.0.0",
-    enabledByDefault: true,
-    permissions: [
-      { resource: "games", action: "view", description: "View" },
-      { resource: "games", action: "create", description: "Create" },
-      { resource: "games", action: "edit", description: "Edit" },
-      { resource: "games", action: "delete", description: "Delete" },
     ],
   }),
 ];

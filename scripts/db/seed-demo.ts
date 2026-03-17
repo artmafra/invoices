@@ -1,8 +1,6 @@
 import "dotenv/config";
-import { notesTable } from "@/schema/notes.schema";
 import { rolesTable } from "@/schema/roles.schema";
 import { taskListsTable } from "@/schema/task-lists.schema";
-import { TASK_PRIORITIES, TASK_STATUSES, tasksTable } from "@/schema/tasks.schema";
 import { userSessionsTable } from "@/schema/user-session.schema";
 import { usersTable } from "@/schema/users.schema";
 import bcrypt from "bcryptjs";
@@ -204,7 +202,6 @@ function makeMarkdown(rnd: () => number): string {
   const lines: string[] = [];
   lines.push(`## Summary`);
   lines.push(`- Context: ${pick(rnd, TASK_OBJECTS)}`);
-  lines.push(`- Priority: ${pick(rnd, TASK_PRIORITIES)}`);
   lines.push(``);
   lines.push(`## Checklist`);
   for (let i = 0; i < bullets; i++) {
@@ -392,8 +389,6 @@ async function main() {
     for (let i = 0; i < tasksCount; i++) {
       const id = generateUUID();
       const title = makeTaskTitle(rnd);
-      const status = pick(rnd, TASK_STATUSES);
-      const priority = pick(rnd, TASK_PRIORITIES);
 
       const createdById = pick(rnd, userIds);
       const assigneeId = chance(rnd, 0.8) ? pick(rnd, userIds) : null;
@@ -404,33 +399,6 @@ async function main() {
 
       const createdAt = randomPastDate(rnd, 120);
       const completedAt = status === "done" ? randomPastDate(rnd, 30) : null;
-
-      await db.insert(tasksTable).values({
-        id,
-        title,
-        description: chance(rnd, 0.75) ? makeMarkdown(rnd) : null,
-        status,
-        priority,
-        dueDate,
-        listId,
-        assigneeId,
-        createdById,
-        sortOrder: i,
-        completedAt,
-        createdAt,
-        updatedAt: randomPastDate(rnd, 15),
-      });
-
-      // Only log a subset to keep runtime reasonable
-      if (process.env.ENCRYPTION_KEY && chance(rnd, 0.35)) {
-        await activityService.logCreate(
-          createdById,
-          "tasks",
-          { type: "task", id, name: title },
-          { metadata: { seeded: true, runId, status, priority } },
-        );
-        activitiesCreated++;
-      }
     }
 
     result.created.tasks = tasksCount;
@@ -443,28 +411,6 @@ async function main() {
       const title = makeNoteTitle(rnd);
       const createdById = pick(rnd, userIds);
       const updatedById = chance(rnd, 0.7) ? pick(rnd, userIds) : createdById;
-
-      await db.insert(notesTable).values({
-        id,
-        title,
-        content: makeMarkdown(rnd),
-        isPinned: chance(rnd, 0.15),
-        color: chance(rnd, 0.7) ? pick(rnd, COLORS) : null,
-        createdById,
-        updatedById,
-        createdAt: randomPastDate(rnd, 180),
-        updatedAt: randomPastDate(rnd, 30),
-      });
-
-      if (process.env.ENCRYPTION_KEY && chance(rnd, 0.5)) {
-        await activityService.logCreate(
-          createdById,
-          "notes",
-          { type: "note", id, name: title },
-          { metadata: { seeded: true, runId } },
-        );
-        activitiesCreated++;
-      }
     }
 
     result.created.notes = notesCount;
@@ -535,9 +481,6 @@ async function main() {
       console.log(`Run ID: ${runId}`);
       console.log("");
       console.log(`Users:      ${result.created.users}`);
-      console.log(`Task lists: ${result.created.taskLists}`);
-      console.log(`Tasks:      ${result.created.tasks}`);
-      console.log(`Notes:      ${result.created.notes}`);
       console.log(`Sessions:   ${result.created.sessions}`);
       console.log(
         `Activities: ${result.created.activities}${process.env.ENCRYPTION_KEY ? "" : " (skipped: ENCRYPTION_KEY missing)"}`,
