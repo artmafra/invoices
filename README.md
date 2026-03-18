@@ -44,8 +44,8 @@ Production-ready **Next.js 16** template for full-stack apps with authentication
 ### Install
 
 ```bash
-git clone https://github.com/relaxeaza/template.git
-cd template
+git clone https://github.com/artmafra/invoices
+cd invoices
 npm install
 cp .process.env.example .env
 ```
