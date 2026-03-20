@@ -62,18 +62,13 @@ export function InvoicesListView({
 }: InvoicesListViewProps) {
   const t = useTranslations("apps/invoices");
 
-  // Filter for paid invoices if needed
-  const filteredInvoices = invoices.filter((invoice) => {
-    return invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "paid";
-  });
-
   return (
     <>
-      {/* Task Cards */}
-      {filteredInvoices.length > 0 ? (
+      {/* Invoice Cards */}
+      {invoices.length > 0 ? (
         <div className="space-y-space-md">
           <div className="flex flex-col gap-space-md">
-            {filteredInvoices.map((invoice) => (
+            {invoices.map((invoice) => (
               <InvoiceCard
                 key={invoice.id}
                 invoice={invoice}

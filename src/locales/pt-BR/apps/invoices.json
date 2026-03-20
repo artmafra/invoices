@@ -80,5 +80,23 @@
     "createFailed": "Falha ao criar nota fiscal",
     "updateFailed": "Falha ao atualizar nota fiscal",
     "deleteFailed": "Falha ao excluir nota fiscal"
+  },
+  "card": {
+    "supplier": "Prestador",
+    "service": "Serviço",
+    "dates": "Datas",
+    "entryDate": "Entrada",
+    "issueDate": "Emissão",
+    "dueDate": "Vencimento",
+    "taxRegimes": {
+      "sn": "Simples Nacional",
+      "n": "Normal",
+      "mei": "MEI"
+    },
+    "taxes": "Tributos e Retenções",
+    "grossValue": "Valor bruto",
+    "materialDeduction": "Dedução material",
+    "notRetained": "não retido",
+    "netAmount": "Líquido a receber"
   }
 }

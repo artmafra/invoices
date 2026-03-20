@@ -33,12 +33,15 @@ export class InvoiceDTO {
         ? {
             cnpj: invoice.supplier.cnpj,
             name: invoice.supplier.name,
+            city: invoice.supplier.city,
+            taxRegime: invoice.supplier.taxRegime,
           }
         : null,
       service: invoice.service
         ? {
             code: invoice.service.code,
-            name: invoice.service.name,
+            description: invoice.service.description,
+            taxRates: invoice.service.taxRates,
           }
         : null,
     };

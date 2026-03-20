@@ -11,7 +11,6 @@ export const tableSuppliers = pgTable("suppliers", {
   name: text("name").notNull().unique(),
   city: text("city").notNull(),
   taxRegime: text("taxRegime", { enum: SUPPLIER_TAX_REGIME }).notNull(),
-  obs: text("obs"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
 });

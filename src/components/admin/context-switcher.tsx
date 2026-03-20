@@ -97,6 +97,32 @@ export function ContextSwitcher() {
     );
   }
 
+  // In app context mode, navigate directly to the selected app without a dropdown
+  if (contextMode === "app" && selectedApp) {
+    return (
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
+            <Link href={`/admin/${selectedApp.slug}`}>
+              <div className="flex aspect-square size-8 items-center justify-center">
+                <Image
+                  src="/images/contpaz-logo.svg"
+                  alt={siteConfig.name}
+                  width={32}
+                  height={32}
+                />
+              </div>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{siteConfig.name}</span>
+                <span className="text-muted-foreground truncate text-xs">{getContextLabel()}</span>
+              </div>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+      </SidebarMenu>
+    );
+  }
+
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -107,7 +133,12 @@ export function ContextSwitcher() {
               className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
             >
               <div className="flex aspect-square size-8 items-center justify-center">
-                <Image src="/images/logo.svg" alt={siteConfig.name} width={32} height={32} />
+                <Image
+                  src="/images/contpaz-logo.svg"
+                  alt={siteConfig.name}
+                  width={32}
+                  height={32}
+                />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{siteConfig.name}</span>

@@ -15,9 +15,7 @@
     "city": "Cidade",
     "cityPlaceholder": "Digite a cidade",
     "taxRegime": "Regime Tributário",
-    "taxRegimePlaceholder": "Selecione o regime tributário",
-    "obs": "Observações",
-    "obsPlaceholder": "Notas adicionais..."
+    "taxRegimePlaceholder": "Selecione o regime tributário"
   },
   "taxRegimes": {
     "sn": "Simples Nacional",

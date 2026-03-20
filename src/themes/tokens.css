@@ -92,7 +92,7 @@
 
     /* Borders & inputs */
     --border: oklch(
-      calc(var(--lightness-base) + var(--lightness-step) * 6) var(--surface-chroma)
+      calc(var(--lightness-base) + var(--lightness-step) * 9) var(--surface-chroma)
         var(--surface-hue)
     );
     --input: oklch(var(--lightness-base) var(--surface-chroma) var(--surface-hue));
@@ -100,7 +100,7 @@
 
     /* Sidebar */
     --sidebar: oklch(
-      calc(var(--lightness-base) + var(--lightness-step) * 0.5) var(--surface-chroma)
+      calc(var(--lightness-base) + var(--lightness-step) * 5) var(--surface-chroma)
         var(--surface-hue)
     );
     --sidebar-foreground: oklch(

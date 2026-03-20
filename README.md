@@ -1,6 +1,6 @@
-# Next.js Full-Stack Web Application Template
+# Invoices: Full-Stack Enterprise Management System
 
-Production-ready **Next.js 16** template for full-stack apps with authentication, admin tools, background jobs, and a scalable architecture.
+A robust, production-ready application for financial control, specialized in managing Invoices, Services, and Suppliers. Built with the latest Next.js ecosystem, focusing on performance, security, and high scalability.
 
 ## Highlights
 
@@ -44,8 +44,8 @@ Production-ready **Next.js 16** template for full-stack apps with authentication
 ### Install
 
 ```bash
-git clone https://github.com/relaxeaza/template.git
-cd template
+git clone https://github.com/artmafra/invoices
+cd invoices
 npm install
 cp .process.env.example .env
 ```

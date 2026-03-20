@@ -20,7 +20,6 @@ export const adminSupplierResponseSchema = adminSupplierBaseSchema
   .extend({
     createdAt: z.string(),
     updatedAt: z.string(),
-    obs: z.string().nullable(),
   })
   .strict();
 

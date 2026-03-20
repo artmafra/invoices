@@ -14,7 +14,6 @@ export class SupplierDTO {
       name: supplier.name,
       city: supplier.city,
       taxRegime: supplier.taxRegime,
-      obs: supplier.obs ?? null,
       createdAt: supplier.createdAt.toISOString(),
       updatedAt: supplier.updatedAt.toISOString(),
     };

@@ -143,7 +143,7 @@ export function InvoiceFormDialog({
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent>
+      <DialogContent onOpenAutoFocus={(e) => e.preventDefault()}>
         <DialogHeader>
           <DialogTitle>{isEditing ? t("editTitle") : t("newTitle")}</DialogTitle>
         </DialogHeader>
