@@ -149,12 +149,12 @@ export function InvoicesPageContent() {
     <ErrorBoundary fallback={AdminErrorFallback}>
       <SidebarInset>
         <AdminHeader
-          title={"Notas Fiscais"}
+          title={t("title")}
           actions={
             permissions.canCreate && (
               <Button size="sm" variant="outline" onClick={openCreateDialog}>
                 <Plus className="h-4" />
-                <span className="hidden sm:inline">{"Nova"}</span>
+                <span className="hidden sm:inline">{tc("buttons.new")}</span>
               </Button>
             )
           }

@@ -330,7 +330,7 @@ function SuppliersPageContent() {
                 showAction={!search && canCreate}
               />
             ) : (
-              <div className="grid gap-space-lg sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-space-lg sm:grid-cols-2">
                 {filteredSuppliers?.map((supplier) => (
                   <SupplierCard
                     key={supplier.id}
