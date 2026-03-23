@@ -54,14 +54,14 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
       conditions.push(eq(tableInvoices.status, filters.status));
     }
 
-    // Supplier
+    // Supplier (partial match — user may type a partial CNPJ)
     if (filters.supplierCnpj) {
-      conditions.push(eq(tableInvoices.supplierCnpj, filters.supplierCnpj));
+      conditions.push(ilike(tableInvoices.supplierCnpj, `%${filters.supplierCnpj}%`));
     }
 
-    // Service
+    // Service (partial match — user may type a partial service code)
     if (filters.serviceCode) {
-      conditions.push(eq(tableInvoices.serviceCode, filters.serviceCode));
+      conditions.push(ilike(tableInvoices.serviceCode, `%${filters.serviceCode}%`));
     }
 
     // Search (invoiceNumber como padrão)

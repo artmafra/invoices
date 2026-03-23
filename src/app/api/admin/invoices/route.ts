@@ -36,10 +36,14 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     status: query.status,
     supplierCnpj: query.supplierCnpj,
     serviceCode: query.serviceCode,
-    dueDateFrom: query.dueDateFrom,
-    dueDateTo: query.dueDateTo,
-    issueDateFrom: query.issueDateFrom,
-    issueDateTo: query.issueDateTo,
+    issueDateRange:
+      query.issueDateFrom || query.issueDateTo
+        ? { from: query.issueDateFrom, to: query.issueDateTo }
+        : undefined,
+    dueDateRange:
+      query.dueDateFrom || query.dueDateTo
+        ? { from: query.dueDateFrom, to: query.dueDateTo }
+        : undefined,
   };
 
   const options = {

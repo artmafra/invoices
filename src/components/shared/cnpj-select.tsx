@@ -40,20 +40,15 @@ export function CnpjSelect({
   const inputDigits = extractCnpjDigits(inputValue);
   const debouncedSearch = useDebounce(inputDigits, 300);
 
-  const { data: suppliers } = useSuppliers({
+  // Avoid showing stale results while debounce is pending
+  const isSearchPending = inputDigits !== debouncedSearch;
+
+  const { data: suppliers, isFetching } = useSuppliers({
     search: debouncedSearch || undefined,
   });
 
   const suppliersList = suppliers ?? [];
-  const filteredSuppliers = suppliersList.filter((supplier) => {
-    const searchLower = inputValue.toLowerCase();
-    const digits = extractCnpjDigits(inputValue);
-    return (
-      supplier.cnpj.includes(digits) ||
-      supplier.name.toLowerCase().includes(searchLower) ||
-      supplier.city.toLowerCase().includes(searchLower)
-    );
-  });
+  const showResults = !isSearchPending && !isFetching;
 
   // Sync input value with prop value
   useEffect(() => {
@@ -114,12 +109,12 @@ export function CnpjSelect({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (!showSuggestions || filteredSuppliers.length === 0) return;
+    if (!showSuggestions || suppliersList.length === 0) return;
 
     switch (e.key) {
       case "ArrowDown":
         e.preventDefault();
-        setSelectedIndex((prev) => (prev < filteredSuppliers.length - 1 ? prev + 1 : prev));
+        setSelectedIndex((prev) => (prev < suppliersList.length - 1 ? prev + 1 : prev));
         break;
       case "ArrowUp":
         e.preventDefault();
@@ -127,8 +122,8 @@ export function CnpjSelect({
         break;
       case "Enter":
         e.preventDefault();
-        if (selectedIndex >= 0 && filteredSuppliers[selectedIndex]) {
-          handleSelectSupplier(filteredSuppliers[selectedIndex]);
+        if (selectedIndex >= 0 && suppliersList[selectedIndex]) {
+          handleSelectSupplier(suppliersList[selectedIndex]);
         }
         break;
       case "Escape":
@@ -159,10 +154,10 @@ export function CnpjSelect({
           />
         </div>
 
-        {showSuggestions && inputValue && filteredSuppliers.length > 0 && (
+        {showSuggestions && inputValue && showResults && suppliersList.length > 0 && (
           <div className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-border bg-popover shadow-md">
             <div className="p-1">
-              {filteredSuppliers.map((supplier, index) => (
+              {suppliersList.map((supplier, index) => (
                 <button
                   key={supplier.id}
                   type="button"
@@ -187,11 +182,15 @@ export function CnpjSelect({
           </div>
         )}
 
-        {showSuggestions && inputValue && filteredSuppliers.length === 0 && debouncedSearch && (
-          <div className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover p-3 shadow-md">
-            <p className="text-sm text-muted-foreground">{t("noResults")}</p>
-          </div>
-        )}
+        {showSuggestions &&
+          inputValue &&
+          showResults &&
+          suppliersList.length === 0 &&
+          debouncedSearch && (
+            <div className="absolute z-50 mt-1 w-full rounded-md border border-border bg-popover p-3 shadow-md">
+              <p className="text-sm text-muted-foreground">{t("noResults")}</p>
+            </div>
+          )}
       </div>
       {description && <p className="text-xs text-muted-foreground">{description}</p>}
     </div>

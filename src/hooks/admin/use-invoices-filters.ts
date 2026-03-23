@@ -46,12 +46,12 @@ export function useInvoicesFilters() {
     filters: {
       ...result.filters,
       status: (result.filters.status as string) || "all",
-      supplierCnpj: result.filters.supplierCnpj,
-      serviceCode: result.filters.serviceCode,
-      issueDateFrom: result.filters.issueDateFrom,
-      issueDateTo: result.filters.issueDateTo,
-      dueDateFrom: result.filters.dueDateFrom,
-      dueDateTo: result.filters.dueDateTo,
+      supplierCnpj: result.filters.supplierCnpj as string | undefined,
+      serviceCode: result.filters.serviceCode as string | undefined,
+      issueDateFrom: result.filters.issueDateFrom as string | undefined,
+      issueDateTo: result.filters.issueDateTo as string | undefined,
+      dueDateFrom: result.filters.dueDateFrom as string | undefined,
+      dueDateTo: result.filters.dueDateTo as string | undefined,
       includePaid,
     },
 
