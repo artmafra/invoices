@@ -5,7 +5,8 @@ export const SERVICES_QUERY_KEYS = {
 
   lists: () => [...SERVICES_QUERY_KEYS.all, "list"] as const,
 
-  list: (filters: ServiceFilters) => [...SERVICES_QUERY_KEYS.lists(), { filters }] as const,
+  list: (filters: ServiceFilters, page?: number, limit?: number) =>
+    [...SERVICES_QUERY_KEYS.lists(), { filters, page, limit }] as const,
 
   details: () => [...SERVICES_QUERY_KEYS.all, "detail"] as const,
 

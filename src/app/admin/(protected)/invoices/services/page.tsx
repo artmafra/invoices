@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
@@ -12,7 +12,8 @@ import {
   useUpdateService,
   type Service,
 } from "@/hooks/admin/use-services";
-import { useDebounce } from "@/hooks/use-debounce";
+import { useServicesFilters } from "@/hooks/admin/use-services-filters";
+import { usePaginationSize } from "@/hooks/use-pagination-size";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
 import { ServiceCard } from "@/components/admin/services/service-card";
@@ -56,24 +57,31 @@ function ServicesPageContent() {
   const searchRef = useRef<HTMLInputElement>(null);
   useShortcut("focus-search", () => searchRef.current?.focus());
 
-  const { data: services, isLoading } = useServices();
+  const limit = usePaginationSize();
+
+  const {
+    filters,
+    searchInput,
+    animationRef,
+    setSearchInput,
+    setPage,
+    clearFilters,
+    hasActiveFilters,
+  } = useServicesFilters();
+
+  const { data, isLoading } = useServices(
+    { search: filters.search || undefined },
+    filters.page,
+    limit,
+  );
+
   const createService = useCreateService();
   const updateService = useUpdateService();
   const deleteService = useDeleteService();
 
-  const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 300);
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [deleteServiceId, setDeleteServiceId] = useState<string | null>(null);
-
-  // Check if any filters are active
-  const hasActiveFilters = search.trim() !== "";
-
-  // Clear all filters
-  const clearFilters = useCallback(() => {
-    setSearch("");
-  }, []);
 
   const handleOpenCreate = useCallback(() => {
     setEditingService(null);
@@ -82,13 +90,13 @@ function ServicesPageContent() {
 
   const handleOpenEdit = useCallback(
     (serviceId: string) => {
-      const service = services?.find((s) => s.id === serviceId);
+      const service = data?.data.find((s) => s.id === serviceId);
       if (service) {
         setEditingService(service);
         setShowFormDialog(true);
       }
     },
-    [services],
+    [data?.data],
   );
 
   const handleCloseForm = useCallback(() => {
@@ -106,10 +114,7 @@ function ServicesPageContent() {
       obs?: string;
     }) => {
       if (editingService) {
-        // Close form immediately for instant feedback
         handleCloseForm();
-
-        // Fire mutation (optimistic update handles the rest)
         updateService.mutate({
           id: editingService.id,
           data: {
@@ -122,7 +127,6 @@ function ServicesPageContent() {
           },
         });
       } else {
-        // Create operations need await
         createService
           .mutateAsync(data)
           .then(() => {
@@ -146,26 +150,8 @@ function ServicesPageContent() {
     }
   }, [deleteServiceId, deleteService]);
 
-  const filteredServices = useMemo(() => {
-    if (!services) return [];
-
-    return services.filter((service) => {
-      // Search filter
-      if (debouncedSearch) {
-        const searchLower = debouncedSearch.toLowerCase();
-        const matchesSearch =
-          service.code.toLowerCase().includes(searchLower) ||
-          service.description.toLowerCase().includes(searchLower);
-        if (!matchesSearch) return false;
-      }
-
-      return true;
-    });
-  }, [services, debouncedSearch]);
-
   const isSaving = createService.isPending || updateService.isPending;
 
-  // Handle action from URL (e.g., from command palette)
   useActionFromUrl("create", handleOpenCreate);
 
   return (
@@ -188,32 +174,37 @@ function ServicesPageContent() {
           <SearchBar
             ref={searchRef}
             searchPlaceholder={t("searchPlaceholder")}
-            searchValue={search}
-            onSearchChange={setSearch}
+            searchValue={searchInput}
+            onSearchChange={setSearchInput}
             hasActiveFilters={hasActiveFilters}
             onClear={clearFilters}
           />
 
           <LoadingTransition
-            isLoading={isLoading && !services}
+            ref={animationRef}
+            isLoading={isLoading && !data}
             loadingMessage={tc("loading.default")}
           >
-            {filteredServices?.length === 0 ? (
+            {data?.data.length === 0 ? (
               <EmptyState
-                title={search ? t("empty.noSearchResults") : t("empty.noServices")}
-                description={!search ? t("empty.createFirst") : undefined}
+                title={filters.search ? t("empty.noSearchResults") : t("empty.noServices")}
+                description={!filters.search ? t("empty.createFirst") : undefined}
                 action={{
                   label: t("new"),
                   onClick: handleOpenCreate,
                   icon: Plus,
                 }}
-                showAction={!search && canCreate}
+                showAction={!filters.search && canCreate}
               />
             ) : (
               <ServiceCard
-                services={filteredServices}
+                services={data?.data || []}
+                servicesData={data}
+                page={filters.page}
+                limit={limit}
                 onEdit={handleOpenEdit}
                 onDelete={setDeleteServiceId}
+                onPageChange={setPage}
                 canEdit={canEdit}
                 canDelete={canDelete}
               />

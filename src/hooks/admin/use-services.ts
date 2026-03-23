@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { apiErrorFromResponseBody, handleMutationError } from "@/lib/api-request-error";
+import type { PaginatedResult } from "@/storage/types";
 import type { CreateServiceInput, UpdateServiceInput } from "@/validations/service.validations";
 import { SERVICES_QUERY_KEYS as QUERY_KEYS } from "./services.query-keys";
 
@@ -32,16 +33,18 @@ export const SERVICES_QUERY_KEY = QUERY_KEYS.all;
 // =============================================================================
 
 /**
- * Get all services
+ * Get paginated services
  */
-export const useServices = (filters: ServiceFilters = {}) => {
+export const useServices = (filters: ServiceFilters = {}, page: number = 1, limit: number = 20) => {
   const t = useTranslations("apps/services");
 
   return useQuery({
-    queryKey: QUERY_KEYS.list(filters),
-    queryFn: async (): Promise<Service[]> => {
+    queryKey: QUERY_KEYS.list(filters, page, limit),
+    queryFn: async (): Promise<PaginatedResult<Service>> => {
       const params = new URLSearchParams();
 
+      params.set("page", page.toString());
+      params.set("limit", limit.toString());
       if (filters.search) params.set("search", filters.search);
 
       const response = await fetch(`/api/admin/invoices/services?${params.toString()}`);

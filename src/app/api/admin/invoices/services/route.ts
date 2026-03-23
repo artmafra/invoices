@@ -31,7 +31,11 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     throw fromZodError(queryResult.error);
   }
 
-  const services = await serviceService.getAllServices();
+  const services = await serviceService.getServicesPaginated(
+    { search: queryResult.data.search },
+    queryResult.data.page ?? 1,
+    queryResult.data.limit ?? 20,
+  );
 
   return NextResponse.json(services);
 });

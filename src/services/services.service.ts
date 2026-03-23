@@ -6,6 +6,14 @@ export class ServiceService {
     return await serviceStorage.findMany();
   }
 
+  async getServicesPaginated(
+    filters: { search?: string } = {},
+    page: number = 1,
+    limit: number = 20,
+  ) {
+    return await serviceStorage.findManyPaginated(filters, page, limit);
+  }
+
   async getServiceById(id: string) {
     return await serviceStorage.findById(id);
   }
