@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { FieldGroup } from "@/components/ui/field";
 import {
   Select,
@@ -17,11 +18,13 @@ interface SelectSettingProps {
 }
 
 export function SelectSetting({ settingId, value, options, onChange }: SelectSettingProps) {
+  const t = useTranslations("system.settings");
+
   return (
     <FieldGroup className="w-full md:max-w-sm">
       <Select value={value} onValueChange={onChange}>
         <SelectTrigger id={`select-${settingId}`} className="w-full">
-          <SelectValue placeholder="Select an option" />
+          <SelectValue placeholder={t("form.selectOption")} />
         </SelectTrigger>
         <SelectContent>
           {options.map((option) => (

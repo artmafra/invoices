@@ -1,5 +1,6 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { Field, FieldGroup } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 
@@ -10,6 +11,8 @@ interface NumberSettingProps {
 }
 
 export function NumberSetting({ settingId, value, onChange }: NumberSettingProps) {
+  const t = useTranslations("system.settings");
+
   return (
     <FieldGroup className="w-full md:max-w-sm">
       <Field>
@@ -18,7 +21,7 @@ export function NumberSetting({ settingId, value, onChange }: NumberSettingProps
           type="number"
           value={value}
           onChange={(e) => onChange(e.target.value)}
-          placeholder="Enter number"
+          placeholder={t("form.enterNumber")}
         />
       </Field>
     </FieldGroup>

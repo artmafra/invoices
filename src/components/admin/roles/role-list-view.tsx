@@ -67,6 +67,11 @@ export function RoleListView({
   const t = useTranslations("system.roles");
   const tc = useTranslations("common");
 
+  const getRoleDescription = (role: RoleResponse) => {
+    const key = `roleDescriptions.${role.name}` as Parameters<typeof t>[0];
+    return t.has(key) ? t(key) : role.description || t("noDescription");
+  };
+
   return (
     <>
       {/* Role Cards */}
@@ -92,7 +97,7 @@ export function RoleListView({
                       </Badge>
                     )}
                   </div>
-                  <CardDescription>{role.description || t("noDescription")}</CardDescription>
+                  <CardDescription>{getRoleDescription(role)}</CardDescription>
                 </div>
 
                 {/* Stats */}

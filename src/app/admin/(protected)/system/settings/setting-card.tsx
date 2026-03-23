@@ -40,6 +40,8 @@ interface SettingDisplayProps {
 }
 
 function SettingDisplay({ type, value, settingKey, imageSize = 200 }: SettingDisplayProps) {
+  const t = useTranslations("system.settings");
+
   if (type === "image" && value) {
     return (
       <div
@@ -61,7 +63,7 @@ function SettingDisplay({ type, value, settingKey, imageSize = 200 }: SettingDis
     return (
       <div className="flex items-center gap-space-sm">
         <code className="text-xs bg-muted p-space-sm rounded block max-w-md overflow-hidden">
-          {value === "true" ? "Enabled" : "Disabled"}
+          {value === "true" ? t("form.enabled") : t("form.disabled")}
         </code>
       </div>
     );
@@ -70,7 +72,7 @@ function SettingDisplay({ type, value, settingKey, imageSize = 200 }: SettingDis
   // Default text display
   return (
     <code className="text-xs bg-muted p-space-sm rounded block max-w-md max-h-36 overflow-auto break-all">
-      {value || "(empty)"}
+      {value || t("form.empty")}
     </code>
   );
 }
@@ -167,6 +169,17 @@ interface SettingCardProps {
 
 export function SettingCard({ setting, canEdit }: SettingCardProps) {
   const tc = useTranslations("common");
+  const t = useTranslations("system.settings");
+
+  // Resolve translated label and description, fallback to DB values
+  const settingLabel = (() => {
+    const key = `settingLabels.${setting.key}` as Parameters<typeof t>[0];
+    return t.has(key) ? t(key) : setting.label;
+  })();
+  const settingDescription = (() => {
+    const key = `settingDescriptions.${setting.key}` as Parameters<typeof t>[0];
+    return t.has(key) ? t(key) : setting.description;
+  })();
 
   // Local state for this setting's value
   const [editingValue, setEditingValue] = useState(setting.value);
@@ -252,7 +265,7 @@ export function SettingCard({ setting, canEdit }: SettingCardProps) {
       imageUpload.reset();
       preview.updateFile(null);
     } catch (err) {
-      const message = err instanceof Error ? err.message : "Failed to save setting";
+      const message = err instanceof Error ? err.message : t("form.saveFailed");
       setError(message);
     }
   };
@@ -273,8 +286,8 @@ export function SettingCard({ setting, canEdit }: SettingCardProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>{setting.label}</CardTitle>
-        <CardDescription>{setting.description}</CardDescription>
+        <CardTitle>{settingLabel}</CardTitle>
+        <CardDescription>{settingDescription}</CardDescription>
       </CardHeader>
       {canEdit ? (
         <>
