@@ -60,6 +60,7 @@
     "createFailed": "Failed to create supplier",
     "updateFailed": "Failed to update supplier",
     "deleteFailed": "Failed to delete supplier",
+    "deleteConflict": "This supplier cannot be deleted because it has invoices associated with it.",
     "supplierNotFound": "Supplier not found"
   }
 }

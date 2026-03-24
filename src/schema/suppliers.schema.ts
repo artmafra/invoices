@@ -8,7 +8,7 @@ export type SupplierTaxRegime = (typeof SUPPLIER_TAX_REGIME)[number];
 export const tableSuppliers = pgTable("suppliers", {
   id: serial("id").primaryKey(),
   cnpj: text("cnpj").notNull().unique(),
-  name: text("name").notNull().unique(),
+  name: text("name").notNull(),
   city: text("city").notNull(),
   taxRegime: text("taxRegime", { enum: SUPPLIER_TAX_REGIME }).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),

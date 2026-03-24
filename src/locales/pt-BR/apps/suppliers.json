@@ -60,6 +60,7 @@
     "createFailed": "Falha ao criar fornecedor",
     "updateFailed": "Falha ao atualizar fornecedor",
     "deleteFailed": "Falha ao excluir fornecedor",
+    "deleteConflict": "Este fornecedor não pode ser excluído pois possui notas fiscais associadas.",
     "supplierNotFound": "Fornecedor não encontrado"
   }
 }

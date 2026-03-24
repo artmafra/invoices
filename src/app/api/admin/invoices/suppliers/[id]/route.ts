@@ -74,17 +74,6 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     }
   }
 
-  // Check for duplicate supplier name if being changed
-  if (validation.data.name && validation.data.name !== existingSupplier.name) {
-    const allSuppliers = await supplierService.getAllSuppliers();
-    const isDuplicate = allSuppliers.some(
-      (s) => s.name.toLowerCase() === validation.data.name!.toLowerCase() && s.id !== id,
-    );
-    if (isDuplicate) {
-      throw new ConflictError("A supplier with this name already exists");
-    }
-  }
-
   const supplier = await supplierService.updateSupplier(id, validation.data);
 
   // Build changes array for fields that changed
@@ -141,7 +130,18 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
     throw new NotFoundError("Supplier not found");
   }
 
-  await supplierService.deleteSupplier(id);
+  try {
+    await supplierService.deleteSupplier(id);
+  } catch (err) {
+    // PostgreSQL foreign key violation (23503): supplier is referenced by invoices
+    const cause = (err as { cause?: { code?: string } })?.cause;
+    if (cause?.code === "23503") {
+      throw new ConflictError(
+        "This supplier cannot be deleted because it has invoices associated with it.",
+      );
+    }
+    throw err;
+  }
 
   await activityService.logDelete(session, "invoices", {
     type: "supplier",
