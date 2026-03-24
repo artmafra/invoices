@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { apiErrorFromResponseBody, handleMutationError } from "@/lib/api-request-error";
+import type { PaginatedResult } from "@/storage/types";
 import type { CreateSupplierInput, UpdateSupplierInput } from "@/validations/supplier.validations";
 import { SUPPLIERS_QUERY_KEYS as QUERY_KEYS } from "./suppliers.query-keys";
 
@@ -46,7 +47,7 @@ export const useSuppliers = (
 
   return useQuery({
     queryKey: QUERY_KEYS.list(filters, page, limit),
-    queryFn: async (): Promise<Supplier[]> => {
+    queryFn: async (): Promise<PaginatedResult<Supplier>> => {
       const params = new URLSearchParams();
       params.set("page", page.toString());
       params.set("limit", limit.toString());
@@ -61,8 +62,7 @@ export const useSuppliers = (
         throw new Error(t("hooks.fetchFailed"));
       }
 
-      const result = await response.json();
-      return result.data; // Extract the data array from the paginated response
+      return response.json();
     },
     staleTime: 2 * 60 * 1000, // 2 minutes
     gcTime: 5 * 60 * 1000, // 5 minutes
@@ -213,7 +213,10 @@ export const useDeleteSupplier = () => {
       toast.success(t("success.deleted"));
     },
     onError: (error: Error) => {
-      handleMutationError(error, { fallback: t("hooks.deleteFailed") });
+      handleMutationError(error, {
+        conflict: t("hooks.deleteConflict"),
+        fallback: t("hooks.deleteFailed"),
+      });
     },
   });
 };

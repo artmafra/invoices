@@ -1,6 +1,7 @@
 "use client";
 
-import { useCallback, useMemo, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
+import { TaxRegime } from "@/schema/services.schema";
 import { SupplierTaxRegime } from "@/schema/suppliers.schema";
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -14,12 +15,14 @@ import {
   useUpdateSupplier,
   type Supplier,
 } from "@/hooks/admin/use-suppliers";
-import { useDebounce } from "@/hooks/use-debounce";
+import { useSuppliersFilters } from "@/hooks/admin/use-suppliers-filters";
+import { usePaginationSize } from "@/hooks/use-pagination-size";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
 import { SupplierFilters } from "@/components/admin/suppliers/supplier-filters";
 import { SupplierFormDialog } from "@/components/admin/suppliers/supplier-form-dialog";
 import { AdminErrorFallback } from "@/components/shared/admin-error-fallback";
+import { DataPagination } from "@/components/shared/data-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
 import { LoadingTransition } from "@/components/shared/loading-transition";
@@ -59,6 +62,12 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
   const t = useTranslations("apps/suppliers");
   const tc = useTranslations("common");
 
+  function formatTaxRegime(taxRegime: TaxRegime) {
+    if (taxRegime === "sn") return "SN";
+    if (taxRegime === "n") return "N";
+    if (taxRegime === "mei") return "MEI";
+  }
+
   return (
     <Card>
       <CardContent>
@@ -96,11 +105,13 @@ function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: Suppli
             </div>
           </div>
           {/* Bottom row: city on left, regime in center, CNPJ on right */}
-          <div className="flex items-center justify-between gap-space-sm">
-            <span className="text-sm text-muted-foreground">{supplier.city}</span>
-            <span className="text-sm text-muted-foreground">{formatCnpj(supplier.cnpj)}</span>
-            <Badge className={"bg-priority-medium text-priority-medium-foreground"}>
-              {t(`taxRegimes.${supplier.taxRegime}`)}
+          <div className="flex items-center gap-space-xl">
+            <span className="text-base text-muted-foreground">{supplier.city}</span>
+            <span className="text-base text-muted-foreground">{formatCnpj(supplier.cnpj)}</span>
+            <Badge
+              className={"ml-auto text-base bg-priority-medium text-priority-medium-foreground"}
+            >
+              {formatTaxRegime(supplier.taxRegime)}
             </Badge>
           </div>
         </div>
@@ -128,43 +139,42 @@ function SuppliersPageContent() {
   const searchRef = useRef<HTMLInputElement>(null);
   useShortcut("focus-search", () => searchRef.current?.focus());
 
-  const { data: suppliers, isLoading } = useSuppliers();
+  const {
+    filters,
+    searchInput,
+    animationRef,
+    setSearchInput,
+    setTaxRegimeFilter,
+    setCityFilter,
+    setPage,
+    clearFilters,
+    hasActiveFilters,
+  } = useSuppliersFilters();
+
+  const limit = usePaginationSize();
+
+  const { data, isLoading } = useSuppliers(
+    {
+      search: filters.search || undefined,
+      taxRegime:
+        (filters.taxRegime as string) !== "all"
+          ? (filters.taxRegime as SupplierTaxRegime)
+          : undefined,
+      city: filters.city || undefined,
+    },
+    filters.page,
+    limit,
+  );
+
+  const suppliers = data?.data ?? [];
+
   const createSupplier = useCreateSupplier();
   const updateSupplier = useUpdateSupplier();
   const deleteSupplier = useDeleteSupplier();
 
-  const [search, setSearch] = useState("");
-  const debouncedSearch = useDebounce(search, 300);
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
   const [deleteSupplierId, setDeleteSupplierId] = useState<number | null>(null);
-
-  // Filters
-  const [taxRegimeFilter, setTaxRegimeFilter] = useState("all");
-  const [nameFilter, setNameFilter] = useState("");
-  const [cityFilter, setCityFilter] = useState("");
-  const [cnpjFilter, setCnpjFilter] = useState("");
-
-  const debouncedNameFilter = useDebounce(nameFilter, 300);
-  const debouncedCityFilter = useDebounce(cityFilter, 300);
-  const debouncedCnpjFilter = useDebounce(cnpjFilter, 300);
-
-  // Check if any filters are active
-  const hasActiveFilters =
-    search.trim() !== "" ||
-    taxRegimeFilter !== "all" ||
-    nameFilter.trim() !== "" ||
-    cityFilter.trim() !== "" ||
-    cnpjFilter.trim() !== "";
-
-  // Clear all filters
-  const clearFilters = useCallback(() => {
-    setSearch("");
-    setTaxRegimeFilter("all");
-    setNameFilter("");
-    setCityFilter("");
-    setCnpjFilter("");
-  }, []);
 
   const handleOpenCreate = useCallback(() => {
     setEditingSupplier(null);
@@ -184,10 +194,7 @@ function SuppliersPageContent() {
   const handleSubmit = useCallback(
     (data: { cnpj: string; name: string; city: string; taxRegime: SupplierTaxRegime }) => {
       if (editingSupplier) {
-        // Close form immediately for instant feedback
         handleCloseForm();
-
-        // Fire mutation (optimistic update handles the rest)
         updateSupplier.mutate({
           id: editingSupplier.id,
           data: {
@@ -198,7 +205,6 @@ function SuppliersPageContent() {
           },
         });
       } else {
-        // Create operations need await
         createSupplier
           .mutateAsync(data)
           .then(() => {
@@ -221,58 +227,6 @@ function SuppliersPageContent() {
       // Error handled by mutation
     }
   }, [deleteSupplierId, deleteSupplier]);
-
-  const filteredSuppliers = useMemo(() => {
-    if (!suppliers) return [];
-
-    return suppliers.filter((supplier) => {
-      // Search filter
-      if (debouncedSearch) {
-        const searchLower = debouncedSearch.toLowerCase();
-        const matchesSearch =
-          supplier.cnpj.includes(searchLower) ||
-          supplier.name.toLowerCase().includes(searchLower) ||
-          supplier.city.toLowerCase().includes(searchLower) ||
-          supplier.taxRegime.toLowerCase().includes(searchLower);
-        if (!matchesSearch) return false;
-      }
-
-      // Tax regime filter
-      if (taxRegimeFilter !== "all" && supplier.taxRegime !== taxRegimeFilter) {
-        return false;
-      }
-
-      // Name filter
-      if (
-        debouncedNameFilter &&
-        !supplier.name.toLowerCase().includes(debouncedNameFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // City filter
-      if (
-        debouncedCityFilter &&
-        !supplier.city.toLowerCase().includes(debouncedCityFilter.toLowerCase())
-      ) {
-        return false;
-      }
-
-      // CNPJ filter
-      if (debouncedCnpjFilter && !supplier.cnpj.includes(debouncedCnpjFilter)) {
-        return false;
-      }
-
-      return true;
-    });
-  }, [
-    suppliers,
-    debouncedSearch,
-    taxRegimeFilter,
-    debouncedNameFilter,
-    debouncedCityFilter,
-    debouncedCnpjFilter,
-  ]);
 
   const isSaving = createSupplier.isPending || updateSupplier.isPending;
 
@@ -299,39 +253,40 @@ function SuppliersPageContent() {
           <SearchBar
             ref={searchRef}
             searchPlaceholder={t("searchPlaceholder")}
-            searchValue={search}
-            onSearchChange={setSearch}
-            hasActiveFilters={hasActiveFilters}
+            searchValue={searchInput}
+            onSearchChange={setSearchInput}
+            hasActiveFilters={!!hasActiveFilters}
             onClear={clearFilters}
           >
             <SupplierFilters
-              taxRegimeFilter={taxRegimeFilter}
+              taxRegimeFilter={filters.taxRegime}
               onTaxRegimeFilterChange={setTaxRegimeFilter}
-              onNameFilter={setNameFilter}
+              onNameFilter={() => {}}
               onCityFilter={setCityFilter}
-              onCnpjFilter={setCnpjFilter}
+              onCnpjFilter={() => {}}
               t={t}
             />
           </SearchBar>
 
           <LoadingTransition
-            isLoading={isLoading && !suppliers}
+            ref={animationRef}
+            isLoading={isLoading && !data}
             loadingMessage={tc("loading.default")}
           >
-            {filteredSuppliers?.length === 0 ? (
+            {suppliers.length === 0 ? (
               <EmptyState
-                title={search ? t("empty.noSearchResults") : t("empty.noSuppliers")}
-                description={!search ? t("empty.createFirst") : undefined}
+                title={hasActiveFilters ? t("empty.noSearchResults") : t("empty.noSuppliers")}
+                description={!hasActiveFilters ? t("empty.createFirst") : undefined}
                 action={{
                   label: t("new"),
                   onClick: handleOpenCreate,
                   icon: Plus,
                 }}
-                showAction={!search && canCreate}
+                showAction={!hasActiveFilters && canCreate}
               />
             ) : (
               <div className="grid gap-space-lg sm:grid-cols-2">
-                {filteredSuppliers?.map((supplier) => (
+                {suppliers.map((supplier) => (
                   <SupplierCard
                     key={supplier.id}
                     supplier={supplier}
@@ -344,6 +299,16 @@ function SuppliersPageContent() {
               </div>
             )}
           </LoadingTransition>
+
+          {data && (
+            <DataPagination
+              page={filters.page}
+              totalPages={data.totalPages}
+              total={data.total}
+              limit={limit}
+              onPageChange={setPage}
+            />
+          )}
         </div>
       </PageContainer>
 

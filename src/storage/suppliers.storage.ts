@@ -5,7 +5,7 @@ import {
   type UpdateSupplierSchema,
 } from "@/schema/suppliers.schema";
 import type { SupplierTaxRegime } from "@/schema/suppliers.schema";
-import { and, asc, count, desc, eq, max, SQL } from "drizzle-orm";
+import { and, asc, count, desc, eq, ilike, max, or, SQL } from "drizzle-orm";
 import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
 import { BaseStorage, PaginatedResult, PaginationOptions } from "@/storage/types";
@@ -19,7 +19,12 @@ export interface SupplierFilterOptions {
   cnpj?: string;
 }
 
-export class SuppliersStorage implements BaseStorage<Supplier, InsertSupplierSchema, UpdateSupplierSchema, number> {
+export class SuppliersStorage implements BaseStorage<
+  Supplier,
+  InsertSupplierSchema,
+  UpdateSupplierSchema,
+  number
+> {
   private buildWhereConditions(filters?: SupplierFilterOptions) {
     const conditions: SQL<unknown>[] = [];
 
@@ -39,6 +44,13 @@ export class SuppliersStorage implements BaseStorage<Supplier, InsertSupplierSch
 
     if (filters.taxRegime) {
       conditions.push(eq(tableSuppliers.taxRegime, filters.taxRegime));
+    }
+
+    if (filters.search) {
+      const pattern = `%${filters.search}%`;
+      conditions.push(
+        or(ilike(tableSuppliers.name, pattern), ilike(tableSuppliers.cnpj, pattern))!,
+      );
     }
 
     return conditions;

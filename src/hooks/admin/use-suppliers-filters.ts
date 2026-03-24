@@ -55,7 +55,7 @@ export function useSuppliersFilters() {
     // State
     filters: {
       search: debouncedSearch,
-      taxRegime: (filterState.filters.taxRegime as SupplierTaxRegime) || "all",
+      taxRegime: (filterState.filters.taxRegime as SupplierTaxRegime | undefined) ?? "all",
       city: filterState.filters.city,
       sortBy: filterState.sortBy,
       sortOrder: filterState.sortOrder,
