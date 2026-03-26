@@ -65,7 +65,7 @@
         var(--surface-hue)
     );
     --accent: oklch(
-      calc(var(--lightness-base) + var(--lightness-step) * 2.5) 0.01 var(--primary-hue)
+      calc(var(--lightness-base) + var(--lightness-step) * 8) 0.01 var(--primary-hue)
     );
     --accent-foreground: oklch(
       calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 1) var(--surface-chroma)
@@ -110,7 +110,7 @@
     --sidebar-primary: oklch(0.205 var(--surface-chroma) var(--surface-hue));
     --sidebar-primary-foreground: oklch(0.985 0 0);
     --sidebar-accent: oklch(
-      calc(var(--lightness-base) + var(--lightness-step) * 4) 0.02 var(--primary-hue)
+      calc(var(--lightness-base) + var(--lightness-step) * 7) 0.02 var(--primary-hue)
     );
     --sidebar-accent-foreground: oklch(
       calc(var(--fg-lightness-base) + var(--fg-lightness-step) * 1) var(--surface-chroma)
