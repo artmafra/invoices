@@ -31,15 +31,15 @@ export class SuppliersStorage implements BaseStorage<
     if (!filters) return conditions;
 
     if (filters.city) {
-      conditions.push(eq(tableSuppliers.city, filters.city));
+      conditions.push(ilike(tableSuppliers.city, `%${filters.city}%`));
     }
 
     if (filters.cnpj) {
-      conditions.push(eq(tableSuppliers.cnpj, filters.cnpj));
+      conditions.push(ilike(tableSuppliers.cnpj, `%${filters.cnpj}%`));
     }
 
     if (filters.name) {
-      conditions.push(eq(tableSuppliers.name, filters.name));
+      conditions.push(ilike(tableSuppliers.name, `%${filters.name}%`));
     }
 
     if (filters.taxRegime) {

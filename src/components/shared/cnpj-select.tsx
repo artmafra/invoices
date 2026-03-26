@@ -43,11 +43,11 @@ export function CnpjSelect({
   // Avoid showing stale results while debounce is pending
   const isSearchPending = inputDigits !== debouncedSearch;
 
-  const { data: suppliers, isFetching } = useSuppliers({
+  const { data: suppliersPage, isFetching } = useSuppliers({
     search: debouncedSearch || undefined,
   });
 
-  const suppliersList = suppliers ?? [];
+  const suppliersList = suppliersPage?.data ?? [];
   const showResults = !isSearchPending && !isFetching;
 
   // Sync input value with prop value

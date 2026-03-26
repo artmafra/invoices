@@ -15,11 +15,14 @@ export function useSuppliersFilters() {
   const animationRef = useRef<LoadingTransitionHandle>(null);
 
   // URL-persisted filters and sorting
-  const { state: filterState, actions: filterActions } = useUrlFilters(["taxRegime", "city"], {
-    defaultSortBy: "name",
-    defaultSortOrder: "asc",
-    animationRef,
-  });
+  const { state: filterState, actions: filterActions } = useUrlFilters(
+    ["taxRegime", "city", "name", "cnpj"],
+    {
+      defaultSortBy: "name",
+      defaultSortOrder: "asc",
+      animationRef,
+    },
+  );
 
   // Local search input with debounce (URL updates on debounced value)
   const [searchInput, setSearchInput] = useState(filterState.search);
@@ -57,6 +60,8 @@ export function useSuppliersFilters() {
       search: debouncedSearch,
       taxRegime: (filterState.filters.taxRegime as SupplierTaxRegime | undefined) ?? "all",
       city: filterState.filters.city,
+      name: filterState.filters.name,
+      cnpj: filterState.filters.cnpj,
       sortBy: filterState.sortBy,
       sortOrder: filterState.sortOrder,
       page: filterState.page,
@@ -70,6 +75,8 @@ export function useSuppliersFilters() {
     setTaxRegimeFilter: (value: string) =>
       filterActions.setFilter("taxRegime", value === "all" ? undefined : value),
     setCityFilter: (value: string) => filterActions.setFilter("city", value || undefined),
+    setNameFilter: (value: string) => filterActions.setFilter("name", value || undefined),
+    setCnpjFilter: (value: string) => filterActions.setFilter("cnpj", value || undefined),
     setSort: filterActions.setSort,
     setPage: filterActions.setPage,
     clearFilters: () => {

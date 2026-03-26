@@ -53,6 +53,8 @@ export const useSuppliers = (
       params.set("limit", limit.toString());
 
       if (filters.search) params.set("search", filters.search);
+      if (filters.cnpj) params.set("cnpj", filters.cnpj);
+      if (filters.name) params.set("name", filters.name);
       if (filters.city) params.set("city", filters.city);
       if (filters.taxRegime) params.set("taxRegime", filters.taxRegime);
 

@@ -28,7 +28,7 @@ export const getSuppliersQuerySchema = baseQuerySchema.extend({
   taxRegime: supplierTaxRegimeSchema.optional(),
   city: z.string().optional(),
   name: z.string().optional(),
-  cnpj: z.string().length(14).optional(),
+  cnpj: z.string().max(18).optional(),
 });
 
 // ========================================

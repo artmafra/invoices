@@ -146,6 +146,8 @@ function SuppliersPageContent() {
     setSearchInput,
     setTaxRegimeFilter,
     setCityFilter,
+    setNameFilter,
+    setCnpjFilter,
     setPage,
     clearFilters,
     hasActiveFilters,
@@ -161,6 +163,8 @@ function SuppliersPageContent() {
           ? (filters.taxRegime as SupplierTaxRegime)
           : undefined,
       city: filters.city || undefined,
+      name: filters.name || undefined,
+      cnpj: filters.cnpj || undefined,
     },
     filters.page,
     limit,
@@ -261,9 +265,9 @@ function SuppliersPageContent() {
             <SupplierFilters
               taxRegimeFilter={filters.taxRegime}
               onTaxRegimeFilterChange={setTaxRegimeFilter}
-              onNameFilter={() => {}}
+              onNameFilter={setNameFilter}
               onCityFilter={setCityFilter}
-              onCnpjFilter={() => {}}
+              onCnpjFilter={setCnpjFilter}
               t={t}
             />
           </SearchBar>
