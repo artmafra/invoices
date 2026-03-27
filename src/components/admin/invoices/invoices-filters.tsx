@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { CalendarIcon, X } from "lucide-react";
 import type { useTranslations } from "next-intl";
 import { useTranslations as useT } from "next-intl";
@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { SearchBarFilterSelect } from "@/components/shared/search-bar";
 import { Button } from "@/components/ui/button";
+import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
@@ -46,6 +47,10 @@ export function InvoicesFilters({
   const [activeFilter, setActiveFilter] = useState<
     "supplierCnpj" | "serviceCode" | "issueDate" | "dueDate" | null
   >(null);
+  const lastActiveFilter = useRef<"supplierCnpj" | "serviceCode" | "issueDate" | "dueDate" | null>(
+    null,
+  );
+  if (activeFilter !== null) lastActiveFilter.current = activeFilter;
 
   const [issueDateRange, setIssueDateRange] = useState<DateRange>({});
   const [dueDateRange, setDueDateRange] = useState<DateRange>({});
@@ -141,188 +146,194 @@ export function InvoicesFilters({
       </div>
 
       {/* ROW 2: active filter input + clear button */}
-      {activeFilter === "supplierCnpj" && (
-        <div className="flex items-center gap-space-md">
-          <Input
-            autoFocus
-            placeholder={t("fields.supplierCnpjPlaceholder")}
-            value={supplierCnpjValue}
-            onChange={(e) => {
-              setSupplierCnpjValue(e.target.value);
-              onSupplierCnpjFilter(e.target.value);
-            }}
-            maxLength={14}
-            className="w-full sm:w-64"
-          />
-          {hasActiveFilters && onClear && (
-            <Button variant="secondary" onClick={handleClear}>
-              <X className="h-4 w-4" />
-              {tCommon("buttons.clear")}
-            </Button>
-          )}
-        </div>
-      )}
+      <Collapsible open={activeFilter !== null}>
+        <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden">
+          <div className="pt-space-sm">
+            {lastActiveFilter.current === "supplierCnpj" && (
+              <div className="flex items-center gap-space-md">
+                <Input
+                  autoFocus
+                  placeholder={t("fields.supplierCnpjPlaceholder")}
+                  value={supplierCnpjValue}
+                  onChange={(e) => {
+                    setSupplierCnpjValue(e.target.value);
+                    onSupplierCnpjFilter(e.target.value);
+                  }}
+                  maxLength={14}
+                  className="w-full sm:w-64"
+                />
+                {hasActiveFilters && onClear && (
+                  <Button variant="secondary" onClick={handleClear}>
+                    <X className="h-4 w-4" />
+                    {tCommon("buttons.clear")}
+                  </Button>
+                )}
+              </div>
+            )}
 
-      {activeFilter === "serviceCode" && (
-        <div className="flex items-center gap-space-md">
-          <Input
-            autoFocus
-            placeholder={t("fields.serviceCodePlaceholder")}
-            value={serviceCodeValue}
-            onChange={(e) => {
-              setServiceCodeValue(e.target.value);
-              onServiceCodeFilter(e.target.value);
-            }}
-            className="w-full sm:w-64"
-          />
-          {hasActiveFilters && onClear && (
-            <Button variant="secondary" onClick={handleClear}>
-              <X className="h-4 w-4" />
-              {tCommon("buttons.clear")}
-            </Button>
-          )}
-        </div>
-      )}
+            {lastActiveFilter.current === "serviceCode" && (
+              <div className="flex items-center gap-space-md">
+                <Input
+                  autoFocus
+                  placeholder={t("fields.serviceCodePlaceholder")}
+                  value={serviceCodeValue}
+                  onChange={(e) => {
+                    setServiceCodeValue(e.target.value);
+                    onServiceCodeFilter(e.target.value);
+                  }}
+                  className="w-full sm:w-64"
+                />
+                {hasActiveFilters && onClear && (
+                  <Button variant="secondary" onClick={handleClear}>
+                    <X className="h-4 w-4" />
+                    {tCommon("buttons.clear")}
+                  </Button>
+                )}
+              </div>
+            )}
 
-      {activeFilter === "issueDate" && (
-        <div className="flex items-center gap-space-md flex-wrap">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full pl-space-md text-left font-normal sm:w-64",
-                  !issueDateRange.from && "text-muted-foreground",
-                )}
-              >
-                {issueDateRange.from ? (
-                  issueDateRange.from.toLocaleDateString("pt-BR")
-                ) : (
-                  <span>{"De"}</span>
-                )}
-                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <LazyCalendar
-                mode="single"
-                selected={issueDateRange.from}
-                onSelect={handleIssueDateSelect}
-                disabled={(date) => date < new Date("1900-01-01")}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+            {lastActiveFilter.current === "issueDate" && (
+              <div className="flex items-center gap-space-md flex-wrap">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full pl-space-md text-left font-normal sm:w-64",
+                        !issueDateRange.from && "text-muted-foreground",
+                      )}
+                    >
+                      {issueDateRange.from ? (
+                        issueDateRange.from.toLocaleDateString("pt-BR")
+                      ) : (
+                        <span>{"De"}</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <LazyCalendar
+                      mode="single"
+                      selected={issueDateRange.from}
+                      onSelect={handleIssueDateSelect}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full pl-space-md text-left font-normal sm:w-64",
-                  !issueDateRange.to && "text-muted-foreground",
-                )}
-              >
-                {issueDateRange.to ? (
-                  issueDateRange.to.toLocaleDateString("pt-BR")
-                ) : (
-                  <span>{"Até"}</span>
-                )}
-                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <LazyCalendar
-                mode="single"
-                selected={issueDateRange.to}
-                onSelect={(date) => {
-                  setIssueDateRange({ from: issueDateRange.from, to: date });
-                  onIssueDateRange({ from: issueDateRange.from, to: date });
-                }}
-                disabled={(date) => date < new Date("1900-01-01")}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full pl-space-md text-left font-normal sm:w-64",
+                        !issueDateRange.to && "text-muted-foreground",
+                      )}
+                    >
+                      {issueDateRange.to ? (
+                        issueDateRange.to.toLocaleDateString("pt-BR")
+                      ) : (
+                        <span>{"Até"}</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <LazyCalendar
+                      mode="single"
+                      selected={issueDateRange.to}
+                      onSelect={(date) => {
+                        setIssueDateRange({ from: issueDateRange.from, to: date });
+                        onIssueDateRange({ from: issueDateRange.from, to: date });
+                      }}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
 
-          {hasActiveFilters && onClear && (
-            <Button variant="secondary" onClick={handleClear}>
-              <X className="h-4 w-4" />
-              {tCommon("buttons.clear")}
-            </Button>
-          )}
-        </div>
-      )}
+                {hasActiveFilters && onClear && (
+                  <Button variant="secondary" onClick={handleClear}>
+                    <X className="h-4 w-4" />
+                    {tCommon("buttons.clear")}
+                  </Button>
+                )}
+              </div>
+            )}
 
-      {activeFilter === "dueDate" && (
-        <div className="flex items-center gap-space-md flex-wrap">
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full pl-space-md text-left font-normal sm:w-64",
-                  !dueDateRange.from && "text-muted-foreground",
-                )}
-              >
-                {dueDateRange.from ? (
-                  dueDateRange.from.toLocaleDateString("pt-BR")
-                ) : (
-                  <span>{t("dates.from")}</span>
-                )}
-                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <LazyCalendar
-                mode="single"
-                selected={dueDateRange.from}
-                onSelect={handleDueDateSelect}
-                disabled={(date) => date < new Date("1900-01-01")}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+            {lastActiveFilter.current === "dueDate" && (
+              <div className="flex items-center gap-space-md flex-wrap">
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full pl-space-md text-left font-normal sm:w-64",
+                        !dueDateRange.from && "text-muted-foreground",
+                      )}
+                    >
+                      {dueDateRange.from ? (
+                        dueDateRange.from.toLocaleDateString("pt-BR")
+                      ) : (
+                        <span>{t("dates.from")}</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <LazyCalendar
+                      mode="single"
+                      selected={dueDateRange.from}
+                      onSelect={handleDueDateSelect}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
 
-          <Popover>
-            <PopoverTrigger asChild>
-              <Button
-                variant="outline"
-                className={cn(
-                  "w-full pl-space-md text-left font-normal sm:w-64",
-                  !dueDateRange.to && "text-muted-foreground",
-                )}
-              >
-                {dueDateRange.to ? (
-                  dueDateRange.to.toLocaleDateString("pt-BR")
-                ) : (
-                  <span>{t("dates.to")}</span>
-                )}
-                <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-              </Button>
-            </PopoverTrigger>
-            <PopoverContent className="w-auto p-0" align="start">
-              <LazyCalendar
-                mode="single"
-                selected={dueDateRange.to}
-                onSelect={(date) => {
-                  setDueDateRange({ from: dueDateRange.from, to: date });
-                  onDueDateRange({ from: dueDateRange.from, to: date });
-                }}
-                disabled={(date) => date < new Date("1900-01-01")}
-                initialFocus
-              />
-            </PopoverContent>
-          </Popover>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className={cn(
+                        "w-full pl-space-md text-left font-normal sm:w-64",
+                        !dueDateRange.to && "text-muted-foreground",
+                      )}
+                    >
+                      {dueDateRange.to ? (
+                        dueDateRange.to.toLocaleDateString("pt-BR")
+                      ) : (
+                        <span>{t("dates.to")}</span>
+                      )}
+                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0" align="start">
+                    <LazyCalendar
+                      mode="single"
+                      selected={dueDateRange.to}
+                      onSelect={(date) => {
+                        setDueDateRange({ from: dueDateRange.from, to: date });
+                        onDueDateRange({ from: dueDateRange.from, to: date });
+                      }}
+                      disabled={(date) => date < new Date("1900-01-01")}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
 
-          {hasActiveFilters && onClear && (
-            <Button variant="secondary" onClick={handleClear}>
-              <X className="h-4 w-4" />
-              {tCommon("buttons.clear")}
-            </Button>
-          )}
-        </div>
-      )}
+                {hasActiveFilters && onClear && (
+                  <Button variant="secondary" onClick={handleClear}>
+                    <X className="h-4 w-4" />
+                    {tCommon("buttons.clear")}
+                  </Button>
+                )}
+              </div>
+            )}
+          </div>
+        </CollapsibleContent>
+      </Collapsible>
     </div>
   );
 }

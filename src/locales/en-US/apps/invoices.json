@@ -6,7 +6,7 @@
     "suppliers": "Suppliers",
     "services": "Services"
   },
-  "searchPlaceholder": "Search invoices...",
+  "searchPlaceholder": "Search for invoice by number...",
   "new": "New",
   "editTitle": "Edit Invoice",
   "newTitle": "New Invoice",

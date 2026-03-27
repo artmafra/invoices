@@ -6,7 +6,7 @@
     "suppliers": "Fornecedores",
     "services": "Serviços"
   },
-  "searchPlaceholder": "Pesquisar notas fiscais...",
+  "searchPlaceholder": "Pesquisar nota fiscal pelo número...",
   "new": "Nova",
   "editTitle": "Editar Nota Fiscal",
   "newTitle": "Nova Nota Fiscal",
