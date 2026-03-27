@@ -425,7 +425,7 @@
       "avatar": "Avatar",
       "status": "Status",
       "active": "Ativo",
-      "dueDate": "Data de vencimento",
+      "dueDate": "Data de Vencimento",
       "priority": "Prioridade",
       "assignee": "Responsável",
       "list": "Lista",
@@ -448,7 +448,28 @@
       "os": "Sistema operacional",
       "deviceType": "Tipo de dispositivo",
       "city": "Cidade",
-      "country": "País"
+      "country": "País",
+      "supplierCnpj": "CNPJ do Fornecedor",
+      "serviceCode": "Código de Serviço",
+      "valueCents": "Valor da Nota Fiscal",
+      "netAmountCents": "Valor Líquido",
+      "invoiceNumber": "Número da Nota Fiscal",
+      "issueDate": "Data de Emissão",
+      "entryDate": "Data de Entrada",
+      "materialDeductionCents": "Dedução Material",
+      "dates": "Datas",
+      "taxes": "Impostos",
+      "inssPercent": "INSS %",
+      "csPercent": "CS %",
+      "issqnPercent": "ISSQN %",
+      "taxRegime": "Regime Tributário"
+    },
+    "fieldValues": {
+      "invoiceStatus": {
+        "issued": "Emitida",
+        "paid": "Paga",
+        "cancelled": "Cancelada"
+      }
     },
     "verbs": {
       "create": "Criou",
@@ -483,7 +504,10 @@
       "settings": "configuração",
       "invitations": "convite",
       "integration": "integração",
-      "cloud_storage": "arquivo"
+      "cloud_storage": "arquivo",
+      "invoices": "nota fiscal",
+      "invoice_services": "código de serviço",
+      "invoice_suppliers": "fornecedor"
     },
     "noActivity": "Nenhuma atividade para exibir"
   },

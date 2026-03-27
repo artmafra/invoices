@@ -101,7 +101,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
   if (changes.length > 0) {
     await activityService.logUpdate(
       session,
-      "invoices",
+      "invoice_suppliers",
       { type: "supplier", id: supplier.id.toString(), name: supplier.name },
       changes,
     );
@@ -143,7 +143,7 @@ export const DELETE = withErrorHandler(async (_request: NextRequest, { params }:
     throw err;
   }
 
-  await activityService.logDelete(session, "invoices", {
+  await activityService.logDelete(session, "invoice_suppliers", {
     type: "supplier",
     id: existingSupplier.id.toString(),
     name: existingSupplier.name,

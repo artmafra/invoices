@@ -449,7 +449,28 @@
       "os": "OS",
       "deviceType": "Device type",
       "city": "City",
-      "country": "Country"
+      "country": "Country",
+      "supplierCnpj": "Supplier CNPJ",
+      "serviceCode": "Service Code",
+      "valueCents": "Invoice Value",
+      "netAmountCents": "Net Amount",
+      "invoiceNumber": "Invoice Number",
+      "issueDate": "Issue Date",
+      "entryDate": "Entry Date",
+      "materialDeductionCents": "Material Deduction",
+      "dates": "Dates",
+      "taxes": "Taxes",
+      "inssPercent": "INSS %",
+      "csPercent": "CS %",
+      "issqnPercent": "ISSQN %",
+      "taxRegime": "Tax Regime"
+    },
+    "fieldValues": {
+      "invoiceStatus": {
+        "issued": "Issued",
+        "paid": "Paid",
+        "cancelled": "Cancelled"
+      }
     },
     "verbs": {
       "create": "Created",
@@ -484,7 +505,10 @@
       "settings": "setting",
       "invitations": "invitation",
       "integration": "integration",
-      "cloud_storage": "file"
+      "cloud_storage": "file",
+      "invoices": "invoice",
+      "invoice_services": "service code",
+      "invoice_suppliers": "supplier"
     },
     "noActivity": "No activity to display"
   },

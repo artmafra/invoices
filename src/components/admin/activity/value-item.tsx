@@ -87,6 +87,37 @@ export function ValueItem({ field, value }: ValueItemProps) {
     );
   }
 
+  // Handle invoice status - translate the value
+  if (field === "status" && typeof value === "string") {
+    const statusKey = `fieldValues.invoiceStatus.${value}` as Parameters<typeof t>[0];
+    const translatedStatus = t.has(statusKey) ? t(statusKey) : value;
+    return (
+      <div className="text-sm flex items-center gap-space-sm">
+        <span>{fieldLabel}:</span>
+        <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">
+          {translatedStatus}
+        </code>
+      </div>
+    );
+  }
+
+  // Handle monetary (cents) fields - format as currency
+  const CENTS_FIELDS = ["valueCents", "netAmountCents", "materialDeductionCents"];
+  if (CENTS_FIELDS.includes(field) && typeof value === "number") {
+    const formatted = (value / 100).toLocaleString("pt-BR", {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    });
+    return (
+      <div className="text-sm flex items-center gap-space-sm">
+        <span>{fieldLabel}:</span>
+        <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">
+          {formatted}
+        </code>
+      </div>
+    );
+  }
+
   // Handle arrays (like permissions)
   if (Array.isArray(value)) {
     return (
@@ -138,6 +169,24 @@ export function ValueItem({ field, value }: ValueItemProps) {
         <span>{fieldLabel}:</span>
         <div className="mt-space-xs">
           <ImageThumbnail url={value} />
+        </div>
+      </div>
+    );
+  }
+
+  // Handle plain objects - render as nested sub-items
+  if (typeof value === "object") {
+    const entries = Object.entries(value as Record<string, unknown>).filter(
+      ([, v]) => v !== null && v !== undefined,
+    );
+    if (entries.length === 0) return null;
+    return (
+      <div className="text-sm space-y-space-xs">
+        <span>{fieldLabel}:</span>
+        <div className="pl-space-md space-y-space-xs border-l border-border ml-space-xs mt-space-xs">
+          {entries.map(([subField, subValue]) => (
+            <ValueItem key={subField} field={subField} value={subValue} />
+          ))}
         </div>
       </div>
     );

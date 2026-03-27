@@ -55,12 +55,25 @@ function useFieldLabel(field: string) {
 /**
  * Render a formatted value with special styling for empty strings
  */
-function FormattedValue({ value }: { value: ReturnType<typeof formatValue> }) {
+function FormattedValue({
+  value,
+  field,
+}: {
+  value: ReturnType<typeof formatValue>;
+  field?: string;
+}) {
   const t = useTranslations("system.activity");
 
   if (typeof value === "object" && value.empty) {
     return <span className="italic text-muted-foreground">{t("fields.emptyValue")}</span>;
   }
+
+  // Translate invoice status values
+  if (field === "status" && typeof value === "string") {
+    const statusKey = `fieldValues.invoiceStatus.${value}` as Parameters<typeof t>[0];
+    return <>{t.has(statusKey) ? t(statusKey) : value}</>;
+  }
+
   return <>{value}</>;
 }
 
@@ -135,16 +148,37 @@ export function ChangeItem({ change }: ChangeItemProps) {
     );
   }
 
+  // Handle monetary (cents) fields - format as currency
+  const CENTS_FIELDS = ["valueCents", "netAmountCents", "materialDeductionCents"];
+  if (CENTS_FIELDS.includes(change.field)) {
+    const formatCents = (v: unknown) =>
+      typeof v === "number"
+        ? (v / 100).toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+        : String(v ?? "");
+    return (
+      <div className="text-sm flex items-center gap-space-sm flex-wrap">
+        <span className="text-muted-foreground">{fieldLabel}:</span>
+        <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-destructive">
+          {formatCents(change.from)}
+        </code>
+        <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
+        <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">
+          {formatCents(change.to)}
+        </code>
+      </div>
+    );
+  }
+
   // Handle from/to value changes
   return (
     <div className="text-sm flex items-center gap-space-sm flex-wrap">
       <span className="text-muted-foreground">{fieldLabel}:</span>
       <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-destructive">
-        <FormattedValue value={formatValue(change.from)} />
+        <FormattedValue value={formatValue(change.from)} field={change.field} />
       </code>
       <ArrowRight className="h-3 w-3 text-muted-foreground shrink-0" />
       <code className="bg-muted px-space-xs py-space-xs rounded text-xs text-success">
-        <FormattedValue value={formatValue(change.to)} />
+        <FormattedValue value={formatValue(change.to)} field={change.field} />
       </code>
     </div>
   );

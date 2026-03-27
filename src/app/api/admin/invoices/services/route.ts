@@ -65,12 +65,12 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
   await activityService.logCreate(
     session,
-    "invoices",
-    { type: "service", id: service.id, name: service.description },
+    "invoice_services",
+    { type: "service", id: service.id, name: service.code },
     {
       metadata: {
-        code: service.code,
         description: service.description,
+        obs: service.obs,
       },
     },
   );

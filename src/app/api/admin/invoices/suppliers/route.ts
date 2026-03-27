@@ -88,13 +88,12 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
   await activityService.logCreate(
     session,
-    "invoices",
-    { type: "supplier", id: supplier.id.toString(), name: supplier.name },
+    "invoice_suppliers",
+    { type: "supplier", id: supplier.id.toString(), name: supplier.cnpj },
     {
       metadata: {
-        id: supplier.id,
-        cnpj: supplier.cnpj,
         name: supplier.name,
+        cnpj: supplier.cnpj,
         city: supplier.city,
         taxRegime: supplier.taxRegime,
       },

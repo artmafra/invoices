@@ -116,17 +116,13 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
         netAmountCents: invoice.netAmountCents,
         materialDeductionCents: invoice.materialDeductionCents,
 
-        dates: {
-          issueDate: invoice.issueDate,
-          dueDate: invoice.dueDate,
-          entryDate: invoice.entryDate,
-        },
+        issueDate: invoice.issueDate,
+        dueDate: invoice.dueDate,
+        entryDate: invoice.entryDate,
 
-        taxes: {
-          inssPercent: validation.data.inssPercent ?? null,
-          csPercent: validation.data.csPercent ?? null,
-          issqnPercent: validation.data.issqnPercent ?? null,
-        },
+        inssPercent: validation.data.inssPercent ?? null,
+        csPercent: validation.data.csPercent ?? null,
+        issqnPercent: validation.data.issqnPercent ?? null,
       },
     },
   );
