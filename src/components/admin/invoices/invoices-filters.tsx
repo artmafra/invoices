@@ -1,8 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, X } from "lucide-react";
 import type { useTranslations } from "next-intl";
+import { useTranslations as useT } from "next-intl";
 import { cn } from "@/lib/utils";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { SearchBarFilterSelect } from "@/components/shared/search-bar";
@@ -24,6 +25,9 @@ export interface InvoicesFiltersProps {
   onIssueDateRange: (value: DateRange) => void;
   onDueDateRange: (value: DateRange) => void;
 
+  hasActiveFilters?: boolean;
+  onClear?: () => void;
+
   t: ReturnType<typeof useTranslations<"apps/invoices">>;
 }
 
@@ -34,14 +38,27 @@ export function InvoicesFilters({
   onServiceCodeFilter,
   onIssueDateRange,
   onDueDateRange,
+  hasActiveFilters,
+  onClear,
   t,
 }: InvoicesFiltersProps) {
+  const tCommon = useT("common");
   const [activeFilter, setActiveFilter] = useState<
     "supplierCnpj" | "serviceCode" | "issueDate" | "dueDate" | null
   >(null);
 
   const [issueDateRange, setIssueDateRange] = useState<DateRange>({});
   const [dueDateRange, setDueDateRange] = useState<DateRange>({});
+  const [supplierCnpjValue, setSupplierCnpjValue] = useState("");
+  const [serviceCodeValue, setServiceCodeValue] = useState("");
+
+  const handleClear = () => {
+    setSupplierCnpjValue("");
+    setServiceCodeValue("");
+    setIssueDateRange({});
+    setDueDateRange({});
+    onClear?.();
+  };
 
   const handleIssueDateSelect = (date: Date | undefined) => {
     if (!issueDateRange.from) {
@@ -70,77 +87,105 @@ export function InvoicesFilters({
   };
 
   return (
-    <>
-      {/* STATUS */}
-      <SearchBarFilterSelect
-        label={t("fields.status")}
-        value={statusFilter === "all" ? undefined : statusFilter}
-        onValueChange={(v) => onStatusFilterChange(v ?? "all")}
-        anyLabel={t("allStatus")}
-        options={[
-          { value: "issued", label: t("status.issued") },
-          { value: "paid", label: t("status.paid") },
-          { value: "cancelled", label: t("status.cancelled") },
-        ]}
-      />
-
-      {/* SUPPLIER CNPJ */}
-      <Button
-        size="sm"
-        variant={activeFilter === "supplierCnpj" ? "default" : "outline"}
-        onClick={() => setActiveFilter((f) => (f === "supplierCnpj" ? null : "supplierCnpj"))}
-      >
-        {t("fields.supplierCnpj")}
-      </Button>
-
-      {/* SERVICE CODE */}
-      <Button
-        size="sm"
-        variant={activeFilter === "serviceCode" ? "default" : "outline"}
-        onClick={() => setActiveFilter((f) => (f === "serviceCode" ? null : "serviceCode"))}
-      >
-        {t("fields.serviceCode")}
-      </Button>
-
-      {/* ISSUE DATE */}
-      <Button
-        size="sm"
-        variant={activeFilter === "issueDate" ? "default" : "outline"}
-        onClick={() => setActiveFilter((f) => (f === "issueDate" ? null : "issueDate"))}
-      >
-        {t("fields.issueDate")}
-      </Button>
-
-      {/* DUE DATE */}
-      <Button
-        size="sm"
-        variant={activeFilter === "dueDate" ? "default" : "outline"}
-        onClick={() => setActiveFilter((f) => (f === "dueDate" ? null : "dueDate"))}
-      >
-        {t("fields.dueDate")}
-      </Button>
-
-      {/* ACTIVE FILTER INPUT */}
-      {activeFilter === "supplierCnpj" && (
-        <Input
-          autoFocus
-          placeholder={t("fields.supplierCnpjPlaceholder")}
-          onChange={(e) => onSupplierCnpjFilter(e.target.value)}
-          className="w-full sm:w-64"
+    <div className="flex flex-col w-full gap-space-md">
+      {/* ROW 1: filter buttons */}
+      <div className="flex flex-wrap items-end gap-space-md">
+        {/* STATUS */}
+        <SearchBarFilterSelect
+          label={t("fields.status")}
+          value={statusFilter === "all" ? undefined : statusFilter}
+          onValueChange={(v) => onStatusFilterChange(v ?? "all")}
+          anyLabel={t("allStatus")}
+          options={[
+            { value: "issued", label: t("status.issued") },
+            { value: "paid", label: t("status.paid") },
+            { value: "cancelled", label: t("status.cancelled") },
+          ]}
         />
+
+        {/* SUPPLIER CNPJ */}
+        <Button
+          size="sm"
+          variant={activeFilter === "supplierCnpj" ? "default" : "outline"}
+          onClick={() => setActiveFilter((f) => (f === "supplierCnpj" ? null : "supplierCnpj"))}
+        >
+          {t("fields.supplierCnpj")}
+        </Button>
+
+        {/* SERVICE CODE */}
+        <Button
+          size="sm"
+          variant={activeFilter === "serviceCode" ? "default" : "outline"}
+          onClick={() => setActiveFilter((f) => (f === "serviceCode" ? null : "serviceCode"))}
+        >
+          {t("fields.serviceCode")}
+        </Button>
+
+        {/* ISSUE DATE */}
+        <Button
+          size="sm"
+          variant={activeFilter === "issueDate" ? "default" : "outline"}
+          onClick={() => setActiveFilter((f) => (f === "issueDate" ? null : "issueDate"))}
+        >
+          {t("fields.issueDate")}
+        </Button>
+
+        {/* DUE DATE */}
+        <Button
+          size="sm"
+          variant={activeFilter === "dueDate" ? "default" : "outline"}
+          onClick={() => setActiveFilter((f) => (f === "dueDate" ? null : "dueDate"))}
+        >
+          {t("fields.dueDate")}
+        </Button>
+      </div>
+
+      {/* ROW 2: active filter input + clear button */}
+      {activeFilter === "supplierCnpj" && (
+        <div className="flex items-center gap-space-md">
+          <Input
+            autoFocus
+            placeholder={t("fields.supplierCnpjPlaceholder")}
+            value={supplierCnpjValue}
+            onChange={(e) => {
+              setSupplierCnpjValue(e.target.value);
+              onSupplierCnpjFilter(e.target.value);
+            }}
+            maxLength={14}
+            className="w-full sm:w-64"
+          />
+          {hasActiveFilters && onClear && (
+            <Button variant="secondary" onClick={handleClear}>
+              <X className="h-4 w-4" />
+              {tCommon("buttons.clear")}
+            </Button>
+          )}
+        </div>
       )}
 
       {activeFilter === "serviceCode" && (
-        <Input
-          autoFocus
-          placeholder={t("fields.serviceCodePlaceholder")}
-          onChange={(e) => onServiceCodeFilter(e.target.value)}
-          className="w-full sm:w-64"
-        />
+        <div className="flex items-center gap-space-md">
+          <Input
+            autoFocus
+            placeholder={t("fields.serviceCodePlaceholder")}
+            value={serviceCodeValue}
+            onChange={(e) => {
+              setServiceCodeValue(e.target.value);
+              onServiceCodeFilter(e.target.value);
+            }}
+            className="w-full sm:w-64"
+          />
+          {hasActiveFilters && onClear && (
+            <Button variant="secondary" onClick={handleClear}>
+              <X className="h-4 w-4" />
+              {tCommon("buttons.clear")}
+            </Button>
+          )}
+        </div>
       )}
 
       {activeFilter === "issueDate" && (
-        <div className="flex gap-space-md">
+        <div className="flex items-center gap-space-md flex-wrap">
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -199,11 +244,18 @@ export function InvoicesFilters({
               />
             </PopoverContent>
           </Popover>
+
+          {hasActiveFilters && onClear && (
+            <Button variant="secondary" onClick={handleClear}>
+              <X className="h-4 w-4" />
+              {tCommon("buttons.clear")}
+            </Button>
+          )}
         </div>
       )}
 
       {activeFilter === "dueDate" && (
-        <div className="flex gap-space-md">
+        <div className="flex items-center gap-space-md flex-wrap">
           <Popover>
             <PopoverTrigger asChild>
               <Button
@@ -262,8 +314,15 @@ export function InvoicesFilters({
               />
             </PopoverContent>
           </Popover>
+
+          {hasActiveFilters && onClear && (
+            <Button variant="secondary" onClick={handleClear}>
+              <X className="h-4 w-4" />
+              {tCommon("buttons.clear")}
+            </Button>
+          )}
         </div>
       )}
-    </>
+    </div>
   );
 }

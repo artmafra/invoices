@@ -175,7 +175,6 @@ export function InvoicesPageContent() {
               searchValue={searchInput}
               onSearchChange={setSearchInput}
               hasActiveFilters={hasActiveFilters}
-              onClear={clearFilters}
             >
               <InvoicesFilters
                 statusFilter={filters.status}
@@ -194,6 +193,8 @@ export function InvoicesPageContent() {
                     to ? to.toISOString() : undefined,
                   )
                 }
+                hasActiveFilters={hasActiveFilters}
+                onClear={clearFilters}
                 t={t}
               />
             </SearchBar>

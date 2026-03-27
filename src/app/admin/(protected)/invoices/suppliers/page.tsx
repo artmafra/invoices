@@ -260,7 +260,6 @@ function SuppliersPageContent() {
             searchValue={searchInput}
             onSearchChange={setSearchInput}
             hasActiveFilters={!!hasActiveFilters}
-            onClear={clearFilters}
           >
             <SupplierFilters
               taxRegimeFilter={filters.taxRegime}
@@ -269,6 +268,8 @@ function SuppliersPageContent() {
               onCityFilter={setCityFilter}
               onCnpjFilter={setCnpjFilter}
               t={t}
+              hasActiveFilters={!!hasActiveFilters}
+              onClear={clearFilters}
             />
           </SearchBar>
 
