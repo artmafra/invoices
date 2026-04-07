@@ -13,6 +13,7 @@ import { paginate } from "./helpers/pagination";
 
 export interface SupplierFilterOptions {
   search?: string;
+  companyId?: string;
   city?: string;
   taxRegime?: SupplierTaxRegime;
   name?: string;
@@ -23,12 +24,16 @@ export class SuppliersStorage implements BaseStorage<
   Supplier,
   InsertSupplierSchema,
   UpdateSupplierSchema,
-  number
+  string
 > {
   private buildWhereConditions(filters?: SupplierFilterOptions) {
     const conditions: SQL<unknown>[] = [];
 
     if (!filters) return conditions;
+
+    if (filters.companyId) {
+      conditions.push(eq(tableSuppliers.companyId, filters.companyId));
+    }
 
     if (filters.city) {
       conditions.push(ilike(tableSuppliers.city, `%${filters.city}%`));
@@ -137,7 +142,7 @@ export class SuppliersStorage implements BaseStorage<
     return result[0];
   }
 
-  async update(id: number, data: UpdateSupplierSchema) {
+  async update(id: string, data: UpdateSupplierSchema) {
     const result = await db
       .update(tableSuppliers)
       .set({
@@ -149,12 +154,12 @@ export class SuppliersStorage implements BaseStorage<
     return result[0];
   }
 
-  async delete(id: number) {
+  async delete(id: string) {
     await db.delete(tableSuppliers).where(eq(tableSuppliers.id, id)).returning();
     return true;
   }
 
-  async findById(id: number) {
+  async findById(id: string) {
     return await db
       .select()
       .from(tableSuppliers)

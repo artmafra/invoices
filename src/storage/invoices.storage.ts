@@ -15,6 +15,7 @@ import { paginate } from "./helpers/pagination";
 
 export interface InvoiceFilterOptions {
   search?: string;
+  companyId?: string;
   status?: InvoiceStatus;
   supplierCnpj?: string;
   serviceCode?: string;
@@ -52,6 +53,10 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     // Status
     if (filters.status) {
       conditions.push(eq(tableInvoices.status, filters.status));
+    }
+
+    if (filters.companyId) {
+      conditions.push(eq(tableInvoices.companyId, filters.companyId));
     }
 
     // Supplier (partial match — user may type a partial CNPJ)

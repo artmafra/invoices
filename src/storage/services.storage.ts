@@ -4,47 +4,72 @@ import {
   type Service,
   type UpdateServiceSchema,
 } from "@/schema/services.schema";
-import { asc, count, eq, ilike, or, sql } from "drizzle-orm";
+import { and, asc, count, eq, ilike, or, sql } from "drizzle-orm";
 import { db } from "@/db/postgres";
 import type { BaseStorage, PaginatedResult } from "@/storage/types";
+
+export interface ServiceFilterOptions {
+  search?: string;
+  companyId?: string;
+}
 
 export class ServicesStorage implements BaseStorage<
   Service,
   InsertServiceSchema,
   UpdateServiceSchema
 > {
-  async findMany() {
-    return await db
+  async findMany(filters: ServiceFilterOptions = {}) {
+    const conditions = [];
+
+    if (filters.companyId) {
+      conditions.push(eq(tableServices.companyId, filters.companyId));
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const query = db
       .select()
       .from(tableServices)
       .orderBy(
         sql`CAST(substring(${tableServices.code} from '^[0-9]+') AS INTEGER)`,
         asc(tableServices.code),
       );
+
+    return whereClause ? query.where(whereClause) : query;
   }
 
   async findManyPaginated(
-    filters: { search?: string } = {},
+    filters: ServiceFilterOptions = {},
     page: number = 1,
     limit: number = 20,
   ): Promise<PaginatedResult<Service>> {
-    const whereConditions = filters.search
-      ? or(
+    const conditions = [];
+
+    if (filters.companyId) {
+      conditions.push(eq(tableServices.companyId, filters.companyId));
+    }
+
+    if (filters.search) {
+      conditions.push(
+        or(
           ilike(tableServices.code, `%${filters.search}%`),
           ilike(tableServices.description, `%${filters.search}%`),
-        )
-      : undefined;
+        )!,
+      );
+    }
+
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
 
     const [totalResult, data] = await Promise.all([
       db
         .select({ count: count() })
         .from(tableServices)
-        .where(whereConditions)
+        .where(whereClause)
         .then((r) => r[0].count),
       db
         .select()
         .from(tableServices)
-        .where(whereConditions)
+        .where(whereClause)
         .orderBy(
           sql`CAST(substring(${tableServices.code} from '^[0-9]+') AS INTEGER)`,
           asc(tableServices.code),
