@@ -1,12 +1,16 @@
-import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
+import { tableCompanies } from "./companies.schema";
 
 export const SUPPLIER_TAX_REGIME = ["sn", "n", "mei"] as const;
 export type SupplierTaxRegime = (typeof SUPPLIER_TAX_REGIME)[number];
 
 export const tableSuppliers = pgTable("suppliers", {
-  id: serial("id").primaryKey(),
+  id: uuid("id").primaryKey(),
+  companyId: uuid("company_id")
+    .notNull()
+    .references(() => tableCompanies.id),
   cnpj: text("cnpj").notNull().unique(),
   name: text("name").notNull(),
   city: text("city").notNull(),

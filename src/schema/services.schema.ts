@@ -1,9 +1,13 @@
 import { jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
+import { tableCompanies } from "./companies.schema";
 
 export const tableServices = pgTable("services", {
   id: uuid("id").primaryKey().defaultRandom(),
+  companyId: uuid("company_id")
+    .notNull()
+    .references(() => tableCompanies.id),
   code: text("code").notNull().unique(),
   description: text("description").notNull(),
   sn: jsonb("sn").$type<TaxRates>().notNull(),

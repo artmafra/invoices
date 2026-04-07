@@ -3,6 +3,7 @@ import { tableSuppliers } from "@/schema/suppliers.schema";
 import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
+import { tableCompanies } from "./companies.schema";
 
 // INVOICE STATUS
 
@@ -13,6 +14,9 @@ export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 
 export const tableInvoices = pgTable("invoices", {
   id: uuid("id").primaryKey().defaultRandom(),
+  companyId: uuid("company_id")
+    .notNull()
+    .references(() => tableCompanies.id),
   supplierCnpj: text("supplier_cnpj")
     .notNull()
     .references(() => tableSuppliers.cnpj),
