@@ -54,8 +54,8 @@ interface SupplierCardProps {
   supplier: Supplier;
   canEdit: boolean;
   canDelete: boolean;
-  onEdit: (supplierId: number) => void;
-  onDelete: (supplierId: number) => void;
+  onEdit: (supplierId: string) => void;
+  onDelete: (supplierId: string) => void;
 }
 
 function SupplierCard({ supplier, onEdit, onDelete, canEdit, canDelete }: SupplierCardProps) {
@@ -178,7 +178,7 @@ function SuppliersPageContent() {
 
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingSupplier, setEditingSupplier] = useState<Supplier | null>(null);
-  const [deleteSupplierId, setDeleteSupplierId] = useState<number | null>(null);
+  const [deleteSupplierId, setDeleteSupplierId] = useState<string | null>(null);
 
   const handleOpenCreate = useCallback(() => {
     setEditingSupplier(null);
@@ -196,7 +196,13 @@ function SuppliersPageContent() {
   }, []);
 
   const handleSubmit = useCallback(
-    (data: { cnpj: string; name: string; city: string; taxRegime: SupplierTaxRegime }) => {
+    (data: {
+      companyId: string;
+      cnpj: string;
+      name: string;
+      city: string;
+      taxRegime: SupplierTaxRegime;
+    }) => {
       if (editingSupplier) {
         handleCloseForm();
         updateSupplier.mutate({

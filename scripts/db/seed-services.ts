@@ -151,6 +151,7 @@ function parseServicesFromCsv(filePath: string): CsvServiceRow[] {
 async function seedServices(
   csvPath: string,
   clearExisting: boolean,
+  companyId: string,
 ): Promise<{ inserted: number; skipped: number }> {
   const services = parseServicesFromCsv(csvPath);
   console.log(`Parsed ${services.length} services from CSV`);
@@ -170,6 +171,7 @@ async function seedServices(
     const batch = services.slice(i, i + batchSize);
 
     const values = batch.map((s) => ({
+      companyId,
       code: s.code,
       description: s.description,
       sn: s.sn,
@@ -216,14 +218,21 @@ async function main() {
   const fileArg = typeof args.file === "string" ? args.file : undefined;
   const csvPath = fileArg || resolve(__dirname, "services.csv");
 
+  const companyId = typeof args["company-id"] === "string" ? args["company-id"] : undefined;
+  if (!companyId) {
+    console.error("Error: --company-id is required");
+    process.exit(1);
+  }
+
   console.log("");
   console.log("Seeding services from CSV...");
   console.log(`    CSV file: ${csvPath}`);
   console.log(`    Clear existing: ${clearExisting}`);
+  console.log(`    Company ID: ${companyId}`);
   console.log("");
 
   try {
-    const result = await seedServices(csvPath, clearExisting);
+    const result = await seedServices(csvPath, clearExisting, companyId);
 
     if (jsonOutput) {
       console.log(JSON.stringify({ success: true, ...result }, null, 2));

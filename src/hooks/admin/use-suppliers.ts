@@ -12,7 +12,7 @@ import { SUPPLIERS_QUERY_KEYS as QUERY_KEYS } from "./suppliers.query-keys";
 // =============================================================================
 
 export interface Supplier {
-  id: number;
+  id: string;
   cnpj: string;
   name: string;
   city: string;
@@ -74,7 +74,7 @@ export const useSuppliers = (
 /**
  * Get a single supplier by ID
  */
-export const useSupplier = (id: number) => {
+export const useSupplier = (id: string) => {
   const t = useTranslations("apps/suppliers");
 
   return useQuery({
@@ -138,7 +138,7 @@ export const useUpdateSupplier = () => {
       id,
       data,
     }: {
-      id: number;
+      id: string;
       data: UpdateSupplierInput;
     }): Promise<Supplier> => {
       const response = await fetch(`/api/admin/invoices/suppliers/${id}`, {
@@ -200,7 +200,7 @@ export const useDeleteSupplier = () => {
   const t = useTranslations("apps/suppliers");
 
   return useMutation({
-    mutationFn: async (id: number): Promise<void> => {
+    mutationFn: async (id: string): Promise<void> => {
       const response = await fetch(`/api/admin/invoices/suppliers/${id}`, {
         method: "DELETE",
       });

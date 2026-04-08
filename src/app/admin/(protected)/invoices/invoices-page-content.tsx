@@ -105,6 +105,7 @@ export function InvoicesPageContent() {
   const handleSubmit = useCallback(
     async (data: InvoiceFormValues) => {
       const invoiceData = {
+        companyId: data.companyId,
         supplierCnpj: data.supplierCnpj.trim(),
         serviceCode: data.serviceCode.trim(),
         issueDate: data.issueDate,

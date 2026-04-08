@@ -7,7 +7,7 @@ export const SUPPLIER_TAX_REGIME = ["sn", "n", "mei"] as const;
 export type SupplierTaxRegime = (typeof SUPPLIER_TAX_REGIME)[number];
 
 export const tableSuppliers = pgTable("suppliers", {
-  id: uuid("id").primaryKey(),
+  id: uuid("id").primaryKey().defaultRandom(),
   companyId: uuid("company_id")
     .notNull()
     .references(() => tableCompanies.id),

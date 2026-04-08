@@ -87,6 +87,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   }
 
   const invoice = await invoiceService.createInvoice({
+    companyId: validation.data.companyId,
     supplierCnpj: validation.data.supplierCnpj,
     serviceCode: validation.data.serviceCode,
     issueDate: validation.data.issueDate,

@@ -59,6 +59,7 @@ function parseSuppliersFromCsv(filePath: string): CsvSupplierRow[] {
 async function seedSuppliers(
   csvPath: string,
   clearExisting: boolean,
+  companyId: string,
 ): Promise<{ inserted: number; skipped: number }> {
   const suppliers = parseSuppliersFromCsv(csvPath);
   console.log(`Parsed ${suppliers.length} suppliers from CSV`);
@@ -77,6 +78,7 @@ async function seedSuppliers(
       const result = await db
         .insert(tableSuppliers)
         .values({
+          companyId,
           cnpj: supplier.cnpj,
           name: supplier.name,
           city: supplier.city,
@@ -108,14 +110,21 @@ async function main() {
   const fileArg = typeof args.file === "string" ? args.file : undefined;
   const csvPath = fileArg || resolve(__dirname, "suppliers.csv");
 
+  const companyId = typeof args["company-id"] === "string" ? args["company-id"] : undefined;
+  if (!companyId) {
+    console.error("Error: --company-id is required");
+    process.exit(1);
+  }
+
   console.log("");
   console.log("Seeding suppliers from CSV...");
   console.log(`    CSV file: ${csvPath}`);
   console.log(`    Clear existing: ${clearExisting}`);
+  console.log(`    Company ID: ${companyId}`);
   console.log("");
 
   try {
-    const result = await seedSuppliers(csvPath, clearExisting);
+    const result = await seedSuppliers(csvPath, clearExisting, companyId);
 
     if (jsonOutput) {
       console.log(JSON.stringify({ success: true, ...result }, null, 2));

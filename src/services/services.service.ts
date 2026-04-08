@@ -2,12 +2,12 @@ import { InsertServiceSchema, UpdateServiceSchema } from "@/schema/services.sche
 import { serviceStorage } from "@/storage/runtime/service";
 
 export class ServiceService {
-  async getAllServices() {
-    return await serviceStorage.findMany();
+  async getAllServices(companyId?: string) {
+    return await serviceStorage.findMany({ companyId });
   }
 
   async getServicesPaginated(
-    filters: { search?: string } = {},
+    filters: { search?: string; companyId?: string } = {},
     page: number = 1,
     limit: number = 20,
   ) {

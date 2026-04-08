@@ -54,6 +54,7 @@ const descriptionValidation = z
 
 /** Client-side schema (form) */
 export const createServiceSchema = z.object({
+  companyId: z.string().uuid(),
   code: codeValidation,
   description: descriptionValidation,
   sn: taxRatesValidation,

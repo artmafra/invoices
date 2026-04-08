@@ -7,7 +7,7 @@ import { baseQuerySchema } from "./query.validations";
 // ========================================
 
 export const supplierIdParamSchema = z.object({
-  id: z.coerce.number().int().positive(),
+  id: z.string().uuid("Invalid supplier ID"),
 });
 
 export type SupplierIdParam = z.infer<typeof supplierIdParamSchema>;
@@ -46,6 +46,7 @@ const cityValidation = z.string().trim().min(1, "City is required").max(100);
 
 /** Client-side schema (form) */
 export const createSupplierSchema = z.object({
+  companyId: z.string().uuid(),
   cnpj: cnpjValidation,
   name: nameValidation,
   city: cityValidation,

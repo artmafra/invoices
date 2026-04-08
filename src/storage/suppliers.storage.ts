@@ -133,8 +133,12 @@ export class SuppliersStorage implements BaseStorage<
     });
   }
 
-  async findMany() {
-    return await db.select().from(tableSuppliers);
+  async findMany(filters?: SupplierFilterOptions) {
+    const conditions = this.buildWhereConditions(filters);
+    const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+    const query = db.select().from(tableSuppliers).orderBy(asc(tableSuppliers.name));
+    return whereClause ? query.where(whereClause) : query;
   }
 
   async create(data: InsertSupplierSchema) {

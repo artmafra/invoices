@@ -60,6 +60,7 @@ export const getInvoicesQuerySchema = baseQuerySchema
 
 export const createInvoiceSchema = z
   .object({
+    companyId: z.string().uuid("Invalid company ID"),
     status: invoiceStatusSchema.optional(),
     supplierCnpj: z
       .string()

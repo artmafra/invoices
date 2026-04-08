@@ -106,6 +106,7 @@ function ServicesPageContent() {
 
   const handleSubmit = useCallback(
     (data: {
+      companyId: string;
       code: string;
       description: string;
       sn: { issqn: number | null; inss: number | null; cs: number | null; irrf: number | null };

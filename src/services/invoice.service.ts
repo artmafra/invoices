@@ -73,8 +73,8 @@ export class InvoiceService {
     });
   }
 
-  async getAllInvoices() {
-    return await invoiceStorage.findMany();
+  async getAllInvoices(companyId?: string) {
+    return await invoiceStorage.findMany({ companyId });
   }
 
   async getInvoiceById(id: string) {

@@ -80,6 +80,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   }
 
   const supplier = await supplierService.createSupplier({
+    companyId: validation.data.companyId,
     taxRegime: validation.data.taxRegime,
     cnpj: validation.data.cnpj,
     name: validation.data.name,
