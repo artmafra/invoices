@@ -29,6 +29,7 @@ export const getSuppliersQuerySchema = baseQuerySchema.extend({
   city: z.string().optional(),
   name: z.string().optional(),
   cnpj: z.string().max(18).optional(),
+  companyId: z.string().uuid().optional(),
 });
 
 // ========================================

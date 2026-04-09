@@ -4,7 +4,8 @@ import {
   type Service,
   type UpdateServiceSchema,
 } from "@/schema/services.schema";
-import { and, asc, count, eq, ilike, or, sql } from "drizzle-orm";
+import { and, asc, count, eq, ilike, max, or, sql } from "drizzle-orm";
+import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
 import type { BaseStorage, PaginatedResult } from "@/storage/types";
 
@@ -120,5 +121,35 @@ export class ServicesStorage implements BaseStorage<
       .from(tableServices)
       .where(eq(tableServices.code, code))
       .then((res) => res[0]);
+  }
+
+  async getCollectionVersion(
+    filters: ServiceFilterOptions = {},
+  ): Promise<{ maxUpdatedAt: Date | null; count: number }> {
+    const cacheKey = versionCache.buildCacheKey("services", filters);
+
+    return versionCache.getOrFetch(cacheKey, async () => {
+      const conditions = [];
+
+      if (filters.companyId) {
+        conditions.push(eq(tableServices.companyId, filters.companyId));
+      }
+
+      const whereClause = conditions.length > 0 ? and(...conditions) : undefined;
+
+      const query = db
+        .select({
+          maxUpdatedAt: max(tableServices.createdAt),
+          count: count(tableServices.id),
+        })
+        .from(tableServices);
+
+      const [result] = whereClause ? await query.where(whereClause) : await query;
+
+      return {
+        maxUpdatedAt: result?.maxUpdatedAt ? new Date(result.maxUpdatedAt) : null,
+        count: result?.count ?? 0,
+      };
+    });
   }
 }

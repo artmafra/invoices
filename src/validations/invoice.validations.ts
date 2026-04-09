@@ -1,11 +1,6 @@
 import { INVOICE_STATUSES } from "@/schema/invoices.schema";
 import { z } from "zod";
-import {
-  extractCnpjDigits,
-  extractServiceCodeCharacters,
-  isValidCnpjChecksum,
-  isValidServiceCodeFormat,
-} from "@/lib/cnpj-service-code";
+import { extractCnpjDigits } from "@/lib/cnpj-service-code";
 import { baseQuerySchema } from "./query.validations";
 
 // ========================================
@@ -32,6 +27,7 @@ export const invoiceStatusSchema = z.enum(INVOICE_STATUSES);
 
 export const getInvoicesQuerySchema = baseQuerySchema
   .extend({
+    companyId: z.string().uuid().optional(),
     status: invoiceStatusSchema.optional(),
     supplierCnpj: z.string().transform(extractCnpjDigits).optional(),
     serviceCode: z.string().optional(),

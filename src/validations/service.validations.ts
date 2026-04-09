@@ -23,6 +23,7 @@ export type ServiceCodeParam = z.infer<typeof serviceCodeParamSchema>;
 
 export const getServicesQuerySchema = baseQuerySchema.extend({
   search: z.string().optional(),
+  companyId: z.string().uuid().optional(),
 });
 
 // ========================================

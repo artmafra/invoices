@@ -1,7 +1,12 @@
 import { InsertServiceSchema, UpdateServiceSchema } from "@/schema/services.schema";
 import { serviceStorage } from "@/storage/runtime/service";
+import type { ServiceFilterOptions } from "@/storage/services.storage";
 
 export class ServiceService {
+  async getCollectionVersion(filters?: ServiceFilterOptions) {
+    return await serviceStorage.getCollectionVersion(filters);
+  }
+
   async getAllServices(companyId?: string) {
     return await serviceStorage.findMany({ companyId });
   }
