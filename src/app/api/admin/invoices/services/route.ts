@@ -7,6 +7,7 @@ import {
   UnauthorizedError,
   ValidationError,
 } from "@/lib/errors";
+import { buildQueryParamsSeed, handleConditionalRequest } from "@/lib/http/etag";
 import { requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
 import { serviceService } from "@/services/runtime/service";
@@ -31,13 +32,30 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     throw fromZodError(queryResult.error);
   }
 
-  const services = await serviceService.getServicesPaginated(
-    { search: queryResult.data.search },
-    queryResult.data.page ?? 1,
-    queryResult.data.limit ?? 20,
-  );
+  const query = queryResult.data;
 
-  return NextResponse.json(services);
+  const filters = {
+    search: query.search,
+    companyId: query.companyId,
+  };
+
+  const options = {
+    page: query.page,
+    limit: query.limit,
+  };
+
+  const queryParamsSeed = buildQueryParamsSeed({ ...filters, ...options });
+
+  return handleConditionalRequest(
+    request,
+    async () => {
+      const version = await serviceService.getCollectionVersion(filters);
+      return `${version.maxUpdatedAt?.toISOString() ?? "empty"}:${version.count}:${queryParamsSeed}`;
+    },
+    async () => {
+      return serviceService.getServicesPaginated(filters, options.page ?? 1, options.limit ?? 20);
+    },
+  );
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {

@@ -37,6 +37,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     taxRegime: query.taxRegime,
     name: query.name,
     cnpj: query.cnpj,
+    companyId: query.companyId,
   };
 
   const options = {

@@ -33,6 +33,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 
   const filters = {
     search: query.search,
+    companyId: query.companyId,
     status: query.status,
     supplierCnpj: query.supplierCnpj,
     serviceCode: query.serviceCode,
