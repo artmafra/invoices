@@ -14,6 +14,7 @@ export const COOKIE_NAMES = {
   timezone: `${COOKIE_PREFIX}timezone`,
   paginationSize: `${COOKIE_PREFIX}paginationSize`,
   density: `${COOKIE_PREFIX}density`,
+  selectedCompanyId: `${COOKIE_PREFIX}selectedCompanyId`,
 } as const;
 
 /** Cookie max age: 1 year in seconds */

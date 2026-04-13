@@ -22,6 +22,8 @@ export interface LocalPreferences {
   paginationSize: PaginationSize;
   /** Selected app slug (admin sidebar) */
   selectedApp: string | null;
+  // Selected company ID
+  selectedCompanyId: string | null;
   /** UI density preference (compact, comfortable, spacious) */
   density: Density;
 }
