@@ -26,7 +26,7 @@ export function CompanyProvider({
   const queryClient = useQueryClient();
 
   function setSelectedCompanyId(id: string | null) {
-    setSelectedCompanyId(id);
+    setSelectedCompanyIdState(id);
 
     if (id) {
       setCookie(COOKIE_NAMES.selectedCompanyId, id);

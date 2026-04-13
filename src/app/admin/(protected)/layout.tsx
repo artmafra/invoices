@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import { CompanyProvider } from "@/contexts/company-context";
 import { SessionContextProvider } from "@/contexts/session-context";
 import { getAppsForUser } from "@/lib/apps.server";
 import { auth } from "@/lib/auth";
@@ -23,28 +24,30 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const apps = getAppsForUser(session.user.apps || []);
 
   // Read preferences from cookies for SSR injection
-  const { paginationSize, selectedApp } = await getPreferencesFromCookies();
+  const { paginationSize, selectedApp, selectedCompanyId } = await getPreferencesFromCookies();
 
   return (
     <SessionContextProvider>
       <PreferencesProvider initialPaginationSize={paginationSize}>
         <AppsProvider apps={apps} initialSelectedAppSlug={selectedApp}>
-          <KeyboardShortcutsProvider>
-            <CommandPaletteProvider>
-              <SidebarProvider
-                style={
-                  {
-                    "--sidebar-width": "calc(var(--spacing) * 65)",
-                    "--header-height": "calc(var(--spacing) * 16)",
-                  } as React.CSSProperties
-                }
-              >
-                <AppSidebar variant="inset" userPermissions={session.user.permissions || []} />
-                {children}
-                <LazyCommandPalette />
-              </SidebarProvider>
-            </CommandPaletteProvider>
-          </KeyboardShortcutsProvider>
+          <CompanyProvider initialSelectedCompanyId={selectedCompanyId}>
+            <KeyboardShortcutsProvider>
+              <CommandPaletteProvider>
+                <SidebarProvider
+                  style={
+                    {
+                      "--sidebar-width": "calc(var(--spacing) * 65)",
+                      "--header-height": "calc(var(--spacing) * 16)",
+                    } as React.CSSProperties
+                  }
+                >
+                  <AppSidebar variant="inset" userPermissions={session.user.permissions || []} />
+                  {children}
+                  <LazyCommandPalette />
+                </SidebarProvider>
+              </CommandPaletteProvider>
+            </KeyboardShortcutsProvider>
+          </CompanyProvider>
         </AppsProvider>
       </PreferencesProvider>
     </SessionContextProvider>

@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Check, ChevronsUpDown, Package, Settings, UserCircle } from "lucide-react";
+import { Building2, Check, ChevronsUpDown, Package, Settings, UserCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
 import { getIconByName } from "@/lib/icons";
@@ -178,6 +178,22 @@ export function ContextSwitcher() {
                     </DropdownMenuItem>
                   );
                 })}
+                <DropdownMenuSeparator />
+              </>
+            )}
+
+            {/* Trocar empresa (only when invoices app is selected) */}
+            {selectedApp?.slug === "invoices" && (
+              <>
+                <DropdownMenuItem
+                  onClick={() => handleNavigate("/admin/invoices/companies")}
+                  className="gap-space-sm p-space-sm"
+                >
+                  <div className="flex size-6 items-center justify-center">
+                    <Building2 className="size-4 shrink-0" />
+                  </div>
+                  <span className="flex-1">Trocar empresa</span>
+                </DropdownMenuItem>
                 <DropdownMenuSeparator />
               </>
             )}

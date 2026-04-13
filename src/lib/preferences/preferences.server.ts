@@ -54,5 +54,8 @@ export async function getPreferencesFromCookies(): Promise<LocalPreferences> {
       ? (densityCookie as Density)
       : DEFAULT_DENSITY;
 
-  return { language, timezone, paginationSize, selectedApp, density };
+  const selectedCompanyIdCookie = cookieStore.get(COOKIE_NAMES.selectedCompanyId)?.value ?? null;
+  const selectedCompanyId = selectedCompanyIdCookie || null;
+
+  return { language, timezone, paginationSize, selectedApp, density, selectedCompanyId };
 }
