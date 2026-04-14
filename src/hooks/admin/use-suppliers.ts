@@ -26,6 +26,7 @@ export interface SupplierFilters {
   name?: string;
   city?: string;
   taxRegime?: SupplierTaxRegime;
+  companyId?: string;
 }
 
 // Legacy export for backward compatibility
@@ -57,6 +58,7 @@ export const useSuppliers = (
       if (filters.name) params.set("name", filters.name);
       if (filters.city) params.set("city", filters.city);
       if (filters.taxRegime) params.set("taxRegime", filters.taxRegime);
+      if (filters.companyId) params.set("companyId", filters.companyId);
 
       const response = await fetch(`/api/admin/invoices/suppliers?${params.toString()}`);
 

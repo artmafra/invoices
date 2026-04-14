@@ -60,6 +60,7 @@ export interface InvoiceFilters {
   dueDateFrom?: string;
   dueDateTo?: string;
   includePaid?: boolean;
+  companyId?: string;
 }
 
 // Legacy export
@@ -91,6 +92,7 @@ export const useInvoices = (filters: InvoiceFilters = {}, page: number = 1, limi
       if (filters.dueDateFrom) params.set("dueDateFrom", filters.dueDateFrom);
       if (filters.dueDateTo) params.set("dueDateTo", filters.dueDateTo);
       if (filters.includePaid) params.set("includePaid", "true");
+      if (filters.companyId) params.set("companyId", filters.companyId);
       const response = await fetch(`/api/admin/invoices?${params.toString()}`);
 
       if (!response.ok) {

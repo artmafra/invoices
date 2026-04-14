@@ -23,6 +23,7 @@ export interface Service {
 
 export interface ServiceFilters {
   search?: string;
+  companyId?: string;
 }
 
 // Legacy export for backward compatibility
@@ -46,6 +47,7 @@ export const useServices = (filters: ServiceFilters = {}, page: number = 1, limi
       params.set("page", page.toString());
       params.set("limit", limit.toString());
       if (filters.search) params.set("search", filters.search);
+      if (filters.companyId) params.set("companyId", filters.companyId);
 
       const response = await fetch(`/api/admin/invoices/services?${params.toString()}`);
 
