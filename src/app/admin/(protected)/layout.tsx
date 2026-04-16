@@ -24,13 +24,17 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   const apps = getAppsForUser(session.user.apps || []);
 
   // Read preferences from cookies for SSR injection
-  const { paginationSize, selectedApp, selectedCompanyId } = await getPreferencesFromCookies();
+  const { paginationSize, selectedApp, selectedCompanyId, selectedCompanyName } =
+    await getPreferencesFromCookies();
 
   return (
     <SessionContextProvider>
       <PreferencesProvider initialPaginationSize={paginationSize}>
         <AppsProvider apps={apps} initialSelectedAppSlug={selectedApp}>
-          <CompanyProvider initialSelectedCompanyId={selectedCompanyId}>
+          <CompanyProvider
+            initialSelectedCompanyId={selectedCompanyId}
+            initialSelectedCompanyName={selectedCompanyName}
+          >
             <KeyboardShortcutsProvider>
               <CommandPaletteProvider>
                 <SidebarProvider

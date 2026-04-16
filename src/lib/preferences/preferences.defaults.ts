@@ -80,6 +80,8 @@ export function getDefaultPreferences(): LocalPreferences {
     timezone: detectTimezone(),
     paginationSize: DEFAULT_PAGINATION_SIZE,
     selectedApp: null,
+    selectedCompanyId: null,
+    selectedCompanyName: null,
     density: DEFAULT_DENSITY,
   };
 }
@@ -93,5 +95,7 @@ export const SSR_DEFAULTS: LocalPreferences = {
   timezone: DEFAULT_TIMEZONE,
   paginationSize: DEFAULT_PAGINATION_SIZE,
   selectedApp: null,
+  selectedCompanyId: null,
+  selectedCompanyName: null,
   density: DEFAULT_DENSITY,
 };

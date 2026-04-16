@@ -65,6 +65,8 @@ const DEFAULT_PREFS: LocalPreferences = {
   timezone: DEFAULT_TIMEZONE,
   paginationSize: DEFAULT_PAGINATION_SIZE,
   selectedApp: null,
+  selectedCompanyId: null,
+  selectedCompanyName: null,
   density: DEFAULT_DENSITY,
 };
 
@@ -135,8 +137,10 @@ export function usePreferences(options: UsePreferencesOptions = {}): UsePreferen
       // selectedApp is managed by AppsProvider, just use null here
       const selectedApp = null;
 
+      const selectedCompanyId = null;
+
       startTransition(() => {
-        setPrefs({ language, timezone, paginationSize, selectedApp, density });
+        setPrefs({ language, timezone, paginationSize, selectedApp, density, selectedCompanyId });
       });
     }
 
@@ -200,6 +204,8 @@ export function usePreferences(options: UsePreferencesOptions = {}): UsePreferen
       timezone: detectedTimezone,
       paginationSize: DEFAULT_PAGINATION_SIZE,
       selectedApp: null,
+      selectedCompanyId: null,
+      selectedCompanyName: null,
       density: DEFAULT_DENSITY,
     };
 

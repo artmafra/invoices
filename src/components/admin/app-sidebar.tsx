@@ -122,6 +122,7 @@ export function AppSidebar(
   // Detect special sidebar modes
   const isProfilePage = pathname?.startsWith("/admin/profile");
   const isSystemPage = pathname?.startsWith("/admin/system");
+  const isCompaniesSelectionPage = pathname === "/admin/invoices/companies";
 
   // Map app IDs to their translation functions
   const appTranslations: Record<string, ReturnType<typeof useTranslations>> = React.useMemo(
@@ -168,6 +169,7 @@ export function AppSidebar(
   const renderContent = () => {
     if (isProfilePage) return <NavProfile />;
     if (isSystemPage) return <NavSystem />;
+    if (isCompaniesSelectionPage) return <NavMain items={[]} />;
     return <NavMain items={navMain} />;
   };
 

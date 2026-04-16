@@ -3,6 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
+import { useSelectedCompany } from "@/contexts/company-context";
 import { Building2, Check, ChevronsUpDown, Package, Settings, UserCircle } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
@@ -37,6 +38,7 @@ export function ContextSwitcher() {
   const tSwitcher = useTranslations("admin.appSwitcher");
   const { isMobile, setOpenMobile } = useSidebar();
   const { selectedApp, accessibleApps, hasAccessibleApps, selectApp } = useSelectedApp();
+  const { selectedCompanyName } = useSelectedCompany();
 
   // Determine current context mode
   const getContextMode = (): ContextMode => {
@@ -58,6 +60,12 @@ export function ContextSwitcher() {
         return selectedApp?.name || tSwitcher("noAppSelected");
     }
   };
+
+  // For invoices app with a selected company, subtitle is the company name
+  const subtitleLabel =
+    selectedApp?.slug === "invoices" && selectedCompanyName
+      ? selectedCompanyName
+      : getContextLabel();
 
   const handleSelectApp = (appSlug: string) => {
     selectApp(appSlug);
@@ -97,13 +105,19 @@ export function ContextSwitcher() {
     );
   }
 
-  // In app context mode, navigate directly to the selected app without a dropdown
+  // In app context mode with invoices + company selected: make it link to companies page
   if (contextMode === "app" && selectedApp) {
+    const isInvoicesWithCompany = selectedApp.slug === "invoices" && selectedCompanyName;
+
     return (
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
-            <Link href={`/admin/${selectedApp.slug}`}>
+            <Link
+              href={
+                isInvoicesWithCompany ? "/admin/invoices/companies" : `/admin/${selectedApp.slug}`
+              }
+            >
               <div className="flex aspect-square size-8 items-center justify-center">
                 <Image
                   src="/images/contpaz-logo.svg"
@@ -114,7 +128,7 @@ export function ContextSwitcher() {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{siteConfig.name}</span>
-                <span className="text-muted-foreground truncate text-xs">{getContextLabel()}</span>
+                <span className="text-muted-foreground truncate text-xs">{subtitleLabel}</span>
               </div>
             </Link>
           </SidebarMenuButton>
@@ -142,7 +156,7 @@ export function ContextSwitcher() {
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{siteConfig.name}</span>
-                <span className="text-muted-foreground truncate text-xs">{getContextLabel()}</span>
+                <span className="text-muted-foreground truncate text-xs">{subtitleLabel}</span>
               </div>
               <ChevronsUpDown className="ml-auto" />
             </SidebarMenuButton>

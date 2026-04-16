@@ -24,6 +24,8 @@ export interface LocalPreferences {
   selectedApp: string | null;
   // Selected company ID
   selectedCompanyId: string | null;
+  // Selected company name (for display)
+  selectedCompanyName: string | null;
   /** UI density preference (compact, comfortable, spacious) */
   density: Density;
 }

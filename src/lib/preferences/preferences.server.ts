@@ -57,5 +57,17 @@ export async function getPreferencesFromCookies(): Promise<LocalPreferences> {
   const selectedCompanyIdCookie = cookieStore.get(COOKIE_NAMES.selectedCompanyId)?.value ?? null;
   const selectedCompanyId = selectedCompanyIdCookie || null;
 
-  return { language, timezone, paginationSize, selectedApp, density, selectedCompanyId };
+  const selectedCompanyNameCookie =
+    cookieStore.get(COOKIE_NAMES.selectedCompanyName)?.value ?? null;
+  const selectedCompanyName = selectedCompanyNameCookie || null;
+
+  return {
+    language,
+    timezone,
+    paginationSize,
+    selectedApp,
+    density,
+    selectedCompanyId,
+    selectedCompanyName,
+  };
 }
