@@ -42,8 +42,12 @@ export class SupplierService {
     return await supplierStorage.delete(id);
   }
 
-  async isSupplierCnpjAvailable(cnpj: string, excludeId?: string): Promise<boolean> {
-    const existing = await supplierStorage.findByCnpj(cnpj);
+  async isSupplierCnpjAvailable(
+    cnpj: string,
+    companyId: string,
+    excludeId?: string,
+  ): Promise<boolean> {
+    const existing = await supplierStorage.findByCnpjAndCompany(cnpj, companyId);
     if (!existing) return true;
     if (excludeId && existing.id === excludeId) return true;
     return false;

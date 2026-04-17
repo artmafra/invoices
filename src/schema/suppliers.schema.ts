@@ -1,4 +1,4 @@
-import { pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
 import { tableCompanies } from "./companies.schema";
@@ -6,18 +6,22 @@ import { tableCompanies } from "./companies.schema";
 export const SUPPLIER_TAX_REGIME = ["sn", "n", "mei"] as const;
 export type SupplierTaxRegime = (typeof SUPPLIER_TAX_REGIME)[number];
 
-export const tableSuppliers = pgTable("suppliers", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  companyId: uuid("company_id")
-    .notNull()
-    .references(() => tableCompanies.id),
-  cnpj: text("cnpj").notNull().unique(),
-  name: text("name").notNull(),
-  city: text("city").notNull(),
-  taxRegime: text("taxRegime", { enum: SUPPLIER_TAX_REGIME }).notNull(),
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+export const tableSuppliers = pgTable(
+  "suppliers",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    companyId: uuid("company_id")
+      .notNull()
+      .references(() => tableCompanies.id),
+    cnpj: text("cnpj").notNull(),
+    name: text("name").notNull(),
+    city: text("city").notNull(),
+    taxRegime: text("taxRegime", { enum: SUPPLIER_TAX_REGIME }).notNull(),
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [unique("suppliers_cnpj_company_unique").on(t.cnpj, t.companyId)],
+);
 
 export const insertSupplierSchema = createInsertSchema(tableSuppliers).extend({
   cnpj: z

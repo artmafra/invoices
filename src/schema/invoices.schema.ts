@@ -1,6 +1,6 @@
 import { tableServices } from "@/schema/services.schema";
 import { tableSuppliers } from "@/schema/suppliers.schema";
-import { integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { foreignKey, integer, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
 import { tableCompanies } from "./companies.schema";
@@ -12,28 +12,35 @@ export type InvoiceStatus = (typeof INVOICE_STATUSES)[number];
 
 // INVOICE SCHEMA
 
-export const tableInvoices = pgTable("invoices", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  companyId: uuid("company_id")
-    .notNull()
-    .references(() => tableCompanies.id),
-  supplierCnpj: text("supplier_cnpj")
-    .notNull()
-    .references(() => tableSuppliers.cnpj),
-  serviceCode: text("service_code")
-    .notNull()
-    .references(() => tableServices.code),
-  status: text("status", { enum: INVOICE_STATUSES }).notNull().default("issued"),
-  entryDate: timestamp("entry_date").notNull().defaultNow(), // Data entrada
-  issueDate: timestamp("issue_date").notNull(), // Data de emissão
-  dueDate: timestamp("due_date").notNull(), // Data vencimento
-  valueCents: integer("value_cents").notNull(),
-  invoiceNumber: text("invoice_number").notNull(),
-  materialDeductionCents: integer("material_deduction_cents").notNull().default(0),
-  netAmountCents: integer("net_amount_cents").notNull(), // Líquido a receber
-  createdAt: timestamp("created_at").defaultNow().notNull(),
-  updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+export const tableInvoices = pgTable(
+  "invoices",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    companyId: uuid("company_id")
+      .notNull()
+      .references(() => tableCompanies.id),
+    supplierCnpj: text("supplier_cnpj").notNull(),
+    serviceCode: text("service_code")
+      .notNull()
+      .references(() => tableServices.code),
+    status: text("status", { enum: INVOICE_STATUSES }).notNull().default("issued"),
+    entryDate: timestamp("entry_date").notNull().defaultNow(), // Data entrada
+    issueDate: timestamp("issue_date").notNull(), // Data de emissão
+    dueDate: timestamp("due_date").notNull(), // Data vencimento
+    valueCents: integer("value_cents").notNull(),
+    invoiceNumber: text("invoice_number").notNull(),
+    materialDeductionCents: integer("material_deduction_cents").notNull().default(0),
+    netAmountCents: integer("net_amount_cents").notNull(), // Líquido a receber
+    createdAt: timestamp("created_at").defaultNow().notNull(),
+    updatedAt: timestamp("updated_at").defaultNow().notNull(),
+  },
+  (t) => [
+    foreignKey({
+      columns: [t.supplierCnpj, t.companyId],
+      foreignColumns: [tableSuppliers.cnpj, tableSuppliers.companyId],
+    }),
+  ],
+);
 
 export const insertInvoiceSchema = createInsertSchema(tableInvoices);
 export const updateInvoiceSchema = createUpdateSchema(tableInvoices);

@@ -178,4 +178,12 @@ export class SuppliersStorage implements BaseStorage<
       .where(eq(tableSuppliers.cnpj, cnpj))
       .then((res) => res[0]);
   }
+
+  async findByCnpjAndCompany(cnpj: string, companyId: string) {
+    return await db
+      .select()
+      .from(tableSuppliers)
+      .where(and(eq(tableSuppliers.cnpj, cnpj), eq(tableSuppliers.companyId, companyId)))
+      .then((res) => res[0]);
+  }
 }
