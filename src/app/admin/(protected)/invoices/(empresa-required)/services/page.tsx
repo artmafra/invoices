@@ -3,6 +3,7 @@
 import { useCallback, useRef, useState } from "react";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { useSelectedCompany } from "@/contexts/company-context";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useServicePermissions } from "@/hooks/admin/use-resource-permissions";
 import {
@@ -50,6 +51,7 @@ export default function ServicesPage() {
 
 function ServicesPageContent() {
   const { canCreate, canEdit, canDelete } = useServicePermissions();
+  const { selectedCompanyId } = useSelectedCompany();
 
   const t = useTranslations("apps/services");
   const tc = useTranslations("common");
@@ -70,7 +72,7 @@ function ServicesPageContent() {
   } = useServicesFilters();
 
   const { data, isLoading } = useServices(
-    { search: filters.search || undefined },
+    { search: filters.search || undefined, companyId: selectedCompanyId ?? undefined },
     filters.page,
     limit,
   );
@@ -221,6 +223,7 @@ function ServicesPageContent() {
         initialData={
           editingService
             ? {
+                companyId: selectedCompanyId ?? "",
                 code: editingService.code,
                 description: editingService.description,
                 sn: editingService.sn,
@@ -228,7 +231,9 @@ function ServicesPageContent() {
                 mei: editingService.mei,
                 obs: editingService.obs ?? undefined,
               }
-            : undefined
+            : {
+                companyId: selectedCompanyId ?? "",
+              }
         }
         onSubmit={handleSubmit}
         isEditing={!!editingService}

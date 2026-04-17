@@ -6,6 +6,7 @@ import { SupplierTaxRegime } from "@/schema/suppliers.schema";
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { formatCnpj } from "@/lib/cnpj-service-code";
+import { useSelectedCompany } from "@/contexts/company-context";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
 import {
@@ -132,6 +133,7 @@ export default function SuppliersPage() {
 
 function SuppliersPageContent() {
   const { canCreate, canEdit, canDelete } = useSupplierPermissions();
+  const { selectedCompanyId } = useSelectedCompany();
 
   const t = useTranslations("apps/suppliers");
   const tc = useTranslations("common");
@@ -165,6 +167,7 @@ function SuppliersPageContent() {
       city: filters.city || undefined,
       name: filters.name || undefined,
       cnpj: filters.cnpj || undefined,
+      companyId: selectedCompanyId ?? undefined,
     },
     filters.page,
     limit,
@@ -330,12 +333,15 @@ function SuppliersPageContent() {
         initialData={
           editingSupplier
             ? {
+                companyId: selectedCompanyId ?? "",
                 cnpj: editingSupplier.cnpj,
                 name: editingSupplier.name,
                 city: editingSupplier.city,
                 taxRegime: editingSupplier.taxRegime,
               }
-            : undefined
+            : {
+                companyId: selectedCompanyId ?? "",
+              }
         }
         onSubmit={handleSubmit}
         isEditing={!!editingSupplier}
