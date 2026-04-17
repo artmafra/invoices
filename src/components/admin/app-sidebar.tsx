@@ -2,6 +2,7 @@
 
 import * as React from "react";
 import { usePathname } from "next/navigation";
+import { useSelectedCompany } from "@/contexts/company-context";
 import {
   Archive,
   Briefcase,
@@ -118,11 +119,12 @@ export function AppSidebar(
   const tTasks = useTranslations("apps/tasks");
   const tGames = useTranslations("apps/games");
   const { selectedApp } = useSelectedApp();
+  const { selectedCompanyId } = useSelectedCompany();
 
   // Detect special sidebar modes
   const isProfilePage = pathname?.startsWith("/admin/profile");
   const isSystemPage = pathname?.startsWith("/admin/system");
-  const isCompaniesSelectionPage = pathname === "/admin/invoices/companies";
+  const isCompaniesSelectionPage = pathname === "/admin/invoices/companies" && !selectedCompanyId;
 
   // Map app IDs to their translation functions
   const appTranslations: Record<string, ReturnType<typeof useTranslations>> = React.useMemo(
