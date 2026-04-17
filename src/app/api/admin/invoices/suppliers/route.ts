@@ -75,7 +75,10 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   }
 
   // Check for duplicate supplier CNPJ
-  const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(validation.data.cnpj);
+  const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(
+    validation.data.cnpj,
+    validation.data.companyId,
+  );
   if (!isCnpjAvailable) {
     throw new ConflictError("A supplier with this CNPJ already exists");
   }

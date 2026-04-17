@@ -54,6 +54,7 @@ export function SupplierFormDialog({
 
   // Extend schema with translated error messages at runtime
   const translatedFormSchema = z.object({
+    companyId: z.string().uuid(),
     cnpj: z
       .string()
       .trim()
@@ -70,6 +71,7 @@ export function SupplierFormDialog({
     resolver: zodResolver(translatedFormSchema),
     mode: "onBlur", // Validate only on blur
     defaultValues: {
+      companyId: "",
       cnpj: "",
       name: "",
       city: "",
@@ -81,6 +83,7 @@ export function SupplierFormDialog({
   useEffect(() => {
     if (open) {
       form.reset({
+        companyId: "",
         cnpj: "",
         name: "",
         city: "",
@@ -91,7 +94,6 @@ export function SupplierFormDialog({
   }, [open, initialData, form]);
 
   const handleSubmit = (data: TranslatedSupplierFormValues) => {
-    // Cast to SupplierFormValues for the parent handler
     onSubmit(data as SupplierFormValues);
   };
 

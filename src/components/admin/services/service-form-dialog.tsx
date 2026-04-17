@@ -51,6 +51,7 @@ export function ServiceFormDialog({
 
   // Extend schema with translated error messages at runtime
   const translatedFormSchema = z.object({
+    companyId: z.string().uuid(),
     code: z.string().trim().min(1, t("errors.codeRequired")).max(20, t("errors.codeMaxLength")),
     description: z
       .string()
@@ -84,6 +85,7 @@ export function ServiceFormDialog({
     resolver: zodResolver(translatedFormSchema),
     mode: "onBlur", // Validate only on blur
     defaultValues: {
+      companyId: "",
       code: "",
       description: "",
       sn: { issqn: null, inss: null, cs: null, irrf: null },
@@ -97,6 +99,7 @@ export function ServiceFormDialog({
   useEffect(() => {
     if (open) {
       form.reset({
+        companyId: "",
         code: "",
         description: "",
         sn: { issqn: null, inss: null, cs: null, irrf: null },
@@ -109,7 +112,6 @@ export function ServiceFormDialog({
   }, [open, initialData, form]);
 
   const handleSubmit = (data: TranslatedServiceFormValues) => {
-    // Cast to ServiceFormValues for the parent handler
     onSubmit(data as ServiceFormValues);
   };
 

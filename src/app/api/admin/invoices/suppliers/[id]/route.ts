@@ -68,7 +68,11 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
 
   // Check for duplicate CNPJ if being changed
   if (validation.data.cnpj && validation.data.cnpj !== existingSupplier.cnpj) {
-    const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(validation.data.cnpj, id);
+    const isCnpjAvailable = await supplierService.isSupplierCnpjAvailable(
+      validation.data.cnpj,
+      existingSupplier.companyId,
+      id,
+    );
     if (!isCnpjAvailable) {
       throw new ConflictError("A supplier with this CNPJ already exists");
     }
