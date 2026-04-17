@@ -139,8 +139,18 @@ export function usePreferences(options: UsePreferencesOptions = {}): UsePreferen
 
       const selectedCompanyId = null;
 
+      const selectedCompanyName = null;
+
       startTransition(() => {
-        setPrefs({ language, timezone, paginationSize, selectedApp, density, selectedCompanyId });
+        setPrefs({
+          language,
+          timezone,
+          paginationSize,
+          selectedApp,
+          density,
+          selectedCompanyId,
+          selectedCompanyName,
+        });
       });
     }
 

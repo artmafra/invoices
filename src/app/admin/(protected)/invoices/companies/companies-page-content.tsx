@@ -4,10 +4,16 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelectedCompany } from "@/contexts/company-context";
 import { Loader2, Plus, Search } from "lucide-react";
-import { useCompanies, useCreateCompany } from "@/hooks/admin/use-companies";
+import {
+  useCompanies,
+  useCreateCompany,
+  useDeleteCompany,
+  useUpdateCompany,
+} from "@/hooks/admin/use-companies";
 import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { CompanyCard } from "@/components/admin/companies/company-card";
+import { CompanyDeleteDialog } from "@/components/admin/companies/company-delete-dialog";
 import {
   CompanyFormDialog,
   type CompanyFormValues,
@@ -21,13 +27,22 @@ import { SidebarInset } from "@/components/ui/sidebar";
 
 export function CompaniesPageContent() {
   const router = useRouter();
-  const { setSelectedCompany } = useSelectedCompany();
+  const { selectedCompanyId, setSelectedCompany } = useSelectedCompany();
   const [search, setSearch] = useState("");
   const [createOpen, setCreateOpen] = useState(false);
+  const [editingCompany, setEditingCompany] = useState<{
+    id: string;
+    cnpj: string;
+    name: string;
+    city: string;
+  } | null>(null);
+  const [deletingCompanyId, setDeletingCompanyId] = useState<string | null>(null);
 
-  const { canCreate } = useSupplierPermissions();
+  const { canCreate, canEdit, canDelete } = useSupplierPermissions();
   const { data, isLoading, error } = useCompanies({}, 1, 100);
   const createCompany = useCreateCompany();
+  const updateCompany = useUpdateCompany();
+  const deleteCompany = useDeleteCompany();
 
   const companies = data?.data ?? [];
 
@@ -48,6 +63,26 @@ export function CompaniesPageContent() {
   function handleCreate(data: CompanyFormValues) {
     createCompany.mutate(data, {
       onSuccess: () => setCreateOpen(false),
+    });
+  }
+
+  function handleEdit(data: CompanyFormValues) {
+    if (!editingCompany) return;
+    updateCompany.mutate(
+      { id: editingCompany.id, data },
+      { onSuccess: () => setEditingCompany(null) },
+    );
+  }
+
+  function handleDelete() {
+    if (!deletingCompanyId) return;
+    deleteCompany.mutate(deletingCompanyId, {
+      onSuccess: () => {
+        if (selectedCompanyId === deletingCompanyId) {
+          setSelectedCompany(null, null);
+        }
+        setDeletingCompanyId(null);
+      },
     });
   }
 
@@ -102,19 +137,19 @@ export function CompaniesPageContent() {
           {!isLoading && !error && filtered.length > 0 && (
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {filtered.map((company) => (
-                <button
+                <CompanyCard
                   key={company.id}
-                  onClick={() => handleSelect(company.id, company.name)}
-                  className="text-left transition-opacity hover:opacity-80 focus:outline-none focus-visible:ring-2 focus-visible:ring-ring"
-                >
-                  <CompanyCard
-                    company={company}
-                    canEdit={false}
-                    canDelete={false}
-                    onEdit={() => {}}
-                    onDelete={() => {}}
-                  />
-                </button>
+                  company={company}
+                  canEdit={canEdit}
+                  canDelete={canDelete}
+                  onSelect={(id) => handleSelect(id, company.name)}
+                  onEdit={(id) => {
+                    const c = companies.find((c) => c.id === id);
+                    if (c)
+                      setEditingCompany({ id: c.id, cnpj: c.cnpj, name: c.name, city: c.city });
+                  }}
+                  onDelete={(id) => setDeletingCompanyId(id)}
+                />
               ))}
             </div>
           )}
@@ -128,6 +163,25 @@ export function CompaniesPageContent() {
         onSubmit={handleCreate}
         isEditing={false}
         isSaving={createCompany.isPending}
+      />
+
+      <CompanyFormDialog
+        open={!!editingCompany}
+        onOpenChange={(open) => {
+          if (!open) setEditingCompany(null);
+        }}
+        initialData={editingCompany ?? {}}
+        onSubmit={handleEdit}
+        isEditing={true}
+        isSaving={updateCompany.isPending}
+      />
+      <CompanyDeleteDialog
+        open={!!deletingCompanyId}
+        onOpenChange={(open) => {
+          if (!open) setDeletingCompanyId(null);
+        }}
+        onConfirm={handleDelete}
+        isPending={deleteCompany.isPending}
       />
     </SidebarInset>
   );
