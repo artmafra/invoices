@@ -2,6 +2,7 @@
   "title": "Notas Fiscais",
   "description": "Gerencie suas notas fiscais",
   "nav": {
+    "companies": "Empresas",
     "allTasks": "Notas Fiscais",
     "suppliers": "Fornecedores",
     "services": "Serviços"

@@ -2,6 +2,7 @@
   "title": "Invoices",
   "description": "Manage your invoices",
   "nav": {
+    "companies": "Companies",
     "allTasks": "Invoices",
     "suppliers": "Suppliers",
     "services": "Services"
