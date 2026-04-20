@@ -38,4 +38,15 @@ export class ServiceService {
   async deleteService(id: string) {
     return await serviceStorage.delete(id);
   }
+
+  async isServiceCodeAvailable(
+    code: string,
+    companyId: string,
+    excludeId?: string,
+  ): Promise<boolean> {
+    const existing = await serviceStorage.findByCodeAndCompany(code, companyId);
+    if (!existing) return true;
+    if (excludeId && existing.id === excludeId) return true;
+    return false;
+  }
 }

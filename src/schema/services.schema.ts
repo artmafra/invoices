@@ -1,21 +1,25 @@
-import { jsonb, pgTable, text, timestamp, uuid } from "drizzle-orm/pg-core";
+import { jsonb, pgTable, text, timestamp, unique, uuid } from "drizzle-orm/pg-core";
 import { createInsertSchema, createUpdateSchema } from "drizzle-zod";
 import z from "zod";
 import { tableCompanies } from "./companies.schema";
 
-export const tableServices = pgTable("services", {
-  id: uuid("id").primaryKey().defaultRandom(),
-  companyId: uuid("company_id")
-    .notNull()
-    .references(() => tableCompanies.id),
-  code: text("code").notNull().unique(),
-  description: text("description").notNull(),
-  sn: jsonb("sn").$type<TaxRates>().notNull(),
-  n: jsonb("n").$type<TaxRates>().notNull(),
-  mei: jsonb("mei").$type<TaxRates>().notNull(),
-  obs: text("obs"),
-  createdAt: timestamp("created_at").notNull().defaultNow(),
-});
+export const tableServices = pgTable(
+  "services",
+  {
+    id: uuid("id").primaryKey().defaultRandom(),
+    companyId: uuid("company_id")
+      .notNull()
+      .references(() => tableCompanies.id),
+    code: text("code").notNull(),
+    description: text("description").notNull(),
+    sn: jsonb("sn").$type<TaxRates>().notNull(),
+    n: jsonb("n").$type<TaxRates>().notNull(),
+    mei: jsonb("mei").$type<TaxRates>().notNull(),
+    obs: text("obs"),
+    createdAt: timestamp("created_at").notNull().defaultNow(),
+  },
+  (t) => [unique("services_code_company_unique").on(t.code, t.companyId)],
+);
 
 export const taxRatesSchema = z.object({
   issqn: z.number().nullable(),

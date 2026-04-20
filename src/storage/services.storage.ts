@@ -107,6 +107,10 @@ export class ServicesStorage implements BaseStorage<
     return true;
   }
 
+  async deleteByCompanyId(companyId: string) {
+    await db.delete(tableServices).where(eq(tableServices.companyId, companyId));
+  }
+
   async findById(id: string) {
     return await db
       .select()
@@ -151,5 +155,13 @@ export class ServicesStorage implements BaseStorage<
         count: result?.count ?? 0,
       };
     });
+  }
+
+  async findByCodeAndCompany(code: string, companyId: string) {
+    return await db
+      .select()
+      .from(tableServices)
+      .where(and(eq(tableServices.code, code), eq(tableServices.companyId, companyId)))
+      .then((res) => res[0]);
   }
 }

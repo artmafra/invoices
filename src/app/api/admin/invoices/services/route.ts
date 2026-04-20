@@ -74,8 +74,11 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   }
 
   // Check for duplicate service code
-  const existingService = await serviceService.getServiceByCode(validation.data.code);
-  if (existingService) {
+  const isCodeAvailable = await serviceService.isServiceCodeAvailable(
+    validation.data.code,
+    validation.data.companyId,
+  );
+  if (!isCodeAvailable) {
     throw new ConflictError("A service with this code already exists");
   }
 

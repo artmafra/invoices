@@ -293,4 +293,9 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     await versionCache.invalidate("invoices");
     return result.length > 0;
   }
+
+  async deleteByCompanyId(companyId: string) {
+    await db.delete(tableInvoices).where(eq(tableInvoices.companyId, companyId));
+    await versionCache.invalidate("invoices");
+  }
 }

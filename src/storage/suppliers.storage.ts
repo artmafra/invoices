@@ -163,6 +163,10 @@ export class SuppliersStorage implements BaseStorage<
     return true;
   }
 
+  async deleteByCompanyId(companyId: string) {
+    await db.delete(tableSuppliers).where(eq(tableSuppliers.companyId, companyId));
+  }
+
   async findById(id: string) {
     return await db
       .select()

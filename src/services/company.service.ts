@@ -3,6 +3,9 @@ import type { InsertCompanySchema, UpdateCompanySchema } from "@/schema/companie
 import type { AdminCompaniesListResponse } from "@/types/companies/companies.types";
 import type { CompanyFilterOptions } from "@/storage/companies.storage";
 import { companyStorage } from "@/storage/runtime/company";
+import { invoiceStorage } from "@/storage/runtime/invoice";
+import { serviceStorage } from "@/storage/runtime/service";
+import { supplierStorage } from "@/storage/runtime/supplier";
 import type { PaginationOptions } from "@/storage/types";
 
 export class CompanyService {
@@ -47,6 +50,10 @@ export class CompanyService {
   }
 
   async deleteCompany(id: string) {
+    // Delete in dependency order: invoices first (FK to suppliers+services), then suppliers and services, then company
+    await invoiceStorage.deleteByCompanyId(id);
+    await supplierStorage.deleteByCompanyId(id);
+    await serviceStorage.deleteByCompanyId(id);
     return await companyStorage.delete(id);
   }
 }
