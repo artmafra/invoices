@@ -105,19 +105,13 @@ export function ContextSwitcher() {
     );
   }
 
-  // In app context mode with invoices + company selected: make it link to companies page
+  // In app context mode: show static header (no clickable link)
   if (contextMode === "app" && selectedApp) {
-    const isInvoicesWithCompany = selectedApp.slug === "invoices" && selectedCompanyName;
-
     return (
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
-            <Link
-              href={
-                isInvoicesWithCompany ? "/admin/invoices/companies" : `/admin/${selectedApp.slug}`
-              }
-            >
+            <Link href={`/admin/${selectedApp.slug}`}>
               <div className="flex aspect-square size-8 items-center justify-center">
                 <Image
                   src="/images/contpaz-logo.svg"

@@ -6,6 +6,7 @@ import { useSelectedCompany } from "@/contexts/company-context";
 import {
   Archive,
   Briefcase,
+  Building2,
   CheckSquare,
   FilePenLine,
   Gamepad2,
@@ -39,43 +40,15 @@ interface AppNavConfig {
  * Defined here (not in registry) so we can use translations.
  */
 const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
-  notes: {
-    icon: StickyNote,
-    getItems: (t) => [
-      {
-        title: t("nav.allNotes"),
-        url: "/admin/notes",
-        icon: StickyNote,
-        permission: { resource: "notes", action: "view" },
-      },
-      {
-        title: t("nav.archivedNotes"),
-        url: "/admin/notes/archived",
-        icon: Archive,
-        permission: { resource: "notes", action: "view" },
-      },
-    ],
-  },
-  tasks: {
-    icon: CheckSquare,
-    getItems: (t) => [
-      {
-        title: t("nav.allTasks"),
-        url: "/admin/tasks",
-        icon: CheckSquare,
-        permission: { resource: "tasks", action: "view" },
-      },
-      {
-        title: t("nav.lists"),
-        url: "/admin/tasks/lists",
-        icon: CheckSquare,
-        permission: { resource: "tasks", action: "view" },
-      },
-    ],
-  },
   invoices: {
     icon: FilePenLine,
     getItems: (t) => [
+      {
+        title: t("nav.companies"),
+        url: "/admin/invoices/companies",
+        icon: Building2,
+        permission: { resource: "invoices", action: "view" },
+      },
       {
         title: t("nav.allTasks"),
         url: "/admin/invoices",
@@ -96,17 +69,6 @@ const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
       },
     ],
   },
-  games: {
-    icon: Gamepad2,
-    getItems: (t) => [
-      {
-        title: t("nav.allGames"),
-        url: "/admin/games",
-        icon: Gamepad2,
-        permission: { resource: "games", action: "view" },
-      },
-    ],
-  },
 };
 
 export function AppSidebar(
@@ -116,25 +78,21 @@ export function AppSidebar(
   const pathname = usePathname();
   const tInvoices = useTranslations("apps/invoices");
   const tSuppliers = useTranslations("apps/suppliers");
-  const tTasks = useTranslations("apps/tasks");
-  const tGames = useTranslations("apps/games");
   const { selectedApp } = useSelectedApp();
   const { selectedCompanyId } = useSelectedCompany();
 
   // Detect special sidebar modes
   const isProfilePage = pathname?.startsWith("/admin/profile");
   const isSystemPage = pathname?.startsWith("/admin/system");
-  const isCompaniesSelectionPage = pathname === "/admin/invoices/companies" && !selectedCompanyId;
+  const isInvoicesWithoutCompany = selectedApp?.id === "invoices" && !selectedCompanyId;
 
   // Map app IDs to their translation functions
   const appTranslations: Record<string, ReturnType<typeof useTranslations>> = React.useMemo(
     () => ({
       invoices: tInvoices,
       suppliers: tSuppliers,
-      tasks: tTasks,
-      games: tGames,
     }),
-    [tInvoices, tSuppliers, tTasks, tGames],
+    [tInvoices, tSuppliers],
   );
 
   // Build nav items from selected app using translations
@@ -171,7 +129,7 @@ export function AppSidebar(
   const renderContent = () => {
     if (isProfilePage) return <NavProfile />;
     if (isSystemPage) return <NavSystem />;
-    if (isCompaniesSelectionPage) return <NavMain items={[]} />;
+    if (isInvoicesWithoutCompany) return <NavMain items={navMain.slice(0, 1)} />;
     return <NavMain items={navMain} />;
   };
 
