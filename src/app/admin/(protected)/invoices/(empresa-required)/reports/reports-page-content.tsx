@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useRef } from "react";
+import { useCallback, useRef, useState } from "react";
 import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
@@ -56,6 +56,9 @@ export function ReportsPageContent() {
   } = useInvoicesFilters();
 
   const limit = usePaginationSize();
+
+  // Tax filters (client-side)
+  const [taxFilters, setTaxFilters] = useState<string[]>([]);
 
   // Dialog state
   const {
@@ -165,22 +168,14 @@ export function ReportsPageContent() {
               hasActiveFilters={hasActiveFilters}
             >
               <InvoicesFilters
-                statusFilter={filters.status}
-                onStatusFilterChange={setStatusFilter}
-                onSupplierCnpjFilter={setSupplierCnpjFilter}
-                onServiceCodeFilter={setServiceCodeFilter}
                 onIssueDateRange={({ from, to }) =>
                   setIssueDateRange(
                     from ? from.toISOString() : undefined,
                     to ? to.toISOString() : undefined,
                   )
                 }
-                onDueDateRange={({ from, to }) =>
-                  setDueDateRange(
-                    from ? from.toISOString() : undefined,
-                    to ? to.toISOString() : undefined,
-                  )
-                }
+                taxFilters={taxFilters}
+                onTaxFilter={setTaxFilters}
                 hasActiveFilters={hasActiveFilters}
                 onClear={clearFilters}
                 t={t}
@@ -199,6 +194,7 @@ export function ReportsPageContent() {
                 limit={limit}
                 permissions={permissions}
                 hasActiveFilters={hasActiveFilters}
+                taxFilters={taxFilters}
                 onPageChange={setPage}
                 onStatusChange={actions.handleStatusChange}
                 onCreate={openCreateDialog}

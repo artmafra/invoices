@@ -1,20 +1,18 @@
 "use client";
 
 import type { InvoiceStatus } from "@/schema/invoices.schema";
-import { Building2, Calendar, FileText, MoreHorizontal, Pencil, Trash2 } from "lucide-react";
+import { MoreHorizontal, Pencil, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { InvoiceWithRelations } from "@/hooks/admin/use-invoices";
 import { useDateFormat } from "@/hooks/use-date-format";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Separator } from "@/components/ui/separator";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
 
@@ -27,7 +25,7 @@ function formatBRL(cents: number | null | undefined): string {
 }
 
 function formatPct(rate: number | null | undefined): string {
-  if (rate == null) return "—";
+  if (rate == null) return "NT";
   return `${rate.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
 }
 
@@ -35,7 +33,7 @@ function formatCnpj(cnpj: string): string {
   return cnpj.replace(/^(\d{2})(\d{3})(\d{3})(\d{4})(\d{2})$/, "$1.$2.$3/$4-$5");
 }
 
-function computeTaxes(
+export function computeTaxes(
   valueCents: number,
   materialCents: number,
   rates: NonNullable<InvoiceWithRelations["service"]>["taxRates"] | undefined,
@@ -49,27 +47,14 @@ function computeTaxes(
   const irrfRaw = r.irrf != null ? valueCents * (r.irrf / 100) : null;
   const irrf = irrfRaw != null && irrfRaw >= 1000 ? Math.round(irrfRaw) : null;
 
-  return {
-    issqn,
-    inss,
-    cs,
-    irrf,
-    csRetained: csRaw != null && csRaw < 1000,
-    irrfRetained: irrfRaw != null && irrfRaw < 1000,
-  };
+  return { issqn, inss, cs, irrf };
 }
 
-// ─── status config ──────────────────────────────────────────────────────────
-
-const STATUS_CONFIG: Record<InvoiceStatus, string> = {
-  issued: "bg-priority-medium text-priority-medium-foreground",
-  paid: "bg-success text-success-foreground",
-  cancelled: "bg-destructive text-destructive-foreground",
-};
+const REGIME_ABBR: Record<string, string> = { sn: "SN", n: "N", mei: "MEI" };
 
 // ─── props ──────────────────────────────────────────────────────────────────
 
-interface InvoiceCardProps {
+export interface InvoiceCardProps {
   invoice: InvoiceWithRelations;
   canEdit: boolean;
   canDelete: boolean;
@@ -81,233 +66,159 @@ interface InvoiceCardProps {
 // ─── component ──────────────────────────────────────────────────────────────
 
 export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: InvoiceCardProps) {
-  const t = useTranslations("apps/invoices");
   const tc = useTranslations("common");
   const { formatDate } = useDateFormat();
+
+  const rates = invoice.service?.taxRates;
+  const { issqn, inss, cs, irrf } = computeTaxes(
+    invoice.valueCents,
+    invoice.materialDeductionCents,
+    rates,
+  );
 
   const isOverdue =
     invoice.dueDate && new Date(invoice.dueDate) < new Date() && invoice.status !== "paid";
 
-  const { issqn, inss, cs, irrf, csRetained, irrfRetained } = computeTaxes(
-    invoice.valueCents,
-    invoice.materialDeductionCents,
-    invoice.service?.taxRates,
-  );
-
-  const taxRegimeLabel = invoice.supplier?.taxRegime
-    ? t(`card.taxRegimes.${invoice.supplier.taxRegime}` as Parameters<typeof t>[0])
-    : null;
-
   return (
-    <Card className="overflow-hidden rounded-xl shadow-sm transition-shadow hover:shadow-md">
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <div className="flex items-center justify-between gap-space-sm border-b px-space-lg py-space-md">
-        <div className="flex items-center gap-space-sm">
-          <FileText className="h-4 w-4 shrink-0 text-muted-foreground" />
-          <span className="text-base font-semibold">NF #{invoice.invoiceNumber}</span>
-        </div>
-
-        <div className="flex items-center gap-space-sm">
-          {isOverdue && (
-            <Badge variant="destructive" className="hidden sm:inline-flex">
-              {t("overdue")}
-            </Badge>
-          )}
-          <Badge className={STATUS_CONFIG[invoice.status]}>
-            {t(`status.${invoice.status}` as Parameters<typeof t>[0])}
-          </Badge>
-
-          {(canEdit || canDelete) && (
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="h-8 w-8 shrink-0">
-                  <MoreHorizontal className="h-4 w-4" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {canEdit && (
-                  <DropdownMenuItem onClick={() => onEdit(invoice.id)}>
-                    <Pencil className="h-4 w-4" />
-                    {tc("buttons.edit")}
-                  </DropdownMenuItem>
-                )}
-                {canDelete && (
-                  <DropdownMenuItem
-                    onClick={() => onDelete(invoice.id)}
-                    className="text-destructive"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                    {tc("buttons.delete")}
-                  </DropdownMenuItem>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-          )}
-        </div>
-      </div>
-
-      <CardContent className="space-y-space-lg pt-space-lg">
-        {/* ── Supplier + Service + Dates ──────────────────────────────── */}
-        <div className="grid gap-space-lg sm:grid-cols-3">
-          {/* Supplier */}
-          <div className="space-y-space-xs sm:col-span-1">
-            <div className="flex items-center gap-space-xs text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              <Building2 className="h-3 w-3" />
-              {t("card.supplier")}
-            </div>
-            {invoice.supplier ? (
-              <>
-                <p className="truncate font-medium">{invoice.supplier.name}</p>
-                <p className="text-xs text-muted-foreground">{formatCnpj(invoice.supplier.cnpj)}</p>
-                <p className="text-xs text-muted-foreground">
-                  {invoice.supplier.city}
-                  {taxRegimeLabel && <span className="ml-1">· {taxRegimeLabel}</span>}
-                </p>
-              </>
-            ) : (
-              <p className="text-sm text-muted-foreground">—</p>
-            )}
-          </div>
-
-          {/* Service */}
-          <div className="space-y-space-xs sm:col-span-1">
-            <div className="flex items-center gap-space-xs text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              <FileText className="h-3 w-3" />
-              {t("card.service")}
-            </div>
-            {invoice.service ? (
-              <>
-                <p className="font-medium">{invoice.service.code}</p>
-                <p className="text-xs text-muted-foreground">{invoice.service.description}</p>
-              </>
-            ) : (
-              <p className="text-sm text-muted-foreground">—</p>
-            )}
-          </div>
-
-          {/* Dates */}
-          <div className="space-y-space-xs sm:col-span-1">
-            <div className="flex items-center gap-space-xs text-xs font-medium uppercase tracking-wide text-muted-foreground">
-              <Calendar className="h-3 w-3" />
-              {t("card.dates")}
-            </div>
-            <div className="space-y-space-xs text-sm">
-              <div className="flex items-center justify-between gap-space-sm">
-                <span className="text-muted-foreground">{t("card.entryDate")}</span>
-                <span>{invoice.entryDate ? formatDate(invoice.entryDate) : "—"}</span>
-              </div>
-              <div className="flex items-center justify-between gap-space-sm">
-                <span className="text-muted-foreground">{t("card.issueDate")}</span>
-                <span>{invoice.issueDate ? formatDate(invoice.issueDate) : "—"}</span>
-              </div>
-              <div className="flex items-center justify-between gap-space-sm">
-                <span className={isOverdue ? "text-destructive" : "text-muted-foreground"}>
-                  {t("card.dueDate")}
-                </span>
-                <span className={isOverdue ? "font-medium text-destructive" : ""}>
-                  {invoice.dueDate ? formatDate(invoice.dueDate) : "—"}
-                </span>
-              </div>
-              {/* Mobile overdue badge */}
-              {isOverdue && (
-                <Badge variant="destructive" className="mt-space-xs sm:hidden">
-                  {t("overdue")}
-                </Badge>
-              )}
-            </div>
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* ── Taxes ──────────────────────────────────────────────────── */}
-        <div className="space-y-space-sm">
-          <p className="text-xs font-medium uppercase tracking-wide text-muted-foreground">
-            {t("card.taxes")}
-          </p>
-
-          <div className="space-y-space-xs text-sm">
-            {/* Gross value */}
-            <TaxRow label={t("card.grossValue")} value={formatBRL(invoice.valueCents)} />
-
-            {/* Material deduction */}
-            {invoice.materialDeductionCents > 0 && (
-              <TaxRow
-                label={t("card.materialDeduction")}
-                value={`(${formatBRL(invoice.materialDeductionCents)})`}
-                muted
-              />
-            )}
-
-            <Separator className="my-space-xs" />
-
-            {/* ISSQN */}
-            {invoice.service?.taxRates?.issqn != null && (
-              <TaxRow
-                label={`ISSQN (${formatPct(invoice.service.taxRates.issqn)})`}
-                value={formatBRL(issqn)}
-              />
-            )}
-
-            {/* INSS */}
-            {invoice.service?.taxRates?.inss != null && (
-              <TaxRow
-                label={`INSS (${formatPct(invoice.service.taxRates.inss)})`}
-                value={formatBRL(inss)}
-              />
-            )}
-
-            {/* CS */}
-            {invoice.service?.taxRates?.cs != null && (
-              <TaxRow
-                label={`CS (${formatPct(invoice.service.taxRates.cs)})`}
-                value={csRetained ? `— ${t("card.notRetained")}` : formatBRL(cs)}
-                muted={csRetained}
-              />
-            )}
-
-            {/* IRRF */}
-            {invoice.service?.taxRates?.irrf != null && (
-              <TaxRow
-                label={`IRRF (${formatPct(invoice.service.taxRates.irrf)})`}
-                value={irrfRetained ? `— ${t("card.notRetained")}` : formatBRL(irrf)}
-                muted={irrfRetained}
-              />
-            )}
-          </div>
-        </div>
-
-        <Separator />
-
-        {/* ── Net amount ─────────────────────────────────────────────── */}
-        <div className="flex items-center justify-between rounded-lg bg-muted/60 px-space-md py-space-sm">
-          <span className="text-sm font-semibold">{t("card.netAmount")}</span>
-          <span className="text-lg font-bold text-success">
-            {formatBRL(invoice.netAmountCents)}
-          </span>
-        </div>
-      </CardContent>
-    </Card>
-  );
-}
-
-// ─── mini helper component ───────────────────────────────────────────────────
-
-function TaxRow({
-  label,
-  value,
-  muted = false,
-}: {
-  label: string;
-  value: string;
-  muted?: boolean;
-}) {
-  return (
-    <div
-      className={`flex items-center justify-between gap-space-sm ${muted ? "text-muted-foreground" : ""}`}
+    <tr
+      className={`border-b border-border transition-colors hover:bg-muted/30${isOverdue ? " bg-destructive/5" : ""}`}
     >
-      <span>{label}</span>
-      <span className={muted ? "" : "font-medium"}>{value}</span>
-    </div>
+      {/* 1. CNPJ Prestador */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.supplier?.cnpj ? formatCnpj(invoice.supplier.cnpj) : "—"}
+      </td>
+      {/* 2. Nome Prestador */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.supplier?.name ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="block max-w-[160px] truncate cursor-default">
+                {invoice.supplier.name}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{invoice.supplier.name}</TooltipContent>
+          </Tooltip>
+        ) : (
+          "—"
+        )}
+      </td>
+      {/* 3. Cidade */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.supplier?.city}
+      </td>
+      {/* 4. Regime de Tributação */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-center text-xs">
+        {invoice.supplier?.taxRegime
+          ? (REGIME_ABBR[invoice.supplier.taxRegime] ?? invoice.supplier.taxRegime)
+          : "—"}
+      </td>
+      {/* 5. Cód Serv */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.service?.code}
+      </td>
+      {/* 6. Desc Serv */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.service?.description ? (
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <span className="block max-w-[160px] truncate cursor-default">
+                {invoice.service.description}
+              </span>
+            </TooltipTrigger>
+            <TooltipContent>{invoice.service.description}</TooltipContent>
+          </Tooltip>
+        ) : (
+          "NT"
+        )}
+      </td>
+      {/* 7. Data Entrada */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.entryDate ? formatDate(invoice.entryDate, { dateStyle: "short" }) : "—"}
+      </td>
+      {/* 8. Data Emissão */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.issueDate ? formatDate(invoice.issueDate, { dateStyle: "short" }) : "—"}
+      </td>
+      {/* 9. Data Venc */}
+      <td
+        className={`whitespace-nowrap border-r border-border px-2 py-1 text-xs${isOverdue ? " font-medium text-destructive" : ""}`}
+      >
+        {invoice.dueDate ? formatDate(invoice.dueDate, { dateStyle: "short" }) : "—"}
+      </td>
+      {/* 10. Numero NF */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
+        {invoice.invoiceNumber}
+      </td>
+      {/* 11. Valor NF */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {formatBRL(invoice.valueCents)}
+      </td>
+      {/* 12. Ded Mat */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {invoice.materialDeductionCents > 0 ? formatBRL(invoice.materialDeductionCents) : "—"}
+      </td>
+      {/* 13. Alíquota ISSQN */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {formatPct(rates?.issqn)}
+      </td>
+      {/* 14. ISSQN */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {issqn != null ? formatBRL(issqn) : "NT"}
+      </td>
+      {/* 15. Alíquota INSS */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {formatPct(rates?.inss)}
+      </td>
+      {/* 16. INSS */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {inss != null ? formatBRL(inss) : "NT"}
+      </td>
+      {/* 17. Alíquota CS */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {formatPct(rates?.cs)}
+      </td>
+      {/* 18. CS */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {cs != null ? formatBRL(cs) : "NT"}
+      </td>
+      {/* 19. Alíquota IRRF */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {formatPct(rates?.irrf)}
+      </td>
+      {/* 20. IRRF */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+        {irrf != null ? formatBRL(irrf) : "NT"}
+      </td>
+      {/* 21. Líquido a receber */}
+      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs font-semibold text-success">
+        {formatBRL(invoice.netAmountCents)}
+      </td>
+      {/* Actions */}
+      {(canEdit || canDelete) && (
+        <td className="px-2 py-1 text-center">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-6 w-6">
+                <MoreHorizontal className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {canEdit && (
+                <DropdownMenuItem onClick={() => onEdit(invoice.id)}>
+                  <Pencil className="h-4 w-4" />
+                  {tc("buttons.edit")}
+                </DropdownMenuItem>
+              )}
+              {canDelete && (
+                <DropdownMenuItem onClick={() => onDelete(invoice.id)} className="text-destructive">
+                  <Trash2 className="h-4 w-4" />
+                  {tc("buttons.delete")}
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </td>
+      )}
+    </tr>
   );
 }

@@ -112,5 +112,29 @@
     "debit": "Debit",
     "credit": "Credit",
     "serviceDescription": "Service Description"
+  },
+  "table": {
+    "cnpj": "Supplier CNPJ",
+    "supplierName": "Supplier Name",
+    "city": "City",
+    "taxRegime": "Tax Regime",
+    "serviceCode": "Service Code",
+    "serviceDescription": "Service Desc.",
+    "entryDate": "Entry Date",
+    "issueDate": "Issue Date",
+    "dueDate": "Due Date",
+    "invoiceNumber": "Invoice No.",
+    "value": "Invoice Value",
+    "deduction": "Mat. Ded.",
+    "aliquotaISSQN": "ISSQN Rate",
+    "issqn": "ISSQN",
+    "aliquotaINSS": "INSS Rate",
+    "inss": "INSS",
+    "aliquotaCS": "CS Rate",
+    "cs": "CS",
+    "aliquotaIRRF": "IRRF Rate",
+    "irrf": "IRRF",
+    "netAmount": "Net Receivable",
+    "total": "TOTAL"
   }
 }

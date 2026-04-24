@@ -111,5 +111,29 @@
     "debit": "Débito",
     "credit": "Crédito",
     "serviceDescription": "Descrição Serviços"
+  },
+  "table": {
+    "cnpj": "CNPJ Prestador",
+    "supplierName": "Nome Prestador",
+    "city": "Cidade",
+    "taxRegime": "Regime",
+    "serviceCode": "Cód Serv",
+    "serviceDescription": "Desc Serv",
+    "entryDate": "Data Entrada",
+    "issueDate": "Data Emissão",
+    "dueDate": "Data Venc",
+    "invoiceNumber": "Numero NF",
+    "value": "Valor NF",
+    "deduction": "Ded Mat",
+    "aliquotaISSQN": "Alíquota ISSQN",
+    "issqn": "ISSQN",
+    "aliquotaINSS": "Alíquota INSS",
+    "inss": "INSS",
+    "aliquotaCS": "Alíquota CS",
+    "cs": "CS",
+    "aliquotaIRRF": "Alíquota IRRF",
+    "irrf": "IRRF",
+    "netAmount": "Líquido a receber",
+    "total": "TOTAL"
   }
 }
