@@ -156,6 +156,7 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     // Supplier subquery
     const supplierSub = db
       .select({
+        companyId: tableSuppliers.companyId,
         cnpj: tableSuppliers.cnpj,
         name: tableSuppliers.name,
         city: tableSuppliers.city,
@@ -167,6 +168,7 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
     // Service subquery
     const serviceSub = db
       .select({
+        companyId: tableServices.companyId,
         code: tableServices.code,
         description: tableServices.description,
         sn: tableServices.sn,
@@ -197,8 +199,20 @@ export class InvoicesStorage implements BaseStorage<Invoice> {
         },
       })
       .from(tableInvoices)
-      .leftJoin(supplierSub, eq(tableInvoices.supplierCnpj, supplierSub.cnpj))
-      .leftJoin(serviceSub, eq(tableInvoices.serviceCode, serviceSub.code))
+      .leftJoin(
+        supplierSub,
+        and(
+          eq(tableInvoices.supplierCnpj, supplierSub.cnpj),
+          eq(tableInvoices.companyId, supplierSub.companyId),
+        ),
+      )
+      .leftJoin(
+        serviceSub,
+        and(
+          eq(tableInvoices.serviceCode, serviceSub.code),
+          eq(tableInvoices.companyId, serviceSub.companyId),
+        ),
+      )
       .orderBy(orderBy);
 
     if (whereClause) {

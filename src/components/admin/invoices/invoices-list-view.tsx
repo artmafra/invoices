@@ -61,6 +61,9 @@ export function InvoicesListView({
   onDelete,
 }: InvoicesListViewProps) {
   const t = useTranslations("apps/invoices");
+  const uniqueInvoices = invoices.filter(
+    (inv, idx, arr) => arr.findIndex((i) => i.id === inv.id) === idx,
+  );
 
   return (
     <>
@@ -68,7 +71,7 @@ export function InvoicesListView({
       {invoices.length > 0 ? (
         <div className="space-y-space-md">
           <div className="flex flex-col gap-space-md">
-            {invoices.map((invoice) => (
+            {uniqueInvoices.map((invoice) => (
               <InvoiceCard
                 key={invoice.id}
                 invoice={invoice}
