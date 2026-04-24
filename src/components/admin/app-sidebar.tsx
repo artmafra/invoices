@@ -3,17 +3,7 @@
 import * as React from "react";
 import { usePathname } from "next/navigation";
 import { useSelectedCompany } from "@/contexts/company-context";
-import {
-  Archive,
-  Briefcase,
-  Building2,
-  CheckSquare,
-  FilePenLine,
-  Gamepad2,
-  StickyNote,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+import { BarChart2, Briefcase, Building2, FilePenLine, Users, type LucideIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import type { NavItem } from "@/lib/navigation";
 import { useSelectedApp } from "@/hooks/admin/use-selected-app";
@@ -65,6 +55,12 @@ const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
         title: t("nav.services"),
         url: "/admin/invoices/services",
         icon: Briefcase,
+        permission: { resource: "invoices", action: "view" },
+      },
+      {
+        title: t("nav.reports"),
+        url: "/admin/invoices/reports",
+        icon: BarChart2,
         permission: { resource: "invoices", action: "view" },
       },
     ],

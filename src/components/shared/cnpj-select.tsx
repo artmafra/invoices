@@ -18,6 +18,7 @@ interface CnpjSelectProps {
   placeholder?: string;
   description?: string;
   disabled?: boolean;
+  companyId?: string | null;
 }
 
 export function CnpjSelect({
@@ -28,6 +29,7 @@ export function CnpjSelect({
   placeholder,
   description,
   disabled = false,
+  companyId,
 }: CnpjSelectProps) {
   const t = useTranslations("common.components.cnpjSelect");
   const [inputValue, setInputValue] = useState("");
@@ -45,6 +47,7 @@ export function CnpjSelect({
 
   const { data: suppliersPage, isFetching } = useSuppliers({
     search: debouncedSearch || undefined,
+    companyId: companyId ?? undefined,
   });
 
   const suppliersList = suppliersPage?.data ?? [];

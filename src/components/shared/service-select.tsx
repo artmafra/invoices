@@ -17,6 +17,7 @@ interface ServiceSelectProps {
   placeholder?: string;
   description?: string;
   disabled?: boolean;
+  companyId?: string | null;
 }
 
 export function ServiceSelect({
@@ -27,6 +28,7 @@ export function ServiceSelect({
   placeholder,
   description,
   disabled = false,
+  companyId,
 }: ServiceSelectProps) {
   const t = useTranslations("common.components.serviceSelect");
   const [inputValue, setInputValue] = useState("");
@@ -41,6 +43,7 @@ export function ServiceSelect({
 
   const { data: services, isFetching } = useServices({
     search: debouncedSearch || undefined,
+    companyId: companyId ?? undefined,
   });
 
   const servicesList = services?.data ?? [];

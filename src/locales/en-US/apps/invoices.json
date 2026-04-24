@@ -1,11 +1,13 @@
 {
   "title": "Invoices",
   "description": "Manage your invoices",
+  "reportsDescription": "View and filter all invoices issued.",
   "nav": {
     "companies": "Companies",
     "allTasks": "Invoices",
     "suppliers": "Suppliers",
-    "services": "Services"
+    "services": "Services",
+    "reports": "Reports"
   },
   "searchPlaceholder": "Search for invoice by number...",
   "new": "New",
@@ -14,6 +16,8 @@
   "editDescription": "Make changes to your invoices below.",
   "createDescription": "Create a new Invoice",
   "loading": "Loading invoices",
+  "saving": "Saving...",
+  "registerInvoice": "Register Invoice",
   "fields": {
     "supplierCnpj": "Supplier CNPJ",
     "supplierCnpjPlaceholder": "Type the supplier's CNPJ",
@@ -28,7 +32,9 @@
     "invoiceNumber": "Invoice Number",
     "invoiceNumberPlaceholder": "Type the Invoice Number",
     "status": "Invoice status",
-    "materialDeductionCents": "Material Deduction"
+    "materialDeductionCents": "Material Deduction",
+    "deductionCents": "Material Deduction",
+    "entryDate": "Entry Date NF"
   },
   "allStatus": "All status",
   "status": {
@@ -99,6 +105,12 @@
     "grossValue": "Gross value",
     "materialDeduction": "Material deduction",
     "notRetained": "not retained",
-    "netAmount": "Net receivable"
+    "netAmount": "Net receivable",
+    "supplierName": "Supplier Name",
+    "supplierCity": "City",
+    "taxRegime": "Tax Regime",
+    "debit": "Debit",
+    "credit": "Credit",
+    "serviceDescription": "Service Description"
   }
 }

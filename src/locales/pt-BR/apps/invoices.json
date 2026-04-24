@@ -1,11 +1,13 @@
 {
   "title": "Notas Fiscais",
   "description": "Gerencie suas notas fiscais",
+  "reportsDescription": "Visualize e filtre todas as notas fiscais emitidas.",
   "nav": {
     "companies": "Empresas",
     "allTasks": "Notas Fiscais",
     "suppliers": "Fornecedores",
-    "services": "Serviços"
+    "services": "Serviços",
+    "reports": "Relatórios"
   },
   "searchPlaceholder": "Pesquisar nota fiscal pelo número...",
   "new": "Nova",
@@ -14,6 +16,8 @@
   "editDescription": "Faça alterações na sua nota fiscal abaixo.",
   "createDescription": "Crie uma nova nota fiscal",
   "loading": "Carregando Notas Fiscais...",
+  "saving": "Salvando...",
+  "registerInvoice": "Cadastrar Nota",
   "fields": {
     "supplierCnpj": "CNPJ do Fornecedor",
     "supplierCnpjPlaceholder": "Digite o CNPJ do Fornecedor",
@@ -27,7 +31,9 @@
     "invoiceNumber": "Número da Nota Fiscal",
     "invoiceNumberPlaceholder": "Digite o Número da Nota Fiscal",
     "status": "Status da Nota Fiscal",
-    "materialDeductionCents": "Dedução Material"
+    "materialDeductionCents": "Dedução Material",
+    "deductionCents": "Dedução Material",
+    "entryDate": "Data Entrada NF"
   },
   "allStatus": "Todos os Status",
   "status": {
@@ -98,6 +104,12 @@
     "grossValue": "Valor bruto",
     "materialDeduction": "Dedução material",
     "notRetained": "não retido",
-    "netAmount": "Líquido a receber"
+    "netAmount": "Líquido a receber",
+    "supplierName": "Nome Prestador",
+    "supplierCity": "Cidade",
+    "taxRegime": "Regime de Tributação",
+    "debit": "Débito",
+    "credit": "Crédito",
+    "serviceDescription": "Descrição Serviços"
   }
 }
