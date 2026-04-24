@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelectedCompany } from "@/contexts/company-context";
 import type { TaxRates } from "@/schema/services.schema";
 import { useTranslations } from "next-intl";
@@ -103,6 +103,53 @@ function fromDisplayDate(s: string): Date {
 const today = toDisplayDate(new Date());
 
 // ─────────────────────────────────────────────────────────────────────────────
+// Draft persistence (localStorage)
+// ─────────────────────────────────────────────────────────────────────────────
+
+const DRAFT_KEY = "invoice-entry-draft";
+
+interface DraftState {
+  entryDate: string;
+  issueDate: string;
+  dueDate: string;
+  supplierCnpj: string;
+  serviceCode: string | null;
+  invoiceNumber: string;
+  valueCents: number;
+  valueDisplay: string;
+  materialCents: number;
+  materialDisplay: string;
+  inssOverrideDisplay: string;
+  irrfOverrideDisplay: string;
+  issqnOverrideDisplay: string;
+}
+
+function loadDraft(): DraftState | null {
+  try {
+    const raw = localStorage.getItem(DRAFT_KEY);
+    return raw ? (JSON.parse(raw) as DraftState) : null;
+  } catch {
+    return null;
+  }
+}
+
+function saveDraft(draft: DraftState) {
+  try {
+    localStorage.setItem(DRAFT_KEY, JSON.stringify(draft));
+  } catch {
+    // ignore quota errors
+  }
+}
+
+function clearDraft() {
+  try {
+    localStorage.removeItem(DRAFT_KEY);
+  } catch {
+    // ignore
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // Main component
 // ─────────────────────────────────────────────────────────────────────────────
 
@@ -128,20 +175,61 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
   const { selectedCompanyId } = useSelectedCompany();
 
   // ── Form state ──────────────────────────────────────────────────────────────
-  const [entryDate, setEntryDate] = useState("");
-  const [issueDate, setIssueDate] = useState("");
-  const [dueDate, setDueDate] = useState("");
-  const [supplierCnpj, setSupplierCnpj] = useState("");
-  const [serviceCode, setServiceCode] = useState<string | null>(null);
-  const [invoiceNumber, setInvoiceNumber] = useState("");
-  const [valueCents, setValueCents] = useState(0);
-  const [valueDisplay, setValueDisplay] = useState("");
-  const [materialCents, setMaterialCents] = useState(0);
-  const [materialDisplay, setMaterialDisplay] = useState("");
-  const [inssOverrideDisplay, setInssOverrideDisplay] = useState("");
-  const [irrfOverrideDisplay, setIrrfOverrideDisplay] = useState("");
-  const [issqnOverrideDisplay, setIssqnOverrideDisplay] = useState("");
+  const [entryDate, setEntryDate] = useState(() => loadDraft()?.entryDate ?? "");
+  const [issueDate, setIssueDate] = useState(() => loadDraft()?.issueDate ?? "");
+  const [dueDate, setDueDate] = useState(() => loadDraft()?.dueDate ?? "");
+  const [supplierCnpj, setSupplierCnpj] = useState(() => loadDraft()?.supplierCnpj ?? "");
+  const [serviceCode, setServiceCode] = useState<string | null>(
+    () => loadDraft()?.serviceCode ?? null,
+  );
+  const [invoiceNumber, setInvoiceNumber] = useState(() => loadDraft()?.invoiceNumber ?? "");
+  const [valueCents, setValueCents] = useState(() => loadDraft()?.valueCents ?? 0);
+  const [valueDisplay, setValueDisplay] = useState(() => loadDraft()?.valueDisplay ?? "");
+  const [materialCents, setMaterialCents] = useState(() => loadDraft()?.materialCents ?? 0);
+  const [materialDisplay, setMaterialDisplay] = useState(() => loadDraft()?.materialDisplay ?? "");
+  const [inssOverrideDisplay, setInssOverrideDisplay] = useState(
+    () => loadDraft()?.inssOverrideDisplay ?? "",
+  );
+  const [irrfOverrideDisplay, setIrrfOverrideDisplay] = useState(
+    () => loadDraft()?.irrfOverrideDisplay ?? "",
+  );
+  const [issqnOverrideDisplay, setIssqnOverrideDisplay] = useState(
+    () => loadDraft()?.issqnOverrideDisplay ?? "",
+  );
   const [issqnFocused, setIssqnFocused] = useState(false);
+
+  // ── Persist draft on every change ───────────────────────────────────────────
+  useEffect(() => {
+    saveDraft({
+      entryDate,
+      issueDate,
+      dueDate,
+      supplierCnpj,
+      serviceCode,
+      invoiceNumber,
+      valueCents,
+      valueDisplay,
+      materialCents,
+      materialDisplay,
+      inssOverrideDisplay,
+      irrfOverrideDisplay,
+      issqnOverrideDisplay,
+    });
+  }, [
+    entryDate,
+    issueDate,
+    dueDate,
+    supplierCnpj,
+    serviceCode,
+    invoiceNumber,
+    valueCents,
+    valueDisplay,
+    materialCents,
+    materialDisplay,
+    inssOverrideDisplay,
+    irrfOverrideDisplay,
+    issqnOverrideDisplay,
+  ]);
 
   // ── Supplier lookup ─────────────────────────────────────────────────────────
   const debouncedCnpj = useDebounce(extractCnpjDigits(supplierCnpj), 400);
@@ -236,7 +324,8 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
         status: "issued",
       });
 
-      // Reset form
+      // Reset form + clear draft
+      clearDraft();
       setEntryDate("");
       setIssueDate("");
       setDueDate("");
@@ -475,6 +564,11 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                 value={supplier ? regimeLabel[supplier.taxRegime] : "—"}
                 spanValue
               />
+
+              {/* Spacer */}
+              <tr>
+                <td colSpan={3} className="h-14 bg-muted/40 border-b border-border" />
+              </tr>
 
               {/* Tax header */}
               <TaxColumnHeader />
