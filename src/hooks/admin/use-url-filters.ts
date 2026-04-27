@@ -31,6 +31,7 @@ export interface UrlFiltersActions {
   setSearch: (value: string) => void;
   setSort: (sortBy: string, sortOrder: SortOrder) => void;
   setFilter: (key: string, value: string | undefined) => void;
+  setFilters: (updates: Record<string, string | undefined>) => void;
   setPage: (page: number) => void;
   clearAll: () => void;
   hasActiveFilters: boolean;
@@ -146,6 +147,14 @@ export function useUrlFilters(
     [updateUrl, animationRef],
   );
 
+  const setFilters = useCallback(
+    (updates: Record<string, string | undefined>) => {
+      updateUrl({ ...updates, page: undefined }); // Reset page on filter change
+      animationRef?.current?.triggerAnimation();
+    },
+    [updateUrl, animationRef],
+  );
+
   const setPage = useCallback(
     (page: number) => {
       updateUrl({ page: page > 1 ? String(page) : undefined });
@@ -182,6 +191,7 @@ export function useUrlFilters(
       setSearch,
       setSort,
       setFilter,
+      setFilters,
       setPage,
       clearAll,
       hasActiveFilters,

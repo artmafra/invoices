@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { X } from "lucide-react";
 import type { useTranslations } from "next-intl";
 import { useTranslations as useT } from "next-intl";
+import { formatCnpj } from "@/lib/cnpj-service-code";
 import { useDebounce } from "@/hooks/use-debounce";
 import { SearchBarFilterSelect } from "@/components/shared/search-bar";
 import { Button } from "@/components/ui/button";
@@ -176,10 +177,10 @@ export function SupplierFilters({
                 <Input
                   autoFocus
                   placeholder={t("fields.cnpjPlaceholder")}
-                  value={cnpjInput}
-                  onChange={(e) => setCnpjInput(e.target.value)}
+                  inputMode="numeric"
+                  value={formatCnpj(cnpjInput)}
+                  onChange={(e) => setCnpjInput(e.target.value.replace(/\D/g, "").slice(0, 14))}
                   className="w-full sm:w-64"
-                  maxLength={14}
                 />
                 {cnpjInput.length > 0 && (
                   <Button size="sm" variant="outline" onClick={() => setCnpjInput("")}>

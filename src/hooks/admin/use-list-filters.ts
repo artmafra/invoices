@@ -26,6 +26,7 @@ export interface ListFiltersResult {
   animationRef: React.RefObject<LoadingTransitionHandle | null>;
   setSearchInput: (value: string) => void;
   setFilter: (key: string, value: string | undefined) => void;
+  setFilters: (updates: Record<string, string | undefined>) => void;
   setSort: (sortBy: string, sortOrder: "asc" | "desc") => void;
   setPage: (page: number) => void;
   clearFilters: () => void;
@@ -105,6 +106,7 @@ export function useListFilters(config: ListFilterConfig): ListFiltersResult {
     // Actions
     setSearchInput,
     setFilter: filterActions.setFilter,
+    setFilters: filterActions.setFilters,
     setSort: handleSortChange,
     setPage: filterActions.setPage,
     clearFilters,

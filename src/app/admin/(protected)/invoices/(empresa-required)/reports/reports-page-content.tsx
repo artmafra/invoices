@@ -174,6 +174,7 @@ export function ReportsPageContent() {
                     to ? to.toISOString() : undefined,
                   )
                 }
+                onSupplierCnpj={setSupplierCnpjFilter}
                 taxFilters={taxFilters}
                 onTaxFilter={setTaxFilters}
                 hasActiveFilters={hasActiveFilters}
@@ -193,7 +194,7 @@ export function ReportsPageContent() {
                 page={filters.page}
                 limit={limit}
                 permissions={permissions}
-                hasActiveFilters={hasActiveFilters}
+                hasActiveFilters={hasActiveFilters || taxFilters.length > 0}
                 taxFilters={taxFilters}
                 onPageChange={setPage}
                 onStatusChange={actions.handleStatusChange}

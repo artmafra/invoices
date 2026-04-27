@@ -1,13 +1,15 @@
 ﻿"use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CalendarIcon, X } from "lucide-react";
 import type { useTranslations } from "next-intl";
 import { useTranslations as useT } from "next-intl";
+import { formatCnpj } from "@/lib/cnpj-service-code";
 import { cn } from "@/lib/utils";
 import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
+import { Input } from "@/components/ui/input";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 
 export interface DateRange {
@@ -17,6 +19,7 @@ export interface DateRange {
 
 export interface InvoicesFiltersProps {
   onIssueDateRange: (value: DateRange) => void;
+  onSupplierCnpj?: (value: string) => void;
 
   taxFilters: string[];
   onTaxFilter: (taxes: string[]) => void;
@@ -29,6 +32,7 @@ export interface InvoicesFiltersProps {
 
 export function InvoicesFilters({
   onIssueDateRange,
+  onSupplierCnpj,
   taxFilters,
   onTaxFilter,
   hasActiveFilters,
@@ -38,11 +42,22 @@ export function InvoicesFilters({
   const tCommon = useT("common");
   const [issueDateOpen, setIssueDateOpen] = useState(false);
   const [issueDateRange, setIssueDateRange] = useState<DateRange>({});
+  const [cnpjOpen, setCnpjOpen] = useState(false);
+  const [cnpjValue, setCnpjValue] = useState("");
+  const cnpjDebounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (cnpjDebounceRef.current) clearTimeout(cnpjDebounceRef.current);
+    };
+  }, []);
 
   const handleClear = () => {
     setIssueDateRange({});
     onIssueDateRange({});
     onTaxFilter([]);
+    setCnpjValue("");
+    onSupplierCnpj?.("");
     onClear?.();
   };
 
@@ -65,6 +80,17 @@ export function InvoicesFilters({
           {t("fields.issueDate")}
         </Button>
 
+        {/* CNPJ */}
+        {onSupplierCnpj && (
+          <Button
+            size="sm"
+            variant={cnpjOpen ? "default" : "outline"}
+            onClick={() => setCnpjOpen((v) => !v)}
+          >
+            CNPJ
+          </Button>
+        )}
+
         {/* TAX TOGGLES */}
         {(["issqn", "inss", "cs", "irrf"] as const).map((tax) => (
           <Button
@@ -79,7 +105,7 @@ export function InvoicesFilters({
 
         {/* CLEAR */}
         {hasActiveFilters && onClear && (
-          <Button size="sm" variant="secondary" onClick={handleClear}>
+          <Button size="sm" variant="outline" onClick={handleClear}>
             <X className="h-4 w-4" />
             {tCommon("buttons.clear")}
           </Button>
@@ -156,6 +182,28 @@ export function InvoicesFilters({
           </div>
         </CollapsibleContent>
       </Collapsible>
+
+      {/* ROW 3: CNPJ input */}
+      {onSupplierCnpj && (
+        <Collapsible open={cnpjOpen}>
+          <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden">
+            <div className="pt-space-sm">
+              <Input
+                placeholder={t("fields.supplierCnpjPlaceholder")}
+                inputMode="numeric"
+                value={formatCnpj(cnpjValue)}
+                onChange={(e) => {
+                  const val = e.target.value.replace(/\D/g, "").slice(0, 14);
+                  setCnpjValue(val);
+                  if (cnpjDebounceRef.current) clearTimeout(cnpjDebounceRef.current);
+                  cnpjDebounceRef.current = setTimeout(() => onSupplierCnpj(val), 400);
+                }}
+                className="w-full sm:w-64"
+              />
+            </div>
+          </CollapsibleContent>
+        </Collapsible>
+      )}
     </div>
   );
 }

@@ -67,13 +67,11 @@ export function useInvoicesFilters() {
 
     // Dates
     setIssueDateRange: (from?: string, to?: string) => {
-      result.setFilter("issueDateFrom", from);
-      result.setFilter("issueDateTo", to);
+      result.setFilters({ issueDateFrom: from, issueDateTo: to });
     },
 
     setDueDateRange: (from?: string, to?: string) => {
-      result.setFilter("dueDateFrom", from);
-      result.setFilter("dueDateTo", to);
+      result.setFilters({ dueDateFrom: from, dueDateTo: to });
     },
   };
 }
