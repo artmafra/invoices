@@ -165,6 +165,8 @@ export interface InvoiceEntryCardProps {
     invoiceNumber: string;
     materialDeductionCents: number;
     inssPercent?: number;
+    issqnPercent?: number;
+    irrfPercent?: number;
     status: "issued";
   }) => Promise<void>;
   isSaving: boolean;
@@ -321,6 +323,8 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
         invoiceNumber,
         materialDeductionCents: materialCents,
         inssPercent: inssOverride !== null ? inssOverride : undefined,
+        issqnPercent: issqnOverride !== null ? issqnOverride : undefined,
+        irrfPercent: irrfOverride !== null ? irrfOverride : undefined,
         status: "issued",
       });
 

@@ -25,6 +25,10 @@ export interface Invoice {
   invoiceNumber: string;
   materialDeductionCents: number;
   netAmountCents: number;
+  issqnPercent: number | null;
+  inssPercent: number | null;
+  csPercent: number | null;
+  irrfPercent: number | null;
   status: InvoiceStatus;
   paidAt: string;
   createdAt: string;

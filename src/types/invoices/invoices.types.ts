@@ -17,6 +17,10 @@ const adminInvoiceBaseSchema = createSelectSchema(tableInvoices).pick({
   invoiceNumber: true,
   materialDeductionCents: true,
   netAmountCents: true,
+  issqnPercent: true,
+  inssPercent: true,
+  csPercent: true,
+  irrfPercent: true,
 });
 
 // Extended schema with relations and JSON serialization

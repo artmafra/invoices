@@ -74,6 +74,7 @@ export const createInvoiceSchema = z
     inssPercent: z.number().min(0).max(100).optional(),
     csPercent: z.number().min(0).max(100).optional(),
     issqnPercent: z.number().min(0).max(100).optional(),
+    irrfPercent: z.number().min(0).max(100).optional(),
   })
   .refine((data) => !data.dueDate || !data.issueDate || data.dueDate > data.issueDate, {
     message: "Due date must be after issue date",

@@ -36,9 +36,13 @@ export class InvoiceService {
     const material = data.materialDeductionCents || 0;
     const value = data.valueCents || 0;
 
-    let tax = 0;
+    // Resolve rates: per-invoice override takes priority over service rate
+    const issqn = data.issqnPercent ?? rates.issqn;
+    const inss = data.inssPercent ?? rates.inss;
+    const cs = data.csPercent ?? rates.cs;
+    const irrf = data.irrfPercent ?? rates.irrf;
 
-    const inss = data.inssPercent || rates.inss;
+    let tax = 0;
 
     if (inss) {
       const taxValue = value * (inss / 100);
@@ -46,23 +50,20 @@ export class InvoiceService {
       tax = taxValue - taxMaterial;
     }
 
-    if (rates.cs) {
-      if (value * (rates.cs / 100) >= 1000) {
-        const taxValue = value * (rates.cs / 100);
-        tax += taxValue;
+    if (cs) {
+      if (value * (cs / 100) >= 1000) {
+        tax += value * (cs / 100);
       }
     }
 
-    if (rates.irrf) {
-      if (value * (rates.irrf / 100) >= 1000) {
-        const taxValue = value * (rates.irrf / 100);
-        tax += taxValue;
+    if (irrf) {
+      if (value * (irrf / 100) >= 1000) {
+        tax += value * (irrf / 100);
       }
     }
 
-    if (rates.issqn) {
-      const taxValue = value * (rates.issqn / 100);
-      tax += taxValue;
+    if (issqn) {
+      tax += value * (issqn / 100);
     }
 
     const netAmountCents = Math.round(value - tax);

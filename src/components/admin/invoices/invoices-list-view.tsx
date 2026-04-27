@@ -75,6 +75,12 @@ export function InvoicesListView({
             inv.valueCents,
             inv.materialDeductionCents,
             inv.service?.taxRates,
+            {
+              issqnPercent: inv.issqnPercent,
+              inssPercent: inv.inssPercent,
+              csPercent: inv.csPercent,
+              irrfPercent: inv.irrfPercent,
+            },
           );
           return taxFilters.every((tax) => {
             if (tax === "issqn") return issqn != null;
@@ -91,6 +97,12 @@ export function InvoicesListView({
         inv.valueCents,
         inv.materialDeductionCents,
         inv.service?.taxRates,
+        {
+          issqnPercent: inv.issqnPercent,
+          inssPercent: inv.inssPercent,
+          csPercent: inv.csPercent,
+          irrfPercent: inv.irrfPercent,
+        },
       );
       return {
         value: acc.value + inv.valueCents,

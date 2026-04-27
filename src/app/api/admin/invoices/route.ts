@@ -101,6 +101,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     inssPercent: validation.data.inssPercent,
     csPercent: validation.data.csPercent,
     issqnPercent: validation.data.issqnPercent,
+    irrfPercent: validation.data.irrfPercent,
   });
 
   await activityService.logCreate(

@@ -37,14 +37,27 @@ export function computeTaxes(
   valueCents: number,
   materialCents: number,
   rates: NonNullable<InvoiceWithRelations["service"]>["taxRates"] | undefined,
+  invoiceOverrides?: {
+    issqnPercent?: number | null;
+    inssPercent?: number | null;
+    csPercent?: number | null;
+    irrfPercent?: number | null;
+  },
 ) {
   const r = rates ?? { issqn: null, inss: null, cs: null, irrf: null };
 
-  const issqn = r.issqn != null ? Math.round(valueCents * (r.issqn / 100)) : null;
-  const inss = r.inss != null ? Math.round((valueCents - materialCents) * (r.inss / 100)) : null;
-  const csRaw = r.cs != null ? valueCents * (r.cs / 100) : null;
+  // Per-invoice override takes priority over service rate
+  const issqnRate = invoiceOverrides?.issqnPercent ?? r.issqn;
+  const inssRate = invoiceOverrides?.inssPercent ?? r.inss;
+  const csRate = invoiceOverrides?.csPercent ?? r.cs;
+  const irrfRate = invoiceOverrides?.irrfPercent ?? r.irrf;
+
+  const issqn = issqnRate != null ? Math.round(valueCents * (issqnRate / 100)) : null;
+  const inss =
+    inssRate != null ? Math.round((valueCents - materialCents) * (inssRate / 100)) : null;
+  const csRaw = csRate != null ? valueCents * (csRate / 100) : null;
   const cs = csRaw != null && csRaw >= 1000 ? Math.round(csRaw) : null;
-  const irrfRaw = r.irrf != null ? valueCents * (r.irrf / 100) : null;
+  const irrfRaw = irrfRate != null ? valueCents * (irrfRate / 100) : null;
   const irrf = irrfRaw != null && irrfRaw >= 1000 ? Math.round(irrfRaw) : null;
 
   return { issqn, inss, cs, irrf };
@@ -74,6 +87,12 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
     invoice.valueCents,
     invoice.materialDeductionCents,
     rates,
+    {
+      issqnPercent: invoice.issqnPercent,
+      inssPercent: invoice.inssPercent,
+      csPercent: invoice.csPercent,
+      irrfPercent: invoice.irrfPercent,
+    },
   );
 
   const isOverdue =
