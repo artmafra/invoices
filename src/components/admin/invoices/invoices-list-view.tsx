@@ -1,13 +1,15 @@
 "use client";
 
 import type { InvoiceStatus } from "@/schema/invoices.schema";
-import { Plus } from "lucide-react";
+import { FileSpreadsheet, FileText, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { exportToExcel, exportToPdf } from "@/lib/invoice-export";
 import { PaginationSize } from "@/lib/preferences";
 import type { InvoiceWithRelations } from "@/hooks/admin/use-invoices";
 import type { InvoicePermissions } from "@/hooks/admin/use-resource-permissions";
 import { DataPagination } from "@/components/shared/data-pagination";
 import { EmptyState } from "@/components/shared/empty-state";
+import { Button } from "@/components/ui/button";
 import { computeTaxes, InvoiceCard } from "./invoice-card";
 
 export interface InvoicesListViewProps {
@@ -125,6 +127,20 @@ export function InvoicesListView({
 
   return (
     <>
+      {/* Export buttons */}
+      {filteredInvoices.length > 0 && (
+        <div className="flex justify-end gap-2">
+          <Button size="sm" variant="outline" onClick={() => exportToExcel(filteredInvoices)}>
+            <FileSpreadsheet className="mr-2 h-4 w-4" />
+            Exportar Excel
+          </Button>
+          <Button size="sm" variant="outline" onClick={() => exportToPdf(filteredInvoices)}>
+            <FileText className="mr-2 h-4 w-4" />
+            Exportar PDF
+          </Button>
+        </div>
+      )}
+
       {/* Invoice Table */}
       {filteredInvoices.length > 0 ? (
         <div className="overflow-x-auto rounded-md border border-border">

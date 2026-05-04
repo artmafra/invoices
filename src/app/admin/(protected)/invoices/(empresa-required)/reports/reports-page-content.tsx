@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
@@ -35,6 +36,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 export function ReportsPageContent() {
   const t = useTranslations("apps/invoices");
   const permissions = useInvoicePermissions();
+  const router = useRouter();
 
   const searchRef = useRef<HTMLInputElement>(null);
   useShortcut("focus-search", () => searchRef.current?.focus());
@@ -206,7 +208,7 @@ export function ReportsPageContent() {
                 taxFilters={taxFilters}
                 onPageChange={setPage}
                 onStatusChange={actions.handleStatusChange}
-                onCreate={openCreateDialog}
+                onCreate={() => router.push("/admin/invoices")}
                 onEdit={handleOpenEdit}
                 onDelete={openDeleteConfirm}
               />
