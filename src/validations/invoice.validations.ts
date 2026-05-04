@@ -64,7 +64,7 @@ export const createInvoiceSchema = z
       .refine((cnpj) => extractCnpjDigits(cnpj).length === 14, "CNPJ must have exactly 14 digits"),
     serviceCode: z.string().min(1, "Service code is required"),
     issueDate: z.coerce.date(),
-    dueDate: z.coerce.date(),
+    dueDate: z.coerce.date().optional(),
     entryDate: z.coerce.date(),
 
     valueCents: z.number().int().positive().min(1).max(MAX_INVOICE_VALUE_CENTS),
@@ -108,6 +108,7 @@ export const updateInvoiceSchema = z
     inssPercent: z.number().min(0).max(100).nullable().optional(),
     csPercent: z.number().min(0).max(100).nullable().optional(),
     issqnPercent: z.number().min(0).max(100).nullable().optional(),
+    irrfPercent: z.number().min(0).max(100).nullable().optional(),
   })
   .refine((data) => !data.issueDate || !data.dueDate || data.dueDate > data.issueDate, {
     message: "Due date must be after issue date",

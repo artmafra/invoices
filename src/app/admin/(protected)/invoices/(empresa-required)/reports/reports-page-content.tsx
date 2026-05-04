@@ -115,6 +115,10 @@ export function ReportsPageContent() {
         invoiceNumber: data.invoiceNumber,
         status: data.status,
         materialDeductionCents: data.materialDeductionCents,
+        inssPercent: data.inssPercent,
+        csPercent: data.csPercent,
+        issqnPercent: data.issqnPercent,
+        irrfPercent: data.irrfPercent,
       };
 
       if (dialogs.editingInvoiceId) {
@@ -134,11 +138,15 @@ export function ReportsPageContent() {
           supplierCnpj: invoice.supplierCnpj,
           serviceCode: invoice.serviceCode,
           issueDate: new Date(invoice.issueDate),
-          dueDate: new Date(invoice.dueDate),
+          dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
           valueCents: invoice.valueCents,
           invoiceNumber: invoice.invoiceNumber,
           status: invoice.status,
           materialDeductionCents: invoice.materialDeductionCents,
+          inssPercent: invoice.inssPercent ?? invoice.service?.taxRates?.inss ?? undefined,
+          csPercent: invoice.csPercent ?? invoice.service?.taxRates?.cs ?? undefined,
+          issqnPercent: invoice.issqnPercent ?? invoice.service?.taxRates?.issqn ?? undefined,
+          irrfPercent: invoice.irrfPercent ?? invoice.service?.taxRates?.irrf ?? undefined,
         });
       }
     },

@@ -80,6 +80,10 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
     updateData.invoiceNumber = validation.data.invoiceNumber;
   if (validation.data.materialDeductionCents !== undefined)
     updateData.materialDeductionCents = validation.data.materialDeductionCents;
+  if ("inssPercent" in validation.data) updateData.inssPercent = validation.data.inssPercent;
+  if ("csPercent" in validation.data) updateData.csPercent = validation.data.csPercent;
+  if ("issqnPercent" in validation.data) updateData.issqnPercent = validation.data.issqnPercent;
+  if ("irrfPercent" in validation.data) updateData.irrfPercent = validation.data.irrfPercent;
   // Check for duplicate invoice number if being changed
   if (
     validation.data.invoiceNumber &&

@@ -79,7 +79,9 @@
     "valueCentsTooHigh": "Valor da nota fiscal excede o máximo permitido",
     "invoiceNumberRequired": "Número da nota fiscal é obrigatório",
     "invoiceNumberTooLong": "Número da nota fiscal deve ter no máximo 50 caracteres",
-    "dueDateAfterIssueDate": "Data de vencimento deve ser após a data de emissão"
+    "dueDateAfterIssueDate": "Data de vencimento deve ser após a data de emissão",
+    "invalidDate": "Data inválida",
+    "issueDateAfterEntryDate": "A data de emissão não pode ser depois da data de entrada"
   },
   "hooks": {
     "fetchFailed": "Falha ao buscar nota fiscal",

@@ -25,7 +25,7 @@ function formatBRL(cents: number | null | undefined): string {
 }
 
 function formatPct(rate: number | null | undefined): string {
-  if (rate == null) return "NT";
+  if (rate == null || rate === 0) return "—";
   return `${rate.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}%`;
 }
 
@@ -52,9 +52,8 @@ export function computeTaxes(
   const csRate = invoiceOverrides?.csPercent ?? r.cs;
   const irrfRate = invoiceOverrides?.irrfPercent ?? r.irrf;
 
-  const issqn = issqnRate != null ? Math.round(valueCents * (issqnRate / 100)) : null;
-  const inss =
-    inssRate != null ? Math.round((valueCents - materialCents) * (inssRate / 100)) : null;
+  const issqn = issqnRate ? Math.round(valueCents * (issqnRate / 100)) : null;
+  const inss = inssRate ? Math.round((valueCents - materialCents) * (inssRate / 100)) : null;
   const csRaw = csRate != null ? valueCents * (csRate / 100) : null;
   const cs = csRaw != null && csRaw >= 1000 ? Math.round(csRaw) : null;
   const irrfRaw = irrfRate != null ? valueCents * (irrfRate / 100) : null;
@@ -178,7 +177,7 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
       </td>
       {/* 13. Alíquota ISSQN */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(rates?.issqn)}
+        {formatPct(invoice.issqnPercent ?? rates?.issqn)}
       </td>
       {/* 14. ISSQN */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
@@ -186,7 +185,7 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
       </td>
       {/* 15. Alíquota INSS */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(rates?.inss)}
+        {formatPct(invoice.inssPercent ?? rates?.inss)}
       </td>
       {/* 16. INSS */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
@@ -194,7 +193,7 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
       </td>
       {/* 17. Alíquota CS */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(rates?.cs)}
+        {formatPct(invoice.csPercent ?? rates?.cs)}
       </td>
       {/* 18. CS */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
@@ -202,7 +201,7 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
       </td>
       {/* 19. Alíquota IRRF */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(rates?.irrf)}
+        {formatPct(invoice.irrfPercent ?? rates?.irrf)}
       </td>
       {/* 20. IRRF */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">

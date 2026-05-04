@@ -29,7 +29,7 @@ export const InvoicePdfTemplate = ({ invoice, supplier, service }: InvoicePdfTem
           </tr>
           <tr>
             <td>Due Date:</td>
-            <td>{new Date(invoice.dueDate).toLocaleDateString()}</td>
+            <td>{invoice.dueDate ? new Date(invoice.dueDate).toLocaleDateString() : "-"}</td>
           </tr>
           <tr>
             <td>Amount:</td>

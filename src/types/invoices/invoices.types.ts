@@ -29,7 +29,7 @@ export const adminInvoiceResponseSchema = adminInvoiceBaseSchema
     // Date fields as strings for JSON serialization
     entryDate: z.date(),
     issueDate: z.date(),
-    dueDate: z.date(),
+    dueDate: z.date().nullable(),
     createdAt: z.string(),
     updatedAt: z.string(),
 

@@ -110,11 +110,71 @@ export class InvoiceService {
   }
 
   async updateInvoice(id: string, data: UpdateInvoiceSchema) {
-    const updatedData = {
-      id,
+    // Recalculate netAmountCents when financial fields change
+    const current = await invoiceStorage.findById(id);
+    if (!current) throw new Error("Invoice not found");
+
+    const needsRecalc =
+      data.valueCents !== undefined ||
+      data.materialDeductionCents !== undefined ||
+      data.inssPercent !== undefined ||
+      data.csPercent !== undefined ||
+      data.irrfPercent !== undefined ||
+      data.issqnPercent !== undefined ||
+      data.serviceCode !== undefined ||
+      data.supplierCnpj !== undefined;
+
+    let netAmountCents: number | undefined;
+
+    if (needsRecalc) {
+      const supplierCnpj = data.supplierCnpj ?? current.supplierCnpj;
+      const serviceCode = data.serviceCode ?? current.serviceCode;
+      const supplier = await supplierStorage.findByCnpj(supplierCnpj);
+      const service = await serviceStorage.findByCode(serviceCode);
+      const rates =
+        supplier && service
+          ? (service[supplier.taxRegime.toLowerCase() as TaxRegime] ?? {
+              issqn: null,
+              inss: null,
+              cs: null,
+              irrf: null,
+            })
+          : { issqn: null, inss: null, cs: null, irrf: null };
+
+      const value = data.valueCents ?? current.valueCents;
+      const material = data.materialDeductionCents ?? current.materialDeductionCents;
+
+      // null means "clear override, use service rate"; undefined means "keep current"
+      const issqn =
+        data.issqnPercent !== undefined
+          ? (data.issqnPercent ?? rates.issqn)
+          : (current.issqnPercent ?? rates.issqn);
+      const inss =
+        data.inssPercent !== undefined
+          ? (data.inssPercent ?? rates.inss)
+          : (current.inssPercent ?? rates.inss);
+      const cs =
+        data.csPercent !== undefined
+          ? (data.csPercent ?? rates.cs)
+          : (current.csPercent ?? rates.cs);
+      const irrf =
+        data.irrfPercent !== undefined
+          ? (data.irrfPercent ?? rates.irrf)
+          : (current.irrfPercent ?? rates.irrf);
+
+      let tax = 0;
+      if (inss) tax += (value - material) * (inss / 100);
+      if (cs && value * (cs / 100) >= 1000) tax += value * (cs / 100);
+      if (irrf && value * (irrf / 100) >= 1000) tax += value * (irrf / 100);
+      if (issqn) tax += value * (issqn / 100);
+
+      netAmountCents = Math.round(value - tax);
+    }
+
+    return await invoiceStorage.update(id, {
       ...data,
-    };
-    return await invoiceStorage.update(id, updatedData);
+      ...(netAmountCents !== undefined ? { netAmountCents } : {}),
+    });
   }
 
   async deleteInvoice(id: string) {

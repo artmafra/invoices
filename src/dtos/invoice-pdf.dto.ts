@@ -5,7 +5,7 @@ export interface InvoicePdfDTO {
   invoiceNumber: string;
   entryDate: string;
   issueDate: string;
-  dueDate: string;
+  dueDate: string | null;
   valueCents: number;
   materialDeductionCents: number;
   netAmountCents: number;

@@ -6,7 +6,7 @@ export function mapInvoiceToPdfDTO(invoice: Invoice): InvoicePdfDTO {
     id: invoice.id,
     invoiceNumber: invoice.invoiceNumber,
     issueDate: invoice.issueDate.toLocaleDateString(),
-    dueDate: invoice.dueDate.toLocaleDateString(),
+    dueDate: invoice.dueDate ? invoice.dueDate.toLocaleDateString() : null,
     entryDate: invoice.entryDate.toLocaleDateString(),
     valueCents: invoice.valueCents,
     materialDeductionCents: invoice.materialDeductionCents,

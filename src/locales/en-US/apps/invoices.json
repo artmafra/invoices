@@ -80,7 +80,9 @@
     "valueCentsTooHigh": "Invoice value exceeds maximum allowed",
     "invoiceNumberRequired": "Invoice number is required",
     "invoiceNumberTooLong": "Invoice number must be at most 50 characters",
-    "dueDateAfterIssueDate": "Due date must be after issue date"
+    "dueDateAfterIssueDate": "Due date must be after issue date",
+    "invalidDate": "Invalid date",
+    "issueDateAfterEntryDate": "Issue date cannot be after the entry date"
   },
   "hooks": {
     "fetchFailed": "Failed to fetch invoices",

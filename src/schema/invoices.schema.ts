@@ -20,7 +20,7 @@ export const tableInvoices = pgTable("invoices", {
   status: text("status", { enum: INVOICE_STATUSES }).notNull().default("issued"),
   entryDate: timestamp("entry_date").notNull().defaultNow(), // Data entrada
   issueDate: timestamp("issue_date").notNull(), // Data de emissão
-  dueDate: timestamp("due_date").notNull(), // Data vencimento
+  dueDate: timestamp("due_date"), // Data vencimento (optional)
   valueCents: integer("value_cents").notNull(),
   invoiceNumber: text("invoice_number").notNull(),
   materialDeductionCents: integer("material_deduction_cents").notNull().default(0),

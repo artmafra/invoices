@@ -100,6 +100,16 @@ function fromDisplayDate(s: string): Date {
   return new Date(year, month - 1, day);
 }
 
+function isValidDate(s: string): boolean {
+  if (s.length < 10) return true; // still typing, no error yet
+  const [day, month, year] = s.split("/").map(Number);
+  if (!day || !month || !year) return false;
+  if (month < 1 || month > 12) return false;
+  if (day < 1) return false;
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+}
+
 const today = toDisplayDate(new Date());
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -160,7 +170,7 @@ export interface InvoiceEntryCardProps {
     serviceCode: string;
     entryDate: Date;
     issueDate: Date;
-    dueDate: Date;
+    dueDate?: Date;
     valueCents: number;
     invoiceNumber: string;
     materialDeductionCents: number;
@@ -318,7 +328,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
         serviceCode,
         entryDate: fromDisplayDate(entryDate),
         issueDate: fromDisplayDate(issueDate),
-        dueDate: fromDisplayDate(dueDate),
+        dueDate: dueDate ? fromDisplayDate(dueDate) : undefined,
         valueCents,
         invoiceNumber,
         materialDeductionCents: materialCents,
@@ -370,6 +380,9 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                   maxLength={10}
                   className={dateInputClass}
                 />
+                {!isValidDate(entryDate) && (
+                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
+                )}
               </SpreadsheetCell>
 
               <SpreadsheetCell label={t("fields.issueDate")}>
@@ -383,6 +396,18 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                   maxLength={10}
                   className={dateInputClass}
                 />
+                {!isValidDate(issueDate) && (
+                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
+                )}
+                {isValidDate(issueDate) &&
+                  isValidDate(entryDate) &&
+                  issueDate.length === 10 &&
+                  entryDate.length === 10 &&
+                  fromDisplayDate(issueDate) > fromDisplayDate(entryDate) && (
+                    <p className="text-xs text-destructive mt-0.5">
+                      {t("errors.issueDateAfterEntryDate")}
+                    </p>
+                  )}
               </SpreadsheetCell>
 
               <SpreadsheetCell label={t("fields.dueDate")}>
@@ -396,6 +421,9 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                   maxLength={10}
                   className={dateInputClass}
                 />
+                {dueDate && !isValidDate(dueDate) && (
+                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
+                )}
               </SpreadsheetCell>
 
               {/* CNPJ */}
@@ -506,8 +534,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                     className="w-full border-0 bg-transparent text-sm text-right p-0 focus:outline-none cursor-pointer"
                   >
                     <option value="">{formatPercent(taxRates.inss)}</option>
-                    <option value="3">3%</option>
-                    <option value="5">5%</option>
+                    <option value="3.5">3,5%</option>
                     <option value="11">11%</option>
                   </select>
                 ) : (
@@ -545,7 +572,20 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                     onClick={handleSubmit}
                     loading={isSaving}
                     loadingText={t("saving")}
-                    disabled={!supplierCnpj || !serviceCode || !valueCents || !invoiceNumber}
+                    disabled={
+                      !supplierCnpj ||
+                      !serviceCode ||
+                      !valueCents ||
+                      !invoiceNumber ||
+                      !isValidDate(entryDate) ||
+                      !isValidDate(issueDate) ||
+                      (issueDate.length === 10 &&
+                        entryDate.length === 10 &&
+                        isValidDate(issueDate) &&
+                        isValidDate(entryDate) &&
+                        fromDisplayDate(issueDate) > fromDisplayDate(entryDate)) ||
+                      (!!dueDate && !isValidDate(dueDate))
+                    }
                     className="w-full rounded-none font-bold uppercase tracking-wide"
                   >
                     {t("registerInvoice")}

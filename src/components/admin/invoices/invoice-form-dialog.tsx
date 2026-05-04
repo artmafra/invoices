@@ -74,7 +74,7 @@ export function InvoiceFormDialog({
         .regex(/^\d{14}$/, t("errors.cnpjInvalid")),
       serviceCode: z.string().min(1, t("errors.serviceCodeRequired")),
       issueDate: z.date(),
-      dueDate: z.date(),
+      dueDate: z.date().optional(),
       entryDate: z.date(),
       valueCents: z
         .number()
@@ -87,9 +87,10 @@ export function InvoiceFormDialog({
         .min(1, t("errors.invoiceNumberRequired"))
         .max(50, t("errors.invoiceNumberTooLong")),
       materialDeductionCents: z.number().int().min(0).optional(),
-      inssPercent: z.number().min(0).max(100).optional(),
-      csPercent: z.number().min(0).max(100).optional(),
-      issqnPercent: z.number().min(0).max(100).optional(),
+      inssPercent: z.number().min(0).max(100).nullable().optional(),
+      csPercent: z.number().min(0).max(100).nullable().optional(),
+      issqnPercent: z.number().min(0).max(100).nullable().optional(),
+      irrfPercent: z.number().min(0).max(100).nullable().optional(),
     })
     .refine((data) => !data.dueDate || !data.issueDate || data.dueDate > data.issueDate, {
       message: t("errors.dueDateAfterIssueDate"),
@@ -109,12 +110,16 @@ export function InvoiceFormDialog({
       supplierCnpj: "",
       serviceCode: "",
       issueDate: new Date(),
-      dueDate: new Date(),
+      dueDate: undefined,
       entryDate: new Date(),
       valueCents: 0,
       invoiceNumber: "",
       status: "issued",
       materialDeductionCents: 0,
+      inssPercent: undefined,
+      csPercent: undefined,
+      issqnPercent: undefined,
+      irrfPercent: undefined,
       ...initialData,
     },
   });
@@ -125,12 +130,16 @@ export function InvoiceFormDialog({
         supplierCnpj: "",
         serviceCode: "",
         issueDate: new Date(),
-        dueDate: new Date(),
+        dueDate: undefined,
         entryDate: new Date(),
         valueCents: 0,
         invoiceNumber: "",
         status: "issued",
         materialDeductionCents: 0,
+        inssPercent: undefined,
+        csPercent: undefined,
+        issqnPercent: undefined,
+        irrfPercent: undefined,
         ...initialData,
       });
     }
@@ -384,6 +393,156 @@ export function InvoiceFormDialog({
                   </FormFieldWithTooltip>
                 )}
               />
+              <div className="grid gap-space-xl sm:grid-cols-2">
+                <FormField
+                  control={form.control}
+                  name="issqnPercent"
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("table.aliquotaISSQN")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.issqnPercent}
+                    >
+                      <div className="relative">
+                        <Input
+                          placeholder="—"
+                          inputMode="decimal"
+                          value={
+                            field.value !== undefined && field.value !== null && field.value !== 0
+                              ? String(field.value)
+                              : ""
+                          }
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(",", ".");
+                            if (raw === "") {
+                              field.onChange(0);
+                            } else {
+                              const n = parseFloat(raw);
+                              field.onChange(isNaN(n) ? 0 : n);
+                            }
+                          }}
+                          onBlur={field.onBlur}
+                          className="pr-7"
+                        />
+                        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          %
+                        </span>
+                      </div>
+                    </FormFieldWithTooltip>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="inssPercent"
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("table.aliquotaINSS")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.inssPercent}
+                    >
+                      <div className="relative">
+                        <Input
+                          placeholder="—"
+                          inputMode="decimal"
+                          value={
+                            field.value !== undefined && field.value !== null && field.value !== 0
+                              ? String(field.value)
+                              : ""
+                          }
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(",", ".");
+                            if (raw === "") {
+                              field.onChange(0);
+                            } else {
+                              const n = parseFloat(raw);
+                              field.onChange(isNaN(n) ? 0 : n);
+                            }
+                          }}
+                          onBlur={field.onBlur}
+                          className="pr-7"
+                        />
+                        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          %
+                        </span>
+                      </div>
+                    </FormFieldWithTooltip>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="csPercent"
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("table.aliquotaCS")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.csPercent}
+                    >
+                      <div className="relative">
+                        <Input
+                          placeholder="—"
+                          inputMode="decimal"
+                          value={
+                            field.value !== undefined && field.value !== null && field.value !== 0
+                              ? String(field.value)
+                              : ""
+                          }
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(",", ".");
+                            if (raw === "") {
+                              field.onChange(0);
+                            } else {
+                              const n = parseFloat(raw);
+                              field.onChange(isNaN(n) ? 0 : n);
+                            }
+                          }}
+                          onBlur={field.onBlur}
+                          className="pr-7"
+                        />
+                        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          %
+                        </span>
+                      </div>
+                    </FormFieldWithTooltip>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="irrfPercent"
+                  render={({ field, fieldState }) => (
+                    <FormFieldWithTooltip
+                      label={t("table.aliquotaIRRF")}
+                      error={fieldState.error?.message}
+                      isTouched={!!form.formState.touchedFields.irrfPercent}
+                    >
+                      <div className="relative">
+                        <Input
+                          placeholder="—"
+                          inputMode="decimal"
+                          value={
+                            field.value !== undefined && field.value !== null && field.value !== 0
+                              ? String(field.value)
+                              : ""
+                          }
+                          onChange={(e) => {
+                            const raw = e.target.value.replace(",", ".");
+                            if (raw === "") {
+                              field.onChange(0);
+                            } else {
+                              const n = parseFloat(raw);
+                              field.onChange(isNaN(n) ? 0 : n);
+                            }
+                          }}
+                          onBlur={field.onBlur}
+                          className="pr-7"
+                        />
+                        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground">
+                          %
+                        </span>
+                      </div>
+                    </FormFieldWithTooltip>
+                  )}
+                />
+              </div>
             </form>
           </Form>
         </DialogBody>
