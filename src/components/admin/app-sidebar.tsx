@@ -37,7 +37,7 @@ const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
         title: t("nav.companies"),
         url: "/admin/invoices/companies",
         icon: Building2,
-        permission: { resource: "invoices", action: "view" },
+        permission: { resource: "companies", action: "view" },
       },
       {
         title: t("nav.allTasks"),
@@ -49,13 +49,13 @@ const APP_NAV_CONFIG: Record<string, AppNavConfig> = {
         title: t("nav.suppliers"),
         url: "/admin/invoices/suppliers",
         icon: Users,
-        permission: { resource: "invoices", action: "view" },
+        permission: { resource: "suppliers", action: "view" },
       },
       {
         title: t("nav.services"),
         url: "/admin/invoices/services",
         icon: Briefcase,
-        permission: { resource: "invoices", action: "view" },
+        permission: { resource: "services", action: "view" },
       },
       {
         title: t("nav.reports"),

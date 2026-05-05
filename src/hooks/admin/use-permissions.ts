@@ -27,14 +27,40 @@ export const usePermissions = () => {
   });
 };
 
+const RESOURCE_LABELS: Record<string, string> = {
+  users: "Usuários",
+  roles: "Funções",
+  settings: "Configurações",
+  sessions: "Sessões",
+  system: "Sistema",
+  activity: "Atividade",
+  invoices: "Notas Fiscais",
+  suppliers: "Fornecedores",
+  services: "Serviços",
+  companies: "Empresas",
+};
+
+const ACTION_LABELS: Record<string, string> = {
+  view: "visualizar",
+  create: "criar",
+  edit: "editar",
+  delete: "excluir",
+  activate: "ativar",
+  "app-permissions": "permissões de app",
+  revoke: "revogar",
+  setup: "configurar",
+  backup: "backup",
+  verify: "verificar",
+};
+
 // Helper to format resource name for display
 export function formatResourceName(resource: string): string {
-  return resource.charAt(0).toUpperCase() + resource.slice(1);
+  return RESOURCE_LABELS[resource] ?? resource.charAt(0).toUpperCase() + resource.slice(1);
 }
 
 // Helper to format action name for display
 export function formatActionName(action: string): string {
-  return action.charAt(0).toUpperCase() + action.slice(1);
+  return ACTION_LABELS[action] ?? action.charAt(0).toUpperCase() + action.slice(1);
 }
 
 // Helper to get permission string

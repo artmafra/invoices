@@ -14,7 +14,7 @@ import { companyService } from "@/services/runtime/company";
 import { createCompanySchema, getCompaniesQuerySchema } from "@/validations/company.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("invoices", "view");
+  const { authorized, error, status } = await requirePermission("companies", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -58,7 +58,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const { session, authorized, status, error } = await requirePermission("invoices", "create");
+  const { session, authorized, status, error } = await requirePermission("companies", "create");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);

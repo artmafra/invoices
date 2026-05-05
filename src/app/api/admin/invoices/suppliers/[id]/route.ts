@@ -21,7 +21,7 @@ interface RouteParams {
  * Get a single supplier by ID
  */
 export const GET = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status } = await requirePermission("invoices", "view");
+  const { authorized, error, status } = await requirePermission("suppliers", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -44,7 +44,7 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
  * Update a supplier
  */
 export const PATCH = withErrorHandler(async (request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status, session } = await requirePermission("invoices", "edit");
+  const { authorized, error, status, session } = await requirePermission("suppliers", "edit");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -119,7 +119,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
  * Delete a supplier
  */
 export const DELETE = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status, session } = await requirePermission("invoices", "delete");
+  const { authorized, error, status, session } = await requirePermission("suppliers", "delete");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);

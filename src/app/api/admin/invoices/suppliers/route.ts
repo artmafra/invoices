@@ -14,7 +14,7 @@ import { supplierService } from "@/services/runtime/supplier";
 import { createSupplierSchema, getSuppliersQuerySchema } from "@/validations/supplier.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("invoices", "view");
+  const { authorized, error, status } = await requirePermission("suppliers", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -60,7 +60,7 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
 });
 
 export const POST = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status, session } = await requirePermission("invoices", "create");
+  const { authorized, error, status, session } = await requirePermission("suppliers", "create");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);

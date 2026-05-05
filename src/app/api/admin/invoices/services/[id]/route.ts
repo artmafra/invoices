@@ -15,7 +15,7 @@ interface RouteParams {
  * Get a single service by id
  */
 export const GET = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status } = await requirePermission("invoices", "view");
+  const { authorized, error, status } = await requirePermission("services", "view");
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -38,7 +38,7 @@ export const GET = withErrorHandler(async (_request: NextRequest, { params }: Ro
  * Update a service
  */
 export const PATCH = withErrorHandler(async (request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status, session } = await requirePermission("invoices", "edit");
+  const { authorized, error, status, session } = await requirePermission("services", "edit");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);
@@ -122,7 +122,7 @@ export const PATCH = withErrorHandler(async (request: NextRequest, { params }: R
  * Delete a service
  */
 export const DELETE = withErrorHandler(async (_request: NextRequest, { params }: RouteParams) => {
-  const { authorized, error, status, session } = await requirePermission("invoices", "delete");
+  const { authorized, error, status, session } = await requirePermission("services", "delete");
 
   if (!authorized || !session) {
     if (status === 401) throw new UnauthorizedError(error);

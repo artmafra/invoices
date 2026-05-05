@@ -11,7 +11,7 @@ import {
   type CreateRoleRequest,
   type UpdateRoleRequest,
 } from "@/validations/role.validations";
-import { formatResourceName } from "@/hooks/admin/use-permissions";
+import { formatActionName, formatResourceName } from "@/hooks/admin/use-permissions";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -114,7 +114,7 @@ export function PermissionCheckboxes({
                     htmlFor={`perm-${permission.id}`}
                     className="text-xs cursor-pointer text-muted-foreground"
                   >
-                    {permission.action}
+                    {formatActionName(permission.action)}
                   </Label>
                 </div>
               ))}

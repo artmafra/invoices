@@ -20,8 +20,8 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/admin/login");
   }
 
-  // Get apps filtered by user's apps access
-  const apps = getAppsForUser(session.user.apps || []);
+  // Get apps filtered by user's apps access (also auto-detects from role permissions)
+  const apps = getAppsForUser(session.user.apps || [], session.user.permissions || []);
 
   // Read preferences from cookies for SSR injection
   const { paginationSize, selectedApp, selectedCompanyId, selectedCompanyName } =

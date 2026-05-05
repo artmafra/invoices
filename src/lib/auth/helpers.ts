@@ -62,7 +62,16 @@ export async function getUserPermissionsData(userId: string, roleId: string | nu
   // Get app permissions and merge with role permissions
   const appPermissionsResult = await appPermissionsService.getUserAppPermissionsResult(userId);
   const permissions = [...rolePermissions, ...appPermissionsResult.permissions];
-  const apps = appPermissionsResult.apps;
+
+  // Auto-grant access to the "invoices" app if the user has any related role permission
+  const invoicesResources = ["invoices.", "companies.", "suppliers.", "services."];
+  const hasInvoicesAccess = permissions.some((p) =>
+    invoicesResources.some((prefix) => p.startsWith(prefix)),
+  );
+  const apps =
+    appPermissionsResult.apps.includes("invoices") || !hasInvoicesAccess
+      ? appPermissionsResult.apps
+      : [...appPermissionsResult.apps, "invoices"];
 
   return {
     roleName,

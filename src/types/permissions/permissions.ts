@@ -21,6 +21,9 @@ export const CORE_RESOURCES = [
   "system",
   "activity",
   "invoices",
+  "suppliers",
+  "services",
+  "companies",
 ] as const;
 
 /**
@@ -60,6 +63,9 @@ export const RESOURCE_ACTIONS = {
   system: ["view", "setup", "backup"],
   activity: ["view", "verify"],
   invoices: ["view", "create", "edit", "delete"],
+  suppliers: ["view", "create", "edit", "delete"],
+  services: ["view", "create", "edit", "delete"],
+  companies: ["view", "create", "edit", "delete"],
 } as const satisfies Record<CoreResource, readonly CoreAction[]>;
 
 /** Valid actions for a specific resource */

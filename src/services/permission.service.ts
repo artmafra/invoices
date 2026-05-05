@@ -61,6 +61,24 @@ const PERMISSION_DESCRIPTIONS: Record<CorePermissionString, string> = {
   "invoices.create": "Create new invoices",
   "invoices.edit": "Edit invoice details",
   "invoices.delete": "Delete invoices",
+
+  // Suppliers
+  "suppliers.view": "View suppliers list and details",
+  "suppliers.create": "Create new suppliers",
+  "suppliers.edit": "Edit supplier details",
+  "suppliers.delete": "Delete suppliers",
+
+  // Services
+  "services.view": "View services list and details",
+  "services.create": "Create new services",
+  "services.edit": "Edit service details",
+  "services.delete": "Delete services",
+
+  // Companies
+  "companies.view": "View companies list and details",
+  "companies.create": "Create new companies",
+  "companies.edit": "Edit company details",
+  "companies.delete": "Delete companies",
 };
 
 /**
@@ -108,24 +126,24 @@ export function getDefaultRoles() {
   return {
     system: {
       name: "system",
-      displayName: "System",
-      description: "System administrator with full access.",
+      displayName: "Sistema",
+      description: "Administrador do sistema com acesso total.",
       isProtected: true,
       isSystem: true,
       permissions: allPermissionStrings,
     },
     admin: {
       name: "admin",
-      displayName: "Admin",
-      description: "Full system access with all permissions",
+      displayName: "Administrador",
+      description: "Acesso completo ao sistema com todas as permissões",
       isProtected: false,
       isSystem: false,
       permissions: allPermissionStrings,
     },
     user: {
       name: "user",
-      displayName: "User",
-      description: "Standard user with limited access",
+      displayName: "Usuário",
+      description: "Usuário padrão com acesso limitado",
       isProtected: false,
       isSystem: false,
       permissions: ["settings.view"],
@@ -251,9 +269,14 @@ export class PermissionService {
           isSystem: roleConfig.isSystem,
         } as RoleNew);
       } else {
-        // Update displayName if it doesn't match (for existing roles)
-        if (role.displayName !== roleConfig.displayName) {
-          await roleStorage.update(role.id, { displayName: roleConfig.displayName });
+        // Update displayName/description if they don't match (for existing roles)
+        const updates: Record<string, string> = {};
+        if (role.displayName !== roleConfig.displayName)
+          updates.displayName = roleConfig.displayName;
+        if (role.description !== roleConfig.description)
+          updates.description = roleConfig.description;
+        if (Object.keys(updates).length > 0) {
+          await roleStorage.update(role.id, updates);
         }
       }
 
