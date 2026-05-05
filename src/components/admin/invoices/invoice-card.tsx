@@ -99,7 +99,7 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
 
   return (
     <tr
-      className={`border-b border-border transition-colors hover:bg-muted/30${isOverdue ? " bg-destructive/5" : ""}`}
+      className={`border-b border-border transition-colors odd:bg-background even:bg-gray-300 dark:even:bg-muted/60 hover:bg-muted/80`}
     >
       {/* 1. CNPJ Prestador */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">

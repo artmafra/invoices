@@ -368,7 +368,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
       {/* ── CARD 1: Dados da Nota ──────────────────────────────────────── */}
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-gap-sm">
+          <CardTitle className="text-lg flex items-center gap-2">
             <FileDigit className="w-5 h-5" />
             {t("newTitle")}
           </CardTitle>
@@ -392,7 +392,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                       }}
                       placeholder="dd/mm/aaaa"
                       maxLength={10}
-                      className={`pl-9${!isValidDate(entryDate) ? " border-destructive" : ""}`}
+                      className={`pl-9 bg-background${!isValidDate(entryDate) ? " border-destructive" : ""}`}
                     />
                     <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                   </div>
@@ -425,7 +425,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                       }}
                       placeholder="dd/mm/aaaa"
                       maxLength={10}
-                      className={`pl-9${
+                      className={`pl-9 bg-background${
                         !isValidDate(issueDate) ||
                         (isValidDate(issueDate) &&
                           isValidDate(entryDate) &&
@@ -451,7 +451,16 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
           {/* Due date */}
           <div className="space-y-2">
             <Label htmlFor="dueDate">{t("fields.dueDate")}</Label>
-            <Tooltip open={!!dueDate && !isValidDate(dueDate)}>
+            <Tooltip
+              open={
+                (!!dueDate && !isValidDate(dueDate)) ||
+                (dueDate.length === 10 &&
+                  issueDate.length === 10 &&
+                  isValidDate(dueDate) &&
+                  isValidDate(issueDate) &&
+                  fromDisplayDate(dueDate) < fromDisplayDate(issueDate))
+              }
+            >
               <TooltipTrigger asChild>
                 <div className="relative">
                   <Input
@@ -463,12 +472,25 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                     }}
                     placeholder="dd/mm/aaaa"
                     maxLength={10}
-                    className={`pl-9${!!dueDate && !isValidDate(dueDate) ? " border-destructive" : ""}`}
+                    className={`pl-9 bg-background${
+                      (!!dueDate && !isValidDate(dueDate)) ||
+                      (dueDate.length === 10 &&
+                        issueDate.length === 10 &&
+                        isValidDate(dueDate) &&
+                        isValidDate(issueDate) &&
+                        fromDisplayDate(dueDate) < fromDisplayDate(issueDate))
+                        ? " border-destructive"
+                        : ""
+                    }`}
                   />
                   <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="top">{t("errors.invalidDate")}</TooltipContent>
+              <TooltipContent side="top">
+                {!isValidDate(dueDate)
+                  ? t("errors.invalidDate")
+                  : t("errors.dueDateAfterIssueDate")}
+              </TooltipContent>
             </Tooltip>
           </div>
 
@@ -642,7 +664,12 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                 isValidDate(issueDate) &&
                 isValidDate(entryDate) &&
                 fromDisplayDate(issueDate) > fromDisplayDate(entryDate)) ||
-              (!!dueDate && !isValidDate(dueDate))
+              (!!dueDate && !isValidDate(dueDate)) ||
+              (dueDate.length === 10 &&
+                issueDate.length === 10 &&
+                isValidDate(dueDate) &&
+                isValidDate(issueDate) &&
+                fromDisplayDate(dueDate) < fromDisplayDate(issueDate))
             }
             className="w-full font-bold uppercase tracking-wide"
             size="lg"
@@ -656,7 +683,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
       {/* ── CARD 2: Resumo e Tributação ────────────────────────────────── */}
       <Card className="flex flex-col bg-muted/20">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-gap-sm">
+          <CardTitle className="text-lg flex items-center gap-2">
             <Calculator className="w-5 h-5" />
             {t("card.taxes")}
           </CardTitle>
@@ -707,7 +734,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
           </div>
         </CardContent>
         <CardFooter>
-          <div className="w-full flex items-center justify-between p-4 rounded-lg bg-primary text-primary-foreground">
+          <div className="w-full flex items-center justify-between p-4 rounded-lg bg-muted text-foreground">
             <span className="font-bold uppercase tracking-wider text-sm">
               {t("card.netAmount")}
             </span>
@@ -721,7 +748,7 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
       {/* ── CARD 3: Descrição dos Serviços ─────────────────────────────── */}
       <Card className="flex flex-col">
         <CardHeader>
-          <CardTitle className="text-lg flex items-center gap-gap-sm">
+          <CardTitle className="text-lg flex items-center gap-2">
             <Receipt className="w-5 h-5" />
             {t("card.serviceDescription")}
           </CardTitle>
