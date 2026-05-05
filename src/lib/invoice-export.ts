@@ -165,15 +165,38 @@ function filterPdfCols<T>(row: T[]): T[] {
   return row.filter((_, i) => !PDF_OMIT_COLS.has(i));
 }
 
-export async function exportToPdf(invoices: InvoiceWithRelations[]) {
+const TAX_LABEL: Record<string, string> = {
+  issqn: "ISSQN",
+  inss: "INSS",
+  cs: "CS",
+  irrf: "IRRF",
+};
+
+export async function exportToPdf(
+  invoices: InvoiceWithRelations[],
+  companyName?: string | null,
+  taxFilters?: string[],
+) {
   const { jsPDF } = await import("jspdf");
   const { autoTable } = await import("jspdf-autotable");
 
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
   const date = new Date().toLocaleDateString("pt-BR");
 
-  doc.setFontSize(10);
-  doc.text(`Relatório de Notas Fiscais — ${date}`, 14, 10);
+  const taxLabel =
+    taxFilters && taxFilters.length > 0
+      ? taxFilters.map((t) => TAX_LABEL[t] ?? t.toUpperCase()).join(", ")
+      : null;
+
+  const titleParts = ["Relatório de Impostos Retidos"];
+  if (companyName) titleParts.push(companyName);
+  if (taxLabel) titleParts.push(taxLabel);
+  titleParts.push(date);
+
+  const titleLine = titleParts.join(" — ");
+
+  doc.setFontSize(12);
+  doc.text(titleLine, 14, 12);
 
   const pdfHeaders = filterPdfCols(EXPORT_HEADERS);
   const rows = buildExportRows(invoices).map(filterPdfCols);
@@ -182,10 +205,10 @@ export async function exportToPdf(invoices: InvoiceWithRelations[]) {
   autoTable(doc, {
     head: [pdfHeaders],
     body: [...rows, totalsRow],
-    startY: 15,
-    styles: { fontSize: 6, cellPadding: 1.2, overflow: "ellipsize" },
-    headStyles: { fillColor: [30, 30, 30], textColor: 255, fontSize: 6, fontStyle: "bold" },
-    alternateRowStyles: { fillColor: [245, 245, 245] },
+    startY: 18,
+    styles: { fontSize: 8, cellPadding: 1.5, overflow: "ellipsize", fillColor: [255, 255, 255] },
+    headStyles: { fillColor: [30, 30, 30], textColor: 255, fontSize: 8, fontStyle: "bold" },
+    alternateRowStyles: { fillColor: [215, 215, 215] },
     columnStyles: {
       0: { cellWidth: 22 }, // CNPJ
       1: { cellWidth: 28 }, // Nome
@@ -193,5 +216,10 @@ export async function exportToPdf(invoices: InvoiceWithRelations[]) {
     margin: { top: 15, left: 5, right: 5 },
   });
 
-  doc.save(`relatorio-notas-${date.replace(/\//g, "-")}.pdf`);
+  const filenameParts = ["relatorio-notas"];
+  if (companyName) filenameParts.push(companyName.replace(/\s+/g, "-").toLowerCase());
+  if (taxLabel) filenameParts.push(taxLabel.replace(/,\s*/g, "-").toLowerCase());
+  filenameParts.push(date.replace(/\//g, "-"));
+
+  doc.save(`${filenameParts.join("_")}.pdf`);
 }

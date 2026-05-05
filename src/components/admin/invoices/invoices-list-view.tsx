@@ -1,5 +1,6 @@
 "use client";
 
+import { useSelectedCompany } from "@/contexts/company-context";
 import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { FileSpreadsheet, FileText, Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -65,6 +66,7 @@ export function InvoicesListView({
   onDelete,
 }: InvoicesListViewProps) {
   const t = useTranslations("apps/invoices");
+  const { selectedCompanyName } = useSelectedCompany();
   const uniqueInvoices = invoices.filter(
     (inv, idx, arr) => arr.findIndex((i) => i.id === inv.id) === idx,
   );
@@ -134,7 +136,11 @@ export function InvoicesListView({
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Exportar Excel
           </Button>
-          <Button size="sm" variant="outline" onClick={() => exportToPdf(filteredInvoices)}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => exportToPdf(filteredInvoices, selectedCompanyName, taxFilters)}
+          >
             <FileText className="mr-2 h-4 w-4" />
             Exportar PDF
           </Button>
