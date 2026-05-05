@@ -1,4 +1,24 @@
 {
+  "createTitle": "Criar Empresa",
+  "editTitle": "Editar Empresa",
+  "createDescription": "Preencha os dados para criar uma nova empresa.",
+  "editDescription": "Atualize as informações da empresa.",
   "deleteTitle": "Excluir empresa?",
-  "deleteDescription": "Tem certeza que deseja excluir esta empresa? Todas as notas fiscais vinculadas a ela também serão excluídas permanentemente. Esta ação não pode ser desfeita."
+  "deleteDescription": "Tem certeza que deseja excluir esta empresa? Todas as notas fiscais vinculadas a ela também serão excluídas permanentemente. Esta ação não pode ser desfeita.",
+  "fields": {
+    "cnpj": "CNPJ",
+    "cnpjPlaceholder": "XX.XXX.XXX/XXXX-XX",
+    "name": "Razão Social",
+    "namePlaceholder": "Digite a razão social",
+    "city": "Cidade",
+    "cityPlaceholder": "Digite a cidade"
+  },
+  "errors": {
+    "cnpjRequired": "CNPJ é obrigatório",
+    "cnpjInvalid": "CNPJ deve ter 14 dígitos",
+    "nameRequired": "Razão social é obrigatória",
+    "nameMaxLength": "Razão social deve ter no máximo 200 caracteres",
+    "cityRequired": "Cidade é obrigatória",
+    "cityMaxLength": "Cidade deve ter no máximo 100 caracteres"
+  }
 }

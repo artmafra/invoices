@@ -5,6 +5,7 @@
  */
 
 import admin from "./admin.json";
+import companies from "./apps/companies.json";
 import invoices from "./apps/invoices.json";
 import services from "./apps/services.json";
 import suppliers from "./apps/suppliers.json";
@@ -26,6 +27,7 @@ const messages = {
   "apps/suppliers": suppliers,
   "apps/invoices": invoices,
   "apps/services": services,
+  "apps/companies": companies,
 } as const;
 
 export default messages;

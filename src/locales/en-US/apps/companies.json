@@ -1,4 +1,24 @@
 {
+  "createTitle": "Create Company",
+  "editTitle": "Edit Company",
+  "createDescription": "Fill in the details to create a new company.",
+  "editDescription": "Update the company information.",
   "deleteTitle": "Delete company?",
-  "deleteDescription": "Are you sure you want to delete this company? All invoices linked to it will also be permanently deleted. This action cannot be undone."
+  "deleteDescription": "Are you sure you want to delete this company? All invoices linked to it will also be permanently deleted. This action cannot be undone.",
+  "fields": {
+    "cnpj": "CNPJ",
+    "cnpjPlaceholder": "XX.XXX.XXX/XXXX-XX",
+    "name": "Company Name",
+    "namePlaceholder": "Enter company name",
+    "city": "City",
+    "cityPlaceholder": "Enter city"
+  },
+  "errors": {
+    "cnpjRequired": "CNPJ is required",
+    "cnpjInvalid": "CNPJ must be 14 digits",
+    "nameRequired": "Company name is required",
+    "nameMaxLength": "Company name must be at most 200 characters",
+    "cityRequired": "City is required",
+    "cityMaxLength": "City must be at most 100 characters"
+  }
 }

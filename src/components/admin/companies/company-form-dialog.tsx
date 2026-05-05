@@ -65,7 +65,7 @@ export function CompanyFormDialog({
 
   const form = useForm<TranslatedCompanyFormValues>({
     resolver: zodResolver(translatedFormSchema),
-    mode: "onBlur",
+    mode: "onSubmit",
     defaultValues: {
       cnpj: "",
       name: "",
