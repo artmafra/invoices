@@ -3,17 +3,22 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useSelectedCompany } from "@/contexts/company-context";
 import type { TaxRates } from "@/schema/services.schema";
+import { Building2, Calculator, Calendar, CheckCircle2, FileDigit, Receipt } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { extractCnpjDigits } from "@/lib/cnpj-service-code";
 import { formatToReais, getDisplayValue } from "@/lib/currency-formatting";
 import { useServices } from "@/hooks/admin/use-services";
 import { useSuppliers } from "@/hooks/admin/use-suppliers";
 import { useDebounce } from "@/hooks/use-debounce";
-import { ResultCell, SpreadsheetCell, TaxColumnHeader } from "@/components/admin/report-components";
 import { CnpjSelect } from "@/components/shared/cnpj-select";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { ServiceSelect } from "@/components/shared/service-select";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 // ─────────────────────────────────────────────────────────────────────────────
 // Tax calculation (mirrors invoice.service.ts server logic)
@@ -358,320 +363,378 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
     }
   }
 
-  const dateInputClass =
-    "w-full border-0 bg-transparent text-sm p-0 focus:outline-none focus:ring-0 h-auto";
-
   return (
-    <div className="overflow-x-auto">
-      <div className="grid grid-cols-1 lg:grid-cols-[auto_1fr_auto] border border-border rounded-md overflow-hidden min-w-[900px]">
-        {/* ── LEFT PANEL ─────────────────────────────────────────────────── */}
-        <div className="border-r border-border">
-          <table className="w-full border-collapse">
-            <tbody>
-              {/* Dates */}
-              <SpreadsheetCell label={t("fields.entryDate")}>
-                <input
-                  value={entryDate}
-                  onChange={(e) => {
-                    const next = e.target.value;
-                    setEntryDate(next.length >= entryDate.length ? formatDateInput(next) : next);
-                  }}
-                  placeholder="dd/mm/aaaa"
-                  maxLength={10}
-                  className={dateInputClass}
-                />
-                {!isValidDate(entryDate) && (
-                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
-                )}
-              </SpreadsheetCell>
+    <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+      {/* ── CARD 1: Dados da Nota ──────────────────────────────────────── */}
+      <Card className="flex flex-col">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-gap-sm">
+            <FileDigit className="w-5 h-5" />
+            {t("newTitle")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4 flex-1">
+          {/* Entry date + Issue date */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="entryDate">{t("fields.entryDate")}</Label>
+              <Tooltip open={!isValidDate(entryDate)}>
+                <TooltipTrigger asChild>
+                  <div className="relative">
+                    <Input
+                      id="entryDate"
+                      value={entryDate}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        setEntryDate(
+                          next.length >= entryDate.length ? formatDateInput(next) : next,
+                        );
+                      }}
+                      placeholder="dd/mm/aaaa"
+                      maxLength={10}
+                      className={`pl-9${!isValidDate(entryDate) ? " border-destructive" : ""}`}
+                    />
+                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top">{t("errors.invalidDate")}</TooltipContent>
+              </Tooltip>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="issueDate">{t("fields.issueDate")}</Label>
+              <Tooltip
+                open={
+                  !isValidDate(issueDate) ||
+                  (isValidDate(issueDate) &&
+                    isValidDate(entryDate) &&
+                    issueDate.length === 10 &&
+                    entryDate.length === 10 &&
+                    fromDisplayDate(issueDate) > fromDisplayDate(entryDate))
+                }
+              >
+                <TooltipTrigger asChild>
+                  <div className="relative">
+                    <Input
+                      id="issueDate"
+                      value={issueDate}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        setIssueDate(
+                          next.length >= issueDate.length ? formatDateInput(next) : next,
+                        );
+                      }}
+                      placeholder="dd/mm/aaaa"
+                      maxLength={10}
+                      className={`pl-9${
+                        !isValidDate(issueDate) ||
+                        (isValidDate(issueDate) &&
+                          isValidDate(entryDate) &&
+                          issueDate.length === 10 &&
+                          entryDate.length === 10 &&
+                          fromDisplayDate(issueDate) > fromDisplayDate(entryDate))
+                          ? " border-destructive"
+                          : ""
+                      }`}
+                    />
+                    <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                  </div>
+                </TooltipTrigger>
+                <TooltipContent side="top">
+                  {!isValidDate(issueDate)
+                    ? t("errors.invalidDate")
+                    : t("errors.issueDateAfterEntryDate")}
+                </TooltipContent>
+              </Tooltip>
+            </div>
+          </div>
 
-              <SpreadsheetCell label={t("fields.issueDate")}>
-                <input
-                  value={issueDate}
-                  onChange={(e) => {
-                    const next = e.target.value;
-                    setIssueDate(next.length >= issueDate.length ? formatDateInput(next) : next);
-                  }}
-                  placeholder="dd/mm/aaaa"
-                  maxLength={10}
-                  className={dateInputClass}
-                />
-                {!isValidDate(issueDate) && (
-                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
-                )}
-                {isValidDate(issueDate) &&
-                  isValidDate(entryDate) &&
-                  issueDate.length === 10 &&
-                  entryDate.length === 10 &&
-                  fromDisplayDate(issueDate) > fromDisplayDate(entryDate) && (
-                    <p className="text-xs text-destructive mt-0.5">
-                      {t("errors.issueDateAfterEntryDate")}
-                    </p>
-                  )}
-              </SpreadsheetCell>
-
-              <SpreadsheetCell label={t("fields.dueDate")}>
-                <input
-                  value={dueDate}
-                  onChange={(e) => {
-                    const next = e.target.value;
-                    setDueDate(next.length >= dueDate.length ? formatDateInput(next) : next);
-                  }}
-                  placeholder="dd/mm/aaaa"
-                  maxLength={10}
-                  className={dateInputClass}
-                />
-                {dueDate && !isValidDate(dueDate) && (
-                  <p className="text-xs text-destructive mt-0.5">{t("errors.invalidDate")}</p>
-                )}
-              </SpreadsheetCell>
-
-              {/* CNPJ */}
-              <SpreadsheetCell label={t("fields.supplierCnpj")}>
-                <CnpjSelect
-                  value={supplierCnpj || null}
-                  onChange={(v) => setSupplierCnpj(v ?? "")}
-                  placeholder={t("fields.supplierCnpjPlaceholder")}
-                  companyId={selectedCompanyId}
-                />
-              </SpreadsheetCell>
-
-              {/* Service */}
-              <SpreadsheetCell label={t("fields.serviceCode")}>
-                <ServiceSelect
-                  value={serviceCode}
-                  onChange={(v) => setServiceCode(v)}
-                  placeholder={t("fields.serviceCodePlaceholder")}
-                  companyId={selectedCompanyId}
-                />
-              </SpreadsheetCell>
-
-              {/* Invoice number */}
-              <SpreadsheetCell label={t("fields.invoiceNumber")}>
-                <Input
-                  value={invoiceNumber}
-                  onChange={(e) => setInvoiceNumber(e.target.value)}
-                  placeholder={t("fields.invoiceNumberPlaceholder")}
-                  className="border-0 bg-transparent h-auto p-0 focus-visible:ring-0 text-sm"
-                />
-              </SpreadsheetCell>
-
-              {/* Value */}
-              <SpreadsheetCell label={t("fields.valueCents")}>
-                <Input
-                  value={valueDisplay}
-                  inputMode="numeric"
-                  placeholder="R$ 0,00"
-                  className="border-0 bg-transparent h-auto p-0 focus-visible:ring-0 text-sm text-right w-full"
-                  onChange={(e) => {
-                    const digits = e.target.value.replace(/\D/g, "");
-                    const cents = parseInt(digits || "0", 10);
-                    setValueCents(cents);
-                    setValueDisplay(cents > 0 ? getDisplayValue(cents) : "");
-                  }}
-                />
-              </SpreadsheetCell>
-
-              {/* Deduction section */}
-              <SpreadsheetCell label={t("fields.deductionCents")}>
-                <Input
-                  value={materialDisplay}
-                  inputMode="numeric"
-                  placeholder="R$ 0,00"
-                  className="border-0 bg-transparent h-auto p-0 focus-visible:ring-0 text-sm text-right w-full"
-                  onChange={(e) => {
-                    const digits = e.target.value.replace(/\D/g, "");
-                    const cents = parseInt(digits || "0", 10);
-                    setMaterialCents(cents);
-                    setMaterialDisplay(cents > 0 ? getDisplayValue(cents) : "");
-                  }}
-                />
-              </SpreadsheetCell>
-
-              <SpreadsheetCell label="ISSQN">
-                {supplier?.taxRegime === "sn" ? (
+          {/* Due date */}
+          <div className="space-y-2">
+            <Label htmlFor="dueDate">{t("fields.dueDate")}</Label>
+            <Tooltip open={!!dueDate && !isValidDate(dueDate)}>
+              <TooltipTrigger asChild>
+                <div className="relative">
                   <Input
-                    value={issqnOverrideDisplay}
-                    inputMode="decimal"
-                    placeholder={formatPercent(taxRates.issqn)}
-                    className={`border-0 bg-transparent h-auto p-0 focus-visible:ring-0 text-sm text-right w-full ${
-                      issqnOverrideDisplay !== "" && issqnOverride === null
-                        ? "text-destructive"
-                        : ""
-                    }`}
-                    onFocus={() => {
-                      setIssqnFocused(true);
-                      // strip % suffix so user edits the raw number
-                      setIssqnOverrideDisplay((v) => v.replace("%", "").trim());
-                    }}
-                    onBlur={() => {
-                      setIssqnFocused(false);
-                      // append % if there's a valid number
-                      const raw = issqnOverrideDisplay.replace("%", "").trim();
-                      const n = parseFloat(raw.replace(",", "."));
-                      if (!isNaN(n)) {
-                        setIssqnOverrideDisplay(`${n.toFixed(2).replace(".", ",")}%`);
-                      }
-                    }}
+                    id="dueDate"
+                    value={dueDate}
                     onChange={(e) => {
-                      const v = e.target.value;
-                      // while focused, allow free input but keep % stripped
-                      setIssqnOverrideDisplay(issqnFocused ? v.replace("%", "") : v);
+                      const next = e.target.value;
+                      setDueDate(next.length >= dueDate.length ? formatDateInput(next) : next);
                     }}
+                    placeholder="dd/mm/aaaa"
+                    maxLength={10}
+                    className={`pl-9${!!dueDate && !isValidDate(dueDate) ? " border-destructive" : ""}`}
                   />
-                ) : (
-                  <span className="text-sm text-muted-foreground block text-right">
-                    {formatPercent(taxRates.issqn)}
-                  </span>
-                )}
-              </SpreadsheetCell>
+                  <Calendar className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground pointer-events-none" />
+                </div>
+              </TooltipTrigger>
+              <TooltipContent side="top">{t("errors.invalidDate")}</TooltipContent>
+            </Tooltip>
+          </div>
 
-              <SpreadsheetCell label="INSS">
-                {supplier?.taxRegime === "n" || supplier?.taxRegime === "sn" ? (
-                  <select
-                    value={inssOverrideDisplay}
-                    onChange={(e) => setInssOverrideDisplay(e.target.value)}
-                    className="w-full border-0 bg-transparent text-sm text-right p-0 focus:outline-none cursor-pointer"
-                  >
-                    <option value="">{formatPercent(taxRates.inss)}</option>
-                    <option value="3.5">3,5%</option>
-                    <option value="11">11%</option>
-                  </select>
-                ) : (
-                  <Input
-                    value={inssOverrideDisplay}
-                    inputMode="decimal"
-                    placeholder={formatPercent(taxRates.inss)}
-                    className="border-0 bg-transparent h-auto p-0 focus-visible:ring-0 text-sm text-right w-full"
-                    onChange={(e) => setInssOverrideDisplay(e.target.value)}
-                  />
-                )}
-              </SpreadsheetCell>
+          <Separator />
 
-              <SpreadsheetCell label="IRRF">
-                {supplier?.taxRegime === "n" ? (
-                  <select
-                    value={irrfOverrideDisplay}
-                    onChange={(e) => setIrrfOverrideDisplay(e.target.value)}
-                    className="w-full border-0 bg-transparent text-sm text-right p-0 focus:outline-none cursor-pointer"
-                  >
-                    <option value="">{formatPercent(taxRates.irrf)}</option>
-                    <option value="1">1%</option>
-                    <option value="1.5">1,50%</option>
-                  </select>
-                ) : (
-                  <span className="text-sm text-muted-foreground block text-right">
-                    {formatPercent(taxRates.irrf)}
-                  </span>
-                )}
-              </SpreadsheetCell>
-              <tr>
-                <td colSpan={2} className="px-3 py-2 bg-background border-t border-border">
-                  <LoadingButton
-                    type="button"
-                    onClick={handleSubmit}
-                    loading={isSaving}
-                    loadingText={t("saving")}
-                    disabled={
-                      !supplierCnpj ||
-                      !serviceCode ||
-                      !valueCents ||
-                      !invoiceNumber ||
-                      !isValidDate(entryDate) ||
-                      !isValidDate(issueDate) ||
-                      (issueDate.length === 10 &&
-                        entryDate.length === 10 &&
-                        isValidDate(issueDate) &&
-                        isValidDate(entryDate) &&
-                        fromDisplayDate(issueDate) > fromDisplayDate(entryDate)) ||
-                      (!!dueDate && !isValidDate(dueDate))
+          {/* CNPJ */}
+          <div className="space-y-2">
+            <Label>
+              <Building2 className="w-4 h-4 inline-block mr-1 text-muted-foreground" />
+              {t("fields.supplierCnpj")}
+            </Label>
+            <CnpjSelect
+              value={supplierCnpj || null}
+              onChange={(v) => setSupplierCnpj(v ?? "")}
+              placeholder={t("fields.supplierCnpjPlaceholder")}
+              companyId={selectedCompanyId}
+            />
+          </div>
+
+          {/* Service */}
+          <div className="space-y-2">
+            <Label>{t("fields.serviceCode")}</Label>
+            <ServiceSelect
+              value={serviceCode}
+              onChange={(v) => setServiceCode(v)}
+              placeholder={t("fields.serviceCodePlaceholder")}
+              companyId={selectedCompanyId}
+            />
+          </div>
+
+          {/* Invoice number */}
+          <div className="space-y-2">
+            <Label htmlFor="invoiceNumber">{t("fields.invoiceNumber")}</Label>
+            <Input
+              id="invoiceNumber"
+              value={invoiceNumber}
+              onChange={(e) => setInvoiceNumber(e.target.value)}
+              placeholder={t("fields.invoiceNumberPlaceholder")}
+            />
+          </div>
+
+          {/* Value + Deduction */}
+          <div className="grid grid-cols-2 gap-4">
+            <div className="space-y-2">
+              <Label htmlFor="valueCents">{t("fields.valueCents")}</Label>
+              <Input
+                id="valueCents"
+                value={valueDisplay}
+                inputMode="numeric"
+                placeholder="R$ 0,00"
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "");
+                  const cents = parseInt(digits || "0", 10);
+                  setValueCents(cents);
+                  setValueDisplay(cents > 0 ? getDisplayValue(cents) : "");
+                }}
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="materialCents">{t("fields.deductionCents")}</Label>
+              <Input
+                id="materialCents"
+                value={materialDisplay}
+                inputMode="numeric"
+                placeholder="R$ 0,00"
+                onChange={(e) => {
+                  const digits = e.target.value.replace(/\D/g, "");
+                  const cents = parseInt(digits || "0", 10);
+                  setMaterialCents(cents);
+                  setMaterialDisplay(cents > 0 ? getDisplayValue(cents) : "");
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Tax overrides */}
+          <div className="grid grid-cols-3 gap-3">
+            {/* ISSQN override */}
+            <div className="space-y-2">
+              <Label>ISSQN</Label>
+              {supplier?.taxRegime === "sn" ? (
+                <Input
+                  value={issqnOverrideDisplay}
+                  inputMode="decimal"
+                  placeholder={formatPercent(taxRates.issqn)}
+                  className={
+                    issqnOverrideDisplay !== "" && issqnOverride === null
+                      ? "border-destructive text-destructive"
+                      : "border-foreground/25 text-foreground"
+                  }
+                  onFocus={() => {
+                    setIssqnFocused(true);
+                    setIssqnOverrideDisplay((v) => v.replace("%", "").trim());
+                  }}
+                  onBlur={() => {
+                    setIssqnFocused(false);
+                    const raw = issqnOverrideDisplay.replace("%", "").trim();
+                    const n = parseFloat(raw.replace(",", "."));
+                    if (!isNaN(n)) {
+                      setIssqnOverrideDisplay(`${n.toFixed(2).replace(".", ",")}%`);
                     }
-                    className="w-full rounded-none font-bold uppercase tracking-wide"
-                  >
-                    {t("registerInvoice")}
-                  </LoadingButton>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        {/* ── MIDDLE PANEL ───────────────────────────────────────────────── */}
-        <div className="border-r border-border flex flex-col">
-          <table className="w-full border-collapse">
-            <tbody>
-              {/* Supplier info */}
-              <ResultCell label={t("card.supplierName")} value={supplier?.name ?? "—"} spanValue />
-              <ResultCell label={t("card.supplierCity")} value={supplier?.city ?? "—"} spanValue />
-              <ResultCell
-                label={t("card.taxRegime")}
-                value={supplier ? regimeLabel[supplier.taxRegime] : "—"}
-                spanValue
-              />
-
-              {/* Spacer */}
-              <tr>
-                <td colSpan={3} className="h-14 bg-muted/40 border-b border-border" />
-              </tr>
-
-              {/* Tax header */}
-              <TaxColumnHeader />
-
-              {/* Tax rows */}
-              <ResultCell
-                label="ISSQN"
-                value={taxes.issqnAmount > 0 ? formatToReais(taxes.issqnAmount) : "—"}
-                extra={formatPercent(taxes.issqnRate)}
-                numeric
-              />
-              <ResultCell
-                label="INSS"
-                value={taxes.inssAmount > 0 ? formatToReais(taxes.inssAmount) : "—"}
-                extra={taxes.inssRate !== null ? formatPercent(taxes.inssRate) : ""}
-                numeric
-              />
-              <ResultCell
-                label="CS"
-                value={taxes.csAmount > 0 ? formatToReais(taxes.csAmount) : "—"}
-                extra={formatPercent(taxes.csRate)}
-                numeric
-              />
-              <ResultCell
-                label="IRRF"
-                value={taxes.irrfAmount > 0 ? formatToReais(taxes.irrfAmount) : "—"}
-                extra={formatPercent(taxes.irrfRate)}
-                numeric
-              />
-            </tbody>
-          </table>
-
-          {/* Net amount pinned to bottom */}
-          <div className="mt-auto border-t border-border">
-            <table className="w-full border-collapse">
-              <tbody>
-                <ResultCell
-                  label={t("card.netAmount")}
-                  value={valueCents > 0 ? formatToReais(taxes.netAmountCents) : "—"}
-                  strong
-                  highlight
-                  spanValue
-                  numeric
+                  }}
+                  onChange={(e) => {
+                    const v = e.target.value;
+                    setIssqnOverrideDisplay(issqnFocused ? v.replace("%", "") : v);
+                  }}
                 />
-              </tbody>
-            </table>
-          </div>
-        </div>
+              ) : (
+                <div className="flex h-9 items-center rounded-md border border-border/30 bg-muted px-3 text-sm text-muted-foreground/60">
+                  {formatPercent(taxRates.issqn)}
+                </div>
+              )}
+            </div>
 
-        {/* ── RIGHT PANEL ────────────────────────────────────────────────── */}
-        <div className="flex flex-col w-100">
-          <div className="px-3 py-1.5 text-xs font-bold uppercase tracking-wide bg-muted border-b border-border">
+            {/* INSS override */}
+            <div className="space-y-2">
+              <Label>INSS</Label>
+              {supplier?.taxRegime === "n" || supplier?.taxRegime === "sn" ? (
+                <select
+                  value={inssOverrideDisplay}
+                  onChange={(e) => setInssOverrideDisplay(e.target.value)}
+                  className="flex h-9 w-full rounded-md border border-foreground/25 bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
+                >
+                  <option value="">{formatPercent(taxRates.inss)}</option>
+                  <option value="3.5">3,5%</option>
+                  <option value="11">11%</option>
+                </select>
+              ) : (
+                <div className="flex h-9 items-center rounded-md border border-border/30 bg-muted px-3 text-sm text-muted-foreground/60">
+                  {formatPercent(taxRates.inss)}
+                </div>
+              )}
+            </div>
+
+            {/* IRRF override */}
+            <div className="space-y-2">
+              <Label>IRRF</Label>
+              {supplier?.taxRegime === "n" ? (
+                <select
+                  value={irrfOverrideDisplay}
+                  onChange={(e) => setIrrfOverrideDisplay(e.target.value)}
+                  className="flex h-9 w-full rounded-md border border-foreground/25 bg-background px-3 text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-ring cursor-pointer"
+                >
+                  <option value="">{formatPercent(taxRates.irrf)}</option>
+                  <option value="1">1%</option>
+                  <option value="1.5">1,50%</option>
+                </select>
+              ) : (
+                <div className="flex h-9 items-center rounded-md border border-border/30 bg-muted px-3 text-sm text-muted-foreground/60">
+                  {formatPercent(taxRates.irrf)}
+                </div>
+              )}
+            </div>
+          </div>
+        </CardContent>
+        <CardFooter>
+          <LoadingButton
+            type="button"
+            onClick={handleSubmit}
+            loading={isSaving}
+            loadingText={t("saving")}
+            disabled={
+              !supplierCnpj ||
+              !serviceCode ||
+              !valueCents ||
+              !invoiceNumber ||
+              !isValidDate(entryDate) ||
+              !isValidDate(issueDate) ||
+              (issueDate.length === 10 &&
+                entryDate.length === 10 &&
+                isValidDate(issueDate) &&
+                isValidDate(entryDate) &&
+                fromDisplayDate(issueDate) > fromDisplayDate(entryDate)) ||
+              (!!dueDate && !isValidDate(dueDate))
+            }
+            className="w-full font-bold uppercase tracking-wide"
+            size="lg"
+          >
+            <CheckCircle2 className="w-4 h-4 mr-2" />
+            {t("registerInvoice")}
+          </LoadingButton>
+        </CardFooter>
+      </Card>
+
+      {/* ── CARD 2: Resumo e Tributação ────────────────────────────────── */}
+      <Card className="flex flex-col bg-muted/20">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-gap-sm">
+            <Calculator className="w-5 h-5" />
+            {t("card.taxes")}
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-6 flex-1">
+          {/* Supplier info block */}
+          <div className="space-y-3 bg-background p-4 rounded-lg border">
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground font-medium">{t("card.supplierName")}</span>
+              <span className="font-semibold text-right">{supplier?.name ?? "—"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground font-medium">{t("card.supplierCity")}</span>
+              <span className="font-semibold text-right">{supplier?.city ?? "—"}</span>
+            </div>
+            <div className="flex justify-between items-center text-sm">
+              <span className="text-muted-foreground font-medium">{t("card.taxRegime")}</span>
+              <span className="font-semibold text-right">
+                {supplier ? regimeLabel[supplier.taxRegime] : "—"}
+              </span>
+            </div>
+          </div>
+
+          {/* Tax table */}
+          <div>
+            <div className="grid grid-cols-3 text-xs font-bold text-muted-foreground border-b pb-2 mb-1 px-1">
+              <span>IMPOSTO</span>
+              <span className="text-right">VALOR (R$)</span>
+              <span className="text-right">%</span>
+            </div>
+            {(
+              [
+                { label: "ISSQN", amount: taxes.issqnAmount, rate: taxes.issqnRate },
+                { label: "INSS", amount: taxes.inssAmount, rate: taxes.inssRate },
+                { label: "CS", amount: taxes.csAmount, rate: taxes.csRate },
+                { label: "IRRF", amount: taxes.irrfAmount, rate: taxes.irrfRate },
+              ] as const
+            ).map(({ label, amount, rate }) => (
+              <div
+                key={label}
+                className="grid grid-cols-3 text-sm py-1.5 px-1 border-b border-border/50 last:border-0"
+              >
+                <span className="font-medium">{label}</span>
+                <span className="text-right">{amount > 0 ? formatToReais(amount) : "—"}</span>
+                <span className="text-right text-muted-foreground">{formatPercent(rate)}</span>
+              </div>
+            ))}
+          </div>
+        </CardContent>
+        <CardFooter>
+          <div className="w-full flex items-center justify-between p-4 rounded-lg bg-primary text-primary-foreground">
+            <span className="font-bold uppercase tracking-wider text-sm">
+              {t("card.netAmount")}
+            </span>
+            <span className="text-xl font-bold">
+              {valueCents > 0 ? formatToReais(taxes.netAmountCents) : "R$ 0,00"}
+            </span>
+          </div>
+        </CardFooter>
+      </Card>
+
+      {/* ── CARD 3: Descrição dos Serviços ─────────────────────────────── */}
+      <Card className="flex flex-col">
+        <CardHeader>
+          <CardTitle className="text-lg flex items-center gap-gap-sm">
+            <Receipt className="w-5 h-5" />
             {t("card.serviceDescription")}
-          </div>
-          <div className="p-3 text-sm text-muted-foreground flex-1 bg-background">
-            {service?.description ? service.description : service?.obs ? service.obs : "—"}
-          </div>
-        </div>
-      </div>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="flex-1 flex flex-col">
+          <Textarea
+            className="flex-1 min-h-[300px] resize-none"
+            placeholder="—"
+            value={service?.description ?? service?.obs ?? ""}
+            readOnly
+          />
+        </CardContent>
+      </Card>
     </div>
   );
 }
