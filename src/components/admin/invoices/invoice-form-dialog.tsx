@@ -1,20 +1,16 @@
 "use client";
 
-import { useEffect } from "react";
-import type { InvoiceStatus } from "@/schema/invoices.schema";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { CalendarIcon } from "lucide-react";
+import { Calendar } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { extractCnpjDigits } from "@/lib/cnpj-service-code";
 import { getDisplayValue, parseTocents } from "@/lib/currency-formatting";
-import { cn } from "@/lib/utils";
 import { createInvoiceSchema } from "@/validations/invoice.validations";
-import { useDateFormat } from "@/hooks/use-date-format";
 import { CnpjSelect } from "@/components/shared/cnpj-select";
 import { FormFieldWithTooltip } from "@/components/shared/form-field-with-tooltip";
-import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { ServiceSelect } from "@/components/shared/service-select";
 import { Button } from "@/components/ui/button";
@@ -27,18 +23,84 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Form, FormControl, FormField } from "@/components/ui/form";
+import { Form, FormField } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
-const STATUS_VALUES: InvoiceStatus[] = ["issued", "paid", "cancelled"];
+// ─────────────────────────────────────────────────────────────────────────────
+// Date input helpers
+// ─────────────────────────────────────────────────────────────────────────────
+
+function formatDateInput(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+}
+
+function toDisplayDate(d: Date): string {
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  return `${day}/${month}/${d.getFullYear()}`;
+}
+
+function fromDisplayDate(s: string): Date {
+  const [day, month, year] = s.split("/").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function isValidDateString(s: string): boolean {
+  if (s.length < 10) return true;
+  const [day, month, year] = s.split("/").map(Number);
+  if (!day || !month || !year) return false;
+  if (month < 1 || month > 12 || day < 1) return false;
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+interface DateFieldInputProps {
+  label: string;
+  value: Date | undefined;
+  onChange: (date: Date | undefined) => void;
+  onBlur: () => void;
+  error?: string;
+  isTouched: boolean;
+}
+
+function DateFieldInput({ label, value, onChange, onBlur, error, isTouched }: DateFieldInputProps) {
+  const [text, setText] = useState(() => (value ? toDisplayDate(value) : ""));
+
+  useEffect(() => {
+    const formatted = value ? toDisplayDate(value) : "";
+    if (formatted !== text) setText(formatted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  return (
+    <FormFieldWithTooltip label={label} error={error} isTouched={isTouched}>
+      <div className="relative">
+        <Input
+          value={text}
+          onChange={(e) => {
+            const next = e.target.value;
+            const formatted = next.length >= text.length ? formatDateInput(next) : next;
+            setText(formatted);
+            if (formatted.length === 10 && isValidDateString(formatted)) {
+              onChange(fromDisplayDate(formatted));
+            } else {
+              onChange(undefined);
+            }
+          }}
+          onBlur={onBlur}
+          placeholder="dd/mm/aaaa"
+          maxLength={10}
+          className={`pl-9${error && isTouched ? " border-destructive" : ""}`}
+        />
+        <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      </div>
+    </FormFieldWithTooltip>
+  );
+}
 
 export type InvoiceFormValues = z.infer<typeof createInvoiceSchema>;
 
@@ -46,6 +108,7 @@ export interface InvoiceFormDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   initialData?: Partial<InvoiceFormValues>;
+  initialSupplierTaxRegime?: string;
   onSubmit: (data: InvoiceFormValues) => void;
   isEditing: boolean;
   isSaving: boolean;
@@ -55,18 +118,22 @@ export function InvoiceFormDialog({
   open,
   onOpenChange,
   initialData,
+  initialSupplierTaxRegime,
   onSubmit,
   isEditing,
   isSaving,
 }: InvoiceFormDialogProps) {
   const tc = useTranslations("common");
   const t = useTranslations("apps/invoices");
-  const { formatDate } = useDateFormat();
+
+  // Track supplier tax regime to pick the right service tax rates
+  const [supplierTaxRegime, setSupplierTaxRegime] = useState<string>(
+    initialSupplierTaxRegime ?? "sn",
+  );
 
   // Create translated schema with error messages
   const translatedFormSchema = z
     .object({
-      status: z.enum(["issued", "paid", "cancelled"]).optional(),
       supplierCnpj: z
         .string()
         .trim()
@@ -114,7 +181,6 @@ export function InvoiceFormDialog({
       entryDate: new Date(),
       valueCents: 0,
       invoiceNumber: "",
-      status: "issued",
       materialDeductionCents: 0,
       inssPercent: undefined,
       csPercent: undefined,
@@ -126,6 +192,7 @@ export function InvoiceFormDialog({
 
   useEffect(() => {
     if (open) {
+      setSupplierTaxRegime(initialSupplierTaxRegime ?? "sn");
       form.reset({
         supplierCnpj: "",
         serviceCode: "",
@@ -134,7 +201,6 @@ export function InvoiceFormDialog({
         entryDate: new Date(),
         valueCents: 0,
         invoiceNumber: "",
-        status: "issued",
         materialDeductionCents: 0,
         inssPercent: undefined,
         csPercent: undefined,
@@ -143,7 +209,7 @@ export function InvoiceFormDialog({
         ...initialData,
       });
     }
-  }, [open, initialData, form]);
+  }, [open, initialData, initialSupplierTaxRegime, form]);
 
   const handleSubmit = (data: TranslatedInvoiceFormValues) => {
     // Cast to InvoiceFormValues for the parent handler
@@ -177,6 +243,7 @@ export function InvoiceFormDialog({
                         field.onChange(cnpj || "");
                       }}
                       onBlur={field.onBlur}
+                      onSupplierSelect={(supplier) => setSupplierTaxRegime(supplier.taxRegime)}
                       label={t("fields.supplierCnpj")}
                       placeholder={t("fields.supplierCnpjPlaceholder")}
                     />
@@ -197,6 +264,18 @@ export function InvoiceFormDialog({
                         field.onChange(code || "");
                       }}
                       onBlur={field.onBlur}
+                      onServiceSelect={(service) => {
+                        const regime = (["sn", "n", "mei"] as const).includes(
+                          supplierTaxRegime as "sn" | "n" | "mei",
+                        )
+                          ? (supplierTaxRegime as "sn" | "n" | "mei")
+                          : "sn";
+                        const rates = service[regime];
+                        form.setValue("issqnPercent", rates.issqn ?? undefined);
+                        form.setValue("inssPercent", rates.inss ?? undefined);
+                        form.setValue("csPercent", rates.cs ?? undefined);
+                        form.setValue("irrfPercent", rates.irrf ?? undefined);
+                      }}
                       label={t("fields.serviceCode")}
                       placeholder={t("fields.serviceCodePlaceholder")}
                     />
@@ -211,88 +290,28 @@ export function InvoiceFormDialog({
                   control={form.control}
                   name="issueDate"
                   render={({ field, fieldState }) => (
-                    <FormFieldWithTooltip
+                    <DateFieldInput
                       label={t("fields.issueDate")}
+                      value={field.value ? new Date(field.value) : undefined}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
                       error={fieldState.error?.message}
                       isTouched={!!form.formState.touchedFields.issueDate}
-                    >
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "w-full pl-space-md text-left font-normal",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value ? (
-                                formatDate(new Date(field.value))
-                              ) : (
-                                <span>{t("dates.select")}</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <LazyCalendar
-                            mode="single"
-                            selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => {
-                              field.onChange(date ?? undefined);
-                              field.onBlur();
-                            }}
-                            disabled={(date) => date < new Date("1900-01-01")}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormFieldWithTooltip>
+                    />
                   )}
                 />
                 <FormField
                   control={form.control}
                   name="dueDate"
                   render={({ field, fieldState }) => (
-                    <FormFieldWithTooltip
+                    <DateFieldInput
                       label={t("fields.dueDate")}
+                      value={field.value ? new Date(field.value) : undefined}
+                      onChange={field.onChange}
+                      onBlur={field.onBlur}
                       error={fieldState.error?.message}
                       isTouched={!!form.formState.touchedFields.dueDate}
-                    >
-                      <Popover>
-                        <PopoverTrigger asChild>
-                          <FormControl>
-                            <Button
-                              variant="outline"
-                              className={cn(
-                                "w-full pl-space-md text-left font-normal",
-                                !field.value && "text-muted-foreground",
-                              )}
-                            >
-                              {field.value ? (
-                                formatDate(new Date(field.value))
-                              ) : (
-                                <span>{t("dates.select")}</span>
-                              )}
-                              <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                            </Button>
-                          </FormControl>
-                        </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0" align="start">
-                          <LazyCalendar
-                            mode="single"
-                            selected={field.value ? new Date(field.value) : undefined}
-                            onSelect={(date) => {
-                              field.onChange(date ?? undefined);
-                              field.onBlur();
-                            }}
-                            disabled={(date) => date < new Date("1900-01-01")}
-                            initialFocus
-                          />
-                        </PopoverContent>
-                      </Popover>
-                    </FormFieldWithTooltip>
+                    />
                   )}
                 />
               </div>
@@ -339,30 +358,7 @@ export function InvoiceFormDialog({
                   </FormFieldWithTooltip>
                 )}
               />
-              <FormField
-                control={form.control}
-                name="status"
-                render={({ field, fieldState }) => (
-                  <FormFieldWithTooltip
-                    label={t("fields.status")}
-                    error={fieldState.error?.message}
-                    isTouched={!!form.formState.touchedFields.status}
-                  >
-                    <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger className="w-full">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {STATUS_VALUES.map((status) => (
-                          <SelectItem key={status} value={status}>
-                            {t(`status.${status}`)}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </FormFieldWithTooltip>
-                )}
-              />
+
               <FormField
                 control={form.control}
                 name="materialDeductionCents"

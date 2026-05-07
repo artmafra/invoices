@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { FileText } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
-import { useServices } from "@/hooks/admin/use-services";
+import { useServices, type Service } from "@/hooks/admin/use-services";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -13,6 +13,7 @@ interface ServiceSelectProps {
   value: string | null;
   onChange: (serviceCode: string | null) => void;
   onBlur?: () => void;
+  onServiceSelect?: (service: Service) => void;
   label?: string;
   placeholder?: string;
   description?: string;
@@ -24,6 +25,7 @@ export function ServiceSelect({
   value,
   onChange,
   onBlur: onBlurProp,
+  onServiceSelect,
   label,
   placeholder,
   description,
@@ -86,9 +88,10 @@ export function ServiceSelect({
     }
   };
 
-  const handleSelectService = (service: { code: string; description: string }) => {
+  const handleSelectService = (service: Service) => {
     setInputValue(service.code);
     onChange(service.code);
+    onServiceSelect?.(service);
     setShowSuggestions(false);
     setSelectedIndex(-1);
   };
@@ -97,6 +100,7 @@ export function ServiceSelect({
     const match = servicesList.find((s) => s.code.toLowerCase() === inputValue.toLowerCase());
     if (match) {
       onChange(match.code);
+      onServiceSelect?.(match);
     }
     onBlurProp?.();
   };

@@ -25,6 +25,9 @@ export function useInvoicesDialogs() {
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingInvoiceId, setEditingInvoiceId] = useState<string | null>(null);
   const [initialData, setInitialData] = useState<Partial<InvoiceFormValues> | undefined>(undefined);
+  const [initialSupplierTaxRegime, setInitialSupplierTaxRegime] = useState<string | undefined>(
+    undefined,
+  );
 
   // Confirmation dialog states
   const [deleteInvoiceId, setDeleteInvoiceId] = useState<string | null>(null);
@@ -35,6 +38,7 @@ export function useInvoicesDialogs() {
       showFormDialog,
       editingInvoiceId,
       initialData,
+      initialSupplierTaxRegime,
       deleteInvoiceId,
     },
 
@@ -42,10 +46,12 @@ export function useInvoicesDialogs() {
     openCreateDialog: () => {
       setEditingInvoiceId(null);
       setInitialData(undefined);
+      setInitialSupplierTaxRegime(undefined);
       setShowFormDialog(true);
     },
-    openEditDialog: (invoiceId: string, data: Partial<InvoiceFormValues>) => {
+    openEditDialog: (invoiceId: string, data: Partial<InvoiceFormValues>, taxRegime?: string) => {
       setInitialData(data);
+      setInitialSupplierTaxRegime(taxRegime);
       setEditingInvoiceId(invoiceId);
       setShowFormDialog(true);
     },
@@ -53,6 +59,7 @@ export function useInvoicesDialogs() {
       setShowFormDialog(false);
       setEditingInvoiceId(null);
       setInitialData(undefined);
+      setInitialSupplierTaxRegime(undefined);
     },
 
     // Delete dialog actions

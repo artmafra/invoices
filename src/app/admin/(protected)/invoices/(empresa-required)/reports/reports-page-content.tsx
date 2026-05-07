@@ -136,20 +136,24 @@ export function ReportsPageContent() {
     (invoiceId: string) => {
       const invoice = data?.data.find((i) => i.id === invoiceId);
       if (invoice) {
-        openEditDialog(invoiceId, {
-          supplierCnpj: invoice.supplierCnpj,
-          serviceCode: invoice.serviceCode,
-          issueDate: new Date(invoice.issueDate),
-          dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
-          valueCents: invoice.valueCents,
-          invoiceNumber: invoice.invoiceNumber,
-          status: invoice.status,
-          materialDeductionCents: invoice.materialDeductionCents,
-          inssPercent: invoice.inssPercent ?? invoice.service?.taxRates?.inss ?? undefined,
-          csPercent: invoice.csPercent ?? invoice.service?.taxRates?.cs ?? undefined,
-          issqnPercent: invoice.issqnPercent ?? invoice.service?.taxRates?.issqn ?? undefined,
-          irrfPercent: invoice.irrfPercent ?? invoice.service?.taxRates?.irrf ?? undefined,
-        });
+        openEditDialog(
+          invoiceId,
+          {
+            supplierCnpj: invoice.supplierCnpj,
+            serviceCode: invoice.serviceCode,
+            issueDate: new Date(invoice.issueDate),
+            dueDate: invoice.dueDate ? new Date(invoice.dueDate) : undefined,
+            valueCents: invoice.valueCents,
+            invoiceNumber: invoice.invoiceNumber,
+            status: invoice.status,
+            materialDeductionCents: invoice.materialDeductionCents,
+            inssPercent: invoice.inssPercent ?? invoice.service?.taxRates?.inss ?? undefined,
+            csPercent: invoice.csPercent ?? invoice.service?.taxRates?.cs ?? undefined,
+            issqnPercent: invoice.issqnPercent ?? invoice.service?.taxRates?.issqn ?? undefined,
+            irrfPercent: invoice.irrfPercent ?? invoice.service?.taxRates?.irrf ?? undefined,
+          },
+          invoice.supplier?.taxRegime,
+        );
       }
     },
     [data?.data, openEditDialog],
@@ -221,6 +225,7 @@ export function ReportsPageContent() {
           open={dialogs.showFormDialog}
           onOpenChange={(open) => !open && closeFormDialog()}
           initialData={dialogs.initialData}
+          initialSupplierTaxRegime={dialogs.initialSupplierTaxRegime}
           onSubmit={handleSubmit}
           isEditing={!!dialogs.editingInvoiceId}
           isSaving={actions.isCreating || actions.isUpdating}

@@ -5,7 +5,7 @@ import { Building2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { extractCnpjDigits, formatCnpj } from "@/lib/cnpj-service-code";
 import { cn } from "@/lib/utils";
-import { useSuppliers } from "@/hooks/admin/use-suppliers";
+import { useSuppliers, type Supplier } from "@/hooks/admin/use-suppliers";
 import { useDebounce } from "@/hooks/use-debounce";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ interface CnpjSelectProps {
   value: string | null;
   onChange: (cnpj: string | null) => void;
   onBlur?: () => void;
+  onSupplierSelect?: (supplier: Pick<Supplier, "cnpj" | "taxRegime">) => void;
   label?: string;
   placeholder?: string;
   description?: string;
@@ -25,6 +26,7 @@ export function CnpjSelect({
   value,
   onChange,
   onBlur: onBlurProp,
+  onSupplierSelect,
   label,
   placeholder,
   description,
@@ -94,9 +96,10 @@ export function CnpjSelect({
     }
   };
 
-  const handleSelectSupplier = (supplier: { cnpj: string; name: string }) => {
+  const handleSelectSupplier = (supplier: Supplier) => {
     setInputValue(formatCnpj(supplier.cnpj));
     onChange(supplier.cnpj);
+    onSupplierSelect?.(supplier);
     setShowSuggestions(false);
     setSelectedIndex(-1);
   };
@@ -106,6 +109,8 @@ export function CnpjSelect({
     const digits = extractCnpjDigits(inputValue);
     if (digits.length > 0) {
       onChange(digits);
+      const match = suppliersList.find((s) => s.cnpj === digits);
+      if (match) onSupplierSelect?.(match);
       // Call parent's onBlur if provided
       onBlurProp?.();
     }
