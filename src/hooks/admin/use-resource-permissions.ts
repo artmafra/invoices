@@ -191,9 +191,9 @@ export function useSupplierPermissions(): SupplierPermissions & {
   const currentUserId = session?.user?.id;
 
   return {
-    canCreate: permissions.includes("invoices.create"),
-    canEdit: permissions.includes("invoices.edit"),
-    canDelete: permissions.includes("invoices.delete"),
+    canCreate: permissions.includes("suppliers.create"),
+    canEdit: permissions.includes("suppliers.edit"),
+    canDelete: permissions.includes("suppliers.delete"),
     currentUserId,
     isLoading: status === "loading",
   };
@@ -228,9 +228,9 @@ export function useServicePermissions(): ServicePermissions & {
   const currentUserId = session?.user?.id;
 
   return {
-    canCreate: permissions.includes("invoices.create"),
-    canEdit: permissions.includes("invoices.edit"),
-    canDelete: permissions.includes("invoices.delete"),
+    canCreate: permissions.includes("services.create"),
+    canEdit: permissions.includes("services.edit"),
+    canDelete: permissions.includes("services.delete"),
     currentUserId,
     isLoading: status === "loading",
   };

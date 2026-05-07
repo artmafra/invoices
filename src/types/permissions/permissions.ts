@@ -100,6 +100,9 @@ export const ACTIVITY_TARGET_TYPES = [
   "note",
   "task",
   "task-list",
+  "invoice",
+  "supplier",
+  "service",
 ] as const;
 
 export type ActivityTargetType = (typeof ACTIVITY_TARGET_TYPES)[number];
@@ -147,4 +150,22 @@ export const PERMISSIONS = {
 
   // Activity
   ACTIVITY_VIEW: { resource: "activity", action: "view" },
+
+  // Invoices
+  INVOICES_VIEW: { resource: "invoices", action: "view" },
+  INVOICES_CREATE: { resource: "invoices", action: "create" },
+  INVOICES_EDIT: { resource: "invoices", action: "edit" },
+  INVOICES_DELETE: { resource: "invoices", action: "delete" },
+
+  // Suppliers
+  SUPPLIERS_VIEW: { resource: "suppliers", action: "view" },
+  SUPPLIERS_CREATE: { resource: "suppliers", action: "create" },
+  SUPPLIERS_EDIT: { resource: "suppliers", action: "edit" },
+  SUPPLIERS_DELETE: { resource: "suppliers", action: "delete" },
+
+  // Services
+  SERVICES_VIEW: { resource: "services", action: "view" },
+  SERVICES_CREATE: { resource: "services", action: "create" },
+  SERVICES_EDIT: { resource: "services", action: "edit" },
+  SERVICES_DELETE: { resource: "services", action: "delete" },
 } as const satisfies Record<string, { resource: CoreResource; action: CoreAction }>;
