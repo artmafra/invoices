@@ -151,15 +151,23 @@ export const useUpdateService = () => {
       await queryClient.cancelQueries({ queryKey: QUERY_KEYS.lists() });
 
       // Snapshot current list data for rollback
-      const previousLists = queryClient.getQueriesData<Service[]>({
+      const previousLists = queryClient.getQueriesData<PaginatedResult<Service>>({
         queryKey: QUERY_KEYS.lists(),
       });
 
       // Optimistically update all cached service lists
-      queryClient.setQueriesData<Service[]>({ queryKey: QUERY_KEYS.lists() }, (old) => {
-        if (!old) return old;
-        return old.map((service) => (service.id === id ? { ...service, ...data } : service));
-      });
+      queryClient.setQueriesData<PaginatedResult<Service>>(
+        { queryKey: QUERY_KEYS.lists() },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: old.data.map((service) =>
+              service.id === id ? { ...service, ...data } : service,
+            ),
+          };
+        },
+      );
 
       return { previousLists };
     },
@@ -169,8 +177,8 @@ export const useUpdateService = () => {
     onError: (error: Error, _variables, context) => {
       // Rollback to previous data on error
       if (context?.previousLists) {
-        for (const [queryKey, data] of context.previousLists) {
-          queryClient.setQueryData(queryKey, data);
+        for (const [queryKey, previousData] of context.previousLists) {
+          queryClient.setQueryData(queryKey, previousData);
         }
       }
       handleMutationError(error, { fallback: t("hooks.updateFailed") });
