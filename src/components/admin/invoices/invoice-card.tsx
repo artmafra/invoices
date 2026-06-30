@@ -70,6 +70,7 @@ export interface InvoiceCardProps {
   invoice: InvoiceWithRelations;
   canEdit: boolean;
   canDelete: boolean;
+  taxFilters?: string[];
   onStatusChange: (invoiceId: string, status: InvoiceStatus) => void;
   onEdit: (invoiceId: string) => void;
   onDelete: (invoiceId: string) => void;
@@ -77,7 +78,17 @@ export interface InvoiceCardProps {
 
 // ─── component ──────────────────────────────────────────────────────────────
 
-export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: InvoiceCardProps) {
+export function InvoiceCard({
+  invoice,
+  canEdit,
+  canDelete,
+  taxFilters = [],
+  onEdit,
+  onDelete,
+}: InvoiceCardProps) {
+  function showTax(tax: string): boolean {
+    return taxFilters.length === 0 || taxFilters.includes(tax);
+  }
   const tc = useTranslations("common");
   const { formatDate } = useDateFormat();
 
@@ -175,38 +186,50 @@ export function InvoiceCard({ invoice, canEdit, canDelete, onEdit, onDelete }: I
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
         {invoice.materialDeductionCents > 0 ? formatBRL(invoice.materialDeductionCents) : "—"}
       </td>
-      {/* 13. Alíquota ISSQN */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(invoice.issqnPercent ?? rates?.issqn)}
-      </td>
-      {/* 14. ISSQN */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {issqn != null ? formatBRL(issqn) : "NT"}
-      </td>
-      {/* 15. Alíquota INSS */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(invoice.inssPercent ?? rates?.inss)}
-      </td>
-      {/* 16. INSS */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {inss != null ? formatBRL(inss) : "NT"}
-      </td>
-      {/* 17. Alíquota CS */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(invoice.csPercent ?? rates?.cs)}
-      </td>
-      {/* 18. CS */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {cs != null ? formatBRL(cs) : "NT"}
-      </td>
-      {/* 19. Alíquota IRRF */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {formatPct(invoice.irrfPercent ?? rates?.irrf)}
-      </td>
-      {/* 20. IRRF */}
-      <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
-        {irrf != null ? formatBRL(irrf) : "NT"}
-      </td>
+      {/* 13-14. ISSQN */}
+      {showTax("issqn") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {formatPct(invoice.issqnPercent ?? rates?.issqn)}
+        </td>
+      )}
+      {showTax("issqn") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {issqn != null ? formatBRL(issqn) : "NT"}
+        </td>
+      )}
+      {/* 15-16. INSS */}
+      {showTax("inss") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {formatPct(invoice.inssPercent ?? rates?.inss)}
+        </td>
+      )}
+      {showTax("inss") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {inss != null ? formatBRL(inss) : "NT"}
+        </td>
+      )}
+      {/* 17-18. CS */}
+      {showTax("cs") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {formatPct(invoice.csPercent ?? rates?.cs)}
+        </td>
+      )}
+      {showTax("cs") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {cs != null ? formatBRL(cs) : "NT"}
+        </td>
+      )}
+      {/* 19-20. IRRF */}
+      {showTax("irrf") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {formatPct(invoice.irrfPercent ?? rates?.irrf)}
+        </td>
+      )}
+      {showTax("irrf") && (
+        <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs">
+          {irrf != null ? formatBRL(irrf) : "NT"}
+        </td>
+      )}
       {/* 21. Líquido a receber */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs font-semibold text-success">
         {formatBRL(invoice.netAmountCents)}

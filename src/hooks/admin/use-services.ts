@@ -49,7 +49,9 @@ export const useServices = (filters: ServiceFilters = {}, page: number = 1, limi
       if (filters.search) params.set("search", filters.search);
       if (filters.companyId) params.set("companyId", filters.companyId);
 
-      const response = await fetch(`/api/admin/invoices/services?${params.toString()}`);
+      const response = await fetch(`/api/admin/invoices/services?${params.toString()}`, {
+        cache: "no-store",
+      });
 
       if (!response.ok) {
         throw new Error(t("hooks.fetchFailed"));
@@ -171,7 +173,20 @@ export const useUpdateService = () => {
 
       return { previousLists };
     },
-    onSuccess: () => {
+    onSuccess: (updatedService) => {
+      // Replace the stale entry with the confirmed server data
+      queryClient.setQueriesData<PaginatedResult<Service>>(
+        { queryKey: QUERY_KEYS.lists() },
+        (old) => {
+          if (!old) return old;
+          return {
+            ...old,
+            data: old.data.map((service) =>
+              service.id === updatedService.id ? updatedService : service,
+            ),
+          };
+        },
+      );
       toast.success(t("success.updated"));
     },
     onError: (error: Error, _variables, context) => {
@@ -184,8 +199,6 @@ export const useUpdateService = () => {
       handleMutationError(error, { fallback: t("hooks.updateFailed") });
     },
     onSettled: (_data, _error, variables) => {
-      // Always refetch after mutation to ensure server state is synced
-      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
       queryClient.invalidateQueries({ queryKey: QUERY_KEYS.detail(variables.id) });
     },
   });
@@ -215,6 +228,58 @@ export const useDeleteService = () => {
     },
     onError: (error: Error) => {
       handleMutationError(error, { fallback: t("hooks.deleteFailed") });
+    },
+  });
+};
+
+// =============================================================================
+// Import from Template
+// =============================================================================
+
+interface ImportServicesResponse {
+  success: boolean;
+  created: number;
+  updated: number;
+  total: number;
+}
+
+/**
+ * Import all services from a predefined CSV template into a company
+ */
+export const useImportServices = () => {
+  const queryClient = useQueryClient();
+  const t = useTranslations("apps/services");
+
+  return useMutation({
+    mutationFn: async (data: {
+      templateId: "1" | "2" | "3";
+      companyId: string;
+    }): Promise<ImportServicesResponse> => {
+      const response = await fetch("/api/admin/invoices/services/import", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw apiErrorFromResponseBody(result, t("hooks.importFailed"));
+      }
+
+      return result;
+    },
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: QUERY_KEYS.lists() });
+      toast.success(t("success.imported"), {
+        description: t("success.importedDescription", {
+          created: data.created,
+          updated: data.updated,
+        }),
+      });
+    },
+    onError: (error: Error) => {
+      handleMutationError(error, { fallback: t("hooks.importFailed") });
     },
   });
 };

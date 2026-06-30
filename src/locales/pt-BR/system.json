@@ -528,15 +528,11 @@
     "success": "Configuração atualizada",
     "categories": {
       "auth": "Autenticação",
-      "contact": "Informações de Contato",
       "email": "Configurações de E-mail",
       "features": "Recursos",
       "general": "Geral",
       "inventory": "Inventário",
-      "social": "Redes Sociais",
-      "branding": "Marca & Identidade",
       "ui": "Interface do Usuário",
-      "seo": "SEO & Metadados",
       "security": "Segurança"
     },
     "form": {
@@ -553,18 +549,6 @@
       "saveFailed": "Falha ao salvar configuração"
     },
     "settingLabels": {
-      "header_image": "Imagem do Cabeçalho",
-      "footer_text": "Texto do Rodapé",
-      "hero_title": "Título Principal",
-      "hero_description": "Descrição Principal",
-      "contact_phone": "Telefone de Contato",
-      "contact_email": "E-mail de Contato",
-      "business_address": "Endereço Comercial",
-      "facebook_url": "URL do Facebook",
-      "twitter_url": "URL do Twitter/X",
-      "linkedin_url": "URL do LinkedIn",
-      "youtube_url": "URL do YouTube",
-      "google_analytics_id": "ID do Google Analytics",
       "email_from_name": "Nome do Remetente de E-mail",
       "default_language": "Idioma Padrão",
       "timezone": "Fuso Horário",
@@ -576,18 +560,6 @@
       "password_require_special": "Exigir Caractere Especial"
     },
     "settingDescriptions": {
-      "header_image": "URL da imagem do cabeçalho exibida na página inicial",
-      "footer_text": "Texto personalizado do rodapé. Use {year} para ano dinâmico.",
-      "hero_title": "Título principal exibido na seção hero da página inicial",
-      "hero_description": "Texto do subtítulo exibido abaixo do título principal",
-      "contact_phone": "Número de telefone principal para contato",
-      "contact_email": "Endereço de e-mail principal para contato",
-      "business_address": "Endereço físico da empresa",
-      "facebook_url": "Link para a página do Facebook",
-      "twitter_url": "Link para o perfil do Twitter/X",
-      "linkedin_url": "Link para a página do LinkedIn",
-      "youtube_url": "Link para o canal do YouTube",
-      "google_analytics_id": "ID de acompanhamento do Google Analytics (GA4)",
       "email_from_name": "Nome de exibição para e-mails enviados",
       "default_language": "Idioma padrão para e-mails quando a preferência do usuário não está disponível.",
       "timezone": "Fuso horário padrão do site",

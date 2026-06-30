@@ -15,15 +15,7 @@ export type SettingType = (typeof SETTING_TYPES)[number];
 export const SETTING_SCOPES = ["public", "system"] as const;
 export type SettingScope = (typeof SETTING_SCOPES)[number];
 
-export const SETTING_CATEGORIES = [
-  "branding",
-  "contact",
-  "social",
-  "seo",
-  "email",
-  "general",
-  "security",
-] as const;
+export const SETTING_CATEGORIES = ["email", "general", "security"] as const;
 export type SettingCategory = (typeof SETTING_CATEGORIES)[number];
 
 // =============================================================================
@@ -113,118 +105,11 @@ function defineSelectSetting<K extends string, S extends SettingScope>(
 
 export const SETTINGS_REGISTRY = [
   // -------------------------------------------------------------------------
-  // Branding Settings (Public)
-  // -------------------------------------------------------------------------
-  defineImageSetting("header_image", {
-    label: "Header Image",
-    defaultValue: "",
-    description: "URL of the header image displayed on the homepage",
-    category: "branding",
-    scope: "public",
-  }),
-  defineStringSetting("footer_text", {
-    label: "Footer Text",
-    defaultValue: "© {year} Template Inc. All rights reserved.",
-    description: "Custom footer text. Use {year} for dynamic year.",
-    category: "branding",
-    scope: "public",
-  }),
-  defineStringSetting("hero_title", {
-    label: "Hero Title",
-    defaultValue: "Build Something Amazing",
-    description: "Main heading displayed on the homepage hero section",
-    category: "branding",
-    scope: "public",
-  }),
-  defineStringSetting("hero_description", {
-    label: "Hero Description",
-    defaultValue: "A modern full-stack template to kickstart your next project.",
-    description: "Subtitle text displayed below the hero title",
-    category: "branding",
-    scope: "public",
-  }),
-
-  // -------------------------------------------------------------------------
-  // Contact Information (Public)
-  // -------------------------------------------------------------------------
-  defineStringSetting("contact_phone", {
-    label: "Contact Phone",
-    defaultValue: "(555) 123-4567",
-    description: "Main phone number for customer contact",
-    category: "contact",
-    scope: "public",
-  }),
-  defineStringSetting("contact_email", {
-    label: "Contact Email",
-    defaultValue: "hello@template.com",
-    description: "Main email address for customer contact",
-    category: "contact",
-    scope: "public",
-  }),
-  defineStringSetting("business_address", {
-    label: "Business Address",
-    defaultValue: "123 Template Street, Template City, TC 12345",
-    description: "Physical address of the business",
-    category: "contact",
-    scope: "public",
-  }),
-
-  // -------------------------------------------------------------------------
-  // Social Media (Public)
-  // -------------------------------------------------------------------------
-  defineStringSetting("facebook_url", {
-    label: "Facebook URL",
-    defaultValue: "",
-    description: "Link to your website's Facebook page",
-    category: "social",
-    scope: "public",
-  }),
-  defineStringSetting("twitter_url", {
-    label: "Twitter/X URL",
-    defaultValue: "",
-    description: "Link to your website's Twitter/X profile",
-    category: "social",
-    scope: "public",
-  }),
-  defineStringSetting("linkedin_url", {
-    label: "LinkedIn URL",
-    defaultValue: "",
-    description: "Link to your website's LinkedIn page",
-    category: "social",
-    scope: "public",
-  }),
-  defineStringSetting("youtube_url", {
-    label: "YouTube URL",
-    defaultValue: "",
-    description: "Link to your website's YouTube channel",
-    category: "social",
-    scope: "public",
-  }),
-
-  // -------------------------------------------------------------------------
-  // SEO Settings (System - Admin only)
-  // -------------------------------------------------------------------------
-  defineStringSetting("google_analytics_id", {
-    label: "Google Analytics ID",
-    defaultValue: "",
-    description: "Google Analytics tracking ID (GA4)",
-    category: "seo",
-    scope: "system",
-  }),
-
-  // -------------------------------------------------------------------------
   // Email Settings (System)
   // -------------------------------------------------------------------------
-  defineStringSetting("email_from_name", {
-    label: "Email From Name",
-    defaultValue: "Template Inc.",
-    description: "Display name for outgoing emails",
-    category: "email",
-    scope: "system",
-  }),
   defineSelectSetting("default_language", {
     label: "Default Language",
-    defaultValue: "en-US",
+    defaultValue: "pt-BR",
     description:
       "Default language for emails when user preference is not available. Falls back to Accept-Language header first.",
     category: "email",
@@ -237,7 +122,7 @@ export const SETTINGS_REGISTRY = [
   // -------------------------------------------------------------------------
   defineSelectSetting("timezone", {
     label: "Timezone",
-    defaultValue: "America/New_York",
+    defaultValue: "America/Sao_Paulo",
     description: "Default timezone for the website",
     category: "general",
     scope: "system",
@@ -394,7 +279,7 @@ export function getSettingsByScope(scope: SettingScope) {
 
 /** Get all public setting keys */
 export function getPublicSettingKeys(): PublicSettingKey[] {
-  return SETTINGS_REGISTRY.filter((s) => s.scope === "public").map(
+  return SETTINGS_REGISTRY.filter((s) => (s.scope as SettingScope) === "public").map(
     (s) => s.key,
   ) as PublicSettingKey[];
 }

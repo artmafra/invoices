@@ -136,14 +136,39 @@ export function buildTotalsRow(invoices: InvoiceWithRelations[]): string[] {
   return row;
 }
 
+// ─── Tax-filter column helpers ──────────────────────────────────────────────
+
+const TAX_COL_INDICES: Record<string, [number, number]> = {
+  issqn: [12, 13],
+  inss: [14, 15],
+  cs: [16, 17],
+  irrf: [18, 19],
+};
+
+function getTaxFilterOmitCols(taxFilters: string[]): Set<number> {
+  if (taxFilters.length === 0) return new Set();
+  const activeSet = new Set(taxFilters);
+  const omit = new Set<number>();
+  for (const [tax, cols] of Object.entries(TAX_COL_INDICES)) {
+    if (!activeSet.has(tax)) cols.forEach((c) => omit.add(c));
+  }
+  return omit;
+}
+
+function filterColsByOmit<T>(row: T[], omit: Set<number>): T[] {
+  return omit.size === 0 ? row : row.filter((_, i) => !omit.has(i));
+}
+
 // ─── Option B: Excel ─────────────────────────────────────────────────────────
 
-export async function exportToExcel(invoices: InvoiceWithRelations[]) {
+export async function exportToExcel(invoices: InvoiceWithRelations[], taxFilters: string[] = []) {
   const { utils, writeFile } = await import("xlsx");
 
-  const rows = buildExportRows(invoices);
-  const totalsRow = buildTotalsRow(invoices);
-  const ws = utils.aoa_to_sheet([EXPORT_HEADERS, ...rows, totalsRow]);
+  const taxOmit = getTaxFilterOmitCols(taxFilters);
+  const headers = filterColsByOmit(EXPORT_HEADERS, taxOmit);
+  const rows = buildExportRows(invoices).map((r) => filterColsByOmit(r, taxOmit));
+  const totalsRow = filterColsByOmit(buildTotalsRow(invoices), taxOmit);
+  const ws = utils.aoa_to_sheet([headers, ...rows, totalsRow]);
 
   // Column widths
   ws["!cols"] = EXPORT_HEADERS.map((_, i) => ({ wch: i === 1 ? 30 : i === 5 ? 30 : 14 }));
@@ -160,10 +185,6 @@ export async function exportToExcel(invoices: InvoiceWithRelations[]) {
 // Columns to omit from the PDF (by index in EXPORT_HEADERS / buildExportRows)
 // 5=Desc Serv, 6=Dt Entrada, 8=Dt Venc, 11=Ded Mat, 16=Alíq CS, 18=Alíq IRRF
 const PDF_OMIT_COLS = new Set([5, 6, 8, 11, 16, 18]);
-
-function filterPdfCols<T>(row: T[]): T[] {
-  return row.filter((_, i) => !PDF_OMIT_COLS.has(i));
-}
 
 const TAX_LABEL: Record<string, string> = {
   issqn: "ISSQN",
@@ -198,9 +219,13 @@ export async function exportToPdf(
   doc.setFontSize(12);
   doc.text(titleLine, 14, 12);
 
-  const pdfHeaders = filterPdfCols(EXPORT_HEADERS);
-  const rows = buildExportRows(invoices).map(filterPdfCols);
-  const totalsRow = filterPdfCols(buildTotalsRow(invoices));
+  const taxOmit = getTaxFilterOmitCols(taxFilters ?? []);
+  const combinedOmit = new Set([...PDF_OMIT_COLS, ...taxOmit]);
+  const filterCols = <T>(row: T[]): T[] => filterColsByOmit(row, combinedOmit);
+
+  const pdfHeaders = filterCols(EXPORT_HEADERS);
+  const rows = buildExportRows(invoices).map(filterCols);
+  const totalsRow = filterCols(buildTotalsRow(invoices));
 
   autoTable(doc, {
     head: [pdfHeaders],

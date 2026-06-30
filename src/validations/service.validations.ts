@@ -79,3 +79,14 @@ export const updateServiceSchema = z.object({
 });
 
 export type UpdateServiceInput = z.infer<typeof updateServiceSchema>;
+
+// ========================================
+// Import Services from Template Schema
+// ========================================
+
+export const importServicesFromTemplateSchema = z.object({
+  templateId: z.enum(["1", "2", "3"]),
+  companyId: z.string().uuid(),
+});
+
+export type ImportServicesFromTemplateInput = z.infer<typeof importServicesFromTemplateSchema>;

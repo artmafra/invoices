@@ -529,15 +529,11 @@
     "success": "Setting updated",
     "categories": {
       "auth": "Authentication",
-      "contact": "Contact Information",
       "email": "Email Settings",
       "features": "Features",
       "general": "General",
       "inventory": "Inventory",
-      "social": "Social Media",
-      "branding": "Branding & Identity",
       "ui": "User Interface",
-      "seo": "SEO & Meta Data",
       "security": "Security"
     },
     "form": {
@@ -554,18 +550,6 @@
       "saveFailed": "Failed to save setting"
     },
     "settingLabels": {
-      "header_image": "Header Image",
-      "footer_text": "Footer Text",
-      "hero_title": "Hero Title",
-      "hero_description": "Hero Description",
-      "contact_phone": "Contact Phone",
-      "contact_email": "Contact Email",
-      "business_address": "Business Address",
-      "facebook_url": "Facebook URL",
-      "twitter_url": "Twitter/X URL",
-      "linkedin_url": "LinkedIn URL",
-      "youtube_url": "YouTube URL",
-      "google_analytics_id": "Google Analytics ID",
       "email_from_name": "Email From Name",
       "default_language": "Default Language",
       "timezone": "Timezone",
@@ -577,18 +561,6 @@
       "password_require_special": "Require Special Character"
     },
     "settingDescriptions": {
-      "header_image": "URL of the header image displayed on the homepage",
-      "footer_text": "Custom footer text. Use {year} for dynamic year.",
-      "hero_title": "Main heading displayed on the homepage hero section",
-      "hero_description": "Subtitle text displayed below the hero title",
-      "contact_phone": "Main phone number for customer contact",
-      "contact_email": "Main email address for customer contact",
-      "business_address": "Physical address of the business",
-      "facebook_url": "Link to your website's Facebook page",
-      "twitter_url": "Link to your website's Twitter/X profile",
-      "linkedin_url": "Link to your website's LinkedIn page",
-      "youtube_url": "Link to your website's YouTube channel",
-      "google_analytics_id": "Google Analytics tracking ID (GA4)",
       "email_from_name": "Display name for outgoing emails",
       "default_language": "Default language for emails when user preference is not available.",
       "timezone": "Default timezone for the website",

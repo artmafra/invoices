@@ -2,6 +2,7 @@ import {
   tableServices,
   type InsertServiceSchema,
   type Service,
+  type TaxRates,
   type UpdateServiceSchema,
 } from "@/schema/services.schema";
 import { and, asc, count, eq, ilike, max, or, sql } from "drizzle-orm";
@@ -163,5 +164,58 @@ export class ServicesStorage implements BaseStorage<
       .from(tableServices)
       .where(and(eq(tableServices.code, code), eq(tableServices.companyId, companyId)))
       .then((res) => res[0]);
+  }
+
+  async upsertMany(
+    companyId: string,
+    services: Array<{
+      code: string;
+      description: string;
+      sn: TaxRates;
+      n: TaxRates;
+      mei: TaxRates;
+      obs: string | null;
+    }>,
+  ): Promise<{ created: number; updated: number }> {
+    if (services.length === 0) {
+      return { created: 0, updated: 0 };
+    }
+
+    // Get existing service codes for this company to calculate created vs updated counts
+    const existingCodes = await db
+      .select({ code: tableServices.code })
+      .from(tableServices)
+      .where(eq(tableServices.companyId, companyId));
+
+    const existingCodesSet = new Set(existingCodes.map((s) => s.code));
+
+    const dataToInsert = services.map((service) => ({
+      companyId,
+      code: service.code,
+      description: service.description,
+      sn: service.sn,
+      n: service.n,
+      mei: service.mei,
+      obs: service.obs,
+    }));
+
+    await db
+      .insert(tableServices)
+      .values(dataToInsert)
+      .onConflictDoUpdate({
+        target: [tableServices.code, tableServices.companyId],
+        set: {
+          description: sql`EXCLUDED.description`,
+          sn: sql`EXCLUDED.sn`,
+          n: sql`EXCLUDED.n`,
+          mei: sql`EXCLUDED.mei`,
+          obs: sql`EXCLUDED.obs`,
+        },
+      });
+
+    const created = services.filter((s) => !existingCodesSet.has(s.code)).length;
+    const updated = services.filter((s) => existingCodesSet.has(s.code)).length;
+
+    return { created, updated };
   }
 }

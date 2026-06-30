@@ -1,9 +1,9 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { Plus } from "lucide-react";
-import { useTranslations } from "next-intl";
 import { useSelectedCompany } from "@/contexts/company-context";
+import { Download, Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useServicePermissions } from "@/hooks/admin/use-resource-permissions";
 import {
@@ -19,6 +19,7 @@ import { AdminHeader } from "@/components/admin/admin-header";
 import { useShortcut } from "@/components/admin/keyboard-shortcuts-provider";
 import { ServiceCard } from "@/components/admin/services/service-card";
 import { ServiceFormDialog } from "@/components/admin/services/service-form-dialog";
+import { ServiceImportDialog } from "@/components/admin/services/service-import-form";
 import { AdminErrorFallback } from "@/components/shared/admin-error-fallback";
 import { EmptyState } from "@/components/shared/empty-state";
 import { ErrorBoundary } from "@/components/shared/error-boundary";
@@ -81,9 +82,14 @@ function ServicesPageContent() {
   const updateService = useUpdateService();
   const deleteService = useDeleteService();
 
+  const [showExportServiceForm, setShowExportServiceForm] = useState(false);
   const [showFormDialog, setShowFormDialog] = useState(false);
   const [editingService, setEditingService] = useState<Service | null>(null);
   const [deleteServiceId, setDeleteServiceId] = useState<string | null>(null);
+
+  const handleOpenExportForm = useCallback(() => {
+    setShowExportServiceForm(true);
+  }, []);
 
   const handleOpenCreate = useCallback(() => {
     setEditingService(null);
@@ -162,12 +168,21 @@ function ServicesPageContent() {
       <AdminHeader
         title={t("title")}
         actions={
-          canCreate && (
-            <Button size="sm" variant="outline" onClick={handleOpenCreate}>
-              <Plus className="h-4 w-4" />
-              <span className="hidden sm:inline">{t("new")}</span>
-            </Button>
-          )
+          <>
+            {/* Botão para importar serviços */}
+            {canEdit && (
+              <Button size="sm" variant="outline" onClick={handleOpenExportForm}>
+                <Download className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("importService")}</span>
+              </Button>
+            )}
+            {canCreate && (
+              <Button size="sm" variant="outline" onClick={handleOpenCreate}>
+                <Plus className="h-4 w-4" />
+                <span className="hidden sm:inline">{t("new")}</span>
+              </Button>
+            )}
+          </>
         }
       />
       <PageContainer>
@@ -238,6 +253,13 @@ function ServicesPageContent() {
         onSubmit={handleSubmit}
         isEditing={!!editingService}
         isSaving={isSaving}
+      />
+
+      {/* Import from Template Dialog */}
+      <ServiceImportDialog
+        open={showExportServiceForm}
+        onOpenChange={setShowExportServiceForm}
+        companyId={selectedCompanyId ?? ""}
       />
 
       {/* Delete Confirmation Dialog */}

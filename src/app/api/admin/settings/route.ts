@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { SettingScope } from "@/config/settings.registry";
-import { isSensitiveSetting } from "@/config/settings.registry";
+import { isSensitiveSetting, SETTINGS_REGISTRY } from "@/config/settings.registry";
 import { withErrorHandler } from "@/lib/api-handler";
 import {
   ForbiddenError,
@@ -73,6 +73,10 @@ export const GET = withErrorHandler(async (request: NextRequest) => {
     async () => {
       // Return all settings matching the filters
       let settings = await settingsService.getSettings(queryOptions);
+
+      // Only show settings that are defined in the current registry
+      const registryKeys = new Set<string>(SETTINGS_REGISTRY.map((s) => s.key));
+      settings = settings.filter((setting) => registryKeys.has(setting.key));
 
       // Filter out sensitive settings for non-system users (server-side filtering)
       if (!isSystemRole) {

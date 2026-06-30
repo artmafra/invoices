@@ -13,6 +13,10 @@ import { EmptyState } from "@/components/shared/empty-state";
 import { Button } from "@/components/ui/button";
 import { computeTaxes, InvoiceCard } from "./invoice-card";
 
+function showTax(tax: string, taxFilters: string[]): boolean {
+  return taxFilters.length === 0 || taxFilters.includes(tax);
+}
+
 export interface InvoicesListViewProps {
   // Data
   invoices: InvoiceWithRelations[];
@@ -132,7 +136,11 @@ export function InvoicesListView({
       {/* Export buttons */}
       {filteredInvoices.length > 0 && (
         <div className="flex justify-end gap-2">
-          <Button size="sm" variant="outline" onClick={() => exportToExcel(filteredInvoices)}>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => exportToExcel(filteredInvoices, taxFilters)}
+          >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Exportar Excel
           </Button>
@@ -189,30 +197,46 @@ export function InvoicesListView({
                 <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
                   {t("table.deduction")}
                 </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.aliquotaISSQN")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.issqn")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.aliquotaINSS")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.inss")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.aliquotaCS")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.cs")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.aliquotaIRRF")}
-                </th>
-                <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
-                  {t("table.irrf")}
-                </th>
+                {showTax("issqn", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.aliquotaISSQN")}
+                  </th>
+                )}
+                {showTax("issqn", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.issqn")}
+                  </th>
+                )}
+                {showTax("inss", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.aliquotaINSS")}
+                  </th>
+                )}
+                {showTax("inss", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.inss")}
+                  </th>
+                )}
+                {showTax("cs", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.aliquotaCS")}
+                  </th>
+                )}
+                {showTax("cs", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.cs")}
+                  </th>
+                )}
+                {showTax("irrf", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.aliquotaIRRF")}
+                  </th>
+                )}
+                {showTax("irrf", taxFilters) && (
+                  <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
+                    {t("table.irrf")}
+                  </th>
+                )}
                 <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
                   {t("table.netAmount")}
                 </th>
@@ -226,6 +250,7 @@ export function InvoicesListView({
                   invoice={invoice}
                   canEdit={permissions.canEdit}
                   canDelete={permissions.canDelete}
+                  taxFilters={taxFilters}
                   onStatusChange={onStatusChange}
                   onEdit={() => onEdit(invoice.id)}
                   onDelete={() => onDelete(invoice.id)}
@@ -247,30 +272,40 @@ export function InvoicesListView({
                 </td>
                 {/* 12. Ded Mat */}
                 <td className="border-r border-border px-2 py-1.5" />
-                {/* 13. Alíquota ISSQN — skip */}
-                <td className="border-r border-border px-2 py-1.5" />
-                {/* 14. ISSQN */}
-                <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
-                  {totals.issqn > 0 ? fmtBRL(totals.issqn) : ""}
-                </td>
-                {/* 15. Alíquota INSS — skip */}
-                <td className="border-r border-border px-2 py-1.5" />
-                {/* 16. INSS */}
-                <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
-                  {totals.inss > 0 ? fmtBRL(totals.inss) : "—"}
-                </td>
-                {/* 17. Alíquota CS — skip */}
-                <td className="border-r border-border px-2 py-1.5" />
-                {/* 18. CS */}
-                <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
-                  {totals.cs > 0 ? fmtBRL(totals.cs) : "—"}
-                </td>
-                {/* 19. Alíquota IRRF — skip */}
-                <td className="border-r border-border px-2 py-1.5" />
-                {/* 20. IRRF */}
-                <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
-                  {totals.irrf > 0 ? fmtBRL(totals.irrf) : "—"}
-                </td>
+                {/* 13-14. ISSQN */}
+                {showTax("issqn", taxFilters) && (
+                  <td className="border-r border-border px-2 py-1.5" />
+                )}
+                {showTax("issqn", taxFilters) && (
+                  <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
+                    {totals.issqn > 0 ? fmtBRL(totals.issqn) : ""}
+                  </td>
+                )}
+                {/* 15-16. INSS */}
+                {showTax("inss", taxFilters) && (
+                  <td className="border-r border-border px-2 py-1.5" />
+                )}
+                {showTax("inss", taxFilters) && (
+                  <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
+                    {totals.inss > 0 ? fmtBRL(totals.inss) : "—"}
+                  </td>
+                )}
+                {/* 17-18. CS */}
+                {showTax("cs", taxFilters) && <td className="border-r border-border px-2 py-1.5" />}
+                {showTax("cs", taxFilters) && (
+                  <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
+                    {totals.cs > 0 ? fmtBRL(totals.cs) : "—"}
+                  </td>
+                )}
+                {/* 19-20. IRRF */}
+                {showTax("irrf", taxFilters) && (
+                  <td className="border-r border-border px-2 py-1.5" />
+                )}
+                {showTax("irrf", taxFilters) && (
+                  <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs">
+                    {totals.irrf > 0 ? fmtBRL(totals.irrf) : "—"}
+                  </td>
+                )}
                 {/* 21. Líquido a receber */}
                 <td className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs text-success">
                   {fmtBRL(totals.net)}

@@ -7,6 +7,7 @@
   "createTitle": "New Service",
   "editDescription": "Make changes to service information below.",
   "createDescription": "Add a new service to your system.",
+  "importService": "Import Service",
   "sections": {
     "basic": "Basic Information",
     "snTaxes": "Tax Rates - Simples Nacional (SN)",
@@ -43,11 +44,6 @@
   "deleteTitle": "Delete service?",
   "deleteDescription": "This will permanently delete this service. This action cannot be undone.",
   "deleting": "Deleting...",
-  "success": {
-    "created": "Service created",
-    "updated": "Service updated",
-    "deleted": "Service deleted"
-  },
   "errors": {
     "noCreatePermission": "You don't have permission to create services",
     "noEditPermission": "You don't have permission to edit services",
@@ -60,12 +56,33 @@
     "debitRequired": "Debit is required",
     "debitMaxLength": "Debit must be at most 100 characters"
   },
+  "import": {
+    "title": "Import Service Group",
+    "description": "Select a group to import all services. Existing services will be updated with the new tax rates.",
+    "loading": "Importing services, please wait...",
+    "importing": "Importing...",
+    "select": "Select",
+    "template1Name": "Campinas - Condominium",
+    "template1Description": "Tax rates for Campinas companies under the Condominium regime",
+    "template2Name": "Campinas - Standard",
+    "template2Description": "Tax rates for Campinas companies under the Standard regime",
+    "template3Name": "Vinhedo",
+    "template3Description": "Tax rates for Vinhedo companies"
+  },
   "hooks": {
     "fetchFailed": "Failed to fetch services",
     "fetchOneFailed": "Failed to fetch service",
     "createFailed": "Failed to create service",
     "updateFailed": "Failed to update service",
     "deleteFailed": "Failed to delete service",
+    "importFailed": "Failed to import services",
     "serviceNotFound": "Service not found"
+  },
+  "success": {
+    "created": "Service created",
+    "updated": "Service updated",
+    "deleted": "Service deleted",
+    "imported": "Services imported successfully",
+    "importedDescription": "{created} created, {updated} updated"
   }
 }
