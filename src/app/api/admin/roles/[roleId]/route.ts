@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import type { ActivityChange } from "@/types/common/activity.types";
 import { withErrorHandler } from "@/lib/api-handler";
+import { generateSessionUpdateToken } from "@/lib/auth";
 import {
   ConflictError,
   ForbiddenError,
@@ -11,6 +12,7 @@ import {
 } from "@/lib/errors";
 import { requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
+import { appPermissionsService } from "@/services/runtime/app-permissions";
 import { permissionService } from "@/services/runtime/permission";
 import { roleService } from "@/services/runtime/role";
 import { userSessionService } from "@/services/runtime/user-session";
@@ -149,14 +151,41 @@ export const PUT = withErrorHandler(async (request: NextRequest, context: RouteP
 
   // Revoke sessions for all users with this role if permissions changed
   const permissionsChanged = changes.some((c) => c.field === "permissions");
+  let refreshPermissionsToken: string | undefined;
   if (permissionsChanged) {
     await userSessionService.revokeSessionsForRolePermissionsUpdate(
       roleId,
       session!.user.sessionId, // Preserve admin's session
     );
+
+    // If the current user's own role was changed, generate a token so the client
+    // can refresh their own JWT without having to sign out and back in.
+    if (session?.user?.roleId === roleId) {
+      const newPermissions = await permissionService.getUserPermissions(session.user.id);
+      // Also recompute apps so the sidebar auto-grants invoices access when applicable
+      const appPermsResult = await appPermissionsService.getUserAppPermissionsResult(
+        session.user.id,
+      );
+      const invoicesResources = ["invoices.", "companies.", "suppliers.", "services."];
+      const hasInvoicesAccess = newPermissions.some((p) =>
+        invoicesResources.some((prefix) => p.startsWith(prefix)),
+      );
+      const newApps =
+        appPermsResult.apps.includes("invoices") || !hasInvoicesAccess
+          ? appPermsResult.apps
+          : [...appPermsResult.apps, "invoices"];
+      refreshPermissionsToken = await generateSessionUpdateToken({
+        type: "refresh-permissions",
+        userId: session.user.id,
+        payload: { permissions: newPermissions, apps: newApps },
+      });
+    }
   }
 
-  return NextResponse.json({ role });
+  return NextResponse.json({
+    role,
+    ...(refreshPermissionsToken ? { refreshPermissionsToken } : {}),
+  });
 });
 
 /**

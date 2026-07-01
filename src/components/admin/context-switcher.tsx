@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
 import { getIconByName } from "@/lib/icons";
 import { useSelectedApp } from "@/hooks/admin/use-selected-app";
+import { useUserSession } from "@/hooks/use-session";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -39,6 +40,8 @@ export function ContextSwitcher() {
   const { isMobile, setOpenMobile } = useSidebar();
   const { selectedApp, accessibleApps, hasAccessibleApps, selectApp } = useSelectedApp();
   const { selectedCompanyName } = useSelectedCompany();
+  const { hasPermission } = useUserSession();
+  const canViewSystem = hasPermission("system", "view");
 
   // Determine current context mode
   const getContextMode = (): ContextMode => {
@@ -207,15 +210,17 @@ export function ContextSwitcher() {
             )}
 
             {/* System & Profile links */}
-            <DropdownMenuItem
-              onClick={() => handleNavigate("/admin/system/users")}
-              className="gap-space-sm p-space-sm"
-            >
-              <div className="flex size-6 items-center justify-center">
-                <Settings className="size-4 shrink-0" />
-              </div>
-              <span className="flex-1">{tNav("system")}</span>
-            </DropdownMenuItem>
+            {canViewSystem && (
+              <DropdownMenuItem
+                onClick={() => handleNavigate("/admin/system/users")}
+                className="gap-space-sm p-space-sm"
+              >
+                <div className="flex size-6 items-center justify-center">
+                  <Settings className="size-4 shrink-0" />
+                </div>
+                <span className="flex-1">{tNav("system")}</span>
+              </DropdownMenuItem>
+            )}
             <DropdownMenuItem asChild className="gap-space-sm p-space-sm">
               <Link href="/admin/profile">
                 <div className="flex size-6 items-center justify-center">

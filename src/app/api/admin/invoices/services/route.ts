@@ -8,7 +8,7 @@ import {
   ValidationError,
 } from "@/lib/errors";
 import { buildQueryParamsSeed, handleConditionalRequest } from "@/lib/http/etag";
-import { requirePermission } from "@/lib/permissions";
+import { requireAnyPermission, requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
 import { serviceService } from "@/services/runtime/service";
 import {
@@ -17,7 +17,15 @@ import {
 } from "@/validations/service.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("services", "view");
+  // Allow access if the user can manage services OR work with invoices.
+  // This lets the invoice form autocomplete work even when the standalone
+  // Serviços page is hidden (i.e. services.view permission removed).
+  const { authorized, error, status } = await requireAnyPermission([
+    { resource: "services", action: "view" },
+    { resource: "invoices", action: "view" },
+    { resource: "invoices", action: "create" },
+    { resource: "invoices", action: "edit" },
+  ]);
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);

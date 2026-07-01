@@ -16,7 +16,7 @@ export const GET = withErrorHandler(async () => {
     throw new UnauthorizedError();
   }
 
-  const apps = getAppsForUser(session.user.apps || []);
+  const apps = getAppsForUser(session.user.apps || [], session.user.permissions || []);
 
   return NextResponse.json(apps);
 });

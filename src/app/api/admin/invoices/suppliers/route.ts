@@ -8,13 +8,21 @@ import {
   ValidationError,
 } from "@/lib/errors";
 import { buildQueryParamsSeed, handleConditionalRequest } from "@/lib/http/etag";
-import { requirePermission } from "@/lib/permissions";
+import { requireAnyPermission, requirePermission } from "@/lib/permissions";
 import { activityService } from "@/services/runtime/activity";
 import { supplierService } from "@/services/runtime/supplier";
 import { createSupplierSchema, getSuppliersQuerySchema } from "@/validations/supplier.validations";
 
 export const GET = withErrorHandler(async (request: NextRequest) => {
-  const { authorized, error, status } = await requirePermission("suppliers", "view");
+  // Allow access if the user can manage suppliers OR work with invoices.
+  // This lets the invoice form autocomplete work even when the standalone
+  // Fornecedores page is hidden (i.e. suppliers.view permission removed).
+  const { authorized, error, status } = await requireAnyPermission([
+    { resource: "suppliers", action: "view" },
+    { resource: "invoices", action: "view" },
+    { resource: "invoices", action: "create" },
+    { resource: "invoices", action: "edit" },
+  ]);
 
   if (!authorized) {
     if (status === 401) throw new UnauthorizedError(error);

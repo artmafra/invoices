@@ -10,7 +10,7 @@ import {
   useDeleteCompany,
   useUpdateCompany,
 } from "@/hooks/admin/use-companies";
-import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
+import { useCompanyPermissions } from "@/hooks/admin/use-resource-permissions";
 import { AdminHeader } from "@/components/admin/admin-header";
 import { CompanyCard } from "@/components/admin/companies/company-card";
 import { CompanyDeleteDialog } from "@/components/admin/companies/company-delete-dialog";
@@ -38,7 +38,7 @@ export function CompaniesPageContent() {
   } | null>(null);
   const [deletingCompanyId, setDeletingCompanyId] = useState<string | null>(null);
 
-  const { canCreate, canEdit, canDelete } = useSupplierPermissions();
+  const { canCreate, canEdit, canDelete } = useCompanyPermissions();
   const { data, isLoading, error } = useCompanies({}, 1, 100);
   const createCompany = useCreateCompany();
   const updateCompany = useUpdateCompany();

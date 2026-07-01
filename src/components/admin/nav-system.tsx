@@ -67,6 +67,9 @@ export function NavSystem() {
 
   const items = getSystemNavItems(t);
 
+  // Require system.view as the master gate for the entire system section
+  if (!hasPermission("system", "view")) return null;
+
   // Filter items based on permissions
   const filteredItems = items.filter(
     (item) => !item.permission || hasPermission(item.permission.resource, item.permission.action),

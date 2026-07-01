@@ -1,3 +1,5 @@
+import { useRouter } from "next/navigation";
+import { useSessionContext } from "@/contexts/session-context";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -11,6 +13,7 @@ import type {
 import { apiErrorFromResponseBody, handleMutationError } from "@/lib/api-request-error";
 import { ROLES_QUERY_KEYS as QUERY_KEYS } from "@/hooks/admin/roles.query-keys";
 import { USERS_QUERY_KEYS as USER_QUERY_KEYS } from "@/hooks/admin/users.query-keys";
+import { APPS_QUERY_KEY } from "@/components/apps-provider";
 
 // =============================================================================
 // Hooks
@@ -121,6 +124,8 @@ export const useCreateRole = () => {
 // Update role hook
 export const useUpdateRole = () => {
   const queryClient = useQueryClient();
+  const { update } = useSessionContext();
+  const router = useRouter();
   const t = useTranslations("system.hooks.roles");
 
   return useMutation({
@@ -199,7 +204,16 @@ export const useUpdateRole = () => {
         fallback: t("errors.updateFailed"),
       });
     },
-    onSuccess: () => {
+    onSuccess: async (result) => {
+      // If the server issued a refresh-permissions token (admin updated their own role),
+      // update the JWT so the new permissions and apps take effect immediately,
+      // then invalidate the apps cache and refresh server components so the sidebar
+      // re-renders with the correct nav items.
+      if (result?.refreshPermissionsToken) {
+        await update({ _refreshPermissionsToken: result.refreshPermissionsToken });
+        queryClient.invalidateQueries({ queryKey: APPS_QUERY_KEY });
+        router.refresh();
+      }
       toast.success(t("updated"));
     },
     onSettled: (_, __, { roleId }) => {

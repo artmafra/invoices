@@ -36,9 +36,18 @@ export interface TaskPermissions {
 }
 
 /**
- * Note permissions for the notes resource
+ * Supplier permissions for the suppliers resource (part of invoices)
  */
 export interface SupplierPermissions {
+  canCreate: boolean;
+  canEdit: boolean;
+  canDelete: boolean;
+}
+
+/**
+ * Company permissions for the companies resource (part of invoices)
+ */
+export interface CompanyPermissions {
   canCreate: boolean;
   canEdit: boolean;
   canDelete: boolean;
@@ -194,6 +203,26 @@ export function useSupplierPermissions(): SupplierPermissions & {
     canCreate: permissions.includes("suppliers.create"),
     canEdit: permissions.includes("suppliers.edit"),
     canDelete: permissions.includes("suppliers.delete"),
+    currentUserId,
+    isLoading: status === "loading",
+  };
+}
+
+/**
+ * Hook to extract typed permissions for the companies resource (part of invoices)
+ */
+export function useCompanyPermissions(): CompanyPermissions & {
+  currentUserId: string | undefined;
+  isLoading: boolean;
+} {
+  const { session, status } = useSessionContext();
+  const permissions = session?.user?.permissions || [];
+  const currentUserId = session?.user?.id;
+
+  return {
+    canCreate: permissions.includes("companies.create"),
+    canEdit: permissions.includes("companies.edit"),
+    canDelete: permissions.includes("companies.delete"),
     currentUserId,
     isLoading: status === "loading",
   };
