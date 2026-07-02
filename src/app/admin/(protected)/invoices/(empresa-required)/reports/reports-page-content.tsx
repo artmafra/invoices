@@ -2,6 +2,7 @@
 
 import { useCallback, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
+import { useSelectedCompany } from "@/contexts/company-context";
 import type { InvoiceStatus } from "@/schema/invoices.schema";
 import { useTranslations } from "next-intl";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
@@ -37,6 +38,7 @@ export function ReportsPageContent() {
   const t = useTranslations("apps/invoices");
   const permissions = useInvoicePermissions();
   const router = useRouter();
+  const { selectedCompanyId } = useSelectedCompany();
 
   const searchRef = useRef<HTMLInputElement>(null);
   useShortcut("focus-search", () => searchRef.current?.focus());
@@ -83,6 +85,7 @@ export function ReportsPageContent() {
       issueDateTo: filters.issueDateTo,
       dueDateFrom: filters.dueDateFrom,
       dueDateTo: filters.dueDateTo,
+      companyId: selectedCompanyId ?? undefined,
     },
     filters.page,
     limit,

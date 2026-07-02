@@ -1,16 +1,80 @@
 ﻿"use client";
 
 import { useEffect, useRef, useState } from "react";
-import { CalendarIcon, X } from "lucide-react";
+import { Calendar, X } from "lucide-react";
 import type { useTranslations } from "next-intl";
 import { useTranslations as useT } from "next-intl";
 import { formatCnpj } from "@/lib/cnpj-service-code";
-import { cn } from "@/lib/utils";
-import { LazyCalendar } from "@/components/shared/lazy-calendar";
 import { Button } from "@/components/ui/button";
 import { Collapsible, CollapsibleContent } from "@/components/ui/collapsible";
 import { Input } from "@/components/ui/input";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+
+function formatDateInput(value: string): string {
+  const digits = value.replace(/\D/g, "").slice(0, 8);
+  if (digits.length <= 2) return digits;
+  if (digits.length <= 4) return `${digits.slice(0, 2)}/${digits.slice(2)}`;
+  return `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4)}`;
+}
+
+function isValidDateString(s: string): boolean {
+  if (s.length < 10) return false;
+  const [day, month, year] = s.split("/").map(Number);
+  if (!day || !month || !year) return false;
+  if (month < 1 || month > 12 || day < 1) return false;
+  const date = new Date(year, month - 1, day);
+  return date.getFullYear() === year && date.getMonth() === month - 1 && date.getDate() === day;
+}
+
+function fromDisplayDate(s: string): Date {
+  const [day, month, year] = s.split("/").map(Number);
+  return new Date(year, month - 1, day);
+}
+
+function toDisplayDate(d: Date): string {
+  const day = String(d.getDate()).padStart(2, "0");
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  return `${day}/${month}/${d.getFullYear()}`;
+}
+
+interface DateTextInputProps {
+  placeholder: string;
+  value: Date | undefined;
+  onChange: (date: Date | undefined) => void;
+}
+
+function DateTextInput({ placeholder, value, onChange }: DateTextInputProps) {
+  const [text, setText] = useState(() => (value ? toDisplayDate(value) : ""));
+
+  useEffect(() => {
+    const formatted = value ? toDisplayDate(value) : "";
+    if (formatted !== text) setText(formatted);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [value]);
+
+  return (
+    <div className="relative w-full sm:w-40">
+      <Input
+        value={text}
+        onChange={(e) => {
+          const next = e.target.value;
+          const formatted = next.length >= text.length ? formatDateInput(next) : next;
+          setText(formatted);
+          if (isValidDateString(formatted)) {
+            onChange(fromDisplayDate(formatted));
+          } else if (formatted === "") {
+            onChange(undefined);
+          }
+          // enquanto digita (incompleto), não dispara onChange
+        }}
+        placeholder={placeholder}
+        maxLength={10}
+        inputMode="numeric"
+        className="pl-9"
+      />
+      <Calendar className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+    </div>
+  );
+}
 
 export interface DateRange {
   from?: Date;
@@ -112,73 +176,28 @@ export function InvoicesFilters({
         )}
       </div>
 
-      {/* ROW 2: issue date pickers */}
+      {/* ROW 2: issue date inputs */}
       <Collapsible open={issueDateOpen}>
         <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden">
           <div className="flex flex-wrap items-center gap-space-md pt-space-sm">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full pl-space-md text-left font-normal sm:w-64",
-                    !issueDateRange.from && "text-muted-foreground",
-                  )}
-                >
-                  {issueDateRange.from ? (
-                    issueDateRange.from.toLocaleDateString("pt-BR")
-                  ) : (
-                    <span>{t("dates.from")}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <LazyCalendar
-                  mode="single"
-                  selected={issueDateRange.from}
-                  onSelect={(date) => {
-                    const next = { ...issueDateRange, from: date };
-                    setIssueDateRange(next);
-                    onIssueDateRange(next);
-                  }}
-                  disabled={(date) => date < new Date("1900-01-01")}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
-
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="outline"
-                  className={cn(
-                    "w-full pl-space-md text-left font-normal sm:w-64",
-                    !issueDateRange.to && "text-muted-foreground",
-                  )}
-                >
-                  {issueDateRange.to ? (
-                    issueDateRange.to.toLocaleDateString("pt-BR")
-                  ) : (
-                    <span>{t("dates.to")}</span>
-                  )}
-                  <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-auto p-0" align="start">
-                <LazyCalendar
-                  mode="single"
-                  selected={issueDateRange.to}
-                  onSelect={(date) => {
-                    const next = { ...issueDateRange, to: date };
-                    setIssueDateRange(next);
-                    onIssueDateRange(next);
-                  }}
-                  disabled={(date) => date < new Date("1900-01-01")}
-                  initialFocus
-                />
-              </PopoverContent>
-            </Popover>
+            <DateTextInput
+              placeholder={t("dates.from")}
+              value={issueDateRange.from}
+              onChange={(date) => {
+                const next = { ...issueDateRange, from: date };
+                setIssueDateRange(next);
+                onIssueDateRange(next);
+              }}
+            />
+            <DateTextInput
+              placeholder={t("dates.to")}
+              value={issueDateRange.to}
+              onChange={(date) => {
+                const next = { ...issueDateRange, to: date };
+                setIssueDateRange(next);
+                onIssueDateRange(next);
+              }}
+            />
           </div>
         </CollapsibleContent>
       </Collapsible>
