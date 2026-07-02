@@ -2,22 +2,12 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useSelectedCompany } from "@/contexts/company-context";
-import { Building2, Check, ChevronsUpDown, Package, Settings, UserCircle } from "lucide-react";
+import { Package } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { siteConfig } from "@/config/site.config";
-import { getIconByName } from "@/lib/icons";
 import { useSelectedApp } from "@/hooks/admin/use-selected-app";
-import { useUserSession } from "@/hooks/use-session";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -34,14 +24,11 @@ type ContextMode = "app" | "system" | "profile";
  */
 export function ContextSwitcher() {
   const pathname = usePathname();
-  const router = useRouter();
   const tNav = useTranslations("admin.nav");
   const tSwitcher = useTranslations("admin.appSwitcher");
   const { isMobile, setOpenMobile } = useSidebar();
-  const { selectedApp, accessibleApps, hasAccessibleApps, selectApp } = useSelectedApp();
+  const { selectedApp, hasAccessibleApps } = useSelectedApp();
   const { selectedCompanyName } = useSelectedCompany();
-  const { hasPermission } = useUserSession();
-  const canViewSystem = hasPermission("system", "view");
 
   // Determine current context mode
   const getContextMode = (): ContextMode => {
@@ -69,21 +56,6 @@ export function ContextSwitcher() {
     selectedApp?.slug === "invoices" && selectedCompanyName
       ? selectedCompanyName
       : getContextLabel();
-
-  const handleSelectApp = (appSlug: string) => {
-    selectApp(appSlug);
-    router.push(`/admin/${appSlug}`);
-    if (isMobile) {
-      setOpenMobile(false);
-    }
-  };
-
-  const handleNavigate = (url: string) => {
-    router.push(url);
-    if (isMobile) {
-      setOpenMobile(false);
-    }
-  };
 
   // No accessible apps and not in system/profile - show disabled state
   if (!hasAccessibleApps && contextMode === "app") {
@@ -114,7 +86,7 @@ export function ContextSwitcher() {
       <SidebarMenu>
         <SidebarMenuItem>
           <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
-            <Link href={`/admin/${selectedApp.slug}`}>
+            <Link href="/admin/invoices">
               <div className="flex aspect-square size-8 items-center justify-center">
                 <Image
                   src="/images/contpaz-logo.svg"
@@ -137,100 +109,17 @@ export function ContextSwitcher() {
   return (
     <SidebarMenu>
       <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild suppressHydrationWarning>
-            <SidebarMenuButton
-              size="lg"
-              className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
-            >
-              <div className="flex aspect-square size-8 items-center justify-center">
-                <Image
-                  src="/images/contpaz-logo.svg"
-                  alt={siteConfig.name}
-                  width={32}
-                  height={32}
-                />
-              </div>
-              <div className="grid flex-1 text-left text-sm leading-tight">
-                <span className="truncate font-medium">{siteConfig.name}</span>
-                <span className="text-muted-foreground truncate text-xs">{subtitleLabel}</span>
-              </div>
-              <ChevronsUpDown className="ml-auto" />
-            </SidebarMenuButton>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
-            align="start"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
-          >
-            {/* Apps section */}
-            {hasAccessibleApps && (
-              <>
-                <DropdownMenuLabel className="text-muted-foreground text-xs font-normal">
-                  {tSwitcher("switchApp")}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {accessibleApps.map((app) => {
-                  const AppIcon = getIconByName(app.iconName);
-                  const isSelected = selectedApp?.slug === app.slug && contextMode === "app";
-
-                  return (
-                    <DropdownMenuItem
-                      key={app.slug}
-                      onClick={() => handleSelectApp(app.slug)}
-                      className="gap-space-sm p-space-sm"
-                    >
-                      <div className="flex size-6 items-center justify-center">
-                        <AppIcon className="size-4 shrink-0" />
-                      </div>
-                      <span className="flex-1">{app.name}</span>
-                      {isSelected && <Check className="text-primary size-4" />}
-                    </DropdownMenuItem>
-                  );
-                })}
-                <DropdownMenuSeparator />
-              </>
-            )}
-
-            {/* Trocar empresa (only when invoices app is selected) */}
-            {selectedApp?.slug === "invoices" && (
-              <>
-                <DropdownMenuItem
-                  onClick={() => handleNavigate("/admin/invoices/companies")}
-                  className="gap-space-sm p-space-sm"
-                >
-                  <div className="flex size-6 items-center justify-center">
-                    <Building2 className="size-4 shrink-0" />
-                  </div>
-                  <span className="flex-1">Trocar empresa</span>
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
-              </>
-            )}
-
-            {/* System & Profile links */}
-            {canViewSystem && (
-              <DropdownMenuItem
-                onClick={() => handleNavigate("/admin/system/users")}
-                className="gap-space-sm p-space-sm"
-              >
-                <div className="flex size-6 items-center justify-center">
-                  <Settings className="size-4 shrink-0" />
-                </div>
-                <span className="flex-1">{tNav("system")}</span>
-              </DropdownMenuItem>
-            )}
-            <DropdownMenuItem asChild className="gap-space-sm p-space-sm">
-              <Link href="/admin/profile">
-                <div className="flex size-6 items-center justify-center">
-                  <UserCircle className="size-4 shrink-0" />
-                </div>
-                <span className="flex-1">{tNav("profile")}</span>
-              </Link>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
+          <Link href="/admin/invoices">
+            <div className="flex aspect-square size-8 items-center justify-center">
+              <Image src="/images/contpaz-logo.svg" alt={siteConfig.name} width={32} height={32} />
+            </div>
+            <div className="grid flex-1 text-left text-sm leading-tight">
+              <span className="truncate font-medium">{siteConfig.name}</span>
+              <span className="text-muted-foreground truncate text-xs">{subtitleLabel}</span>
+            </div>
+          </Link>
+        </SidebarMenuButton>
       </SidebarMenuItem>
     </SidebarMenu>
   );

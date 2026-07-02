@@ -4,6 +4,7 @@
     "toggleNavigation": "Alternar navegação"
   },
   "nav": {
+    "invoices": "Notas",
     "system": "Sistema",
     "settings": "Configurações",
     "users": "Usuários",

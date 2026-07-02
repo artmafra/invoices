@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Settings } from "lucide-react";
+import { Settings, UserRound } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useUserSession } from "@/hooks/use-session";
 import {
@@ -44,19 +44,32 @@ export function NavSecondary(props: React.ComponentPropsWithoutRef<typeof Sideba
   }
 
   const isActive = pathname?.startsWith("/admin/system");
+  const isProfileActive = pathname?.startsWith("/admin/profile");
 
   return (
     <SidebarGroup {...props}>
       <SidebarGroupContent>
         <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip={t("system")} asChild isActive={isActive}>
-              <Link href="/admin/system/users" onClick={handleLinkClick}>
-                <Settings />
-                <span>{t("system")}</span>
-              </Link>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
+          {!isProfileActive && (
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={t("profile")} asChild isActive={isProfileActive}>
+                <Link href="/admin/profile" onClick={handleLinkClick}>
+                  <UserRound />
+                  <span>{t("profile")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
+          {!isActive && (
+            <SidebarMenuItem>
+              <SidebarMenuButton tooltip={t("system")} asChild isActive={isActive}>
+                <Link href="/admin/system/users" onClick={handleLinkClick}>
+                  <Settings />
+                  <span>{t("system")}</span>
+                </Link>
+              </SidebarMenuButton>
+            </SidebarMenuItem>
+          )}
         </SidebarMenu>
       </SidebarGroupContent>
     </SidebarGroup>

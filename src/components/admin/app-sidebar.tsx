@@ -13,6 +13,7 @@ import { NavMain } from "@/components/admin/nav-main";
 import { NavProfile } from "@/components/admin/nav-profile";
 import { NavSecondary } from "@/components/admin/nav-secondary";
 import { NavSystem } from "@/components/admin/nav-system";
+import { NavTop } from "@/components/admin/nav-top";
 import { NavUser } from "@/components/admin/nav-user";
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader } from "@/components/ui/sidebar";
 
@@ -129,8 +130,7 @@ export function AppSidebar(
     return <NavMain items={navMain} />;
   };
 
-  // Show NavSecondary on default and profile pages (not on system pages)
-  const showNavSecondary = !isSystemPage;
+  // Always show NavSecondary; it handles its own visibility per-button
 
   return (
     <Sidebar className="border-r-0" {...sidebarProps}>
@@ -139,8 +139,9 @@ export function AppSidebar(
         <CommandPaletteTrigger />
       </SidebarHeader>
       <SidebarContent className="">
+        <NavTop />
         {renderContent()}
-        {showNavSecondary && <NavSecondary className="mt-auto" />}
+        <NavSecondary className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
         <NavUser />
