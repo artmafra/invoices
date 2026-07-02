@@ -161,7 +161,9 @@ export function AdminActivityPageContent() {
               options={
                 filterOptions?.resources?.map((r) => ({
                   value: r,
-                  label: r.charAt(0).toUpperCase() + r.slice(1),
+                  label: t.has(`resources.${r}`)
+                    ? t(`resources.${r}` as Parameters<typeof t>[0])
+                    : r.charAt(0).toUpperCase() + r.slice(1),
                 })) || []
               }
             />

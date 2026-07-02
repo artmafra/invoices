@@ -371,6 +371,12 @@
         "start": "Started impersonation",
         "end": "Ended impersonation"
       },
+      "user": {
+        "impersonate": {
+          "start": "Started impersonation",
+          "end": "Ended impersonation"
+        }
+      },
       "tasks": {
         "create": "Created task",
         "update": "Updated task",
@@ -451,6 +457,7 @@
       "city": "City",
       "country": "Country",
       "supplierCnpj": "Supplier CNPJ",
+      "companyName": "Company Name",
       "serviceCode": "Service Code",
       "valueCents": "Invoice Value",
       "netAmountCents": "Net Amount",
@@ -508,7 +515,8 @@
       "cloud_storage": "file",
       "invoices": "invoice",
       "invoice_services": "service code",
-      "invoice_suppliers": "supplier"
+      "invoice_suppliers": "supplier",
+      "companies": "company"
     },
     "noActivity": "No activity to display"
   },

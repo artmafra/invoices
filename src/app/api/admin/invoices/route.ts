@@ -9,6 +9,7 @@ import {
 } from "@/lib/errors";
 import { buildQueryParamsSeed, handleConditionalRequest } from "@/lib/http/etag";
 import { requirePermission } from "@/lib/permissions";
+import { companyStorage } from "@/storage/runtime/company";
 import { activityService } from "@/services/runtime/activity";
 import { invoiceService } from "@/services/runtime/invoice";
 import { createInvoiceSchema, getInvoicesQuerySchema } from "@/validations/invoice.validations";
@@ -87,7 +88,9 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     throw new ConflictError("A invoice with this number already exists");
   }
 
-  const invoice = await invoiceService.createInvoice({
+  const company = await companyStorage.findById(validation.data.companyId);
+
+  const { invoice, effectiveRates } = await invoiceService.createInvoice({
     companyId: validation.data.companyId,
     supplierCnpj: validation.data.supplierCnpj,
     serviceCode: validation.data.serviceCode,
@@ -110,6 +113,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     { type: "invoice", id: invoice.id, name: invoice.invoiceNumber },
     {
       metadata: {
+        companyName: company?.name ?? null,
         supplierCnpj: invoice.supplierCnpj,
         serviceCode: invoice.serviceCode,
 
@@ -123,9 +127,10 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
         dueDate: invoice.dueDate,
         entryDate: invoice.entryDate,
 
-        inssPercent: validation.data.inssPercent ?? null,
-        csPercent: validation.data.csPercent ?? null,
-        issqnPercent: validation.data.issqnPercent ?? null,
+        inssPercent: effectiveRates.inss,
+        csPercent: effectiveRates.cs,
+        issqnPercent: effectiveRates.issqn,
+        irrfPercent: effectiveRates.irrf,
       },
     },
   );

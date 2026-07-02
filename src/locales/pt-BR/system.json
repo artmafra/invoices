@@ -370,6 +370,12 @@
         "start": "Personificação iniciada",
         "end": "Personificação encerrada"
       },
+      "user": {
+        "impersonate": {
+          "start": "Personificação iniciada",
+          "end": "Personificação encerrada"
+        }
+      },
       "tasks": {
         "create": "Tarefa criada",
         "update": "Tarefa atualizada",
@@ -450,6 +456,7 @@
       "city": "Cidade",
       "country": "País",
       "supplierCnpj": "CNPJ do Fornecedor",
+      "companyName": "Nome da Empresa",
       "serviceCode": "Código de Serviço",
       "valueCents": "Valor da Nota Fiscal",
       "netAmountCents": "Valor Líquido",
@@ -507,7 +514,8 @@
       "cloud_storage": "arquivo",
       "invoices": "nota fiscal",
       "invoice_services": "código de serviço",
-      "invoice_suppliers": "fornecedor"
+      "invoice_suppliers": "fornecedor",
+      "companies": "empresa"
     },
     "noActivity": "Nenhuma atividade para exibir"
   },

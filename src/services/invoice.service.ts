@@ -68,10 +68,20 @@ export class InvoiceService {
 
     const netAmountCents = Math.round(value - tax);
 
-    return await invoiceStorage.create({
+    const invoice = await invoiceStorage.create({
       ...data,
       netAmountCents,
     });
+
+    return {
+      invoice,
+      effectiveRates: {
+        inss: inss ?? null,
+        cs: cs ?? null,
+        issqn: issqn ?? null,
+        irrf: irrf ?? null,
+      },
+    };
   }
 
   async getAllInvoices(companyId?: string) {
