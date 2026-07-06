@@ -81,7 +81,8 @@
     "invoiceNumberTooLong": "Número da nota fiscal deve ter no máximo 50 caracteres",
     "dueDateAfterIssueDate": "Data de vencimento deve ser após a data de emissão",
     "invalidDate": "Data inválida",
-    "issueDateAfterEntryDate": "A data de emissão não pode ser depois da data de entrada"
+    "issueDateAfterEntryDate": "A data de emissão não pode ser depois da data de entrada",
+    "issqnPercentRange": "O ISSQN deve ser entre 2% e 5%"
   },
   "hooks": {
     "fetchFailed": "Falha ao buscar nota fiscal",

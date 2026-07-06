@@ -39,6 +39,7 @@ export function CnpjSelect({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
 
   // Extract digits for search
   const inputDigits = extractCnpjDigits(inputValue);
@@ -64,6 +65,13 @@ export function CnpjSelect({
       setInputValue("");
     }
   }, [value]);
+
+  // Scroll selected item into view when navigating with arrow keys
+  useEffect(() => {
+    if (selectedIndex < 0 || !listRef.current) return;
+    const item = listRef.current.querySelectorAll("button")[selectedIndex];
+    item?.scrollIntoView({ block: "nearest" });
+  }, [selectedIndex]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -163,7 +171,10 @@ export function CnpjSelect({
         </div>
 
         {showSuggestions && inputValue && showResults && suppliersList.length > 0 && (
-          <div className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-border bg-popover shadow-md">
+          <div
+            ref={listRef}
+            className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-border bg-popover shadow-md"
+          >
             <div className="p-1">
               {suppliersList.map((supplier, index) => (
                 <button

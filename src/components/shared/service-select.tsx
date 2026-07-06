@@ -38,6 +38,7 @@ export function ServiceSelect({
   const [selectedIndex, setSelectedIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const listRef = useRef<HTMLDivElement>(null);
   const debouncedSearch = useDebounce(inputValue, 300);
 
   // Avoid showing stale results while debounce is pending
@@ -64,6 +65,13 @@ export function ServiceSelect({
       setInputValue("");
     }
   }, [value]);
+
+  // Scroll selected item into view when navigating with arrow keys
+  useEffect(() => {
+    if (selectedIndex < 0 || !listRef.current) return;
+    const item = listRef.current.querySelectorAll("button")[selectedIndex];
+    item?.scrollIntoView({ block: "nearest" });
+  }, [selectedIndex]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -151,7 +159,10 @@ export function ServiceSelect({
         </div>
 
         {showSuggestions && inputValue && showResults && servicesList.length > 0 && (
-          <div className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-border bg-popover shadow-md">
+          <div
+            ref={listRef}
+            className="absolute z-50 mt-1 max-h-60 w-full overflow-auto rounded-md border border-border bg-popover shadow-md"
+          >
             <div className="p-1">
               {servicesList.map((service, index) => (
                 <button

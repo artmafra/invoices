@@ -300,6 +300,14 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
     return n;
   }, [issqnOverrideDisplay]);
 
+  // True when user entered a valid number but it is outside the 2–5% SN range
+  const issqnOutOfRange: boolean = useMemo(() => {
+    const trimmed = issqnOverrideDisplay.replace("%", "").replace(",", ".").trim();
+    if (trimmed === "") return false;
+    const n = parseFloat(trimmed);
+    return !isNaN(n) && (n < 2 || n > 5);
+  }, [issqnOverrideDisplay]);
+
   // ── Live tax calculation ────────────────────────────────────────────────────
   const taxes = useMemo(
     () =>
@@ -572,32 +580,37 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
             <div className="space-y-2">
               <Label>ISSQN</Label>
               {supplier?.taxRegime === "sn" ? (
-                <Input
-                  value={issqnOverrideDisplay}
-                  inputMode="decimal"
-                  placeholder={formatPercent(taxRates.issqn)}
-                  className={
-                    issqnOverrideDisplay !== "" && issqnOverride === null
-                      ? "border-destructive text-destructive"
-                      : "border-foreground/25 text-foreground"
-                  }
-                  onFocus={() => {
-                    setIssqnFocused(true);
-                    setIssqnOverrideDisplay((v) => v.replace("%", "").trim());
-                  }}
-                  onBlur={() => {
-                    setIssqnFocused(false);
-                    const raw = issqnOverrideDisplay.replace("%", "").trim();
-                    const n = parseFloat(raw.replace(",", "."));
-                    if (!isNaN(n)) {
-                      setIssqnOverrideDisplay(`${n.toFixed(2).replace(".", ",")}%`);
-                    }
-                  }}
-                  onChange={(e) => {
-                    const v = e.target.value;
-                    setIssqnOverrideDisplay(issqnFocused ? v.replace("%", "") : v);
-                  }}
-                />
+                <Tooltip open={issqnOutOfRange}>
+                  <TooltipTrigger asChild>
+                    <Input
+                      value={issqnOverrideDisplay}
+                      inputMode="decimal"
+                      placeholder={formatPercent(taxRates.issqn)}
+                      className={
+                        issqnOverrideDisplay !== "" && issqnOverride === null
+                          ? "border-destructive text-destructive"
+                          : "border-foreground/25 text-foreground"
+                      }
+                      onFocus={() => {
+                        setIssqnFocused(true);
+                        setIssqnOverrideDisplay((v) => v.replace("%", "").trim());
+                      }}
+                      onBlur={() => {
+                        setIssqnFocused(false);
+                        const raw = issqnOverrideDisplay.replace("%", "").trim();
+                        const n = parseFloat(raw.replace(",", "."));
+                        if (!isNaN(n)) {
+                          setIssqnOverrideDisplay(`${n.toFixed(2).replace(".", ",")}%`);
+                        }
+                      }}
+                      onChange={(e) => {
+                        const v = e.target.value;
+                        setIssqnOverrideDisplay(issqnFocused ? v.replace("%", "") : v);
+                      }}
+                    />
+                  </TooltipTrigger>
+                  <TooltipContent side="top">{t("errors.issqnPercentRange")}</TooltipContent>
+                </Tooltip>
               ) : (
                 <div className="flex h-9 items-center rounded-md border border-border/30 bg-muted px-3 text-sm text-muted-foreground/60">
                   {formatPercent(taxRates.issqn)}
@@ -669,7 +682,8 @@ export function InvoiceEntryCard({ onSubmit, isSaving }: InvoiceEntryCardProps) 
                 issueDate.length === 10 &&
                 isValidDate(dueDate) &&
                 isValidDate(issueDate) &&
-                fromDisplayDate(dueDate) < fromDisplayDate(issueDate))
+                fromDisplayDate(dueDate) < fromDisplayDate(issueDate)) ||
+              issqnOutOfRange
             }
             className="w-full font-bold uppercase tracking-wide"
             size="lg"
