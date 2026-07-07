@@ -130,7 +130,7 @@ function InvitePageContent() {
                     <div className="flex flex-col items-center text-center">
                       <div className="flex items-center gap-space-sm mb-space-xs">
                         <Image
-                          src="/images/logo.svg"
+                          src="/images/mafra-logo.svg"
                           alt={siteConfig.name}
                           width={28}
                           height={28}

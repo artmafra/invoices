@@ -98,7 +98,7 @@ function ResetPasswordContent() {
         <div className="p-section md:p-section">
           <div className="flex flex-col gap-space-xl">
             <div className="flex items-center gap-space-sm mb-space-xs justify-center">
-              <Image src="/images/logo.svg" alt={siteConfig.name} width={28} height={28} />
+              <Image src="/images/mafra-logo.svg" alt={siteConfig.name} width={28} height={28} />
               <h1 className="text-2xl font-bold italic">{siteConfig.name}</h1>
             </div>
             <ErrorAlert message={tokenValidation?.error || t("resetPassword.invalidLink")} />

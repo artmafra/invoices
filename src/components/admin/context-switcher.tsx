@@ -88,12 +88,7 @@ export function ContextSwitcher() {
           <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
             <Link href="/admin/invoices">
               <div className="flex aspect-square size-8 items-center justify-center">
-                <Image
-                  src="/images/contpaz-logo.svg"
-                  alt={siteConfig.name}
-                  width={32}
-                  height={32}
-                />
+                <Image src="/images/mafra-logo.svg" alt={siteConfig.name} width={32} height={32} />
               </div>
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{siteConfig.name}</span>
@@ -112,7 +107,7 @@ export function ContextSwitcher() {
         <SidebarMenuButton size="lg" asChild onClick={() => isMobile && setOpenMobile(false)}>
           <Link href="/admin/invoices">
             <div className="flex aspect-square size-8 items-center justify-center">
-              <Image src="/images/contpaz-logo.svg" alt={siteConfig.name} width={32} height={32} />
+              <Image src="/images/mafra-logo.svg" alt={siteConfig.name} width={32} height={32} />
             </div>
             <div className="grid flex-1 text-left text-sm leading-tight">
               <span className="truncate font-medium">{siteConfig.name}</span>

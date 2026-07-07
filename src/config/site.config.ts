@@ -7,7 +7,7 @@
 
 export const siteConfig = {
   /** Company/website name */
-  name: "Mafra",
+  name: "Mafra Fiscal",
 
   /** Website tagline or slogan */
   tagline: "Build websites faster with this modern template",
@@ -22,7 +22,7 @@ export const siteConfig = {
   ogImage: "",
 
   /** Logo URL for email templates (PNG format, ~64px height recommended) */
-  emailLogoUrl: "https://i.imgur.com/BZAqLOF.png",
+  emailLogoUrl: "https://imgur.com/a/aCv8NWx",
 
   /** Help/support URL for email footer */
   helpUrl: "",
