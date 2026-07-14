@@ -3,7 +3,10 @@ import createNextIntlPlugin from "next-intl/plugin";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
+const isStandaloneBuild = process.env.NEXT_OUTPUT_STANDALONE === "true";
+
 const nextConfig: NextConfig = {
+  ...(isStandaloneBuild ? { output: "standalone" } : {}),
   allowedDevOrigins: ["localhost:3000"],
   devIndicators: { position: "bottom-right" },
   serverExternalPackages: ["@react-email/components", "@react-email/render", "zxcvbn", "qrcode"],

@@ -1,0 +1,9 @@
+allowBuilds:
+  "@parcel/watcher": true
+  "@swc/core": true
+  core-js: true
+  esbuild: true
+  msgpackr-extract: true
+  msw: true
+  sharp: true
+  unrs-resolver: true

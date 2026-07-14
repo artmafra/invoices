@@ -77,6 +77,11 @@ export async function register() {
     TEST_DEFAULT_PASSWORD: z.string().optional(),
   });
 
+  if (process.env.SKIP_ENV_VALIDATION === "true") {
+    console.info("[Env] Skipping environment variable validation during build");
+    return;
+  }
+
   envSchema.parse(process.env);
 
   // Log optional integration status

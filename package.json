@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "start:all": "concurrently \"npm run start\" \"npm run worker:all\"",
-    "start": "next start",
+    "start": "next start -p 3000",
     "dev:all": "concurrently \"npm run dev\" \"npm run worker:all\"",
     "dev": "next dev --turbopack",
     "build:analyze": "next build && next experimental-analyze",
     "build": "next build",
+    "postbuild": "node scripts/copy-public.mjs",
     "check:format": "prettier . --check --log-level silent || echo Code style issues found. Run 'npm run format' to format",
     "check:lint": "eslint . && echo Lint check passed",
     "check:types": "tsc --noEmit && echo Type check passed",

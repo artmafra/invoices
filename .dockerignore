@@ -1,0 +1,16 @@
+node_modules
+.next
+.git
+.gitignore
+.dockerignore
+Dockerfile*
+docker-compose*
+.env*
+docs/
+public/images/logo.svg
+ Implementation_Summary.md
+INVOICES_STRUCTURE.md
+PROJECT_AUDIT.md
+VALIDATION_TRANSLATION_PATTERNS.md
+*.md
+
