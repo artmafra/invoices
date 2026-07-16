@@ -3,6 +3,9 @@ services:
     build:
       context: .
       target: runner
+      args:
+        NEXT_PUBLIC_APP_URL: ${NEXT_PUBLIC_APP_URL}
+        NEXT_PUBLIC_AUTH_GOOGLE_CLIENT_ID: ${NEXT_PUBLIC_AUTH_GOOGLE_CLIENT_ID}
     image: app:local
     container_name: notas-app
     restart: unless-stopped
@@ -58,6 +61,27 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+    networks:
+      - internal2
+
+  email-worker:
+    build:
+      context: .
+      target: worker
+    image: app-worker:local
+    container_name: notas-email-worker
+    restart: unless-stopped
+    command: ["pnpm", "worker:email"]
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      REDIS_URL: redis://redis:6379
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     networks:
       - internal2
 
