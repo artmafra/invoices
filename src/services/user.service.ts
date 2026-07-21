@@ -4,6 +4,7 @@ import bcrypt from "bcryptjs";
 import { JobPriority } from "@/types/common/queue.types";
 import type { AdminUsersListResponse } from "@/types/users/users.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { NotFoundError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { userStorage } from "@/storage/runtime/user";
@@ -54,15 +55,7 @@ export class UserService {
       const template = SecurityAlertEmail({
         alertType,
         userName: user.name ?? undefined,
-        changedAt: new Date().toLocaleString(locale, {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZoneName: "short",
-        }),
+        changedAt: formatEmailDateTime(new Date(), locale),
         websiteName: siteConfig.name,
         t: t.security,
         tCommon: t.common,

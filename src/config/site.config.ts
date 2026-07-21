@@ -22,10 +22,13 @@ export const siteConfig = {
   ogImage: "",
 
   /** Logo URL for email templates (PNG format, ~64px height recommended) */
-  emailLogoUrl: "https://imgur.com/a/aCv8NWx",
+  emailLogoUrl: "",
 
   /** Help/support URL for email footer */
   helpUrl: "",
+
+  /** Default application timezone for server-side formatting */
+  timeZone: process.env.APP_TIMEZONE || "UTC",
 } as const;
 
 /**

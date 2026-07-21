@@ -1,5 +1,6 @@
 import { JobPriority } from "@/types/common/queue.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { ConflictError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { userStorage } from "@/storage/runtime/user";
@@ -46,15 +47,7 @@ export class EmailChangeService {
         template: SecurityAlertEmail({
           alertType: "email-changed",
           userName,
-          changedAt: new Date().toLocaleString(locale, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZoneName: "short",
-          }),
+          changedAt: formatEmailDateTime(new Date(), locale),
           additionalInfo: `New email: ${newEmail}`,
           websiteName: siteConfig.name,
           t: t.security,

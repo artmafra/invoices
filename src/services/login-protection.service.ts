@@ -1,5 +1,6 @@
 import { JobPriority } from "@/types/common/queue.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { ServiceUnavailableError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { getClientIp } from "@/lib/rate-limit";
@@ -269,15 +270,7 @@ export class LoginProtectionService {
         subject: t.accountLockout.subject,
         template: AccountLockoutEmail({
           userName: user?.name ?? undefined,
-          lockoutTime: new Date().toLocaleString(locale, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZoneName: "short",
-          }),
+          lockoutTime: formatEmailDateTime(new Date(), locale),
           ipAddress: ip,
           deviceInfo,
           failedAttempts,

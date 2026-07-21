@@ -7,6 +7,8 @@
  * For client-side date formatting, use the `useDateFormat` hook instead.
  */
 
+import { siteConfig } from "@/config/site.config";
+
 export type DateFormatOptions = Intl.DateTimeFormatOptions;
 
 /**
@@ -62,7 +64,7 @@ export const DATE_PRESETS = {
 export function formatDateServer(
   date: Date | string | number,
   locale: string = "en-US",
-  timeZone: string = "UTC",
+  timeZone: string = siteConfig.timeZone,
   options?: DateFormatOptions,
 ): string {
   const dateObj = date instanceof Date ? date : new Date(date);
@@ -81,7 +83,7 @@ export function formatDateServer(
 export function formatDateTimeServer(
   date: Date | string | number,
   locale: string = "en-US",
-  timeZone: string = "UTC",
+  timeZone: string = siteConfig.timeZone,
   options?: DateFormatOptions,
 ): string {
   const dateObj = date instanceof Date ? date : new Date(date);
@@ -109,6 +111,6 @@ export function formatEmailDateTime(
   const dateObj = date instanceof Date ? date : new Date(date);
   return new Intl.DateTimeFormat(locale, {
     ...DATE_PRESETS.emailDateTime,
-    timeZone: "UTC",
+    timeZone: siteConfig.timeZone,
   }).format(dateObj);
 }

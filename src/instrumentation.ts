@@ -12,6 +12,11 @@ export async function register() {
     LOG_LEVEL: z.enum(["trace", "debug", "info", "warn", "error", "fatal"]).optional(),
 
     // ===========================================
+    // Localization
+    // ===========================================
+    APP_TIMEZONE: z.string().default("UTC"),
+
+    // ===========================================
     // Database (PostgreSQL)
     // ===========================================
     DATABASE_URL: z.string().min(1, "DATABASE_URL is required"),

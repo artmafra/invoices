@@ -18,6 +18,7 @@ import { decodeClientDataJSON, isoBase64URL } from "@simplewebauthn/server/helpe
 import type { PasskeysListResponse } from "@/types/auth/passkeys.types";
 import { JobPriority } from "@/types/common/queue.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import {
   ForbiddenError,
   NotFoundError,
@@ -122,15 +123,7 @@ export class PasskeyService {
       const template = SecurityAlertEmail({
         alertType,
         userName: user.name ?? undefined,
-        changedAt: new Date().toLocaleString(locale, {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZoneName: "short",
-        }),
+        changedAt: formatEmailDateTime(new Date(), locale),
         websiteName: siteConfig.name,
         t: t.security,
         tCommon: t.common,

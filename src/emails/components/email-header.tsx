@@ -16,13 +16,17 @@ export function EmailHeader({ websiteName }: EmailHeaderProps) {
     <Section className="mb-section">
       <Row>
         <Column>
-          <Img
-            src={siteConfig.emailLogoUrl}
-            width="164"
-            height="42"
-            alt={siteName}
-            className="text-2xl font-bold"
-          />
+          {siteConfig.emailLogoUrl ? (
+            <Img
+              src={siteConfig.emailLogoUrl}
+              width="164"
+              height="69"
+              alt={siteName}
+              className="text-2xl font-bold"
+            />
+          ) : (
+            <span className="text-2xl font-bold">{siteName}</span>
+          )}
         </Column>
       </Row>
     </Section>

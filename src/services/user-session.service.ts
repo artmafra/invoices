@@ -3,6 +3,7 @@ import type { UserSession } from "@/schema/user-session.schema";
 import { JobPriority } from "@/types/common/queue.types";
 import type { ProfileSessionsListResponse } from "@/types/sessions/sessions.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { logger } from "@/lib/logger";
 import { checkRateLimit } from "@/lib/rate-limit";
 import { generateSecureToken } from "@/lib/security";
@@ -101,15 +102,7 @@ export class UserSessionService {
         browser: parsedUA.browser,
         operatingSystem: parsedUA.os,
         ipAddress: ipAddress ?? undefined,
-        loginTime: new Date().toLocaleString(locale, {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZoneName: "short",
-        }),
+        loginTime: formatEmailDateTime(new Date(), locale),
         websiteName: siteConfig.name,
         t: t.newLogin,
         tCommon: t.common,

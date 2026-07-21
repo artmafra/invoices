@@ -3,6 +3,7 @@ import type { UserEmail } from "@/schema/user-emails.schema";
 import { JobPriority } from "@/types/common/queue.types";
 import type { UserEmailsListResponse } from "@/types/users/user-emails.types";
 import { siteConfig } from "@/config/site.config";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { ConflictError, ForbiddenError, NotFoundError, ValidationError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { userStorage } from "@/storage/runtime/user";
@@ -273,15 +274,7 @@ export class UserEmailService {
         template: SecurityAlertEmail({
           alertType: "primary-email-changed",
           userName,
-          changedAt: new Date().toLocaleString(locale, {
-            weekday: "long",
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-            hour: "2-digit",
-            minute: "2-digit",
-            timeZoneName: "short",
-          }),
+          changedAt: formatEmailDateTime(new Date(), locale),
           additionalInfo: `New primary email: ${newEmail}`,
           websiteName: siteConfig.name,
           t: t.security,

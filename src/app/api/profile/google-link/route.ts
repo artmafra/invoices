@@ -3,6 +3,7 @@ import { JobPriority } from "@/types/common/queue.types";
 import { siteConfig } from "@/config/site.config";
 import { withErrorHandler } from "@/lib/api-handler";
 import { auth } from "@/lib/auth";
+import { formatEmailDateTime } from "@/lib/date-format";
 import { ConflictError, UnauthorizedError, ValidationError } from "@/lib/errors";
 import { getClientIp, withRateLimit } from "@/lib/rate-limit";
 import { requireStepUpAuth } from "@/lib/step-up-auth";
@@ -40,15 +41,7 @@ async function sendGoogleSecurityAlert(
       template: SecurityAlertEmail({
         alertType,
         userName: user.name ?? undefined,
-        changedAt: new Date().toLocaleString(locale, {
-          weekday: "long",
-          year: "numeric",
-          month: "long",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          timeZoneName: "short",
-        }),
+        changedAt: formatEmailDateTime(new Date(), locale),
         additionalInfo: googleEmail ? `Google account: ${googleEmail}` : undefined,
         websiteName: siteConfig.name,
         t: t.security,
