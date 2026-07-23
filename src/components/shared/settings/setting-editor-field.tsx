@@ -13,15 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 
 export type SettingType =
-  | "string"
-  | "text"
-  | "boolean"
-  | "number"
-  | "json"
-  | "image"
-  | "select"
-  | "color"
-  | "email";
+  "string" | "text" | "boolean" | "number" | "json" | "image" | "select" | "color" | "email";
 
 export type SettingOption = string | { value: string; label: string };
 

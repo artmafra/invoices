@@ -13,6 +13,7 @@ This document outlines how Zod validation messages are handled with translations
 The most sophisticated pattern uses **translation keys instead of hardcoded messages** in validation logic. This separates concerns and makes translations composable.
 
 **Example: Password Policy Validation**
+
 - File: [src/lib/password-policy.ts](src/lib/password-policy.ts)
 - Returns validation error objects with translation keys and parameters
 
@@ -38,14 +39,15 @@ export function validatePassword(
   if (settings.requireUppercase && !/[A-Z]/.test(password)) {
     errors.push({ key: "validation.passwordRequireUppercase" });
   }
-  
+
   // ... more validations
-  
+
   return { valid: errors.length === 0, errors, strength };
 }
 ```
 
 **Related Files:**
+
 - [src/hooks/public/use-password-policy.ts](src/hooks/public/use-password-policy.ts) - Hook that translates error keys to strings
 - [src/locales/en-US/errors.json](src/locales/en-US/errors.json) - Translation strings with parameters
 
@@ -266,6 +268,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 ```
 
 **Error Response Structure:**
+
 ```json
 {
   "error": "Validation Failed",
@@ -330,12 +333,12 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
 ## Comparison: Current Patterns in Use
 
-| Pattern | Use Case | Files | Translation Support |
-|---------|----------|-------|----------------------|
-| **Error Keys (Preferred)** | Password strength, complex validations | `password-policy.ts`, `use-password-policy.ts` | ✅ Full i18n support with parameters |
-| **Runtime Translation** | Conditional validation (mismatches, cross-field) | `change-password-modal.tsx` | ✅ Via `z.refine()` with `t()` calls |
-| **Hardcoded Messages (Current)** | Basic field validation | `supplier.validations.ts`, `invoice.validations.ts` | ❌ No localization, hardcoded English |
-| **Server Error Details** | API responses | `fromZodError()` helper | ⚠️ Errors sent as-is from Zod |
+| Pattern                          | Use Case                                         | Files                                               | Translation Support                   |
+| -------------------------------- | ------------------------------------------------ | --------------------------------------------------- | ------------------------------------- |
+| **Error Keys (Preferred)**       | Password strength, complex validations           | `password-policy.ts`, `use-password-policy.ts`      | ✅ Full i18n support with parameters  |
+| **Runtime Translation**          | Conditional validation (mismatches, cross-field) | `change-password-modal.tsx`                         | ✅ Via `z.refine()` with `t()` calls  |
+| **Hardcoded Messages (Current)** | Basic field validation                           | `supplier.validations.ts`, `invoice.validations.ts` | ❌ No localization, hardcoded English |
+| **Server Error Details**         | API responses                                    | `fromZodError()` helper                             | ⚠️ Errors sent as-is from Zod         |
 
 ---
 
@@ -426,13 +429,12 @@ export const useSupplierValidationTranslation = () => {
 
 Key files demonstrating translation patterns:
 
-| File | Purpose | Pattern |
-|------|---------|---------|
-| [src/lib/password-policy.ts](src/lib/password-policy.ts) | Validation with error keys | Error keys + parameters |
-| [src/hooks/public/use-password-policy.ts](src/hooks/public/use-password-policy.ts) | Hook for translating errors | Error key translation |
-| [src/components/shared/password-strength-indicator.tsx](src/components/shared/password-strength-indicator.tsx) | Display translated errors | Consume translated results |
-| [src/components/admin/change-password-modal.tsx](src/components/admin/change-password-modal.tsx) | Form with runtime translation | `z.refine()` with `t()` |
-| [src/locales/en-US/errors.json](src/locales/en-US/errors.json) | Error message translations | i18n keys and parameters |
-| [src/validations/supplier.validations.ts](src/validations/supplier.validations.ts) | Current supplier schema | Hardcoded messages (needs update) |
-| [src/app/api/admin/invoices/suppliers/route.ts](src/app/api/admin/invoices/suppliers/route.ts) | API endpoint validation | `fromZodError()` helper |
-
+| File                                                                                                           | Purpose                       | Pattern                           |
+| -------------------------------------------------------------------------------------------------------------- | ----------------------------- | --------------------------------- |
+| [src/lib/password-policy.ts](src/lib/password-policy.ts)                                                       | Validation with error keys    | Error keys + parameters           |
+| [src/hooks/public/use-password-policy.ts](src/hooks/public/use-password-policy.ts)                             | Hook for translating errors   | Error key translation             |
+| [src/components/shared/password-strength-indicator.tsx](src/components/shared/password-strength-indicator.tsx) | Display translated errors     | Consume translated results        |
+| [src/components/admin/change-password-modal.tsx](src/components/admin/change-password-modal.tsx)               | Form with runtime translation | `z.refine()` with `t()`           |
+| [src/locales/en-US/errors.json](src/locales/en-US/errors.json)                                                 | Error message translations    | i18n keys and parameters          |
+| [src/validations/supplier.validations.ts](src/validations/supplier.validations.ts)                             | Current supplier schema       | Hardcoded messages (needs update) |
+| [src/app/api/admin/invoices/suppliers/route.ts](src/app/api/admin/invoices/suppliers/route.ts)                 | API endpoint validation       | `fromZodError()` helper           |

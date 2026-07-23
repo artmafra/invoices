@@ -18,6 +18,7 @@ const cache = process.env.ENABLE_VERSION_CACHE; // ✅ boolean (auto-coerced)
 ```
 
 Benefits:
+
 - ✅ Validates on startup (fails fast with clear errors)
 - ✅ Type coercion (strings → numbers, booleans)
 - ✅ Default values

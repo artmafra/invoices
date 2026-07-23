@@ -31,33 +31,39 @@ src/themes/
 **Available semantic tokens:**
 
 #### Base Surfaces
+
 - `background` / `foreground` - Page background and text
 - `card` / `card-foreground` - Card backgrounds
 - `popover` / `popover-foreground` - Popover/dropdown backgrounds
 
 #### Semantic Colors
+
 - `primary` / `primary-foreground` - Brand/primary actions
 - `secondary` / `secondary-foreground` - Secondary actions
 - `muted` / `muted-foreground` - Subtle backgrounds and text
 - `accent` / `accent-foreground` - Accent backgrounds
 
 #### Status Colors
+
 - `destructive` / `destructive-foreground` - Errors, delete actions (red)
 - `success` / `success-foreground` - Success states (green)
 - `warning` / `warning-foreground` - Warnings, caution (yellow/orange)
 
 #### Priority Colors
+
 - `priority-low` / `priority-low-foreground` - Low priority items
 - `priority-medium` / `priority-medium-foreground` - Medium priority
 - `priority-high` / `priority-high-foreground` - High priority (warning color)
 - `priority-urgent` / `priority-urgent-foreground` - Urgent (destructive color)
 
 #### Borders & Inputs
+
 - `border` - Default border color
 - `input` - Input background color
 - `ring` - Focus ring color
 
 #### Sidebar
+
 - `sidebar` / `sidebar-foreground` - Sidebar background
 - `sidebar-primary` / `sidebar-primary-foreground` - Sidebar primary items
 - `sidebar-accent` / `sidebar-accent-foreground` - Sidebar hover/active
@@ -69,12 +75,14 @@ src/themes/
 The OKLCH theme uses algorithmic color generation from primitive variables:
 
 **Light mode:**
+
 - `--lightness-base: 1` (lighter surfaces)
 - `--lightness-step: -0.02` (negative = darker layers on top)
 - `--surface-chroma: 0.01` / `--surface-hue: 240` (subtle blue-gray tint)
 - `--primary-chroma: 0.05` / `--primary-hue: 240` (brand colors)
 
 **Dark mode:**
+
 - `--lightness-base: 0.15` (darker surfaces)
 - `--lightness-step: 0.04` (positive = lighter layers on top)
 - `--surface-chroma: 0.003` (less saturated in dark)
@@ -84,6 +92,7 @@ The OKLCH theme uses algorithmic color generation from primitive variables:
 To add new semantic tokens:
 
 1. Add HSL approximation to `src/themes/fallback.css`:
+
    ```css
    :root {
      --custom-token: hsl(240 50% 50%);
@@ -91,6 +100,7 @@ To add new semantic tokens:
    ```
 
 2. Add OKLCH computed value to `src/themes/tokens.css`:
+
    ```css
    @supports (color: oklch(0% 0 0)) {
      :root {

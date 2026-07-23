@@ -138,9 +138,7 @@ export function CommandPalette() {
         } else if (command.functionId.startsWith("density:")) {
           // Density commands
           const density = command.functionId.split(":")[1] as
-            | "compact"
-            | "comfortable"
-            | "spacious";
+            "compact" | "comfortable" | "spacious";
           setPref("density", density);
         }
       }

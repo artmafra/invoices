@@ -1,12 +1,12 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
+import { useSelectedCompany } from "@/contexts/company-context";
 import { TaxRegime } from "@/schema/services.schema";
 import { SupplierTaxRegime } from "@/schema/suppliers.schema";
 import { MoreHorizontal, Pencil, Plus, Trash2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { formatCnpj } from "@/lib/cnpj-service-code";
-import { useSelectedCompany } from "@/contexts/company-context";
 import { useActionFromUrl } from "@/hooks/admin/use-action-from-url";
 import { useSupplierPermissions } from "@/hooks/admin/use-resource-permissions";
 import {

@@ -69,9 +69,7 @@ if (!STEP_UP_CONFIG.METHODS.includes(validatedData.method as any)) {
 ```typescript
 // ❌ BAD: Business logic in schema
 export const stepUpAuthSchema = z
-  .discriminatedUnion("method", [
-    /*...*/
-  ])
+  .discriminatedUnion("method", [/*...*/])
   .refine((data) => STEP_UP_CONFIG.METHODS.includes(data.method as any), {
     message: "Step-up method is not allowed by policy",
   });

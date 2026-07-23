@@ -112,6 +112,32 @@ export function InvoiceCard({
     <tr
       className={`border-b border-border transition-colors odd:bg-background even:bg-gray-300 dark:even:bg-muted/60 hover:bg-muted/80`}
     >
+      {/* Actions - Moved to the left for better visibility */}
+      {(canEdit || canDelete) && (
+        <td className="px-2 py-1 text-center sticky left-0 z-10 odd:bg-background even:bg-gray-300 dark:even:bg-muted/60 border-r border-border">
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="ghost" size="icon" className="h-6 w-6">
+                <MoreHorizontal className="h-3 w-3" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start">
+              {canEdit && (
+                <DropdownMenuItem onClick={() => onEdit(invoice.id)}>
+                  <Pencil className="h-4 w-4" />
+                  {tc("buttons.edit")}
+                </DropdownMenuItem>
+              )}
+              {canDelete && (
+                <DropdownMenuItem onClick={() => onDelete(invoice.id)} className="text-destructive">
+                  <Trash2 className="h-4 w-4" />
+                  {tc("buttons.delete")}
+                </DropdownMenuItem>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </td>
+      )}
       {/* 1. CNPJ Prestador */}
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-xs">
         {invoice.supplier?.cnpj ? formatCnpj(invoice.supplier.cnpj) : "—"}
@@ -234,32 +260,6 @@ export function InvoiceCard({
       <td className="whitespace-nowrap border-r border-border px-2 py-1 text-right text-xs font-semibold text-success">
         {formatBRL(invoice.netAmountCents)}
       </td>
-      {/* Actions */}
-      {(canEdit || canDelete) && (
-        <td className="px-2 py-1 text-center">
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon" className="h-6 w-6">
-                <MoreHorizontal className="h-3 w-3" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {canEdit && (
-                <DropdownMenuItem onClick={() => onEdit(invoice.id)}>
-                  <Pencil className="h-4 w-4" />
-                  {tc("buttons.edit")}
-                </DropdownMenuItem>
-              )}
-              {canDelete && (
-                <DropdownMenuItem onClick={() => onDelete(invoice.id)} className="text-destructive">
-                  <Trash2 className="h-4 w-4" />
-                  {tc("buttons.delete")}
-                </DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </td>
-      )}
     </tr>
   );
 }

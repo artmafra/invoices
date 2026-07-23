@@ -161,6 +161,9 @@ export function InvoicesListView({
           <table className="w-full border-collapse">
             <thead>
               <tr className="border-b border-border bg-muted/80">
+                {(permissions.canEdit || permissions.canDelete) && (
+                  <th className="sticky left-0 z-20 px-2 py-1.5 bg-muted/80" />
+                )}
                 <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-left text-xs font-bold uppercase tracking-wide">
                   {t("table.cnpj")}
                 </th>
@@ -240,7 +243,6 @@ export function InvoicesListView({
                 <th className="whitespace-nowrap border-r border-border px-2 py-1.5 text-right text-xs font-bold uppercase tracking-wide">
                   {t("table.netAmount")}
                 </th>
-                {(permissions.canEdit || permissions.canDelete) && <th className="px-2 py-1.5" />}
               </tr>
             </thead>
             <tbody>

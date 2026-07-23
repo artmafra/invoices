@@ -268,11 +268,7 @@ export function generateSecureToken(length = 32): string {
 // =============================================================================
 
 export type VerificationTokenPurpose =
-  | "password_reset"
-  | "invite"
-  | "email_change"
-  | "email_verification"
-  | "two_factor_email";
+  "password_reset" | "invite" | "email_change" | "email_verification" | "two_factor_email";
 
 /**
  * Hash a verification token/code using HMAC-SHA256 with ENCRYPTION_KEY.

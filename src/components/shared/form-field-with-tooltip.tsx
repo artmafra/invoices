@@ -1,16 +1,8 @@
 "use client";
 
 import { ReactNode } from "react";
-import {
-  FormControl,
-  FormItem,
-  FormLabel,
-} from "@/components/ui/form";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+import { FormControl, FormItem, FormLabel } from "@/components/ui/form";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
 
 interface FormFieldWithTooltipProps {
   label: string;

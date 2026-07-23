@@ -22,9 +22,7 @@ export function isApiRequestError(error: unknown): error is ApiRequestError {
 
 export function apiErrorFromResponseBody(body: unknown, fallbackMessage: string): ApiRequestError {
   const maybeBody = body as
-    | { error?: unknown; code?: unknown; details?: unknown }
-    | null
-    | undefined;
+    { error?: unknown; code?: unknown; details?: unknown } | null | undefined;
 
   const message = typeof maybeBody?.error === "string" ? maybeBody.error : fallbackMessage;
   const code = typeof maybeBody?.code === "string" ? maybeBody.code : undefined;

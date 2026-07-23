@@ -16,10 +16,7 @@ import { SecurityAlertEmail } from "@/emails/security-alert";
 import { TwoFactorCodeEmail } from "@/emails/two-factor-code";
 
 type SecurityAlertType =
-  | "2fa-email-enabled"
-  | "2fa-email-disabled"
-  | "totp-enabled"
-  | "totp-disabled";
+  "2fa-email-enabled" | "2fa-email-disabled" | "totp-enabled" | "totp-disabled";
 
 export class TwoFactorService {
   private emailQueueService: EmailQueueService;
