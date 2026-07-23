@@ -20,29 +20,24 @@ function generateNonce(): string {
 function buildCSP(nonce: string): string {
   const isDev = process.env.NODE_ENV === "development";
 
-  // In dev mode, we need 'unsafe-eval' for React Fast Refresh/HMR
-  // 'strict-dynamic' allows scripts loaded by trusted scripts to execute
   const scriptSrc = isDev
     ? `'self' 'nonce-${nonce}' 'strict-dynamic' 'unsafe-eval' https://accounts.google.com`
-    : `'self' 'nonce-${nonce}' 'strict-dynamic' https://accounts.google.com`;
-
-  // For styles, 'unsafe-inline' is acceptable as CSS cannot execute code
-  // Many React components use inline styles via the style prop
-  const styleSrc = `'self' 'unsafe-inline'`;
+    : `'self' 'nonce-${nonce}' 'strict-dynamic' https://accounts.google.com https://va.vercel-scripts.com`;
 
   return [
     "default-src 'self'",
     `script-src ${scriptSrc}`,
-    `style-src ${styleSrc}`,
+    `style-src 'self' 'unsafe-inline'`,
     "img-src 'self' data: blob: https://storage.googleapis.com https://lh3.googleusercontent.com",
     "font-src 'self'",
-    "connect-src 'self' https://accounts.google.com https://www.googleapis.com",
+    "connect-src 'self' https://accounts.google.com https://www.googleapis.com https://vercel.com https://*.vercel.com", // Adicionado Vercel aqui
     "frame-src https://accounts.google.com",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
     "object-src 'none'",
     "upgrade-insecure-requests",
+    "manifest-src 'self' https://vercel.com https://*.vercel.com", // Adicionado manifest source
   ].join("; ");
 }
 

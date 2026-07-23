@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
-import { ArrowLeft, Fingerprint } from "lucide-react";
+import { ArrowLeft, Eye, EyeOff, Fingerprint } from "lucide-react";
 import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -42,6 +42,7 @@ export default function AdminLoginPage() {
   // Form state
   const [email, setEmail] = useState(emailParam || "");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   // 2FA state
@@ -262,13 +263,31 @@ export default function AdminLoginPage() {
                             {t("login.forgotPassword")}
                           </button>
                         </div>
-                        <Input
-                          id="password"
-                          type="password"
-                          value={password}
-                          onChange={(e) => setPassword(e.target.value)}
-                          required
-                        />
+                        <div className="relative">
+                          <Input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            className="pr-[calc(var(--spacing-input-x)+2rem)]"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            required
+                          />
+                          <button
+                            type="button"
+                            className="text-muted-foreground hover:text-foreground absolute inset-y-0 right-0 flex w-10 items-center justify-center"
+                            onClick={() => setShowPassword((visible) => !visible)}
+                            aria-label={
+                              showPassword ? t("login.hidePassword") : t("login.showPassword")
+                            }
+                            aria-pressed={showPassword}
+                          >
+                            {showPassword ? (
+                              <EyeOff className="h-4 w-4" aria-hidden="true" />
+                            ) : (
+                              <Eye className="h-4 w-4" aria-hidden="true" />
+                            )}
+                          </button>
+                        </div>
                       </Field>
                       <LoadingButton
                         type="submit"

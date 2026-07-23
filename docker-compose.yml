@@ -15,7 +15,7 @@ services:
     environment:
       PORT: "3000"
       HOSTNAME: "0.0.0.0"
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
+      DATABASE_URL: postgresql://neondb_owner:npg_3cACUN2LWyPh@ep-nameless-surf-axninzjn-pooler.c-4.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require
       REDIS_URL: redis://redis:6379
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/admin/login"]
