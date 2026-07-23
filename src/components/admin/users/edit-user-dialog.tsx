@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AppWindow } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -83,7 +83,9 @@ export function EditUserDialog({
   const passwordValidation = usePasswordValidation(password || "");
 
   // Reset form when user changes
-  useEffect(() => {
+  const [prevUser, setPrevUser] = useState(user);
+  if (user !== prevUser) {
+    setPrevUser(user);
     if (user) {
       form.reset({
         name: user.name || "",
@@ -92,7 +94,7 @@ export function EditUserDialog({
         password: "",
       });
     }
-  }, [user, form]);
+  }
 
   return (
     <Dialog open={!!user} onOpenChange={(open) => !open && onClose()}>

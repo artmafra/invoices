@@ -135,30 +135,22 @@ export const rateLimiters = {
 
 export type RateLimiterType = keyof typeof rateLimiters;
 
+type HeaderReader = {
+  get(name: string): string | null;
+};
+
 /**
- * Extract IP address from request headers
+ * Extract the client IP from headers normalized by the trusted reverse proxy.
+ */
+export function getClientIpFromHeaders(headers: HeaderReader): string {
+  return headers.get("x-real-ip")?.trim() || "unknown";
+}
+
+/**
+ * Extract the client IP from a request.
  */
 export function getClientIp(request: Request): string {
-  // Check common headers for proxied requests
-  const forwarded = request.headers.get("x-forwarded-for");
-  if (forwarded) {
-    // x-forwarded-for can contain multiple IPs, take the first one
-    return forwarded.split(",")[0].trim();
-  }
-
-  const realIp = request.headers.get("x-real-ip");
-  if (realIp) return realIp;
-
-  // Cloudflare
-  const cfIp = request.headers.get("cf-connecting-ip");
-  if (cfIp) return cfIp;
-
-  // Vercel
-  const vercelIp = request.headers.get("x-vercel-forwarded-for");
-  if (vercelIp) return vercelIp.split(",")[0].trim();
-
-  // Fallback - in dev environment this will be localhost
-  return "127.0.0.1";
+  return getClientIpFromHeaders(request.headers);
 }
 
 /**

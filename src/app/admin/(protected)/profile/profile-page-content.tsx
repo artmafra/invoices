@@ -56,13 +56,13 @@ export function ProfilePageContent() {
   const [isNameLoading, setIsNameLoading] = useState(false);
   const [isPhoneLoading, setIsPhoneLoading] = useState(false);
 
-  // Update local state when user data loads
-  React.useEffect(() => {
-    if (user) {
-      setPendingName(user.name || "");
-      setPendingPhone(user.phone || "");
-    }
-  }, [user]);
+  // Adjust draft fields when React Query supplies a different user snapshot.
+  const [syncedUser, setSyncedUser] = useState(user);
+  if (user !== syncedUser) {
+    setSyncedUser(user);
+    setPendingName(user?.name || "");
+    setPendingPhone(user?.phone || "");
+  }
 
   // Dirty tracking
   const isNameDirty = pendingName !== (user?.name || "");

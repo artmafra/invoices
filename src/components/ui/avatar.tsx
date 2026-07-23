@@ -23,10 +23,11 @@ type AvatarImageProps = Omit<React.ComponentProps<typeof Image>, "fill" | "src">
 function AvatarImage({ className, src, alt, ...props }: AvatarImageProps) {
   const [hasError, setHasError] = React.useState(false);
 
-  // Reset error state when src changes
-  React.useEffect(() => {
+  const [prevSrc, setPrevSrc] = React.useState(src);
+  if (src !== prevSrc) {
+    setPrevSrc(src);
     setHasError(false);
-  }, [src]);
+  }
 
   if (!src || hasError) {
     return null;

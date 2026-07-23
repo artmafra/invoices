@@ -47,8 +47,8 @@ export default function GlobalError({ error }: { error: Error & { digest?: strin
                 Service Temporarily Unavailable
               </h1>
               <p style={{ fontSize: "1.125rem", color: "#64748b", marginBottom: "1.5rem" }}>
-                We're experiencing database connectivity issues. The application is attempting to
-                reconnect.
+                We&apos;re experiencing database connectivity issues. The application is attempting
+                to reconnect.
               </p>
               <p style={{ fontSize: "1rem", color: "#94a3b8" }}>
                 Please try refreshing the page in a few moments. If the problem persists, contact

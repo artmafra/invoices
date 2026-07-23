@@ -1,4 +1,4 @@
-import { Hr, Link, Section } from "@react-email/components";
+import { Hr, Link, Section } from "react-email";
 import { siteConfig } from "@/config/site.config";
 import { EmailText } from "@/emails/components/email-text";
 

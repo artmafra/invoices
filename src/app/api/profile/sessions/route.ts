@@ -24,9 +24,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
   // Get client info from headers
   const userAgent = request.headers.get("user-agent");
-  const forwardedFor = request.headers.get("x-forwarded-for");
-  const realIp = request.headers.get("x-real-ip");
-  const ipAddress = forwardedFor?.split(",")[0]?.trim() || realIp || "unknown";
+  const ipAddress = ip;
 
   // Create session record
   const userSession = await userSessionService.createSession({

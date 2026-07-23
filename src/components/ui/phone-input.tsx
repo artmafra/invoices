@@ -117,19 +117,21 @@ function PhoneInput({
   });
 
   // Update phone number when value prop changes
-  React.useEffect(() => {
+  const [prevValue, setPrevValue] = React.useState(value);
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (!value) {
       setPhoneNumber("");
-      return;
-    }
-    const country = COUNTRIES.find((c) => value.startsWith(c.dialCode));
-    if (country) {
-      setSelectedCountry(country);
-      setPhoneNumber(value.slice(country.dialCode.length).trim());
     } else {
-      setPhoneNumber(value);
+      const country = COUNTRIES.find((c) => value.startsWith(c.dialCode));
+      if (country) {
+        setSelectedCountry(country);
+        setPhoneNumber(value.slice(country.dialCode.length).trim());
+      } else {
+        setPhoneNumber(value);
+      }
     }
-  }, [value]);
+  }
 
   const handleCountrySelect = (country: Country) => {
     setSelectedCountry(country);

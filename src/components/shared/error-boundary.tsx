@@ -7,7 +7,7 @@ interface ErrorBoundaryProps {
   children: ReactNode;
   onReset?: () => void;
   /** Custom fallback component */
-  fallback: ComponentType<{ error: Error; resetErrorBoundary: () => void }>;
+  fallback: ComponentType<{ error: any; resetErrorBoundary: () => void }>;
 }
 
 /**
@@ -23,7 +23,7 @@ interface ErrorBoundaryProps {
  * ```
  */
 export function ErrorBoundary({ children, onReset, fallback }: ErrorBoundaryProps) {
-  const handleError = (error: Error, info: ErrorInfo) => {
+  const handleError = (error: unknown, info: ErrorInfo) => {
     // Log to console (add Sentry/LogRocket integration here if needed)
     console.error("Error Boundary caught an error:", error, info);
   };

@@ -9,7 +9,7 @@ const nextConfig: NextConfig = {
   ...(isStandaloneBuild ? { output: "standalone" } : {}),
   allowedDevOrigins: ["localhost:3000"],
   devIndicators: { position: "bottom-right" },
-  serverExternalPackages: ["@react-email/components", "@react-email/render", "zxcvbn", "qrcode"],
+  serverExternalPackages: ["react-email", "zxcvbn", "qrcode"],
   productionBrowserSourceMaps: false,
   images: {
     localPatterns: [

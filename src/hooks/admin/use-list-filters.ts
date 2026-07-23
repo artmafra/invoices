@@ -72,14 +72,14 @@ export function useListFilters(config: ListFilterConfig): ListFiltersResult {
     }
   }, [debouncedSearch, filterState.search, filterActions]);
 
-  // Sync URL search to input on mount/back navigation
-  useEffect(() => {
-    if (filterState.search !== searchInput && filterState.search !== debouncedSearch) {
+  // Adjust the local draft when browser navigation changes the URL search.
+  const [syncedUrlSearch, setSyncedUrlSearch] = useState(filterState.search);
+  if (filterState.search !== syncedUrlSearch) {
+    setSyncedUrlSearch(filterState.search);
+    if (filterState.search !== debouncedSearch) {
       setSearchInput(filterState.search);
     }
-    // Only sync URL→input, not input→URL (handled by separate effect above)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filterState.search]);
+  }
 
   const clearFilters = () => {
     setSearchInput("");

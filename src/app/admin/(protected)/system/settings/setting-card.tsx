@@ -200,11 +200,13 @@ export function SettingCard({ setting, canEdit }: SettingCardProps) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setting.id]);
 
-  // Sync local state when setting value changes (e.g., after save)
-  useEffect(() => {
+  // Adjust the draft when a save returns an updated setting value.
+  const [syncedSettingValue, setSyncedSettingValue] = useState(setting.value);
+  if (setting.value !== syncedSettingValue) {
+    setSyncedSettingValue(setting.value);
     setEditingValue(setting.value);
     setEditingBooleanValue(setting.value === "true");
-  }, [setting.value]);
+  }
 
   // Check if value has changed from original
   const getCurrentValue = (): string => {

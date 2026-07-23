@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState, useSyncExternalStore } from "react";
 import { useRouter } from "next/navigation";
 import { localeNames, locales, type Locale } from "@/i18n/config";
 import { Globe, List, Monitor, Moon, Proportions, Sun } from "lucide-react";
@@ -46,6 +46,8 @@ interface PreferencesClientProps {
   initialTheme: string;
 }
 
+const subscribeToHydration = () => () => {};
+
 /**
  * Preferences Page Client Component
  *
@@ -72,7 +74,11 @@ function PreferencesClientContent({ initialPreferences, initialTheme }: Preferen
 
   // Loading state for language server sync
   const [isLanguageSaving, setIsLanguageSaving] = useState(false);
-  const [mounted, setMounted] = useState(false);
+  const mounted = useSyncExternalStore(
+    subscribeToHydration,
+    () => true,
+    () => false,
+  );
 
   // Local state for pending changes (save on button click)
   const [pendingTheme, setPendingTheme] = useState<string>(initialTheme);
@@ -83,11 +89,6 @@ function PreferencesClientContent({ initialPreferences, initialTheme }: Preferen
   );
   const [pendingDensity, setPendingDensity] = useState<Density>(prefs.density);
 
-  // Track when component is mounted to avoid SSR mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
   // Get current theme value (initialTheme during SSR, actual theme after mount)
   const currentTheme = mounted ? theme : initialTheme;
 
@@ -97,20 +98,6 @@ function PreferencesClientContent({ initialPreferences, initialTheme }: Preferen
   const isTimezoneDirty = pendingTimezone !== prefs.timezone;
   const isPaginationDirty = pendingPaginationSize !== prefs.paginationSize;
   const isDensityDirty = pendingDensity !== prefs.density;
-
-  // Sync pending values when theme changes (only on client after mount)
-  useEffect(() => {
-    if (theme !== undefined) {
-      setPendingTheme(theme);
-    }
-  }, [theme]);
-
-  useEffect(() => {
-    setPendingLanguage(prefs.language);
-    setPendingTimezone(prefs.timezone);
-    setPendingPaginationSize(prefs.paginationSize);
-    setPendingDensity(prefs.density);
-  }, [prefs.language, prefs.timezone, prefs.paginationSize, prefs.density]);
 
   // ============================================================================
   // Theme Handler

@@ -43,13 +43,13 @@ interface DateTextInputProps {
 }
 
 function DateTextInput({ placeholder, value, onChange }: DateTextInputProps) {
-  const [text, setText] = useState(() => (value ? toDisplayDate(value) : ""));
-
-  useEffect(() => {
-    const formatted = value ? toDisplayDate(value) : "";
-    if (formatted !== text) setText(formatted);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  const formattedValue = value ? toDisplayDate(value) : "";
+  const [text, setText] = useState(formattedValue);
+  const [syncedValue, setSyncedValue] = useState(formattedValue);
+  if (formattedValue !== syncedValue) {
+    setSyncedValue(formattedValue);
+    setText(formattedValue);
+  }
 
   return (
     <div className="relative w-full sm:w-40">

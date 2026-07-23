@@ -72,7 +72,7 @@ function Calendar({
             : "rounded-md pl-space-sm pr-space-xs flex items-center gap-space-xs text-sm h-8 [&>svg]:text-muted-foreground [&>svg]:size-3.5",
           defaultClassNames.caption_label,
         ),
-        table: "w-full border-collapse",
+        month_grid: "w-full border-collapse",
         weekdays: cn("flex", defaultClassNames.weekdays),
         weekday: cn(
           "text-muted-foreground rounded-md flex-1 font-normal text-[0.8rem] select-none",
@@ -110,16 +110,12 @@ function Calendar({
         Root: ({ className, rootRef, ...props }) => {
           return <div data-slot="calendar" ref={rootRef} className={cn(className)} {...props} />;
         },
-        Chevron: ({ className, orientation, ...props }) => {
-          if (orientation === "left") {
-            return <ChevronLeftIcon className={cn("size-4", className)} {...props} />;
-          }
-
-          if (orientation === "right") {
-            return <ChevronRightIcon className={cn("size-4", className)} {...props} />;
-          }
-
-          return <ChevronDownIcon className={cn("size-4", className)} {...props} />;
+        Chevron: ({ className, orientation, disabled: _disabled, ..._props }) => {
+          if (orientation === "left")
+            return <ChevronLeftIcon className={cn("size-4", className)} />;
+          if (orientation === "right")
+            return <ChevronRightIcon className={cn("size-4", className)} />;
+          return <ChevronDownIcon className={cn("size-4", className)} />;
         },
         DayButton: CalendarDayButton,
         WeekNumber: ({ children, ...props }) => {

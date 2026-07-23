@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { logger } from "@/lib/logger";
+import { getClientIpFromHeaders } from "@/lib/rate-limit";
 import { userService } from "@/services/runtime/user";
 import { userSessionService } from "@/services/runtime/user-session";
 
@@ -10,9 +11,8 @@ export async function getRequestMetadata() {
   try {
     const headersList = await headers();
     const userAgent = headersList.get("user-agent") || undefined;
-    const forwardedFor = headersList.get("x-forwarded-for");
-    const realIp = headersList.get("x-real-ip");
-    const ipAddress = forwardedFor?.split(",")[0]?.trim() || realIp || undefined;
+    const clientIp = getClientIpFromHeaders(headersList);
+    const ipAddress = clientIp === "unknown" ? undefined : clientIp;
     return { userAgent, ipAddress };
   } catch {
     return { userAgent: undefined, ipAddress: undefined };

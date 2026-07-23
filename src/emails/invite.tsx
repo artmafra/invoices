@@ -1,4 +1,4 @@
-import { Section } from "@react-email/components";
+import { Section } from "react-email";
 import { EmailButton, EmailFooter, EmailLayout, EmailText } from "@/emails/components";
 import type { EmailCommonTranslations, InviteEmailTranslations } from "@/emails/get-translations";
 

@@ -57,14 +57,16 @@ export function CnpjSelect({
   const showResults = !isSearchPending && !isFetching;
 
   // Sync input value with prop value
-  useEffect(() => {
+  const [prevValue, setPrevValue] = useState(value);
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (value) {
       // Format the value when it comes from parent
       setInputValue(formatCnpj(value));
     } else if (value === null && !inputValue) {
       setInputValue("");
     }
-  }, [value]);
+  }
 
   // Scroll selected item into view when navigating with arrow keys
   useEffect(() => {

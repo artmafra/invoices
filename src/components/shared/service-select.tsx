@@ -53,7 +53,9 @@ export function ServiceSelect({
   const showResults = !isSearchPending && !isFetching;
 
   // Sync input value when the prop value changes from outside
-  useEffect(() => {
+  const [prevValue, setPrevValue] = useState(value);
+  if (value !== prevValue) {
+    setPrevValue(value);
     if (value) {
       const match = servicesList.find((s) => s.code === value);
       if (match) {
@@ -64,7 +66,7 @@ export function ServiceSelect({
     } else if (value === null && inputValue === "") {
       setInputValue("");
     }
-  }, [value]);
+  }
 
   // Scroll selected item into view when navigating with arrow keys
   useEffect(() => {

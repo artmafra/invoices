@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Text } from "@react-email/components";
+import { Text } from "react-email";
 
 interface EmailTextProps {
   children: ReactNode;

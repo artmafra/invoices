@@ -37,8 +37,7 @@ export function SupplierFilters({
 }: SupplierFiltersProps) {
   const tCommon = useT("common");
   const [activeFilter, setActiveFilter] = useState<"name" | "city" | "cnpj" | null>(null);
-  const lastActiveFilter = useRef<"name" | "city" | "cnpj" | null>(null);
-  if (activeFilter !== null) lastActiveFilter.current = activeFilter;
+  const [lastActiveFilter, setLastActiveFilter] = useState<"name" | "city" | "cnpj" | null>(null);
   const [nameInput, setNameInput] = useState("");
   const [cityInput, setCityInput] = useState("");
   const [cnpjInput, setCnpjInput] = useState("");
@@ -83,6 +82,7 @@ export function SupplierFilters({
       }
       setActiveFilter(null);
     } else {
+      setLastActiveFilter(filter);
       setActiveFilter(filter);
     }
   };
@@ -136,7 +136,7 @@ export function SupplierFilters({
       <Collapsible open={activeFilter !== null}>
         <CollapsibleContent className="data-[state=closed]:animate-collapsible-up data-[state=open]:animate-collapsible-down overflow-hidden">
           <div className="pt-space-sm">
-            {lastActiveFilter.current === "name" && (
+            {lastActiveFilter === "name" && (
               <div className="flex items-center gap-space-md">
                 <Input
                   autoFocus
@@ -154,7 +154,7 @@ export function SupplierFilters({
               </div>
             )}
 
-            {lastActiveFilter.current === "city" && (
+            {lastActiveFilter === "city" && (
               <div className="flex items-center gap-space-md">
                 <Input
                   autoFocus
@@ -172,7 +172,7 @@ export function SupplierFilters({
               </div>
             )}
 
-            {lastActiveFilter.current === "cnpj" && (
+            {lastActiveFilter === "cnpj" && (
               <div className="flex items-center gap-space-md">
                 <Input
                   autoFocus
