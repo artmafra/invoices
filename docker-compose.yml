@@ -16,7 +16,7 @@ services:
       PORT: "3000"
       HOSTNAME: "0.0.0.0"
       DATABASE_URL: ${DATABASE_URL}
-      REDIS_URL: redis://redis:6379
+      REDIS_URL: ${REDIS_URL}
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:3000/admin/login"]
       interval: 10s
@@ -24,31 +24,8 @@ services:
       retries: 5
       start_period: 30s
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
-    networks:
-      - internal2
-
-  postgres:
-    image: postgres:18-alpine
-    container_name: mafra-postgres
-    restart: unless-stopped
-    environment:
-      POSTGRES_USER: ${POSTGRES_USER}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_DB: ${POSTGRES_DB}
-      PGDATA: /var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    volumes:
-      - postgres_data:/var/lib/postgresql
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
     networks:
       - internal2
 
@@ -79,11 +56,9 @@ services:
     env_file:
       - .env
     environment:
-      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@postgres:5432/${POSTGRES_DB}
-      REDIS_URL: redis://redis:6379
+      DATABASE_URL: ${DATABASE_URL}
+      REDIS_URL: ${REDIS_URL}
     depends_on:
-      postgres:
-        condition: service_healthy
       redis:
         condition: service_healthy
     networks:
@@ -105,7 +80,6 @@ services:
       - internal2
 
 volumes:
-  postgres_data:
   redis_data:
 
 networks:
