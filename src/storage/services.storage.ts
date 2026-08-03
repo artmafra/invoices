@@ -9,6 +9,7 @@ import { and, asc, count, eq, ilike, max, or, sql } from "drizzle-orm";
 import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
 import type { BaseStorage, PaginatedResult } from "@/storage/types";
+import { accentInsensitiveIlike } from "./helpers/accent-insensitive-search";
 
 export interface ServiceFilterOptions {
   search?: string;
@@ -55,7 +56,7 @@ export class ServicesStorage implements BaseStorage<
       conditions.push(
         or(
           ilike(tableServices.code, `%${filters.search}%`),
-          ilike(tableServices.description, `%${filters.search}%`),
+          accentInsensitiveIlike(tableServices.description, `%${filters.search}%`),
         )!,
       );
     }

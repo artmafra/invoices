@@ -3,6 +3,7 @@
 import * as React from "react";
 import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
+import { normalizeSearchText } from "@/lib/text-search";
 import { cn } from "@/lib/utils";
 import {
   Dialog,
@@ -12,10 +13,19 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 
-function Command({ className, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
+function accentInsensitiveFilter(value: string, search: string, keywords?: string[]): number {
+  const normalizedSearch = normalizeSearchText(search.trim());
+  if (!normalizedSearch) return 1;
+
+  const searchableValue = normalizeSearchText([value, ...(keywords ?? [])].join(" "));
+  return searchableValue.includes(normalizedSearch) ? 1 : 0;
+}
+
+function Command({ className, filter, ...props }: React.ComponentProps<typeof CommandPrimitive>) {
   return (
     <CommandPrimitive
       data-slot="command"
+      filter={filter ?? accentInsensitiveFilter}
       className={cn(
         "bg-popover text-popover-foreground flex h-full w-full flex-col overflow-hidden rounded-md",
         className,

@@ -8,6 +8,7 @@ import { and, asc, count, desc, eq, ilike, max, or, type SQL } from "drizzle-orm
 import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
 import type { BaseStorage, PaginatedResult, PaginationOptions } from "@/storage/types";
+import { accentInsensitiveIlike } from "./helpers/accent-insensitive-search";
 import { paginate } from "./helpers/pagination";
 
 export interface CompanyFilterOptions {
@@ -33,17 +34,20 @@ export class CompanyStorage implements BaseStorage<
     }
 
     if (filters.name) {
-      conditions.push(ilike(tableCompanies.name, `%${filters.name}%`));
+      conditions.push(accentInsensitiveIlike(tableCompanies.name, `%${filters.name}%`));
     }
 
     if (filters.city) {
-      conditions.push(ilike(tableCompanies.city, `%${filters.city}%`));
+      conditions.push(accentInsensitiveIlike(tableCompanies.city, `%${filters.city}%`));
     }
 
     if (filters.search) {
       const pattern = `%${filters.search}%`;
       conditions.push(
-        or(ilike(tableCompanies.name, pattern), ilike(tableCompanies.cnpj, pattern))!,
+        or(
+          accentInsensitiveIlike(tableCompanies.name, pattern),
+          ilike(tableCompanies.cnpj, pattern),
+        )!,
       );
     }
 

@@ -9,6 +9,7 @@ import { and, asc, count, desc, eq, ilike, max, or, SQL } from "drizzle-orm";
 import { versionCache } from "@/lib/cache/version-cache.service";
 import { db } from "@/db/postgres";
 import { BaseStorage, PaginatedResult, PaginationOptions } from "@/storage/types";
+import { accentInsensitiveIlike } from "./helpers/accent-insensitive-search";
 import { paginate } from "./helpers/pagination";
 
 export interface SupplierFilterOptions {
@@ -36,7 +37,7 @@ export class SuppliersStorage implements BaseStorage<
     }
 
     if (filters.city) {
-      conditions.push(ilike(tableSuppliers.city, `%${filters.city}%`));
+      conditions.push(accentInsensitiveIlike(tableSuppliers.city, `%${filters.city}%`));
     }
 
     if (filters.cnpj) {
@@ -44,7 +45,7 @@ export class SuppliersStorage implements BaseStorage<
     }
 
     if (filters.name) {
-      conditions.push(ilike(tableSuppliers.name, `%${filters.name}%`));
+      conditions.push(accentInsensitiveIlike(tableSuppliers.name, `%${filters.name}%`));
     }
 
     if (filters.taxRegime) {
@@ -54,7 +55,10 @@ export class SuppliersStorage implements BaseStorage<
     if (filters.search) {
       const pattern = `%${filters.search}%`;
       conditions.push(
-        or(ilike(tableSuppliers.name, pattern), ilike(tableSuppliers.cnpj, pattern))!,
+        or(
+          accentInsensitiveIlike(tableSuppliers.name, pattern),
+          ilike(tableSuppliers.cnpj, pattern),
+        )!,
       );
     }
 

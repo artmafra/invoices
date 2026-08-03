@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSelectedCompany } from "@/contexts/company-context";
 import { Loader2, Plus, Search } from "lucide-react";
+import { includesNormalizedText, normalizeSearchText } from "@/lib/text-search";
 import {
   useCompanies,
   useCreateCompany,
@@ -47,11 +48,13 @@ export function CompaniesPageContent() {
   const companies = data?.data ?? [];
 
   const filtered = useMemo(() => {
-    const q = search.toLowerCase().trim();
+    const q = normalizeSearchText(search.trim());
     if (!q) return companies;
     return companies.filter(
       (c) =>
-        c.name.toLowerCase().includes(q) || c.cnpj.includes(q) || c.city.toLowerCase().includes(q),
+        includesNormalizedText(c.name, q) ||
+        c.cnpj.includes(q) ||
+        includesNormalizedText(c.city, q),
     );
   }, [companies, search]);
 
