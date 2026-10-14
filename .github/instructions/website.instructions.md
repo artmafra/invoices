@@ -11,7 +11,7 @@ Next.js 16 uses `proxy.ts` (not `middleware.ts`) for request middleware.
 ## Tech stack
 
 - Next.js 16, React 19, TypeScript 5
-- Drizzle ORM (PostgreSQL), Zod 4, NextAuth.js 5
+- Drizzle ORM (PostgreSQL), Zod 4, Better Auth
 - TailwindCSS 4, shadcn/ui, TanStack Query/Table
 
 ## Architecture and code layout
@@ -52,7 +52,7 @@ export const QUERY_KEYS = {
 
 ## Auth and security
 
-- Auth.js v5 with custom providers; policies in `src/lib/auth`. See `/docs/AUTH-ARCHITECTURE.md`.
+- Better Auth with custom sign-in endpoints and a `customSession` plugin; code in `src/lib/auth`. See `/docs/AUTH-ARCHITECTURE.md`.
 - Step-up auth required for sensitive actions. See `/docs/STEP-UP-AUTH.md`.
 - Token system powers verification flows (password reset, invites, email change, 2FA). See `/docs/TOKENS.md`.
 - Sessions are tracked in DB with admin controls. See `/docs/SESSIONS.md`.

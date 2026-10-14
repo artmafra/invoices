@@ -31,11 +31,10 @@ export async function register() {
     ENCRYPTION_KEYS_LEGACY: z.string().optional(),
 
     // ===========================================
-    // Auth.js (NextAuth v5)
+    // Better Auth
     // ===========================================
     AUTH_URL: z.url(),
     AUTH_SECRET: z.string().min(32, "AUTH_SECRET must be at least 32 characters"),
-    AUTH_TRUST_HOST: z.coerce.boolean().default(false),
 
     // ===========================================
     // Google OAuth (User Login)

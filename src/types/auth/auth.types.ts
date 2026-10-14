@@ -2,23 +2,6 @@ import { z } from "zod";
 import { forgotPasswordSchema, resetPasswordSchema } from "@/validations/auth.validations";
 
 // ========================================
-// Pending 2FA Types
-// ========================================
-
-/** Request type for POST /api/auth/pending-2fa */
-export interface Pending2faRequest {
-  token: string;
-}
-
-/** Response type for POST /api/auth/pending-2fa */
-export interface Pending2faResponse {
-  success: boolean;
-  userId: string;
-  email: string;
-  availableMethods: AvailableTwoFactorMethods;
-}
-
-// ========================================
 // Two-Factor Authentication Types
 // ========================================
 

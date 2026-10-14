@@ -2,18 +2,18 @@ import { NextRequest, NextResponse } from "next/server";
 import { z } from "zod/v4";
 import type { StepUpAuthResponse } from "@/types/auth/step-up-auth.types";
 import { withErrorHandler } from "@/lib/api-handler";
-import { auth, generateSessionUpdateToken, verifyAndConsumeToken } from "@/lib/auth";
+import { auth, verifyAndConsumeToken } from "@/lib/auth";
 import { STEP_UP_CONFIG } from "@/lib/auth/policy";
 import { fromZodError, RateLimitError, UnauthorizedError, ValidationError } from "@/lib/errors";
 import { checkRateLimit, constantTimeDelay } from "@/lib/rate-limit";
 import { userService } from "@/services/runtime/user";
+import { userSessionService } from "@/services/runtime/user-session";
 import { stepUpAuthSchema } from "@/validations/step-up-auth.validations";
 
 /**
  * POST /api/auth/step-up
  *
- * Verifies step-up authentication using password or passkey.
- * Returns a timestamp that should be stored in the session.
+ * Verifies step-up authentication using password, passkey or TOTP and records it on the session.
  */
 export const POST = withErrorHandler(async (request: NextRequest) => {
   const session = await auth();
@@ -82,18 +82,13 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
 
   const stepUpAuthAt = Date.now();
 
-  // Generate secure token for session update
-  // This prevents clients from forging step-up auth timestamps
-  const stepUpToken = await generateSessionUpdateToken({
-    type: "step-up",
-    userId: session.user.id,
-    payload: { stepUpAuthAt },
-  });
+  if (session.sessionId) {
+    await userSessionService.markStepUp(session.sessionId, new Date(stepUpAuthAt));
+  }
 
   const response: StepUpAuthResponse = {
     success: true,
     stepUpAuthAt,
-    stepUpToken, // Client must pass this to session.update()
   };
 
   return NextResponse.json(response);

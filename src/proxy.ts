@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getToken } from "next-auth/jwt";
+import { getSessionCookie } from "better-auth/cookies";
 
 // ============================================================================
 // Security Headers
@@ -100,23 +100,11 @@ export default async function proxy(request: NextRequest): Promise<NextResponse>
     return withSecurityHeaders(NextResponse.next(), nonce);
   }
 
-  // Check for valid session
-  const token = await getToken({ req: request, secret: process.env.AUTH_SECRET });
-
-  // No token: redirect to login
-  if (!token) {
+  // Optimistic check: only the cookie's presence is verified here. The session itself
+  // (validity, permissions) is validated in the protected layout and in API routes.
+  if (!getSessionCookie(request)) {
     const loginUrl = new URL("/admin/login", request.url);
     return withSecurityHeaders(NextResponse.redirect(loginUrl), nonce);
-  }
-
-  // Admin routes: verify user has at least one permission
-  if (pathname.startsWith("/admin")) {
-    const permissions = token.permissions as string[] | undefined;
-    if (!permissions || permissions.length === 0) {
-      const loginUrl = new URL("/admin/login", request.url);
-      loginUrl.searchParams.set("error", "unauthorized");
-      return withSecurityHeaders(NextResponse.redirect(loginUrl), nonce);
-    }
   }
 
   // Authenticated request: proceed

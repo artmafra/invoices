@@ -1,26 +1,23 @@
 /**
  * Authentication module
  *
- * This file re-exports from the modular auth directory for backwards compatibility.
- * The auth system is now split into:
- * - auth/index.ts - Main NextAuth configuration
- * - auth/providers.ts - Authentication providers (Google, credentials, 2FA, passkey)
- * - auth/callbacks.ts - JWT, session, and signIn callbacks
- * - auth/helpers.ts - Utility functions for session management
- * - auth/session-token.ts - Secure token management for session updates
+ * Re-exports from the modular auth directory. The auth system is split into:
+ * - auth/index.ts - Better Auth instance and `auth()` session accessor
+ * - auth/sign-in-plugin.ts - Credentials, two-factor and passkey sign-in endpoints
+ * - auth/database-hooks.ts - Session enrichment, login history, Google sign-in policy
+ * - auth/session-builder.ts - Builds the app session (permissions, impersonation)
+ * - auth/helpers.ts - Request metadata and permission loading
+ * - auth/session-token.ts - Short-lived tokens for passkey verification
  *
- * @see /docs/ARCHITECTURE.md for details
+ * @see /docs/AUTH-ARCHITECTURE.md for details
  */
 export {
-  handlers,
+  authServer,
   auth,
-  signIn,
-  signOut,
   generateSessionUpdateToken,
   verifyAndConsumeToken,
   getUserPermissionsData,
   getRequestMetadata,
-  createSessionForUser,
   type SessionUpdateTokenData,
   type SessionUpdateTokenType,
 } from "./auth/index";

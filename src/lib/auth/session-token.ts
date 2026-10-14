@@ -3,19 +3,17 @@ import { logger } from "@/lib/logger";
 import { redis } from "@/db/redis";
 
 /**
- * Secure session update token management
+ * Short-lived, single-use verification tokens
  *
- * This module provides a secure way to verify that session updates for
- * sensitive operations (impersonation, step-up auth) originated from
- * legitimate server-side API calls, not from malicious client-side code.
+ * Used to prove that a server-side check really happened before a later request
+ * relies on it (currently: WebAuthn passkey verification for sign-in and step-up).
  *
  * How it works:
- * 1. When a sensitive API (e.g., /api/admin/users/:id/impersonate) is called,
- *    it generates a short-lived token and stores it in Redis
- * 2. The token is returned to the client along with the session update data
- * 3. When the client calls session.update(), it includes the token
- * 4. The JWT callback verifies the token exists and matches the expected data
- * 5. Token is consumed (deleted) after use to prevent replay attacks
+ * 1. /api/auth/passkey/authenticate/verify verifies the WebAuthn response, generates a
+ *    token and stores it in Redis
+ * 2. The client passes the token to the sign-in or step-up endpoint
+ * 3. That endpoint verifies the token exists and matches, then consumes (deletes) it
+ *    to prevent replay attacks
  *
  * Token expiry: 30 seconds (enough for network roundtrip)
  * Storage: Redis (required for multi-instance deployments)
@@ -23,25 +21,20 @@ import { redis } from "@/db/redis";
 
 // Token types
 export type SessionUpdateTokenType =
-  | "impersonate"
-  | "end-impersonation"
-  | "step-up"
-  | "refresh-permissions"
   | "passkey-step-up-verify" // Verifies passkey was authenticated for step-up purposes
-  | "passkey-sign-in"; // Verifies passkey was authenticated for NextAuth sign-in
+  | "passkey-sign-in"; // Verifies passkey was authenticated for sign-in
 
 export interface SessionUpdateTokenData {
   type: SessionUpdateTokenType;
   userId: string; // The user who initiated the action
-  targetUserId?: string; // For impersonation: the user being impersonated
-  payload: Record<string, unknown>; // The actual session update data
+  payload: Record<string, unknown>;
 }
 
 const TOKEN_EXPIRY_SECONDS = 30; // 30 seconds
 
 /**
- * Generate a secure session update token
- * Called by server-side API routes before returning session update data
+ * Generate a verification token
+ * Called by server-side API routes after a successful server-side check
  */
 export async function generateSessionUpdateToken(data: SessionUpdateTokenData): Promise<string> {
   const token = randomBytes(32).toString("hex");
@@ -57,8 +50,7 @@ export async function generateSessionUpdateToken(data: SessionUpdateTokenData): 
 }
 
 /**
- * Verify and consume a session update token
- * Called by the JWT callback when processing session updates
+ * Verify and consume a verification token
  * Returns the token data if valid, null otherwise
  */
 export async function verifyAndConsumeToken(

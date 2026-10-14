@@ -23,11 +23,10 @@ declare global {
       ENCRYPTION_KEYS_LEGACY?: string;
 
       // ===========================================
-      // Auth.js (NextAuth v5)
+      // Better Auth
       // ===========================================
       AUTH_URL?: string;
       AUTH_SECRET: string;
-      AUTH_TRUST_HOST?: string;
       SESSION_ABSOLUTE_LIFETIME_DAYS?: string;
 
       // ===========================================

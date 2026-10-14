@@ -3,8 +3,6 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import type {
   ForgotPasswordRequest,
-  Pending2faRequest,
-  Pending2faResponse,
   ResetPasswordRequest,
   SessionRefreshRequest,
   TwoFactorResendRequest,
@@ -24,35 +22,6 @@ export const QUERY_KEYS = {
 // =============================================================================
 // Hooks
 // =============================================================================
-
-// Pending 2FA hook - decrypt token to get 2FA data
-export const usePending2fa = () => {
-  const t = useTranslations("auth.hooks.credentials");
-
-  return useMutation({
-    mutationFn: async (data: Pending2faRequest): Promise<Pending2faResponse> => {
-      const response = await fetch("/api/auth/pending-2fa", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw apiErrorFromResponseBody(result, t("authFailed"));
-      }
-
-      return result;
-    },
-    onError: (error: Error) => {
-      handleMutationError(error, {
-        sessionExpired: t("sessionExpired"),
-        fallback: t("authFailed"),
-      });
-    },
-  });
-};
 
 // Session refresh hook
 export const useRefreshSession = () => {

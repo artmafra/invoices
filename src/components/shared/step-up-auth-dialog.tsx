@@ -26,8 +26,8 @@ interface StepUpAuthDialogProps {
   open: boolean;
   /** Callback when open state changes */
   onOpenChange: (open: boolean) => void;
-  /** Callback when step-up auth succeeds - receives stepUpAuthAt timestamp and secure token */
-  onSuccess: (stepUpAuthAt: number, stepUpToken: string) => void;
+  /** Callback when step-up auth succeeds - receives the stepUpAuthAt timestamp */
+  onSuccess: (stepUpAuthAt: number) => void;
   /** Whether the user has a password set */
   hasPassword: boolean;
   /** Whether the user has passkeys registered */
@@ -116,7 +116,7 @@ export function StepUpAuthDialog({
       password,
     });
 
-    onSuccess(result.stepUpAuthAt, result.stepUpToken);
+    onSuccess(result.stepUpAuthAt);
     onOpenChange(false);
   }, [password, stepUpVerifyMutation, onSuccess, onOpenChange]);
 
@@ -135,7 +135,7 @@ export function StepUpAuthDialog({
       passkeyVerificationToken: passkeyResult.passkeyVerificationToken,
     });
 
-    onSuccess(result.stepUpAuthAt, result.stepUpToken);
+    onSuccess(result.stepUpAuthAt);
     onOpenChange(false);
   }, [passkeyAuthMutation, stepUpVerifyMutation, onSuccess, onOpenChange]);
 
@@ -149,7 +149,7 @@ export function StepUpAuthDialog({
       code: totpCode,
     });
 
-    onSuccess(result.stepUpAuthAt, result.stepUpToken);
+    onSuccess(result.stepUpAuthAt);
     onOpenChange(false);
   }, [totpCode, stepUpVerifyMutation, onSuccess, onOpenChange]);
 

@@ -6,7 +6,6 @@ import { siteConfig } from "@/config/site.config";
 import { formatEmailDateTime } from "@/lib/date-format";
 import { logger } from "@/lib/logger";
 import { checkRateLimit } from "@/lib/rate-limit";
-import { generateSecureToken } from "@/lib/security";
 import { parseUserAgent } from "@/lib/user-agent";
 import { userStorage } from "@/storage/runtime/user";
 import { userSessionStorage } from "@/storage/runtime/user-session";
@@ -124,25 +123,15 @@ export class UserSessionService {
   }
 
   /**
-   * Create a new session for a user
+   * Device, geolocation and lifetime attributes for a session about to be created
+   * by the auth layer (Better Auth owns the row; this enriches it).
    */
-  async createSession(params: CreateSessionParams): Promise<UserSession> {
-    const { userId, userAgent, ipAddress, acceptLanguage } = params;
-
-    const sessionToken = generateSecureToken(64);
-    const now = Date.now();
-    const expiresAt = new Date(now + SESSION_DURATION_MS);
-    const absoluteExpiresAt = new Date(now + ABSOLUTE_SESSION_LIFETIME_MS);
+  async buildSessionAttributes(params: Pick<CreateSessionParams, "userAgent" | "ipAddress">) {
+    const { userAgent, ipAddress } = params;
     const parsedUA = this.parseUserAgent(userAgent);
-
-    // Fetch geolocation data (async, but we wait for it to store with session)
     const geolocation = await this.geolocationService.getLocation(ipAddress || null);
 
-    const session = await userSessionStorage.create({
-      userId,
-      sessionToken,
-      userAgent: userAgent || null,
-      ipAddress: ipAddress || null,
+    return {
       deviceType: parsedUA.deviceType,
       browser: parsedUA.browser,
       os: parsedUA.os,
@@ -150,16 +139,48 @@ export class UserSessionService {
       country: geolocation?.country ?? null,
       countryCode: geolocation?.countryCode ?? null,
       region: geolocation?.region ?? null,
-      isRevoked: false,
-      expiresAt,
-      absoluteExpiresAt,
-      lastActivityAt: new Date(),
-    });
+      absoluteExpiresAt: new Date(Date.now() + ABSOLUTE_SESSION_LIFETIME_MS),
+    };
+  }
 
-    // Send new login notification email (async, don't block session creation)
-    this.sendNewLoginEmail(userId, parsedUA, ipAddress || null, acceptLanguage);
+  /**
+   * Post-creation side effects for a new session (new-login notification email).
+   * Fire-and-forget: never fails the login.
+   */
+  onSessionCreated(params: CreateSessionParams): void {
+    const { userId, userAgent, ipAddress, acceptLanguage } = params;
+    void this.sendNewLoginEmail(
+      userId,
+      this.parseUserAgent(userAgent),
+      ipAddress || null,
+      acceptLanguage,
+    );
+  }
 
-    return session;
+  /**
+   * Sliding-window expiry for a session that has just been used.
+   */
+  getSlidingExpiry(session: { expiresAt: Date; absoluteExpiresAt?: Date | null }, now: Date) {
+    const proposed = new Date(now.getTime() + SESSION_DURATION_MS);
+    let next = session.expiresAt > proposed ? session.expiresAt : proposed;
+    if (session.absoluteExpiresAt && next > session.absoluteExpiresAt) {
+      next = session.absoluteExpiresAt;
+    }
+    return next;
+  }
+
+  /**
+   * Record a successful step-up verification on the session
+   */
+  async markStepUp(sessionId: string, at: Date): Promise<void> {
+    await userSessionStorage.update(sessionId, { stepUpAuthAt: at });
+  }
+
+  /**
+   * Start (userId) or end (null) impersonation on the session
+   */
+  async setImpersonatedUser(sessionId: string, userId: string | null): Promise<void> {
+    await userSessionStorage.update(sessionId, { impersonatedUserId: userId });
   }
 
   /**

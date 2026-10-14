@@ -29,11 +29,11 @@ export const passkeysListResponseSchema = z.object({
  * Response type for POST /api/auth/passkey/authenticate/verify
  *
  * Returns a verification token that proves the passkey was actually
- * verified server-side - required for NextAuth sign-in.
+ * verified server-side - required for passkey sign-in.
  */
 export const passkeyAuthenticateResponseSchema = z.object({
   userId: z.string(),
-  /** Verification token required for NextAuth sign-in (or step-up auth) */
+  /** Verification token required for passkey sign-in (or step-up auth) */
   passkeyVerificationToken: z.string(),
 });
 

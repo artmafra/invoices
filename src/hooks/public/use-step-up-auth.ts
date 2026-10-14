@@ -81,9 +81,9 @@ interface UseStepUpAuthReturn {
 
   /**
    * Callback to pass to StepUpAuthDialog onSuccess
-   * Updates session with new stepUpAuthAt timestamp using secure token
+   * Refetches the session so the new stepUpAuthAt is visible
    */
-  handleStepUpSuccess: (stepUpAuthAt: number, stepUpToken: string) => Promise<void>;
+  handleStepUpSuccess: () => Promise<void>;
 
   /**
    * Whether the user has a password set
@@ -185,22 +185,19 @@ export function useStepUpAuth(options: UseStepUpAuthOptions = {}): UseStepUpAuth
     setPendingAction(null);
   }, []);
 
-  const handleStepUpSuccess = useCallback(
-    async (stepUpAuthAt: number, stepUpToken: string) => {
-      // Update session with new stepUpAuthAt using secure token
-      await updateSession({ stepUpAuthAt, _stepUpToken: stepUpToken });
+  const handleStepUpSuccess = useCallback(async () => {
+    // The server recorded step-up on the session; refetch it
+    await updateSession();
 
-      // Execute pending action if any
-      if (pendingAction) {
-        try {
-          await pendingAction();
-        } finally {
-          setPendingAction(null);
-        }
+    // Execute pending action if any
+    if (pendingAction) {
+      try {
+        await pendingAction();
+      } finally {
+        setPendingAction(null);
       }
-    },
-    [updateSession, pendingAction],
-  );
+    }
+  }, [updateSession, pendingAction]);
 
   const withStepUp = useCallback(
     (action: () => void | Promise<void>) => {

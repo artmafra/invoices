@@ -1,23 +1,26 @@
 # Sessions
 
-Session tracking combines Auth.js sessions with a database session table to support device info, revocation, and admin visibility.
+Sessions are Better Auth sessions stored in the `user_sessions` table, which also holds device info, geolocation, revocation state and step-up/impersonation context.
 
 ## Overview
 
-- Sessions are stored in the `sessions` table.
-- Each login writes a session record with IP/device metadata.
+- The session cookie holds an opaque token that maps to a row in `user_sessions` (no JWT).
+- Every login (password, 2FA, passkey, Google) creates a row with IP/device metadata via `databaseHooks.session.create` in `src/lib/auth/database-hooks.ts`.
+- Sliding expiry (30 days) with an absolute lifetime cap (`SESSION_ABSOLUTE_LIFETIME_DAYS`, default 45) is applied in `src/lib/auth/session-builder.ts`.
+- Revoking a session sets `is_revoked` and expires it, so it is rejected on the next request.
 - Admins can list and revoke sessions.
 
 ## API endpoints
 
-- `GET/POST/DELETE /api/profile/sessions` (current user)
+- `GET/DELETE /api/profile/sessions` (current user)
 - `GET/DELETE /api/admin/sessions` (admin)
 
 ## Key files
 
-- `src/schema/sessions.schema.ts`
-- `src/storage/session.storage.ts`
+- `src/schema/user-session.schema.ts`
+- `src/storage/user-session.storage.ts`
 - `src/services/user-session.service.ts`
+- `src/lib/auth/session-builder.ts`
 - `src/app/api/profile/sessions/route.ts`
 - `src/app/api/admin/sessions/route.ts`
 

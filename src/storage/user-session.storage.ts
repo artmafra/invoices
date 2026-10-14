@@ -348,15 +348,17 @@ export class UserSessionStorage implements BaseStorage<
   }
 
   /**
-   * Revoke a session
+   * Revoke a session (also expires it so the auth layer rejects the token immediately)
    */
   async revoke(id: string, reason?: string): Promise<UserSession> {
+    const now = new Date();
     const [revokedSession] = await db
       .update(userSessionsTable)
       .set({
         isRevoked: true,
-        revokedAt: new Date(),
+        revokedAt: now,
         revokedReason: reason,
+        expiresAt: now,
       })
       .where(eq(userSessionsTable.id, id))
       .returning();
@@ -382,12 +384,14 @@ export class UserSessionStorage implements BaseStorage<
       conditions.push(ne(userSessionsTable.id, exceptSessionId));
     }
 
+    const now = new Date();
     const result = await db
       .update(userSessionsTable)
       .set({
         isRevoked: true,
-        revokedAt: new Date(),
+        revokedAt: now,
         revokedReason: "Revoked all sessions",
+        expiresAt: now,
       })
       .where(and(...conditions))
       .returning({ id: userSessionsTable.id });

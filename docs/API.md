@@ -4,28 +4,28 @@ Summary of HTTP endpoints. All responses are JSON unless noted.
 
 ## Conventions
 
-- Authenticated endpoints rely on the Auth.js session (`@/lib/auth`).
+- Authenticated endpoints rely on the Better Auth session (`auth()` from `@/lib/auth`).
 - Error shape: `{ error: string, code: string, details?: unknown }`.
 - Rate limiting: `docs/RATE-LIMITING.md`.
 - ETag: list endpoints may support conditional requests via `If-None-Match`.
 
 ## Auth
 
-| Method | Path                                     | Purpose                                       |
-| ------ | ---------------------------------------- | --------------------------------------------- |
-| `POST` | `/api/auth/forgot-password`              | Start password reset (always returns success) |
-| `GET`  | `/api/auth/reset-password?token=`        | Validate reset token                          |
-| `POST` | `/api/auth/reset-password`               | Complete password reset                       |
-| `POST` | `/api/auth/invite`                       | Accept invitation                             |
-| `GET`  | `/api/auth/invite?token=`                | Validate invitation token                     |
-| `POST` | `/api/auth/pending-2fa`                  | Validate pending 2FA token (login flow)       |
-| `POST` | `/api/auth/2fa/resend`                   | Resend login 2FA code                         |
-| `POST` | `/api/auth/revoke-session`               | Revoke current session                        |
-| `GET`  | `/api/auth/session-refresh`              | Refresh session payload                       |
-| `POST` | `/api/auth/step-up`                      | Issue step-up auth token                      |
-| `POST` | `/api/auth/passkey/authenticate/options` | Get passkey auth options                      |
-| `POST` | `/api/auth/passkey/authenticate/verify`  | Verify passkey auth                           |
-| `*`    | `/api/auth/[...nextauth]`                | Auth.js provider endpoints                    |
+| Method | Path                                     | Purpose                                         |
+| ------ | ---------------------------------------- | ----------------------------------------------- |
+| `POST` | `/api/auth/forgot-password`              | Start password reset (always returns success)   |
+| `GET`  | `/api/auth/reset-password?token=`        | Validate reset token                            |
+| `POST` | `/api/auth/reset-password`               | Complete password reset                         |
+| `POST` | `/api/auth/invite`                       | Accept invitation                               |
+| `GET`  | `/api/auth/invite?token=`                | Validate invitation token                       |
+| `POST` | `/api/auth/pending-2fa`                  | Validate pending 2FA token (login flow)         |
+| `POST` | `/api/auth/2fa/resend`                   | Resend login 2FA code                           |
+| `POST` | `/api/auth/revoke-session`               | Revoke current session                          |
+| `GET`  | `/api/auth/session-refresh`              | Refresh session payload                         |
+| `POST` | `/api/auth/step-up`                      | Issue step-up auth token                        |
+| `POST` | `/api/auth/passkey/authenticate/options` | Get passkey auth options                        |
+| `POST` | `/api/auth/passkey/authenticate/verify`  | Verify passkey auth                             |
+| `*`    | `/api/auth/[...all]`                     | Better Auth endpoints (session, OAuth, sign-in) |
 
 ## Profile (authenticated user)
 

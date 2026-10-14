@@ -4,11 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff, Fingerprint } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { siteConfig } from "@/config/site.config";
-import { useForgotPassword, usePending2fa } from "@/hooks/public/use-auth";
+import { signInWithCredentials, signInWithGoogle, signInWithPasskey } from "@/lib/auth-client";
+import { useForgotPassword } from "@/hooks/public/use-auth";
 import { useAuthenticateWithPasskey } from "@/hooks/public/use-passkey";
 import { TwoFactorMethodSelection } from "@/components/public/two-factor-method-selection";
 import { ErrorAlert } from "@/components/shared/error-alert";
@@ -23,8 +23,16 @@ import { MultiStepContainer } from "@/components/ui/multi-step-container";
 // View states for the login card
 type LoginView = "login" | "forgot-password" | "forgot-password-sent" | "two-factor";
 
-// Prefix for 2FA required errors from the credentials provider
-const TWO_FACTOR_ERROR_PREFIX = "2FA_REQUIRED:";
+// Error codes (OAuth callback / proxy redirects) shown as "access denied"
+const ACCESS_DENIED_ERRORS = new Set([
+  "AccessDenied",
+  "account_not_linked",
+  "signup_disabled",
+  "google_not_linked",
+  "user_not_found",
+  "account_deactivated",
+  "email_mismatch",
+]);
 
 export default function AdminLoginPage() {
   const t = useTranslations("auth");
@@ -46,6 +54,7 @@ export default function AdminLoginPage() {
   const [isLoading, setIsLoading] = useState(false);
 
   // 2FA state
+  const [twoFactorToken, setTwoFactorToken] = useState("");
   const [userId, setUserId] = useState("");
   const [userEmail, setUserEmail] = useState("");
   const [availableMethods, setAvailableMethods] = useState<{
@@ -59,7 +68,6 @@ export default function AdminLoginPage() {
   const [forgotEmail, setForgotEmail] = useState("");
 
   // Hooks
-  const pending2faMutation = usePending2fa();
   const forgotPasswordMutation = useForgotPassword();
   const authenticateWithPasskeyMutation = useAuthenticateWithPasskey();
 
@@ -71,33 +79,23 @@ export default function AdminLoginPage() {
     setIsLoading(true);
 
     try {
-      // Call NextAuth signIn directly - the credentials provider handles everything
-      const result = await signIn("credentials", {
-        email,
-        password,
-        redirect: false,
-      });
+      const result = await signInWithCredentials(email, password);
 
-      // Check for 2FA required FIRST - NextAuth returns ok:true even with CredentialsSignin error
-      if (result?.code?.startsWith(TWO_FACTOR_ERROR_PREFIX)) {
-        // NextAuth v5 returns the error code in result.code
-        const token = result.code.slice(TWO_FACTOR_ERROR_PREFIX.length);
-
-        // Decrypt the token to get 2FA data
-        const data = await pending2faMutation.mutateAsync({ token });
-
+      if (result.status === "two-factor") {
         // Show 2FA form
-        setUserId(data.userId);
-        setUserEmail(data.email);
-        setAvailableMethods(data.availableMethods);
+        setTwoFactorToken(result.token);
+        setUserId(result.userId);
+        setUserEmail(result.email);
+        setAvailableMethods(result.availableMethods);
         setCurrentView("two-factor");
-      } else if (result?.ok && !result?.error) {
-        // Success - no error means actual successful login
-        // Use hard navigation to ensure SSR re-runs with new JWT session
+      } else if (result.status === "success") {
+        // Hard navigation so SSR re-runs with the new session
         // This applies the user's locale/theme preferences immediately
         window.location.href = "/admin";
-      } else {
+      } else if (result.status === "invalid") {
         toast.error(t("login.errors.invalidCredentials"));
+      } else {
+        toast.error(t("login.errors.authFailed"));
       }
     } catch {
       toast.error(t("login.errors.authFailed"));
@@ -107,7 +105,7 @@ export default function AdminLoginPage() {
   };
 
   const handleGoogleSignIn = () => {
-    signIn("google", { callbackUrl: "/admin" });
+    void signInWithGoogle();
   };
 
   const handlePasskeySignIn = async () => {
@@ -116,15 +114,10 @@ export default function AdminLoginPage() {
       const { userId, passkeyVerificationToken } =
         await authenticateWithPasskeyMutation.mutateAsync(undefined);
 
-      // Sign in using the passkey provider with the verification token
-      const result = await signIn("passkey", {
-        userId,
-        verificationToken: passkeyVerificationToken,
-        redirect: false,
-      });
+      const ok = await signInWithPasskey({ userId, verificationToken: passkeyVerificationToken });
 
-      if (result?.ok) {
-        // Use hard navigation to ensure SSR re-runs with new JWT session
+      if (ok) {
+        // Hard navigation so SSR re-runs with the new session
         // This applies the user's locale/theme preferences immediately
         window.location.href = "/admin";
       } else {
@@ -138,6 +131,7 @@ export default function AdminLoginPage() {
 
   const handleBackToLogin = () => {
     setCurrentView("login");
+    setTwoFactorToken("");
     setUserId("");
     setUserEmail("");
     setAvailableMethods(null);
@@ -192,11 +186,11 @@ export default function AdminLoginPage() {
                       <p className="text-muted-foreground">{t("login.subtitle")}</p>
                     </div>
 
-                    {error === "AccessDenied" && (
+                    {error && ACCESS_DENIED_ERRORS.has(error) && (
                       <ErrorAlert message={t("login.errors.accessDenied")} />
                     )}
 
-                    {error === "CredentialsSignin" && (
+                    {(error === "CredentialsSignin" || error === "invalid_credentials") && (
                       <ErrorAlert message={t("login.errors.invalidCredentials")} />
                     )}
 
@@ -401,6 +395,7 @@ export default function AdminLoginPage() {
                 <div className="p-section md:p-section">
                   {availableMethods && (
                     <TwoFactorMethodSelection
+                      token={twoFactorToken}
                       userId={userId}
                       email={userEmail}
                       availableMethods={availableMethods}

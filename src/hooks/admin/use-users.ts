@@ -421,12 +421,8 @@ export const useStartImpersonation = () => {
       return result as StartImpersonationResponse;
     },
     onSuccess: async (data) => {
-      // Update the session with impersonated user data
-      // Include the secure token to verify this request came from the API
-      await update({
-        impersonate: data.impersonatedUser,
-        _impersonateToken: data.impersonateToken,
-      });
+      // The impersonation is stored on the session server-side; refetch it
+      await update();
 
       // Nuclear invalidation: Impersonation changes entire app context (different user, permissions, data)
       // This is one of the few cases where invalidating everything is correct and necessary
@@ -477,14 +473,9 @@ export const useEndImpersonation = () => {
 
       return result as EndImpersonationResponse;
     },
-    onSuccess: async (data) => {
-      // Restore the original user session
-      // Include the secure token to verify this request came from the API
-      await update({
-        endImpersonation: true,
-        originalUser: data.originalUser,
-        _endImpersonationToken: data.endImpersonationToken,
-      });
+    onSuccess: async () => {
+      // Impersonation was cleared on the session server-side; refetch it
+      await update();
 
       // Nuclear invalidation: Ending impersonation restores original user context (all cached data is now stale)
       // This is one of the few cases where invalidating everything is correct and necessary

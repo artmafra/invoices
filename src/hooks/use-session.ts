@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo } from "react";
 import { useSessionContext } from "@/contexts/session-context";
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 
 // Stable empty array to prevent infinite re-renders
 const EMPTY_PERMISSIONS: string[] = [];
@@ -19,7 +19,7 @@ export function useUserSession() {
   // Redirect to login if session was invalidated
   useEffect(() => {
     if (isSessionInvalid) {
-      signOut({ callbackUrl: "/admin/login" });
+      signOut("/admin/login");
     }
   }, [isSessionInvalid]);
 

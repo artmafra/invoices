@@ -9,7 +9,7 @@ import { passkeyService } from "@/services/runtime/passkey";
 import { verifyPasskeyAuthenticationSchema } from "@/validations/passkey.validations";
 
 // Verify passkey authentication
-// This endpoint returns a userId that can be used with NextAuth signIn
+// This endpoint returns a userId and verification token for /api/auth/sign-in/passkey
 // When purpose=step-up, it also returns a verification token for the step-up endpoint
 export const POST = withErrorHandler(async (request: NextRequest) => {
   // Rate limit by IP (we don't have email at this point)
@@ -34,7 +34,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
   const userId = await passkeyService.verifyAuthentication(response as AuthenticationResponseJSON);
 
   // Generate a verification token that proves the passkey was actually verified server-side
-  // This token is REQUIRED for NextAuth sign-in to prevent bypass attacks
+  // This token is REQUIRED for sign-in to prevent bypass attacks
   const tokenType = purpose === "step-up" ? "passkey-step-up-verify" : "passkey-sign-in";
   const passkeyVerificationToken = await generateSessionUpdateToken({
     type: tokenType as "passkey-step-up-verify" | "passkey-sign-in",
@@ -42,7 +42,7 @@ export const POST = withErrorHandler(async (request: NextRequest) => {
     payload: { authenticatedAt: Date.now() },
   });
 
-  // Return the userId and token - the client will use both to sign in via NextAuth
+  // Return the userId and token - the client uses both to sign in
   return NextResponse.json({
     success: { code: "auth.passkey.authenticate.verified" },
     userId,

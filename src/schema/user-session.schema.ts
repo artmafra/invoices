@@ -2,8 +2,9 @@ import { usersTable } from "@/schema/users.schema";
 import { boolean, index, pgTable, text, timestamp, uuid, varchar } from "drizzle-orm/pg-core";
 
 /**
- * User sessions table for tracking active login sessions.
- * This is separate from NextAuth's sessions table and is used for:
+ * User sessions table: the Better Auth `session` model plus device/geo telemetry.
+ * Used for:
+ * - Authentication (cookie token -> session row)
  * - Session viewer UI (see all active sessions)
  * - Session revocation (force logout)
  * - Login history and audit trail
@@ -33,6 +34,14 @@ export const userSessionsTable = pgTable(
     country: varchar("country", { length: 100 }),
     countryCode: varchar("country_code", { length: 2 }),
     region: varchar("region", { length: 100 }),
+
+    // Authentication context
+    authMethod: varchar("auth_method", { length: 20 }), // password, passkey, google
+    stepUpAuthAt: timestamp("step_up_auth_at", { withTimezone: true }),
+    // Set while an admin (session owner) is impersonating another user
+    impersonatedUserId: uuid("impersonated_user_id").references(() => usersTable.id, {
+      onDelete: "set null",
+    }),
 
     // Session state
     isRevoked: boolean("is_revoked").notNull().default(false),

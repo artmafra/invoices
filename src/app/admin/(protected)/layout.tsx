@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { CompanyProvider } from "@/contexts/company-context";
-import { SessionContextProvider } from "@/contexts/session-context";
 import { getAppsForUser } from "@/lib/apps.server";
 import { auth } from "@/lib/auth";
 import { getPreferencesFromCookies } from "@/lib/preferences/preferences.server";
@@ -20,6 +19,11 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     redirect("/admin/login");
   }
 
+  // Admin area requires at least one permission
+  if (session.user.permissions.length === 0) {
+    redirect("/admin/login?error=unauthorized");
+  }
+
   // Get apps filtered by user's apps access (also auto-detects from role permissions)
   const apps = getAppsForUser(session.user.apps || [], session.user.permissions || []);
 
@@ -28,32 +32,30 @@ export default async function AdminLayout({ children }: { children: React.ReactN
     await getPreferencesFromCookies();
 
   return (
-    <SessionContextProvider>
-      <PreferencesProvider initialPaginationSize={paginationSize}>
-        <AppsProvider apps={apps} initialSelectedAppSlug={selectedApp}>
-          <CompanyProvider
-            initialSelectedCompanyId={selectedCompanyId}
-            initialSelectedCompanyName={selectedCompanyName}
-          >
-            <KeyboardShortcutsProvider>
-              <CommandPaletteProvider>
-                <SidebarProvider
-                  style={
-                    {
-                      "--sidebar-width": "calc(var(--spacing) * 65)",
-                      "--header-height": "calc(var(--spacing) * 16)",
-                    } as React.CSSProperties
-                  }
-                >
-                  <AppSidebar variant="inset" userPermissions={session.user.permissions || []} />
-                  {children}
-                  <LazyCommandPalette />
-                </SidebarProvider>
-              </CommandPaletteProvider>
-            </KeyboardShortcutsProvider>
-          </CompanyProvider>
-        </AppsProvider>
-      </PreferencesProvider>
-    </SessionContextProvider>
+    <PreferencesProvider initialPaginationSize={paginationSize}>
+      <AppsProvider apps={apps} initialSelectedAppSlug={selectedApp}>
+        <CompanyProvider
+          initialSelectedCompanyId={selectedCompanyId}
+          initialSelectedCompanyName={selectedCompanyName}
+        >
+          <KeyboardShortcutsProvider>
+            <CommandPaletteProvider>
+              <SidebarProvider
+                style={
+                  {
+                    "--sidebar-width": "calc(var(--spacing) * 65)",
+                    "--header-height": "calc(var(--spacing) * 16)",
+                  } as React.CSSProperties
+                }
+              >
+                <AppSidebar variant="inset" userPermissions={session.user.permissions || []} />
+                {children}
+                <LazyCommandPalette />
+              </SidebarProvider>
+            </CommandPaletteProvider>
+          </KeyboardShortcutsProvider>
+        </CompanyProvider>
+      </AppsProvider>
+    </PreferencesProvider>
   );
 }

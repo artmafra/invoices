@@ -12,8 +12,8 @@ import {
   ShieldUserIcon,
   UserCircle,
 } from "lucide-react";
-import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
+import { signOut } from "@/lib/auth-client";
 import type { NavItem } from "@/lib/navigation";
 import { isMainNavItemActive } from "@/lib/navigation";
 import { useEndImpersonation } from "@/hooks/admin/use-users";
@@ -86,12 +86,7 @@ export function NavProfile() {
     if (isMobile) {
       setOpenMobile(false);
     }
-    try {
-      await fetch("/api/auth/revoke-session", { method: "POST" });
-    } catch {
-      // Best-effort: still proceed with client sign-out.
-    }
-    await signOut({ callbackUrl: "/admin/login" });
+    await signOut("/admin/login");
   };
 
   const handleExitImpersonation = () => {

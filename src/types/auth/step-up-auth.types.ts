@@ -13,7 +13,6 @@ export type AuthMethod = "password" | "passkey" | "google";
 export interface StepUpAuthResponse {
   success: boolean;
   stepUpAuthAt: number; // Unix timestamp in milliseconds
-  stepUpToken: string; // Secure token for session.update()
 }
 
 /**

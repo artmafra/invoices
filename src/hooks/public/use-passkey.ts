@@ -203,7 +203,7 @@ interface AuthenticateWithPasskeyOptions {
 
 /**
  * Authenticate with a passkey (for login page or step-up auth)
- * Returns userId that can be used with NextAuth signIn
+ * Returns userId that can be used with the passkey sign-in endpoint
  * When purpose="step-up", also returns passkeyVerificationToken
  */
 export const useAuthenticateWithPasskey = () => {

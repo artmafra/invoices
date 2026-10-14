@@ -205,12 +205,10 @@ export const useUpdateRole = () => {
       });
     },
     onSuccess: async (result) => {
-      // If the server issued a refresh-permissions token (admin updated their own role),
-      // update the JWT so the new permissions and apps take effect immediately,
-      // then invalidate the apps cache and refresh server components so the sidebar
-      // re-renders with the correct nav items.
-      if (result?.refreshPermissionsToken) {
-        await update({ _refreshPermissionsToken: result.refreshPermissionsToken });
+      // Own permissions/apps are resolved from the DB on every session read, so refetch the
+      // session, then refresh the apps cache and server components (sidebar nav items).
+      if (result?.permissionsChanged) {
+        await update();
         queryClient.invalidateQueries({ queryKey: APPS_QUERY_KEY });
         router.refresh();
       }

@@ -10,7 +10,7 @@ Step-up auth requires a recent re-authentication for sensitive actions.
 
 ## API endpoint
 
-- `POST /api/auth/step-up` issues a step-up session update token.
+- `POST /api/auth/step-up` verifies the credential and records `step_up_auth_at` on the session row.
 
 ## Client usage
 
@@ -19,7 +19,7 @@ Use the `useStepUpAuth` hook, which provides:
 - `requiresStepUp` — Check if step-up is required
 - `isVerified` — Check if user recently verified
 - `withStepUp(fn)` — Wrapper that triggers verification dialog if needed
-- `handleStepUpSuccess` — Handle successful verification with token forwarding
+- `handleStepUpSuccess` — Refetch the session after successful verification and run the pending action
 
 When APIs return `STEP_UP_REQUIRED` errors, use the `withStepUp` wrapper to automatically trigger the verification dialog.
 

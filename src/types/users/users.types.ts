@@ -89,15 +89,11 @@ export const impersonateUserDataSchema = z.object({
 
 export const startImpersonationResponseSchema = z.object({
   success: z.boolean(),
-  impersonatedUser: impersonateUserDataSchema,
-  impersonateToken: z.string(), // Secure token for session.update()
-  originalUser: impersonateUserDataSchema,
+  impersonatedUser: z.object({ id: z.string(), name: z.string() }),
 });
 
 export const endImpersonationResponseSchema = z.object({
   success: z.boolean(),
-  originalUser: impersonateUserDataSchema,
-  endImpersonationToken: z.string(), // Secure token for session.update()
 });
 
 // ========================================

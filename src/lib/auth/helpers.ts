@@ -1,43 +1,35 @@
 import { headers } from "next/headers";
-import { logger } from "@/lib/logger";
 import { getClientIpFromHeaders } from "@/lib/rate-limit";
-import { userService } from "@/services/runtime/user";
-import { userSessionService } from "@/services/runtime/user-session";
+
+interface HeaderReader {
+  get(name: string): string | null;
+}
 
 /**
- * Get request metadata for session tracking
+ * Client metadata (user agent + IP) from a set of request headers
+ */
+export function getMetadataFromHeaders(headerReader: HeaderReader | null | undefined) {
+  if (!headerReader) return { userAgent: undefined, ipAddress: undefined };
+  const userAgent = headerReader.get("user-agent") || undefined;
+  const clientIp = getClientIpFromHeaders(headerReader);
+  const ipAddress = clientIp === "unknown" ? undefined : clientIp;
+  return { userAgent, ipAddress };
+}
+
+/**
+ * Get request metadata from the current Next.js request
  */
 export async function getRequestMetadata() {
   try {
-    const headersList = await headers();
-    const userAgent = headersList.get("user-agent") || undefined;
-    const clientIp = getClientIpFromHeaders(headersList);
-    const ipAddress = clientIp === "unknown" ? undefined : clientIp;
-    return { userAgent, ipAddress };
+    return getMetadataFromHeaders(await headers());
   } catch {
     return { userAgent: undefined, ipAddress: undefined };
   }
 }
 
 /**
- * Create a session for a user and return the session ID
- */
-export async function createSessionForUser(userId: string): Promise<string | undefined> {
-  try {
-    const { userAgent, ipAddress } = await getRequestMetadata();
-    const session = await userSessionService.createSession({ userId, userAgent, ipAddress });
-    // Update last login timestamp
-    await userService.updateLastLoginAt(userId);
-    return session.id;
-  } catch (error) {
-    logger.error({ error, userId }, "[Auth] Failed to create session");
-    return undefined;
-  }
-}
-
-/**
  * Get user's role, permissions, and app access
- * Used by multiple auth providers to build the user object
+ * Used to build the application session
  */
 export async function getUserPermissionsData(userId: string, roleId: string | null) {
   const [{ roleService }, { permissionService }, { appPermissionsService }] = await Promise.all([

@@ -1,16 +1,10 @@
 "use client";
 
-import { signOut } from "next-auth/react";
+import { signOut } from "@/lib/auth-client";
 
 export default function SignOutButton() {
   const handleSignOut = async () => {
-    try {
-      await fetch("/api/auth/revoke-session", { method: "POST" });
-    } catch {
-      // Best-effort: still proceed with client sign-out.
-    }
-
-    await signOut({ callbackUrl: "/admin/login" });
+    await signOut("/admin/login");
   };
 
   return (

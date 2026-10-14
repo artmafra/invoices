@@ -4,10 +4,10 @@ import { Suspense, useMemo, useState } from "react";
 import Image from "next/image";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { siteConfig } from "@/config/site.config";
+import { signInWithCredentials } from "@/lib/auth-client";
 import { usePasswordValidation } from "@/hooks/public/use-password-policy";
 import { useAcceptUserInvite, useValidateUserInvite } from "@/hooks/public/use-user-invite";
 import { ErrorAlert } from "@/components/shared/error-alert";
@@ -80,14 +80,10 @@ function InvitePageContent() {
 
           // Auto-login with credentials
           try {
-            const result = await signIn("credentials", {
-              email: tokenValidation!.email,
-              password,
-              redirect: false,
-            });
+            const result = await signInWithCredentials(tokenValidation!.email!, password);
 
-            if (result?.ok) {
-              // Use hard navigation to ensure SSR re-runs with new JWT session
+            if (result.status === "success") {
+              // Hard navigation so SSR re-runs with the new session
               setTimeout(() => {
                 window.location.href = "/admin";
               }, 1500);

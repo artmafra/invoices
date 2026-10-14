@@ -7,40 +7,6 @@ import { userSessionService } from "@/services/runtime/user-session";
 import { getProfileSessionsQuerySchema } from "@/validations/profile-sessions.validations";
 
 /**
- * POST - Track a new login session
- * Called after successful authentication to record session details
- */
-export const POST = withErrorHandler(async (request: NextRequest) => {
-  // Rate limit by IP
-  const ip = getClientIp(request);
-  const rateLimitResponse = await withRateLimit("default", ip);
-  if (rateLimitResponse) return rateLimitResponse;
-
-  const session = await auth();
-
-  if (!session?.user?.id) {
-    throw new UnauthorizedError();
-  }
-
-  // Get client info from headers
-  const userAgent = request.headers.get("user-agent");
-  const ipAddress = ip;
-
-  // Create session record
-  const userSession = await userSessionService.createSession({
-    userId: session.user.id,
-    userAgent,
-    ipAddress,
-  });
-
-  return NextResponse.json({
-    success: { code: "profile.sessions.tracked" },
-    sessionId: userSession.id,
-    expiresAt: userSession.expiresAt,
-  });
-});
-
-/**
  * GET - Get current user's active sessions
  *
  * Query params:

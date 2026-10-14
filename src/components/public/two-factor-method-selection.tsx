@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { ArrowLeft, Key, Mail, Shield } from "lucide-react";
-import { signIn } from "next-auth/react";
 import { toast } from "sonner";
+import { signInWithTwoFactor } from "@/lib/auth-client";
 import { useResendTwoFactor } from "@/hooks/public/use-auth";
 import { LoadingButton } from "@/components/shared/loading-button";
 import { VerificationCodeInput } from "@/components/shared/verification-code-input";
@@ -15,6 +15,8 @@ type TwoFactorMethod = "email" | "totp" | "backup";
 type TwoFactorStep = "method-selection" | "verification";
 
 interface TwoFactorMethodSelectionProps {
+  /** Pending 2FA token issued by the credentials step */
+  token: string;
   userId: string;
   email: string;
   availableMethods: {
@@ -27,6 +29,7 @@ interface TwoFactorMethodSelectionProps {
 }
 
 export function TwoFactorMethodSelection({
+  token,
   userId,
   email,
   availableMethods,
@@ -82,21 +85,19 @@ export function TwoFactorMethodSelection({
     setIsLoading(true);
 
     try {
-      // Use NextAuth's sign in with the two-factor provider
-      const result = await signIn("two-factor", {
-        userId,
+      const ok = await signInWithTwoFactor({
+        token,
         code: verificationCode,
         method: selectedMethod,
-        redirect: false,
       });
 
-      if (result?.error) {
+      if (!ok) {
         toast.error(
           selectedMethod === "backup"
             ? "Invalid backup code. Note: each backup code can only be used once."
             : "Invalid verification code",
         );
-      } else if (result?.ok) {
+      } else {
         // Redirect to admin dashboard after successful 2FA verification
         window.location.href = "/admin";
       }

@@ -15,7 +15,7 @@ Missing Redis causes security endpoints to fail closed with 503 to protect again
 | Name              | Limit              |
 | ----------------- | ------------------ |
 | `auth`            | 5/min per IP+email |
-| `nextAuthSignin`  | 5/min per IP+email |
+| `authSignin`      | 5/min per IP+email |
 | `passwordReset`   | 3/min per IP       |
 | `twoFactorResend` | 3/30s per user     |
 | `twoFactorVerify` | 5/min per user     |

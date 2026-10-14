@@ -24,15 +24,15 @@ export const rateLimiters = {
   }),
 
   /**
-   * NextAuth signin endpoint - direct protection for NextAuth credentials callback
+   * Credentials sign-in endpoint - direct protection for /api/auth/sign-in/credentials
    * Same limits as auth to prevent bypassing verify-credentials rate limiting
    * 5 requests per minute per identifier (IP + email combo)
    */
-  nextAuthSignin: new RateLimiterRedis({
+  authSignin: new RateLimiterRedis({
     storeClient: redis,
     points: 5,
     duration: 60,
-    keyPrefix: "ratelimit:nextauth-signin",
+    keyPrefix: "ratelimit:auth-signin",
     blockDuration: 0,
   }),
 

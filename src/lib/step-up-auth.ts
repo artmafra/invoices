@@ -1,4 +1,4 @@
-import { Session } from "next-auth";
+import type { Session } from "@/types/auth/session.types";
 import { STEP_UP_CONFIG } from "@/lib/auth/policy";
 import { ForbiddenError } from "@/lib/errors";
 

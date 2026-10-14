@@ -134,24 +134,3 @@ export const useRevokeAllUserSessions = () => {
     },
   });
 };
-
-// Track login session (called after successful login)
-export const useTrackSession = () => {
-  const t = useTranslations("system.hooks.sessions");
-
-  return useMutation({
-    mutationFn: async () => {
-      const response = await fetch("/api/profile/sessions", {
-        method: "POST",
-      });
-
-      const result = await response.json().catch(() => ({}));
-
-      if (!response.ok) {
-        throw apiErrorFromResponseBody(result, t("errors.trackFailed"));
-      }
-
-      return result;
-    },
-  });
-};

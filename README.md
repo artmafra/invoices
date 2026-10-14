@@ -21,7 +21,7 @@ A robust, production-ready application for financial control, specialized in man
 | Framework  | Next.js 16 (App Router, Turbopack) |
 | Language   | TypeScript 5                       |
 | Database   | PostgreSQL + Drizzle ORM           |
-| Auth       | Auth.js v5 (next-auth)             |
+| Auth       | Better Auth                        |
 | Validation | Zod 4 + drizzle-zod                |
 | UI         | shadcn/ui + Radix UI               |
 | Styling    | Tailwind CSS v4                    |

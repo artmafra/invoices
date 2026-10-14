@@ -5,7 +5,7 @@
  * Types and constants are imported from ./types.ts to avoid circular dependencies.
  */
 
-import type { Session } from "next-auth";
+import type { Session } from "@/types/auth/session.types";
 import { AuthorizationResult, CoreAction, CoreResource } from "@/types/permissions/permissions";
 import { auth } from "@/lib/auth";
 
